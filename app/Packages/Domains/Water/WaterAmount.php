@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Packages\Domains\Water;
 
 use Carbon\Carbon;
 use DomainException;
 
-class WaterRecord
+class WaterAmount
 {
     public const A_lot ='a_lot';
     public const MODERATE_AMOUNT='moderate_amount';
@@ -31,7 +33,7 @@ public function __construct(string $value)
     $this->create_at = Carbon::now();
 }
 
-    public static function settingALot(): WaterRecord
+    public static function settingALot(): WaterAmount
     {
         return new self(self::A_lot);
     }
