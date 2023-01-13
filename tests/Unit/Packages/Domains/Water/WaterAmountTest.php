@@ -15,8 +15,6 @@ class WaterAmountTest extends TestCase
         $this->assertTrue($waterRecord->isALot());
         $this->assertFalse($waterRecord->isModerateAmount());
         $this->assertFalse($waterRecord->isSparingly());
-
-
     }
     public function test_水やりが適量に設定できること(){
         $waterRecord=WaterAmount::settingModerateAmount();

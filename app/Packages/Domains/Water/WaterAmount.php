@@ -13,7 +13,7 @@ class WaterAmount
     public const MODERATE_AMOUNT='moderate_amount';
     public const SPARINGLY ='sparingly';
 
-    private array $amonut=[
+    private array $amount=[
         self::A_lot=>'たっぷり',
         self::MODERATE_AMOUNT=>'適量',
         self::SPARINGLY=>'ひかえめ',
@@ -21,12 +21,8 @@ class WaterAmount
     private Carbon $create_at;
 public function __construct(string $value)
 {
-    if(!array_key_exists($value,$this->amonut)){
-        $parameters=[
-            'value'=>$value,
-        ];
-        $message=sprintf('指定されてた水の設定が存在しません',$value);
-        AppLog::error(__METHOD__,$message,$parameters);
+    if(!array_key_exists($value,$this->amount)){
+        $message='指定されてた水の設定が存在しません';
         throw new DomainException($message);
     }
     $this->value=$value;
