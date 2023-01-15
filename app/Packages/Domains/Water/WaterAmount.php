@@ -45,6 +45,11 @@ public function __construct(string $value)
     {
         return $this->value===self::SPARINGLY;
     }
+
+    public function getValue()
+    {
+        return $this->value;
+    }
     public function getCreateAt(): Carbon
     {
         return $this->create_at->days();

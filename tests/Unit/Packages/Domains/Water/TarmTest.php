@@ -25,4 +25,18 @@ class TarmTest extends TestCase
         $this->expectException(DomainException::class);
         $tarm=new Tarm(1,4,13);
     }
+    public function test_期間の編集をする()
+    {
+        $tarm=new Tarm(1,3,5);
+        $updatedTarm=$tarm->update(1,2,3);
+        $this->assertInstanceOf(Tarm::class,$updatedTarm);
+        $this->assertSame($updatedTarm->getMonths(),[1,2,3]);
+    }
+    public function test_期間のリセットをする()
+    {
+        $tarm=new Tarm(1,3,5);
+        $resetedTarm=$tarm->reset();
+        $this->assertInstanceOf(Tarm::class,$resetedTarm);
+        $this->assertSame($resetedTarm->getMonths(),[]);
+    }
 }
