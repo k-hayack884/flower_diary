@@ -4,7 +4,7 @@ namespace App\Packages\Domains\Water;
 
 use App\Packages\Domains\Shared\Uuid;
 
-class WaterSettingID
+class WaterCheckSeatID
 {
     private Uuid $uuid;
 
@@ -18,7 +18,7 @@ class WaterSettingID
         return $this->uuid->getValue();
     }
 
-    public function equals(WaterSettingId $waterSettingID): bool
+    public function equals(WaterCheckSeatID $waterSettingID): bool
     {
         return $this->getId() === $waterSettingID->getId();
     }

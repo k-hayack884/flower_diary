@@ -2,50 +2,64 @@
 
 namespace Packages\Domains\Water;
 
-use App\Packages\Domains\Water\Tarm;
 use App\Packages\Domains\Water\WaterAmount;
-use App\Packages\Domains\Water\WaterAmountNote;
+use App\Packages\Domains\Water\wateringInterval;
+use App\Packages\Domains\Water\WateringTimes;
 use App\Packages\Domains\Water\WaterSetting;
-use App\Packages\Domains\Water\WaterSettingID;
 use PHPUnit\Framework\TestCase;
 
 class WaterSettingTest extends TestCase
 {
     public function test_インスタンスが正しく生成される()
     {
-        $tarm = new Tarm(1, 2, 3);
         $waterAmount = WaterAmount::settingALot();
-        $waterAmountNote = new WaterAmountNote("植木鉢から水があふれないように");
+        $wateringTimes =new WateringTimes(2);
+        $wateringInterval=new wateringInterval(1);
 
-        $waterSetting=new WaterSetting($tarm,$waterAmount,$waterAmountNote,2,1);
+        $waterSetting=new WaterSetting($waterAmount,$wateringTimes,$wateringInterval);
 
-        $this->assertInstanceOf(WaterSettingID::class,$waterSetting->getId());
-        $this->assertSame($waterSetting->getTarm(),$tarm->getMonths());
+        $this->assertInstanceOf(WaterSetting::class, $waterSetting);
         $this->assertSame($waterSetting->getAmount(),$waterAmount->getValue());
-        $this->assertSame($waterSetting->getAmountNote(),$waterAmountNote->getNote());
         $this->assertSame($waterSetting->getWateringTimes(),2);
         $this->assertSame($waterSetting->getWateringInterval(),1);
     }
-
-    public function test_生成物の内容をリセットする()
+    public function test_水やりの設定を更新する()
     {
-        $tarm = new Tarm([1, 2, 3]);
+        $waterAmount = WaterAmount::settingModerateAmount();
+        $wateringTimes =new WateringTimes(2);
+        $wateringInterval=new wateringInterval(1);
+
+        $resultWaterAmount=WaterAmount::settingAlot();
+        $resultWateringTimes=new WateringTimes(1);
+        $resultWateringInterval=new wateringInterval(3);
+
+        $updatedWaterAmount='a_lot';
+        $updatedWateringTimes=1;
+        $updatedWateringInterval=3;
+
+        $waterSetting=new WaterSetting($waterAmount,$wateringTimes,$wateringInterval);
+        $updatedWaterSetting=$waterSetting->update($updatedWaterAmount,$updatedWateringTimes,$updatedWateringInterval);
+
+        $this->assertSame($updatedWaterSetting->getAmount(),$resultWaterAmount->getValue());
+        $this->assertSame($updatedWaterSetting->getWateringTimes(),$resultWateringTimes->getValue());
+        $this->assertSame($updatedWaterSetting->getWateringInterval(),$resultWateringInterval->getValue());
+    }
+        public function test_水やりの設定をリセットする()
+    {
         $waterAmount = WaterAmount::settingALot();
-        $waterAmountNote = new WaterAmountNote("植木鉢から水があふれないように");
+        $wateringTimes =new WateringTimes(2);
+        $wateringInterval=new wateringInterval(1);
 
-        $resultTarm=new Tarm([1,2,3,4,5,6,7,8,9,10,11,12]);
         $resultWaterAmount=WaterAmount::settingModerateAmount();
-        $resultWaterAmountNote=new WaterAmountNote('');
+        $resultWateringTimes=new WateringTimes(WateringTimes::RESET);
+        $resultWateringInterval=new wateringInterval(wateringInterval::RESET);
 
-        $waterSetting=new WaterSetting($tarm,$waterAmount,$waterAmountNote,2,1);
+        $waterSetting=new WaterSetting($waterAmount,$wateringTimes,$wateringInterval);
         $resetedWaterSetting=$waterSetting->reset();
 
-        $this->assertInstanceOf(WaterSettingID::class,$resetedWaterSetting->getId());
-        $this->assertSame($resetedWaterSetting->getTarm(), $resultTarm->getMonths());
         $this->assertSame($resetedWaterSetting->getAmount(),$resultWaterAmount->getValue());
-        $this->assertSame($resetedWaterSetting->getAmountNote(),$resultWaterAmountNote->getNote());
-        $this->assertSame($resetedWaterSetting->getWateringTimes(),1);
-        $this->assertSame($resetedWaterSetting->getWateringInterval(),1);
-}
+        $this->assertSame($resetedWaterSetting->getWateringTimes(),$resultWateringTimes->getValue());
+        $this->assertSame($resetedWaterSetting->getWateringInterval(),$resultWateringInterval->getValue());
+    }
 
 }

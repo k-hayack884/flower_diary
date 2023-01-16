@@ -2,53 +2,33 @@
 
 namespace App\Packages\Domains\Water;
 
-use DomainException;
-
 class WaterSetting
 {
-    private WaterSettingID $waterSettingID;
-    private Tarm $tarm;
     private WaterAmount $waterAmount;
-    private WaterAmountNote $waterAmountNote;
-    private int $wateringTimes;
-    private int $wateringInterval;
-    public function __construct(Tarm $tarm, WaterAmount $waterAmount, WaterAmountNote $waterAmountNote,int $wateringTimes,int $wateringInterval)
+    private WateringTimes $wateringTimes;
+    private WateringInterval $wateringInterval;
+
+    public function __construct(WaterAmount $waterAmount,WateringTimes $wateringTimes,WateringInterval $wateringInterval)
     {
-        if($wateringTimes<1 || $wateringTimes>9){
-            throw new DomainException('１日当たりの水やり回数は１～９回までを設定してください');
-        }
-        if($wateringInterval<1 || $wateringInterval>365){
-            throw new DomainException('水やり間隔は１日から３６５日までを設定してください');
-        }
-        $this->waterSettingID = new WaterSettingID();
-        $this->tarm = $tarm;
-        $this->waterAmount = $waterAmount;
-        $this->waterAmountNote = $waterAmountNote;
+        $this->waterAmount=$waterAmount;
         $this->wateringTimes=$wateringTimes;
         $this->wateringInterval=$wateringInterval;
     }
 
+    public function update(string $value,int $wateringTimes,int $wateringInterval): WaterSetting
+    {
+        $updatedWaterAmount=new WaterAmount($value);
+        $updatedWateringTimes=new WateringTimes($wateringTimes);
+        $updatedWateringInterval=new WateringInterval($wateringInterval);
+        return new self($updatedWaterAmount,$updatedWateringTimes,$updatedWateringInterval);
+    }
     public function reset(): WaterSetting
     {
-        $tarm=new Tarm(Tarm::RESET);
         $waterAmount=WaterAmount::settingModerateAmount();
-        $waterAmountNote=new WaterAmountNote(WaterAmountNote::RESET);
-        return new self($tarm,$waterAmount,$waterAmountNote,1,1);
+        $wateringTimes=new WateringTimes(WateringTimes::RESET);
+        $wateringInterval=new wateringInterval(wateringInterval::RESET);
+        return new self($waterAmount,$wateringTimes,$wateringInterval);
     }
-
-    public function getId(): WaterSettingID
-    {
-        return $this->waterSettingID;
-    }
-
-    /**
-     * @return Tarm|array|int[]
-     */
-    public function getTarm(): array|Tarm
-    {
-        return $this->tarm->getMonths();
-    }
-
     /**
      * @return string
      */
@@ -58,27 +38,18 @@ class WaterSetting
     }
 
     /**
-     * @return string
-     */
-    public function getAmountNote(): string
-    {
-        return $this->waterAmountNote->getNote();
-    }
-
-    /**
      * @return int
      */
     public function getWateringTimes(): int
     {
-        return $this->wateringTimes;
+        return $this->wateringTimes->getValue();
     }
 
     /**
      * @return int
      */
-    public function getWateringInterval(): int
+    public function getWateringInterval():int
     {
-        return $this->wateringInterval;
+        return $this->wateringInterval->getValue();
     }
-
 }
