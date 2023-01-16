@@ -33,6 +33,14 @@ public function __construct(string $value)
     {
         return new self(self::A_lot);
     }
+    public static function settingModerateAmount(): WaterAmount
+    {
+        return new self(self::MODERATE_AMOUNT);
+    }
+    public static function settingSparingly(): WaterAmount
+    {
+        return new self(self::SPARINGLY);
+    }
     public function isALot(): bool
     {
     return $this->value===self::A_lot;
@@ -46,7 +54,7 @@ public function __construct(string $value)
         return $this->value===self::SPARINGLY;
     }
 
-    public function getValue()
+    public function getValue(): string
     {
         return $this->value;
     }

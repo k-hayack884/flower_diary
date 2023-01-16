@@ -7,6 +7,7 @@ use DomainException;
 
 readonly class WaterAmountNote
 {
+    public const RESET='';
     public string $note;
 
     public function __construct(string $note)
@@ -33,9 +34,5 @@ readonly class WaterAmountNote
             throw new DomainException('備考欄に入力できる文字数は20字までです');
         }
         return new self($note);
-    }
-    public function reset(): WaterAmountNote
-    {
-        return new self('');
     }
 }
