@@ -18,7 +18,7 @@ class WaterAmount
         self::MODERATE_AMOUNT=>'適量',
         self::SPARINGLY=>'ひかえめ',
     ];
-    private Carbon $create_at;
+
 public function __construct(string $value)
 {
     if(!array_key_exists($value,$this->amount)){
@@ -26,7 +26,6 @@ public function __construct(string $value)
         throw new DomainException($message);
     }
     $this->value=$value;
-    $this->create_at = Carbon::now();
 }
 
     public static function settingALot(): WaterAmount
@@ -41,6 +40,7 @@ public function __construct(string $value)
     {
         return new self(self::SPARINGLY);
     }
+
     public function isALot(): bool
     {
     return $this->value===self::A_lot;
@@ -57,9 +57,5 @@ public function __construct(string $value)
     public function getValue(): string
     {
         return $this->value;
-    }
-    public function getCreateAt(): Carbon
-    {
-        return $this->create_at->days();
     }
 }

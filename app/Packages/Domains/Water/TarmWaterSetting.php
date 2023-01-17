@@ -38,7 +38,6 @@ class TarmWaterSetting
     }
 
 
-
     public function tarmUpdate(array $months): TarmWaterSetting
     {
         if (count($months) > 13) {
@@ -72,7 +71,7 @@ class TarmWaterSetting
      * @param int $minute
      * @return void
      */
-    public function addAlertTime(int $hour, int $minute):void
+    public function addAlertTime(int $hour, int $minute): void
     {
         if ($hour < 0 || $hour > 23) {
             throw new DomainException('時間は0～23時の範囲で設定してください');
@@ -88,6 +87,22 @@ class TarmWaterSetting
     {
         $this->alertTimes = [];
     }
+
+    public function monthsIntoString(): string
+    {
+        return implode(",", $this->months);
+    }
+
+    public function alertTimesIntoString(): string
+    {
+        return implode(",", $this->alertTimes);
+    }
+
+    public function getId(): WaterSettingID
+    {
+        return $this->waterSettingID;
+    }
+
     /**
      * @return array
      */
@@ -95,12 +110,21 @@ class TarmWaterSetting
     {
         return $this->months;
     }
+
     /**
      * @return WaterAmount
      */
     public function getWaterAmount(): WaterAmount
     {
         return $this->waterAmount;
+    }
+
+    /**
+     * @return WaterNote
+     */
+    public function getWaterNote(): WaterNote
+    {
+        return $this->waterNote;
     }
 
     /**
