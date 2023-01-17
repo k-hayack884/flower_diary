@@ -5,20 +5,23 @@ namespace App\Packages\Domains\Water;
 
 use DomainException;
 
-readonly class WaterAmountNote
+readonly class WaterNote
 {
     public const RESET='';
     public string $note;
 
-    public function __construct(string $note)
+    public function __construct(string|null $note=null)
     {
-//        if($note===null){
-//            throw new \DomainException('備考欄に文字を入力してください');
-//        }
+
         if (mb_strlen($note) > 20) {
             throw new DomainException('備考欄に入力できる文字数は20字までです');
         }
-        $this->note = $note;
+        if($note===null){
+            $this->note='';
+        }else{
+            $this->note = $note;
+        }
+
     }
 
     /**
@@ -28,10 +31,13 @@ readonly class WaterAmountNote
     {
         return $this->note;
     }
-    public function update(string $note): WaterAmountNote
+    public function update(string|null $note=null): WaterAmountNote
     {
         if (mb_strlen($note) > 20) {
             throw new DomainException('備考欄に入力できる文字数は20字までです');
+        }
+        if($note===null){
+            $this->note='';
         }
         return new self($note);
     }

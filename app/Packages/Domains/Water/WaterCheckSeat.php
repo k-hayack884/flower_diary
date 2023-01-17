@@ -7,11 +7,11 @@ use DomainException;
 class WaterCheckSeat
 {
     private WaterCheckSeatID $waterSettingID;
-    private Tarm $tarm;
+    private TarmWaterSetting $tarm;
     private WaterSetting $waterSetting;
     private WaterAmountNote $waterAmountNote;
 
-    public function __construct(Tarm $tarm, WaterSetting $waterSetting, WaterAmountNote $waterAmountNote)
+    public function __construct(TarmWaterSetting $tarm, WaterSetting $waterSetting, WaterAmountNote $waterAmountNote)
     {
         $this->waterSettingID = new WaterCheckSeatID();
         $this->tarm = $tarm;
@@ -21,7 +21,7 @@ class WaterCheckSeat
 
     public function updateTarm(array $month): WaterCheckSeat
     {
-        $updatedTarm = new Tarm($month);
+        $updatedTarm = new TarmWaterSetting($month);
         return new self($updatedTarm, $this->waterSetting, $this->waterAmountNote);
     }
 
@@ -38,7 +38,7 @@ class WaterCheckSeat
 
     public function reset(): WaterCheckSeat
     {
-        $tarm = new Tarm(Tarm::RESET);
+        $tarm = new TarmWaterSetting(TarmWaterSetting::RESET);
         $waterAmount = WaterAmount::settingModerateAmount();
         $waterAmountNote = new WaterAmountNote(WaterAmountNote::RESET);
         return new self($tarm, $waterAmount, $waterAmountNote, 1, 1);
@@ -50,9 +50,9 @@ class WaterCheckSeat
     }
 
     /**
-     * @return Tarm|array|int[]
+     * @return TarmWaterSetting|array|int[]
      */
-    public function getTarm(): array|Tarm
+    public function getTarm(): array|TarmWaterSetting
     {
         return $this->tarm->getMonths();
     }

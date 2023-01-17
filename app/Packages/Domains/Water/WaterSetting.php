@@ -10,6 +10,7 @@ class WaterSetting
 
     public function __construct(WaterAmount $waterAmount,WateringTimes $wateringTimes,WateringInterval $wateringInterval)
     {
+        $this->waterSettingID = new WaterSettingID();
         $this->waterAmount=$waterAmount;
         $this->wateringTimes=$wateringTimes;
         $this->wateringInterval=$wateringInterval;

@@ -2,7 +2,7 @@
 
 namespace Packages\Domains\Water;
 
-use App\Packages\Domains\Water\Tarm;
+use App\Packages\Domains\Water\TarmWaterSetting;
 use App\Packages\Domains\Water\WaterAmount;
 use App\Packages\Domains\Water\WaterAmountNote;
 use App\Packages\Domains\Water\WaterCheckSeat;
@@ -16,7 +16,7 @@ class WaterCheckSeatTest extends TestCase
 {
     public function test_インスタンスが正しく生成される()
     {
-        $tarm = new Tarm([1, 2, 3]);
+        $tarm = new TarmWaterSetting([1, 2, 3]);
         $waterSetting = new WaterSetting(new WaterAmount('a_lot'),new WateringTimes(1),new WateringInterval(2));
         $waterAmountNote = new WaterAmountNote("植木鉢から水があふれないように");
 
@@ -30,7 +30,7 @@ class WaterCheckSeatTest extends TestCase
     public function test_ノートの内容を変更()
     {
         $resultAmountNote=new WaterAmountNote("静かに水をやる");
-        $tarm = new Tarm([1, 2, 3]);
+        $tarm = new TarmWaterSetting([1, 2, 3]);
         $waterSetting = new WaterSetting(new WaterAmount('a_lot'),new WateringTimes(1),new WateringInterval(2));
         $waterAmountNote = new WaterAmountNote("植木鉢から水があふれないように");
         $waterCheckSeat=new WaterCheckSeat($tarm,$waterSetting,$waterAmountNote,2,1);
