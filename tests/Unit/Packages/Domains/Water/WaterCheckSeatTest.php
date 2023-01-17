@@ -29,16 +29,17 @@ class WaterCheckSeatTest extends TestCase
     }
     public function test_ノートの内容を変更()
     {
+        $resultAmountNote=new WaterAmountNote("静かに水をやる");
         $tarm = new Tarm([1, 2, 3]);
         $waterSetting = new WaterSetting(new WaterAmount('a_lot'),new WateringTimes(1),new WateringInterval(2));
         $waterAmountNote = new WaterAmountNote("植木鉢から水があふれないように");
-
         $waterCheckSeat=new WaterCheckSeat($tarm,$waterSetting,$waterAmountNote,2,1);
 
-        $this->assertInstanceOf(WaterCheckSeatID::class,$waterCheckSeat->getId());
-        $this->assertSame($waterCheckSeat->getTarm(),$tarm->getMonths());
-        $this->assertInstanceOf(WaterSetting::class,$waterCheckSeat->getWaterSetting());
-        $this->assertSame($waterCheckSeat->getAmountNote(),$waterAmountNote->getNote());
-    }
+        $updatedNoteCheckSeat=$waterCheckSeat->updateNote('静かに水をやる');
 
+        $this->assertInstanceOf(WaterCheckSeatID::class,$waterCheckSeat->getId());
+        $this->assertSame($updatedNoteCheckSeat->getTarm(),$tarm->getMonths());
+        $this->assertInstanceOf(WaterSetting::class,$updatedNoteCheckSeat->getWaterSetting());
+        $this->assertSame($updatedNoteCheckSeat->getAmountNote(),$resultAmountNote->getNote());
+    }
 }
