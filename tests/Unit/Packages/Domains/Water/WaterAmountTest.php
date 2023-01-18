@@ -11,25 +11,21 @@ use PHPUnit\Framework\TestCase;
 class WaterAmountTest extends TestCase
 {
     public function test_水やりがたっぷりに設定できること(){
-        $waterRecord=WaterAmount::settingALot();
-        $this->assertTrue($waterRecord->isALot());
-        $this->assertFalse($waterRecord->isModerateAmount());
-        $this->assertFalse($waterRecord->isSparingly());
+        $waterAmount=WaterAmount::settingALot();
+        $this->assertTrue($waterAmount->isALot());
+        $this->assertFalse($waterAmount->isModerateAmount());
+        $this->assertFalse($waterAmount->isSparingly());
     }
     public function test_水やりが適量に設定できること(){
-        $waterRecord=WaterAmount::settingModerateAmount();
-        $this->assertFalse($waterRecord->isALot());
-        $this->assertTrue($waterRecord->isModerateAmount());
-        $this->assertFalse($waterRecord->isSparingly());
+        $waterAmount=WaterAmount::settingModerateAmount();
+        $this->assertFalse($waterAmount->isALot());
+        $this->assertTrue($waterAmount->isModerateAmount());
+        $this->assertFalse($waterAmount->isSparingly());
     }
     public function test_水やりがひかえめに設定できること(){
-        $waterRecord=WaterAmount::settingSparingly();
-        $this->assertFalse($waterRecord->isALot());
-        $this->assertFalse($waterRecord->isModerateAmount());
-        $this->assertTure($waterRecord->isSparingly());
-    }
-    public function test_更新日時を取得できること(){
-        $waterRecord=new WaterAmount('a_lot');
-        $this->assertInstanceOf(Carbon::class,$waterRecord->getCreateAt());
+        $waterAmount=WaterAmount::settingSparingly();
+        $this->assertFalse($waterAmount->isALot());
+        $this->assertFalse($waterAmount->isModerateAmount());
+        $this->assertTrue($waterAmount->isSparingly());
     }
 }

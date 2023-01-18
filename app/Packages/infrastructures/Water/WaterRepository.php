@@ -3,7 +3,6 @@
 namespace App\Packages\infrastructures\Water;
 
 use App\Packages\Domains\Water\TarmWaterSetting;
-use App\Packages\Domains\Water\WaterSetting;
 use App\Packages\Domains\Water\WaterSettingCollection;
 use App\Packages\Domains\Water\WaterSettingID;
 use DomainException;
@@ -22,7 +21,7 @@ class WaterRepository
         return $waterSettingsCollection;
     }
 
-    public function findById(WaterSettingID $waterSettingID)
+    public function findById(WaterSettingID $waterSettingID): TarmWaterSetting
     {
         $waterSettingDb = WaterSettingDB::find($waterSettingID->getId());
         if ($waterSettingDb === null) {
@@ -47,21 +46,23 @@ class WaterRepository
     public function delete(TarmWaterSetting $waterSetting): void
     {
         WaterSettingDB::destroy($waterSetting->getId()->getId());
-    }$waterSettingId
+    }
     private function makeTarmWaterSetting(WaterSettingDB $waterSettingDb): TarmWaterSetting
     {
+        $arrayMonths = explode(",", $waterSettingDb->months);
+        $arrayAlertTimes = explode(",", $waterSettingDb->alert_times);
         return new TarmWaterSetting(
             $this->makeWaterSettingId($waterSettingDb->water_setting_id),
-$waterSettingDb->months,
-$waterSettingDb->note,
-$waterSettingDb->amount,
-$waterSettingDb->watering_times,
-$waterSettingDb->watering_interval,
-$waterSettingDb->alert_times
+            $arrayMonths,
+            $waterSettingDb->note,
+            $waterSettingDb->amount,
+            $waterSettingDb->watering_times,
+            $waterSettingDb->watering_interval,
+            $arrayAlertTimes
         );
     }
 
-    private function makeWaterSettingId(string $waterSettingId)
+    private function makeWaterSettingId(string $waterSettingId): WaterSettingID
     {
         return new WaterSettingID($waterSettingId);
     }

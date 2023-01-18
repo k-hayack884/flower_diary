@@ -32,18 +32,18 @@ class WaterNoteTest extends TestCase
         $this->assertInstanceOf(WaterNote::class,$note);
         $this->assertSame('なにぬねのはひふへほまみむめもやいゆえよ',$note->getNote());
     }
+    public function test_備考欄の内容を空にする()
+    {
+        $note=new WaterNote('あいうえおかきくけこさしすせそたちつてと');
+        $note=$note->update('');
+        $this->assertInstanceOf(WaterNote::class,$note);
+        $this->assertSame('',$note->getNote());
+    }
     public function test_備考欄を編集するが21字以上なのでエラーを出すこと()
     {
         $this->expectDeprecationMessage('備考欄に入力できる文字数は20字までです');
         $this->expectException(DomainException::class);
         $note=new WaterNote('あいうえおかきくけこさしすせそたちつてと');
         $note=$note->update('なにぬねのはひふへほまみむめもやいゆえよらりるれろ');
-    }
-    public function test_備考欄の内容を削除する()
-    {
-        $note=new WaterNote('あいうえおかきくけこさしすせそたちつてと');
-        $note=$note->reset();
-        $this->assertInstanceOf(WaterNote::class,$note);
-        $this->assertSame('',$note->getNote());
     }
 }

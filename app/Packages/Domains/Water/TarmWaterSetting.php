@@ -7,19 +7,23 @@ use DomainException;
 class TarmWaterSetting
 {
     private WaterSettingID $waterSettingID;
+    private array $months = [];
     private WaterNote $waterNote;
     private WaterAmount $waterAmount;
     private WateringTimes $wateringTimes;
     private WateringInterval $wateringInterval;
     public const RESET = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-    private array $months = [];
+
     private array $alertTimes = [];
 
-    public function __construct(array            $months,
-                                WaterNote        $waterNote,
-                                WaterAmount      $waterAmount,
-                                WateringTimes    $wateringTimes,
-                                WateringInterval $wateringInterval)
+    public function __construct(
+        WaterSettingID   $waterSettingID,
+        array            $months,
+        WaterNote        $waterNote,
+        WaterAmount      $waterAmount,
+        WateringTimes    $wateringTimes,
+        WateringInterval $wateringInterval,
+        array|null       $alertTimes = [])
     {
         if (count($months) > 12) {
             throw new DomainException('月の数が１３個以上あります');
@@ -30,11 +34,18 @@ class TarmWaterSetting
                 throw new DomainException('その文字は使用できません');
             }
         }
+        $this->waterSettingID = $waterSettingID;
         $this->months = $months;
         $this->waterNote = $waterNote;
         $this->waterAmount = $waterAmount;
         $this->wateringTimes = $wateringTimes;
         $this->wateringInterval = $wateringInterval;
+        if ($alertTimes === null) {
+            $this->alertTimes = [];
+        } else {
+            $this->alertTimes = $alertTimes;
+        }
+
     }
 
 
@@ -49,21 +60,25 @@ class TarmWaterSetting
             }
         }
         return new self(
+            $this->waterSettingID,
             $months,
             $this->waterNote,
             $this->waterAmount,
             $this->wateringTimes,
-            $this->wateringInterval);
+            $this->wateringInterval,
+            $this->alertTimes);
     }
 
     public function tarmReset(): TarmWaterSetting
     {
         return new self(
+            $this->waterSettingID,
             self::RESET,
             $this->waterNote,
             $this->waterAmount,
             $this->wateringTimes,
-            $this->wateringInterval);
+            $this->wateringInterval,
+            $this->alertTimes);
     }
 
     /**
@@ -98,9 +113,9 @@ class TarmWaterSetting
         return implode(",", $this->alertTimes);
     }
 
-    public function getId(): WaterSettingID
+    public function getWaterSettingId(): string
     {
-        return $this->waterSettingID;
+        return $this->waterSettingID->getId();
     }
 
     /**
