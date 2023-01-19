@@ -60,6 +60,6 @@ class MockWaterRepository
 
     public function delete(WaterSettingId $waterSettingId): void
     {
-        $this->waterSettings->delete($waterSettingId);
+        $this->waterSettings->delete($waterSettingId->getId());
     }
 }

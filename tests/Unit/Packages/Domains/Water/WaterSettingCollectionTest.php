@@ -155,8 +155,7 @@ class WaterSettingCollectionTest extends TestCase
         $waterSettingCollection = new WaterSettingCollection($waterSettings);
 
         $deleteWaterSettingId=new WaterSettingID('334c1092-7a0d-40b0-af6e-30bff5975e31');
-        $waterSettingCollection->delete($deleteWaterSettingId);
-
+        $waterSettingCollection->delete($deleteWaterSettingId->getId());
         $this->expectException(NotFoundException::class);
         $getWaterSetting=$waterSettingCollection->find($deleteWaterSettingId);
     }

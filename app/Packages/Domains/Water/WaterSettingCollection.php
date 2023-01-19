@@ -43,9 +43,9 @@ class WaterSettingCollection implements IteratorAggregate
         return $waterSetting;
     }
 
-    public function delete(WaterSettingID $waterSettingId):void
+    public function delete(string $waterSettingId):void
     {
-        $this->collection->forget($waterSettingId->getId());
+        $this->collection->forget($waterSettingId);
     }
 
     public function toArray(): array
