@@ -2,6 +2,7 @@
 
 namespace Packages\Domains\Water;
 
+use App\Exceptions\NotFoundException;
 use App\Packages\Domains\Water\TarmWaterSetting;
 use App\Packages\Domains\Water\WaterAmount;
 use App\Packages\Domains\Water\WateringInterval;
@@ -127,6 +128,37 @@ class WaterSettingCollectionTest extends TestCase
         foreach ($waterSettingCollection as $index => $waterSetting) {
             $this->assertSame($waterSettings[$index]->getWaterSettingId(), $waterSetting->getWaterSettingId());
         }
+    }
+    public function test_設定を削除すること()
+    {
+        $waterSettings = [
+            new TarmWaterSetting(
+                new WaterSettingID('983c1092-7a0d-40b0-af6e-30bff5975e31'),
+                [1, 3, 5],
+                new WaterNote('水やりは慎重に'),
+                WaterAmount::settingALot(),
+                new WateringTimes(1),
+                new WateringInterval(2),
+                ['09:00', '23:30']
+            ),
+            new TarmWaterSetting(
+                new WaterSettingID('334c1092-7a0d-40b0-af6e-30bff5975e31'),
+                [1, 3, 5],
+                new WaterNote('なんでや！阪神関係ないやろ！'),
+                WaterAmount::settingSparingly(),
+                new WateringTimes(3),
+                new WateringInterval(34),
+                ['12:59', '3:34']
+            )
+        ];
+
+        $waterSettingCollection = new WaterSettingCollection($waterSettings);
+
+        $deleteWaterSettingId=new WaterSettingID('334c1092-7a0d-40b0-af6e-30bff5975e31');
+        $waterSettingCollection->delete($deleteWaterSettingId);
+
+        $this->expectException(NotFoundException::class);
+        $getWaterSetting=$waterSettingCollection->find($deleteWaterSettingId);
     }
 
 }

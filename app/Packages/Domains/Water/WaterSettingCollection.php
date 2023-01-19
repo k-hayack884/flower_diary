@@ -2,6 +2,7 @@
 
 namespace App\Packages\Domains\Water;
 
+use App\Exceptions\NotFoundException;
 use ArrayIterator;
 use DomainException;
 use Illuminate\Support\Collection;
@@ -30,15 +31,19 @@ class WaterSettingCollection implements IteratorAggregate
         $this->collection->put($waterSetting->getWaterSettingId(), $waterSetting);
     }
 
+    /**
+     * @throws NotFoundException
+     */
     public function find(WaterSettingID $waterSettingId)
     {
         $waterSetting = $this->collection->get($waterSettingId->getId());
         if (is_null($waterSetting)) {
             throw new NotFoundException('選んだ設定が見つかりませんでした (id:' . $waterSettingId->getId() . ')');
         }
+        return $waterSetting;
     }
 
-    public function delete(WaterSettingID $waterSettingId)
+    public function delete(WaterSettingID $waterSettingId):void
     {
         $this->collection->forget($waterSettingId->getId());
     }
