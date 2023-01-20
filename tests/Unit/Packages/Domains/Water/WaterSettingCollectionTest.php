@@ -42,7 +42,7 @@ class WaterSettingCollectionTest extends TestCase
 
         $this->assertCount(count($waterSettings), $waterSettingCollection);
         foreach ($waterSettingCollection as $index => $waterSetting) {
-            $this->assertSame($index, $waterSetting->getWaterSettingId());
+            $this->assertSame($index, $waterSetting->getWaterSettingId()->getId());
         }
     }
 
@@ -94,7 +94,7 @@ class WaterSettingCollectionTest extends TestCase
 
         $this->assertCount(count($waterSettings), $waterSettingCollection);
         foreach ($waterSettingCollection as $index => $waterSetting) {
-            $this->assertSame($index, $waterSetting->getWaterSettingId());
+            $this->assertSame($index, $waterSetting->getWaterSettingId()->getId());
         }
 
     }
@@ -126,7 +126,7 @@ class WaterSettingCollectionTest extends TestCase
 
         $this->assertCount(count($waterSettings), $waterSettingCollection);
         foreach ($waterSettingCollection as $index => $waterSetting) {
-            $this->assertSame($waterSettings[$index]->getWaterSettingId(), $waterSetting->getWaterSettingId());
+            $this->assertSame($waterSettings[$index]->getWaterSettingId()->getId(), $waterSetting->getWaterSettingId()->getId());
         }
     }
     public function test_設定を削除すること()
@@ -154,10 +154,10 @@ class WaterSettingCollectionTest extends TestCase
 
         $waterSettingCollection = new WaterSettingCollection($waterSettings);
 
-        $deleteWaterSettingId=new WaterSettingID('334c1092-7a0d-40b0-af6e-30bff5975e31');
-        $waterSettingCollection->delete($deleteWaterSettingId->getId());
+        $waterSettingCollection->delete($waterSettings[0]);
         $this->expectException(NotFoundException::class);
-        $getWaterSetting=$waterSettingCollection->find($deleteWaterSettingId);
+        $inquireWaterSettingId =new WaterSettingID('983c1092-7a0d-40b0-af6e-30bff5975e31');
+        $getWaterSetting=$waterSettingCollection->find($inquireWaterSettingId);
     }
 
 }
