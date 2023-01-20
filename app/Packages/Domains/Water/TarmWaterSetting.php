@@ -6,15 +6,16 @@ use DomainException;
 
 class TarmWaterSetting
 {
+    public const RESET = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+
     private WaterSettingID $waterSettingID;
     private array $months = [];
     private WaterNote $waterNote;
     private WaterAmount $waterAmount;
     private WateringTimes $wateringTimes;
     private WateringInterval $wateringInterval;
-    public const RESET = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-
     private array $alertTimes = [];
+
 
     public function __construct(
         WaterSettingID   $waterSettingID,

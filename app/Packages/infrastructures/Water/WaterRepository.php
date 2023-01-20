@@ -5,9 +5,9 @@ namespace App\Packages\infrastructures\Water;
 use App\Packages\Domains\Water\TarmWaterSetting;
 use App\Packages\Domains\Water\WaterSettingCollection;
 use App\Packages\Domains\Water\WaterSettingID;
+use App\Packages\Domains\Water\WaterSettingRepositoryInterface;
 use DomainException;
-
-class WaterRepository
+class WaterRepository implements WaterSettingRepositoryInterface
 {
 
     public function find(): WaterSettingCollection
@@ -43,9 +43,9 @@ class WaterRepository
         );
     }
 
-    public function delete(TarmWaterSetting $waterSetting): void
+    public function delete(WaterSettingId $waterSettingId): void
     {
-        WaterSettingDB::destroy($waterSetting->getId()->getId());
+        WaterSettingDB::destroy($waterSettingId->getId());
     }
     private function makeTarmWaterSetting(WaterSettingDB $waterSettingDb): TarmWaterSetting
     {
