@@ -16,49 +16,5 @@ use PHPUnit\Exception;
 
 class UpdateWaterSettingAction
 {
-    public function __construct(WaterSettingRepositoryInterface $waterSettingRepository)
-    {
-        $this->waterSettingRepository = $waterSettingRepository;
-    }
 
-    public function __invoke(
-        UpdateWaterSettingRequest $createWaterSettingRequest,
-        string $waterSettingId
-    ): WaterSettingWrapDto
-    {
-        $requestArray = [
-            'waterSetting.months' => $createWaterSettingRequest->getMonths(),
-            'waterSetting.note' => $createWaterSettingRequest->getNote(),
-            'waterSetting.amount' => $createWaterSettingRequest->getAmount(),
-            'waterSetting.times' => $createWaterSettingRequest->getWateringTimes(),
-            'waterSetting.interval' => $createWaterSettingRequest->getWateringInterval(),
-            'waterSetting.alert_time'=>$createWaterSettingRequest->getAlertTimes(),
-        ];
-
-        $waterSetting=$this->waterSettingRepository->findById($waterSettingId);
-
-        $updateMonths=$waterSetting->tarmUpdate($requestArray['waterSetting.months']);
-        $updateNote=$waterSetting->getWaterNote()->update($requestArray['waterSetting.note']);
-        $updateAmount=new WaterAmount($requestArray['waterSetting.amount']);
-        $updateWateringTimes=new WateringTimes($requestArray['waterSetting.times']);
-        $updateWateringInterval=new WateringInterval($requestArray['waterSetting.interval']);
-        $updateAlertTimes=new WateringInterval($requestArray['waterSetting.alert_time']);
-
-        try {
-            $updatewaterSetting = new TarmWaterSetting(
-                $waterSettingId,
-                $updateMonths,
-                $updateNote,
-                $updateAmount,
-                $updateWateringTimes,
-                $updateWateringInterval,
-                $updateAlertTimes
-            );
-            $this->waterSettingRepository->delete($waterSettingId);
-            $this->waterSettingRepository->save($updatewaterSetting);
-        } catch (Exception $e) {
-            throw  $e;
-        }
-        return WaterSettingsDtoFactory::create($waterSetting);
-    }
 }
