@@ -10,5 +10,5 @@ interface WaterSettingRepositoryInterface
 
     public function save(TarmWaterSetting $waterSetting);
 
-    public function delete(WaterSettingId $waterSettingId);
+    public function delete(TarmWaterSetting $waterSetting);
 }

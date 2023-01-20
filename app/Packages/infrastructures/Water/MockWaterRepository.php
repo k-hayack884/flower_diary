@@ -59,8 +59,8 @@ class MockWaterRepository implements WaterSettingRepositoryInterface
         $this->waterSettings->add($waterSetting);
     }
 
-    public function delete(WaterSettingId $waterSettingId): void
+    public function delete(TarmWaterSetting $waterSetting): void
     {
-        $this->waterSettings->delete($waterSettingId->getId());
+        $this->waterSettings->delete($waterSetting);
     }
 }

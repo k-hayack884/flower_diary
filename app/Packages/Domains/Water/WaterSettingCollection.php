@@ -25,10 +25,10 @@ class WaterSettingCollection implements IteratorAggregate
 
     public function add(TarmWaterSetting $waterSetting)
     {
-        if($this->collection->has($waterSetting->getWaterSettingId())){
+        if($this->collection->has($waterSetting->getWaterSettingId()->getId())){
             throw new DomainException('waterSettingIDが重複しています');
         }
-        $this->collection->put($waterSetting->getWaterSettingId(), $waterSetting);
+        $this->collection->put($waterSetting->getWaterSettingId()->getId(), $waterSetting);
     }
 
     /**
@@ -43,9 +43,9 @@ class WaterSettingCollection implements IteratorAggregate
         return $waterSetting;
     }
 
-    public function delete(string $waterSettingId):void
+    public function delete(TarmWaterSetting $waterSetting):void
     {
-        $this->collection->forget($waterSettingId);
+        $this->collection->forget($waterSetting->getWaterSettingId()->getId());
     }
 
     public function toArray(): array
