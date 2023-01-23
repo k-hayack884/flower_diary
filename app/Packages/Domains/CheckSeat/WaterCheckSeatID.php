@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Packages\Domains\Water;
+namespace App\Packages\Domains\CheckSeat;
 
 use App\Packages\Domains\Shared\Uuid;
 
