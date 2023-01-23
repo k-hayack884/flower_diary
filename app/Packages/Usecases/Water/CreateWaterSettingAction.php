@@ -15,11 +15,21 @@ use PHPUnit\Exception;
 
 class CreateWaterSettingAction
 {
+    private WaterSettingRepositoryInterface $waterSettingRepository;
+
+    /**
+     * @param WaterSettingRepositoryInterface $waterSettingRepository
+     */
     public function __construct(WaterSettingRepositoryInterface $waterSettingRepository)
     {
         $this->waterSettingRepository = $waterSettingRepository;
     }
 
+    /**
+     * @param CreateWaterSettingRequest $createWaterSettingRequest
+     * @return WaterSettingWrapDto
+     * @throws Exception
+     */
     public function __invoke(
         CreateWaterSettingRequest $createWaterSettingRequest
     ): WaterSettingWrapDto

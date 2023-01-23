@@ -36,6 +36,9 @@
         }
     },
     "scripts": {
+        "phpstan": [
+            " ./vendor/bin/phpstan analyse flower_diary/app/Packages "
+        ],
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi"
@@ -49,6 +52,7 @@
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
         ]
+
     },
     "extra": {
         "laravel": {

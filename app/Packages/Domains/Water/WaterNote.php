@@ -10,6 +10,9 @@ readonly class WaterNote
     public const RESET='';
     public string $note;
 
+    /**
+     * @param string|null $note
+     */
     public function __construct(string|null $note)
     {
         if($note===null){
@@ -30,6 +33,11 @@ readonly class WaterNote
     {
         return $this->note;
     }
+
+    /**
+     * @param string|null $note
+     * @return WaterNote
+     */
     public function update(string|null $note): WaterNote
     {
         if (mb_strlen($note) > 20) {

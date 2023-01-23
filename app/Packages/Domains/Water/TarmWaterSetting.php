@@ -49,7 +49,10 @@ class TarmWaterSetting
 
     }
 
-
+    /**
+     * @param array $months
+     * @return TarmWaterSetting
+     */
     public function tarmUpdate(array $months): TarmWaterSetting
     {
         if (count($months) > 13) {
@@ -70,6 +73,9 @@ class TarmWaterSetting
             $this->alertTimes);
     }
 
+    /**
+     * @return TarmWaterSetting
+     */
     public function tarmReset(): TarmWaterSetting
     {
         return new self(
@@ -99,21 +105,33 @@ class TarmWaterSetting
         $this->alertTimes[] = $dateTime;
     }
 
+    /**
+     * @return void
+     */
     public function resetAlertTime(): void
     {
         $this->alertTimes = [];
     }
 
+    /**
+     * @return string
+     */
     public function monthsIntoString(): string
     {
         return implode(",", $this->months);
     }
 
+    /**
+     * @return string
+     */
     public function alertTimesIntoString(): string
     {
         return implode(",", $this->alertTimes);
     }
 
+    /**
+     * @return WaterSettingID
+     */
     public function getWaterSettingId(): WaterSettingID
     {
         return $this->waterSettingID;
@@ -159,6 +177,9 @@ class TarmWaterSetting
         return $this->wateringInterval;
     }
 
+    /**
+     * @return array
+     */
     public function getAlertTimes(): array
     {
         return $this->alertTimes;

@@ -9,12 +9,20 @@ use App\Packages\Usecases\Dto\Water\WaterSettingsWrapDto;
 
 class GetWaterSettingsAction
 {
+    private WaterSettingRepositoryInterface $waterSettingRepository;
+
+    /**
+     * @param WaterSettingRepositoryInterface $waterSettingRepository
+     */
     public function __construct(WaterSettingRepositoryInterface $waterSettingRepository)
     {
         $this->waterSettingRepository = $waterSettingRepository;
     }
 
-
+    /**
+     * @param GetWaterSettingRequest $getWaterSettingRequest
+     * @return WaterSettingsWrapDto
+     */
     public function __invoke(GetWaterSettingRequest $getWaterSettingRequest
     ): WaterSettingsWrapDto
     {

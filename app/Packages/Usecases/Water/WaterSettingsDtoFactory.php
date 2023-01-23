@@ -8,6 +8,10 @@ use App\Packages\Usecases\Dto\Water\WaterSettingWrapDto;
 
 class WaterSettingsDtoFactory
 {
+    /**
+     * @param TarmWaterSetting $waterSetting
+     * @return WaterSettingWrapDto
+     */
     public static function create(TarmWaterSetting $waterSetting): WaterSettingWrapDto
     {
         return new WaterSettingWrapDto(

@@ -37,22 +37,41 @@ class CreateWaterSettingRequest extends BaseRequest
         ];
     }
 
+    /**
+     * @return array
+     */
     public function getMonths():array
     {
         return $this->waterSetting['waterSetting.months'];
     }
+
+    /**
+     * @return string|null
+     */
     public function getNote():string|null
     {
         return $this->waterSetting['waterSetting.note'];
     }
+
+    /**
+     * @return string
+     */
     public function getAmount():string
     {
         return $this->waterSetting['waterSetting.amount'];
     }
+
+    /**
+     * @return int
+     */
     public function getWateringTimes():int
     {
         return $this->waterSetting['waterSetting.times'];
     }
+
+    /**
+     * @return int
+     */
     public function getWateringInterval():int
     {
         return $this->waterSetting['waterSetting.interval'];
