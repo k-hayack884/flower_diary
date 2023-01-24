@@ -18,7 +18,7 @@ class WaterSettingID
         return $this->uuid->getValue();
     }
 
-    public function equals(WaterCheckSeatID $waterSettingID): bool
+    public function equals(WaterSettingID $waterSettingID): bool
     {
         return $this->getId() === $waterSettingID->getId();
     }
