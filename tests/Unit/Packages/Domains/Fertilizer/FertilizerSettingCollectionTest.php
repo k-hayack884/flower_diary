@@ -139,10 +139,11 @@ class FertilizerSettingCollectionTest extends TestCase
 
 
         $fertilizerSettingCollection = new FertilizerSettingCollection($fertilizerSettings);
+        $fertilizerSettingId = new FertilizerSettingID('334c1092-7a0d-40b0-af6e-30bff5975e31');
+        $deleteFertilizerSetting = $fertilizerSettingCollection->find($fertilizerSettingId);
 
-        $deletefertilizerSettingId=new FertilizerSettingID('334c1092-7a0d-40b0-af6e-30bff5975e31');
-        $fertilizerSettingCollection->delete($deletefertilizerSettingId->getId());
+        $fertilizerSettingCollection->delete($deleteFertilizerSetting);
         $this->expectException(NotFoundException::class);
-        $getFertilizerSetting=$fertilizerSettingCollection->find($deletefertilizerSettingId);
+        $getFertilizerSetting = $fertilizerSettingCollection->find($fertilizerSettingId);
     }
 }

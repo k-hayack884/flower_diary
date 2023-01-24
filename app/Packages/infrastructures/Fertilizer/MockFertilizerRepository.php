@@ -63,11 +63,11 @@ class MockFertilizerRepository
     }
 
     /**
-     * @param FertilizerSettingID $fertilizerSettingId
+     * @param TarmFertilizerSetting $fertilizerSetting
      * @return void
      */
-    public function delete(FertilizerSettingId $fertilizerSettingId): void
+    public function delete(TarmFertilizerSetting $fertilizerSetting): void
     {
-        $this->fertilizerSettings->delete($fertilizerSettingId->getId());
+        $this->fertilizerSettings->delete($fertilizerSetting);
     }
 }
