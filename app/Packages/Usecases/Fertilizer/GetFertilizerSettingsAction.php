@@ -2,16 +2,21 @@
 
 namespace App\Packages\Usecases\Fertilizer;
 
+use App\Packages\Domains\Fertilizer\FertilizerRepositoryInterface;
+use App\Packages\Presentations\Requests\Fertilizer\GetFertilizerSettingRequest;
+use App\Packages\Usecases\Dto\Fertilizer\FertilizerSettingDto;
+use App\Packages\Usecases\Dto\Fertilizer\FertilizerSettingsWrapDto;
+
 class GetFertilizerSettingsAction
 {
-    private FertilizerSettingRepositoryInterface $FertilizerSettingRepository;
+    private FertilizerRepositoryInterface $fertilizerSettingRepository;
 
     /**
-     * @param FertilizerSettingRepositoryInterface $FertilizerSettingRepository
+     * @param FertilizerRepositoryInterface $fertilizerSettingRepository
      */
-    public function __construct(FertilizerSettingRepositoryInterface $FertilizerSettingRepository)
+    public function __construct(FertilizerRepositoryInterface $fertilizerSettingRepository)
     {
-        $this->FertilizerSettingRepository = $FertilizerSettingRepository;
+        $this->fertilizerSettingRepository = $fertilizerSettingRepository;
     }
 
     /**
@@ -21,20 +26,18 @@ class GetFertilizerSettingsAction
     public function __invoke(GetFertilizerSettingRequest $getFertilizerSettingRequest
     ): FertilizerSettingsWrapDto
     {
-        $FertilizerSettingCollection = $this->FertilizerSettingRepository->find();
-        $FertilizerSettingDtos = [];
+        $fertilizerSettingCollection = $this->fertilizerSettingRepository->find();
+        $fertilizerSettingDtos = [];
 
-        foreach ($FertilizerSettingCollection as $FertilizerSetting) {
-            $FertilizerSettingDtos[] = new FertilizerSettingDto(
-                $FertilizerSetting->getFertilizerSettingId(),
-                $FertilizerSetting->getMonths(),
-                $FertilizerSetting->getWaterAmount()->getValue(),
-                $FertilizerSetting->getWaterNote()->getNote(),
-                $FertilizerSetting->getWateringTimes()->getValue(),
-                $FertilizerSetting->getWateringInterval()->getValue(),
-                $FertilizerSetting->getAlertTimes()
+        foreach ($fertilizerSettingCollection as $fertilizerSetting) {
+            $fertilizerSettingDtos[] = new FertilizerSettingDto(
+                $fertilizerSetting->getFertilizerSettingId(),
+                $fertilizerSetting->getMonths(),
+                $fertilizerSetting->getFertilizerNote()->getvalue(),
+                $fertilizerSetting->getFertilizerAmount()->getValue(),
+                $fertilizerSetting->getFertilizerName()->getValue(),
             );
         }
-        return new FertilizerSettingsWrapDto($FertilizerSettingDtos);
+        return new FertilizerSettingsWrapDto($fertilizerSettingDtos);
     }
 }
