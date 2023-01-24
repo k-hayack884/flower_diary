@@ -3,6 +3,8 @@
 namespace Packages\Usecases\Fertilizer;
 
 use App\Exceptions\NotFoundException;
+use App\Packages\Domains\Fertilizer\FertilizerSettingID;
+use App\Packages\Domains\Shared\Uuid;
 use App\Packages\infrastructures\Fertilizer\MockFertilizerRepository;
 use App\Packages\Presentations\Requests\Fertilizer\DeleteFertilizerSettingRequest;
 use App\Packages\Usecases\Fertilizer\DeleteFertilizerSettingAction;
