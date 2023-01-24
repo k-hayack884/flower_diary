@@ -8,14 +8,7 @@ use App\Packages\Domains\Fertilizer\fertilizerName;
 use App\Packages\Domains\Fertilizer\FertilizerNote;
 use App\Packages\Domains\Fertilizer\FertilizerSettingID;
 use App\Packages\Domains\Fertilizer\TarmFertilizerSetting;
-use App\Packages\Domains\Water\TarmWaterSetting;
-use App\Packages\Domains\Water\WaterAmount;
-use App\Packages\Domains\Water\WateringInterval;
-use App\Packages\Domains\Water\WateringTimes;
-use App\Packages\Domains\Water\WaterNote;
-use App\Packages\Domains\Water\WaterSettingID;
 use App\Packages\infrastructures\Fertilizer\MockFertilizerRepository;
-use App\Packages\infrastructures\Water\MockWaterRepository;
 use PHPUnit\Framework\TestCase;
 
 class MockFertilizerRepositoryTest extends TestCase
@@ -65,7 +58,8 @@ class MockFertilizerRepositoryTest extends TestCase
     public function test_設定を削除する()
     {
         $fertilizerSettingId = new FertilizerSettingID('983c1092-7a0d-40b0-af6e-30bff5975e31');
-        $this->mockFertilizerRepository->delete($fertilizerSettingId);
+        $fertilizerSetting=$this->mockFertilizerRepository->findById($fertilizerSettingId);
+        $this->mockFertilizerRepository->delete($fertilizerSetting);
         $this->expectException(NotFoundException::class);
         $fertilizerSetting = $this->mockFertilizerRepository->findById($fertilizerSettingId);
     }

@@ -52,12 +52,12 @@ class FertilizerSettingCollection implements IteratorAggregate
     }
 
     /**
-     * @param string $fertilizerSettingId
+     * @param TarmFertilizerSetting $fertilizerSetting
      * @return void
      */
-    public function delete(string $fertilizerSettingId):void
+    public function delete(TarmFertilizerSetting $fertilizerSetting):void
     {
-        $this->collection->forget($fertilizerSettingId);
+        $this->collection->forget($fertilizerSetting);
     }
 
     /**
