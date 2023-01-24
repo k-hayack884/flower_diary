@@ -57,7 +57,7 @@ class FertilizerSettingCollection implements IteratorAggregate
      */
     public function delete(TarmFertilizerSetting $fertilizerSetting):void
     {
-        $this->collection->forget($fertilizerSetting);
+        $this->collection->forget($fertilizerSetting->getFertilizerSettingId());
     }
 
     /**
