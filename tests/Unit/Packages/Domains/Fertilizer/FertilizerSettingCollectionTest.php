@@ -77,7 +77,7 @@ class FertilizerSettingCollectionTest extends TestCase
                 new FertilizerNote('たくさんあげよう'),
                 new FertilizerAmount(114),
                 new fertilizerName('泥'),
-        );
+            );
         $fertilizerSettingCollection->add($addFertilizerSettingSetting);
         $fertilizerSettings[] = $addFertilizerSettingSetting;
 

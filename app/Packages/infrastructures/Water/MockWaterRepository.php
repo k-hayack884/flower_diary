@@ -2,6 +2,7 @@
 
 namespace App\Packages\infrastructures\Water;
 
+use App\Exceptions\NotFoundException;
 use App\Packages\Domains\Water\TarmWaterSetting;
 use App\Packages\Domains\Water\WaterAmount;
 use App\Packages\Domains\Water\WateringInterval;
@@ -42,22 +43,39 @@ class MockWaterRepository
         );
     }
 
+    /**
+     * @return WaterSettingCollection
+     */
+
     public function find(): WaterSettingCollection
     {
         return $this->waterSettings;
     }
 
+    /**
+     * @param $waterSettingId
+     * @return TarmWaterSetting
+     * @throws NotFoundException
+     */
     public function findById($waterSettingId): TarmWaterSetting
     {
 
         return $this->waterSettings->find($waterSettingId);
     }
 
+    /**
+     * @param TarmWaterSetting $waterSetting
+     * @return void
+     */
     public function save(TarmWaterSetting $waterSetting): void
     {
         $this->waterSettings->add($waterSetting);
     }
 
+    /**
+     * @param WaterSettingID $waterSettingId
+     * @return void
+     */
     public function delete(WaterSettingId $waterSettingId): void
     {
         $this->waterSettings->delete($waterSettingId->getId());
