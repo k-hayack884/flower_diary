@@ -2,7 +2,9 @@
 
 namespace App\Packages\Presentations\Requests\Fertilizer;
 
-class GetFertilizerSettingRequest extends \App\Http\Requests\BaseRequest
+use App\Http\Requests\BaseRequest;
+
+class DeleteFertilizerSettingRequest extends BaseRequest
 {
     public function rules(): array
     {
