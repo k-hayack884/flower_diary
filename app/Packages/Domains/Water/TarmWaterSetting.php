@@ -6,15 +6,16 @@ use DomainException;
 
 class TarmWaterSetting
 {
+    public const RESET = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+
     private WaterSettingID $waterSettingID;
     private array $months = [];
     private WaterNote $waterNote;
     private WaterAmount $waterAmount;
     private WateringTimes $wateringTimes;
     private WateringInterval $wateringInterval;
-    public const RESET = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-
     private array $alertTimes = [];
+
 
     public function __construct(
         WaterSettingID   $waterSettingID,
@@ -48,7 +49,10 @@ class TarmWaterSetting
 
     }
 
-
+    /**
+     * @param array $months
+     * @return TarmWaterSetting
+     */
     public function tarmUpdate(array $months): TarmWaterSetting
     {
         if (count($months) > 13) {
@@ -69,6 +73,9 @@ class TarmWaterSetting
             $this->alertTimes);
     }
 
+    /**
+     * @return TarmWaterSetting
+     */
     public function tarmReset(): TarmWaterSetting
     {
         return new self(
@@ -98,24 +105,36 @@ class TarmWaterSetting
         $this->alertTimes[] = $dateTime;
     }
 
+    /**
+     * @return void
+     */
     public function resetAlertTime(): void
     {
         $this->alertTimes = [];
     }
 
+    /**
+     * @return string
+     */
     public function monthsIntoString(): string
     {
         return implode(",", $this->months);
     }
 
+    /**
+     * @return string
+     */
     public function alertTimesIntoString(): string
     {
         return implode(",", $this->alertTimes);
     }
 
-    public function getWaterSettingId(): string
+    /**
+     * @return WaterSettingID
+     */
+    public function getWaterSettingId(): WaterSettingID
     {
-        return $this->waterSettingID->getId();
+        return $this->waterSettingID;
     }
 
     /**
@@ -158,6 +177,9 @@ class TarmWaterSetting
         return $this->wateringInterval;
     }
 
+    /**
+     * @return array
+     */
     public function getAlertTimes(): array
     {
         return $this->alertTimes;

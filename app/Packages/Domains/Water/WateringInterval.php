@@ -7,6 +7,9 @@ class WateringInterval
     public const RESET=1;
     private int $wateringInterval;
 
+    /**
+     * @param int $wateringInterval
+     */
     public function __construct(int $wateringInterval)
     {
         if($wateringInterval<1 || $wateringInterval>365){
@@ -14,6 +17,10 @@ class WateringInterval
         }
         $this->wateringInterval=$wateringInterval;
     }
+
+    /**
+     * @return int
+     */
     public function getValue(): int
     {
         return $this->wateringInterval;

@@ -6,6 +6,7 @@ use App\Packages\Domains\Shared\Uuid;
 
 class WaterSettingID
 {
+    private string $value;
     private Uuid $uuid;
 
     public function __construct(string|null $value = null)
@@ -13,16 +14,27 @@ class WaterSettingID
         $this->uuid = new Uuid($value);
     }
 
+    /**
+     * @return string|null
+     */
     public function getId(): ?string
     {
         return $this->uuid->getValue();
     }
 
-    public function equals(WaterSettingID $waterSettingID): bool
+
+    /**
+     * @param WaterCheckSeatID $waterSettingID
+     * @return bool
+     */
+    public function equals(WaterCheckSeatID $waterSettingID): bool
     {
         return $this->getId() === $waterSettingID->getId();
     }
 
+    /**
+     * @return string
+     */
     public function __toString(): string
     {
         return $this->value;
