@@ -53,11 +53,13 @@ class MockWaterRepository implements WaterSettingRepositoryInterface
     }
 
     /**
+
      * @param WaterSettingID $waterSettingId
      * @return TarmWaterSetting
      * @throws NotFoundException
      */
     public function findById(WaterSettingID $waterSettingId): TarmWaterSetting
+
     {
 
         return $this->waterSettings->find($waterSettingId);
@@ -74,10 +76,12 @@ class MockWaterRepository implements WaterSettingRepositoryInterface
     }
 
     /**
+
      * @param TarmWaterSetting $waterSetting
      * @return void
      */
     public function delete(TarmWaterSetting $waterSetting): void
+
     {
         $this->waterSettings->delete($waterSetting);
     }
