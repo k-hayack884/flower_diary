@@ -5,11 +5,12 @@ namespace App\Packages\infrastructures\Fertilizer;
 use App\Packages\Domains\Fertilizer\FertilizerAmount;
 use App\Packages\Domains\Fertilizer\fertilizerName;
 use App\Packages\Domains\Fertilizer\FertilizerNote;
+use App\Packages\Domains\Fertilizer\FertilizerRepositoryInterface;
 use App\Packages\Domains\Fertilizer\FertilizerSettingCollection;
 use App\Packages\Domains\Fertilizer\FertilizerSettingID;
 use App\Packages\Domains\Fertilizer\TarmFertilizerSetting;
 
-class MockFertilizerRepository
+class MockFertilizerRepository implements FertilizerRepositoryInterface
 {
     private FertilizerSettingCollection $fertilizerSettings;
 
@@ -26,12 +27,14 @@ class MockFertilizerRepository
                 new fertilizerName('牛糞堆肥'),
             ),
         );
-        new TarmFertilizerSetting(
-            new FertilizerSettingID('334c1092-7a0d-40b0-af6e-30bff5975e31'),
-            [1, 3, 5],
-            new FertilizerNote('なんでや！阪神関係ないやろ！'),
-            new FertilizerAmount(334),
-            new FertilizerName('腐葉土'),
+        $this->fertilizerSettings->add(
+            new TarmFertilizerSetting(
+                new FertilizerSettingID('334c1092-7a0d-40b0-af6e-30bff5975e31'),
+                [1, 3, 5],
+                new FertilizerNote('なんでや！阪神関係ないやろ！'),
+                new FertilizerAmount(334),
+                new FertilizerName('腐葉土'),
+            )
         );
     }
 
