@@ -8,6 +8,7 @@ use App\Packages\Domains\Water\WaterAmount;
 use App\Packages\Domains\Water\WateringInterval;
 use App\Packages\Domains\Water\WateringTimes;
 use App\Packages\Domains\Water\WaterNote;
+use App\Packages\Domains\Water\WaterSettingCollection;
 use App\Packages\Domains\Water\WaterSettingID;
 use App\Packages\infrastructures\Water\MockWaterRepository;
 use PHPUnit\Framework\TestCase;
@@ -23,12 +24,18 @@ class MockWaterRepositoryTest extends TestCase
         $this->mockWaterRepository = new MockWaterRepository();
     }
 
+    public function test_水やりコレクションを返す()
+    {
+        $result = $this->mockWaterRepository->find();
+        $this->assertIsArray($result);
+    }
+
     public function test_設定IDから検索して情報を取得する()
     {
         $waterSettingId = new WaterSettingID('983c1092-7a0d-40b0-af6e-30bff5975e31');
         $waterSetting = $this->mockWaterRepository->findById($waterSettingId);
 
-        $this->assertSame($waterSettingId->getId(), $waterSetting->getWaterSettingId());
+        $this->assertSame($waterSettingId->getId(),$waterSetting->getWaterSettingId()->getId());
     }
 
     public function test_存在しない設定IDから検索すると例外を出すこと()
@@ -41,7 +48,8 @@ class MockWaterRepositoryTest extends TestCase
 
     public function test_設定を追加する()
     {
-        $addWaterSetting = new TarmWaterSetting(
+
+        $addWaterSetting[] = new TarmWaterSetting(
             new WaterSettingID('999c1092-7a0d-40b0-af6e-30bff5975e31'),
             [1, 3, 5],
             new WaterNote('やったぜ'),
@@ -50,12 +58,12 @@ class MockWaterRepositoryTest extends TestCase
             new WateringInterval(2),
             ['00:00', '12:30']
         );
-        $this->mockWaterRepository->save($addWaterSetting);
+        $WaterCollection=new WaterSettingCollection($addWaterSetting);
+        $this->mockWaterRepository->save($WaterCollection);
 
-        $waterSettingId = new WaterSettingID('999c1092-7a0d-40b0-af6e-30bff5975e31');
-        $waterSetting = $this->mockWaterRepository->findById($waterSettingId);
+        $addedWaterArray= $this->mockWaterRepository->find();
 
-        $this->assertSame($waterSettingId->getId(), $waterSetting->getWaterSettingId());
+        $this->assertSame($addWaterSetting[0]->getWaterSettingId(), $addedWaterArray[2]->getWaterSettingId());
     }
 
     public function test_設定を削除する()

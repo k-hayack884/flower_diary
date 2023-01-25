@@ -113,9 +113,9 @@ class TarmWaterSetting
         return implode(",", $this->alertTimes);
     }
 
-    public function getWaterSettingId(): string
+    public function getWaterSettingId(): WaterSettingID
     {
-        return $this->waterSettingID->getId();
+        return $this->waterSettingID;
     }
 
     /**
