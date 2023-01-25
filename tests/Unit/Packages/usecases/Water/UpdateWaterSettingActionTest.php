@@ -37,7 +37,7 @@ class UpdateWaterSettingActionTest extends TestCase
         $prevWaterSettingValue = $prevWaterSetting->getWaterSettingId();
         $result = (app()->make(UpdateWaterSettingAction::class))->__invoke($request, $waterSettingId);
         $waterSetting = $mockWaterSettingRepository->findById(new WaterSettingID($waterSettingId));
-        $this->assertSame( 'ち～ん',$prevWaterSetting->getNote());
-        $this->assertNotEquals($prevWaterSettingValue->getNote().$waterSetting->getNote());
+        $this->assertSame( 'ち～ん',$result->waterSettings->note);
+        $this->assertNotEquals($prevWaterSetting->getWaterNote()->getNote(),$result->waterSettings->note);
     }
 }

@@ -68,6 +68,7 @@ class MockWaterRepository implements WaterSettingRepositoryInterface
      * @return void
      */
     public function save(TarmWaterSetting $waterSetting): void
+    //コレクションが引数
     {
         $this->waterSettings->add($waterSetting);
     }

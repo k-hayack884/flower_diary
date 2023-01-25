@@ -33,9 +33,6 @@ class WaterSettingCollection implements IteratorAggregate
      */
     public function add(TarmWaterSetting $waterSetting)
     {
-        if($this->collection->has($waterSetting->getWaterSettingId()->getId())){
-            throw new DomainException('waterSettingIDが重複しています');
-        }
         $this->collection->put($waterSetting->getWaterSettingId()->getId(), $waterSetting);
     }
 
@@ -44,7 +41,7 @@ class WaterSettingCollection implements IteratorAggregate
      * @return Closure
      * @throws NotFoundException
      */
-    public function find(WaterSettingID $waterSettingId): Closure
+    public function find(WaterSettingID $waterSettingId)
     {
         $waterSetting = $this->collection->get($waterSettingId->getId());
         if (is_null($waterSetting)) {

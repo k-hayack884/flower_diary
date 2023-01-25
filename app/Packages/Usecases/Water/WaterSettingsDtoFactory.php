@@ -16,7 +16,7 @@ class WaterSettingsDtoFactory
     {
         return new WaterSettingWrapDto(
             new WaterSettingDto(
-                $waterSetting->getWaterSettingId(),
+                $waterSetting->getWaterSettingId()->getId(),
                 $waterSetting->getMonths(),
                 $waterSetting->getWaterNote()->getNote(),
                 $waterSetting->getWaterAmount()->getValue(),

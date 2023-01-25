@@ -31,7 +31,7 @@ class GetWaterSettingsAction
 
         foreach ($waterSettingCollection as $waterSetting) {
             $waterSettingDtos[] = new WaterSettingDto(
-                $waterSetting->getWaterSettingId(),
+                $waterSetting->getWaterSettingId()->getId(),
                 $waterSetting->getMonths(),
                 $waterSetting->getWaterAmount()->getValue(),
                 $waterSetting->getWaterNote()->getNote(),
