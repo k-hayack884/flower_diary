@@ -31,9 +31,6 @@ class FertilizerSettingCollection implements IteratorAggregate
      */
     public function add(TarmFertilizerSetting $fertilizerSetting)
     {
-        if($this->collection->has($fertilizerSetting->getFertilizerSettingId())){
-            throw new DomainException('fertilizerSettingIDが重複しています');
-        }
         $this->collection->put($fertilizerSetting->getFertilizerSettingId(), $fertilizerSetting);
     }
 
