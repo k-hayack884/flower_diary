@@ -25,7 +25,7 @@ class DeleteWaterSettingActionTest extends TestCase
                 $mockWaterSettingRepository
             );
         });
-        $this->expectExceptionMessage('選んだ設定が見つかりませんでした (id:' . $waterSettingId . ')');
+        $this->expectExceptionMessage('指定した水やり設定IDは見つかりませんでした (id:' . $waterSettingId . ')');
         $this->expectException(NotFoundException::class);
         $result = (app()->make(DeleteWaterSettingAction::class))->__invoke($request, $waterSettingId);
         $waterSetting = $mockWaterSettingRepository->findById(new WaterSettingId($waterSettingId));
@@ -44,7 +44,7 @@ class DeleteWaterSettingActionTest extends TestCase
                 $mockWaterSettingRepository
             );
         });
-        $this->expectExceptionMessage('選んだ設定が見つかりませんでした (id:' . $waterSettingId . ')');
+        $this->expectExceptionMessage('指定した水やり設定IDは見つかりませんでした (id:' . $waterSettingId . ')');
         $this->expectException(NotFoundException::class);
         $result = (app()->make(DeleteWaterSettingAction::class))->__invoke($request, $waterSettingId);
         $waterSetting = $mockWaterSettingRepository->findById(new WaterSettingId($waterSettingId));

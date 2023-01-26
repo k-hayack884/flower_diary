@@ -7,6 +7,7 @@ use App\Packages\Domains\Water\WaterAmount;
 use App\Packages\Domains\Water\WateringInterval;
 use App\Packages\Domains\Water\WateringTimes;
 use App\Packages\Domains\Water\WaterNote;
+use App\Packages\Domains\Water\WaterSettingCollection;
 use App\Packages\Domains\Water\WaterSettingId;
 use App\Packages\Domains\Water\WaterSettingRepositoryInterface;
 use App\Packages\Presentations\Requests\Water\CreateWaterSettingRequest;
@@ -49,7 +50,7 @@ class CreateWaterSettingAction
             $waterSettingTimes = new WateringTimes($requestArray['waterSetting.times']);
             $waterSettingInterval = new WateringInterval($requestArray['waterSetting.interval']);
 
-            $waterSetting = new MonthsWaterSetting(
+            $waterSettings = new MonthsWaterSetting(
                 $waterSettingId,
                 $waterSettingMonths,
                 $waterSettingNote,
@@ -57,10 +58,11 @@ class CreateWaterSettingAction
                 $waterSettingTimes,
                 $waterSettingInterval
             );
-            $this->waterSettingRepository->save($waterSetting);
+            $waterSettingCollection=new WaterSettingCollection();
+            $this->waterSettingRepository->save($waterSettingCollection);
         } catch (Exception $e) {
             throw  $e;
         }
-        return WaterSettingsDtoFactory::create($waterSetting);
+        return WaterSettingsDtoFactory::create($waterSettings);
     }
 }

@@ -7,6 +7,7 @@ use App\Packages\Domains\Water\WaterAmount;
 use App\Packages\Domains\Water\WateringInterval;
 use App\Packages\Domains\Water\WateringTimes;
 use App\Packages\Domains\Water\WaterNote;
+use App\Packages\Domains\Water\WaterSettingCollection;
 use App\Packages\Domains\Water\WaterSettingId;
 use App\Packages\Domains\Water\WaterSettingRepositoryInterface;
 use App\Packages\Presentations\Requests\Water\CreateWaterSettingRequest;
@@ -16,6 +17,7 @@ use PHPUnit\Exception;
 
 class UpdateWaterSettingAction
 {
+    private WaterSettingRepositoryInterface $waterSettingRepository;
     public function __construct(WaterSettingRepositoryInterface $waterSettingRepository)
     {
         $this->waterSettingRepository = $waterSettingRepository;
@@ -45,7 +47,7 @@ class UpdateWaterSettingAction
         $updateAlertTimes =$requestArray['waterSetting.alert_time'];
 
         try {
-            $updatewaterSetting = new MonthsWaterSetting(
+            $updateWaterSetting = new MonthsWaterSetting(
                 new WaterSettingId($waterSettingId),
                 $updateMonths,
                 $updateNote,
@@ -54,10 +56,11 @@ class UpdateWaterSettingAction
                 $updateWateringInterval,
                 $updateAlertTimes
             );
-            $this->waterSettingRepository->save($updatewaterSetting);
+            $waterSettingCollection=new WaterSettingCollection();
+            $this->waterSettingRepository->save($waterSettingCollection);
         } catch (Exception $e) {
             throw  $e;
         }
-        return WaterSettingsDtoFactory::create($updatewaterSetting);
+        return WaterSettingsDtoFactory::create($updateWaterSetting);
     }
 }
