@@ -11,16 +11,15 @@ use App\Packages\Domains\Water\WaterNote;
 use App\Packages\Domains\Water\WaterSetting;
 use App\Packages\Domains\Water\WaterSettingCollection;
 use App\Packages\Domains\Water\WaterSettingID;
-use App\Packages\Domains\Water\WaterSettingRepositoryInterface;
+use Illuminate\Support\Collection;
 
 class MockWaterRepository implements WaterSettingRepositoryInterface
 {
-    private WaterSettingCollection $waterSettings;
+    private array $waterSettings = [];
 
     public function __construct()
     {
-        $this->waterSettings = new WaterSettingCollection();
-        $this->waterSettings->add(
+        $this->waterSettings[] =
             new TarmWaterSetting(
                 new WaterSettingID('983c1092-7a0d-40b0-af6e-30bff5975e31'),
                 [1, 3, 5],
@@ -29,9 +28,8 @@ class MockWaterRepository implements WaterSettingRepositoryInterface
                 new WateringTimes(1),
                 new WateringInterval(2),
                 ['09:00', '23:30']
-            )
-        );
-        $this->waterSettings->add(
+            );
+        $this->waterSettings[] =
             new TarmWaterSetting(
                 new WaterSettingID('334c1092-7a0d-40b0-af6e-30bff5975e31'),
                 [1, 3, 5],
@@ -40,49 +38,55 @@ class MockWaterRepository implements WaterSettingRepositoryInterface
                 new WateringTimes(3),
                 new WateringInterval(34),
                 ['12:59', '3:34']
-            )
-        );
+            );
     }
 
     /**
-     * @return WaterSettingCollection
+
+     * @return array
      */
-    public function find(): WaterSettingCollection
+    public function find(): array
     {
         return $this->waterSettings;
     }
 
     /**
-
      * @param WaterSettingID $waterSettingId
      * @return TarmWaterSetting
      * @throws NotFoundException
      */
     public function findById(WaterSettingID $waterSettingId): TarmWaterSetting
-
     {
-
-        return $this->waterSettings->find($waterSettingId);
+        foreach ($this->waterSettings as $waterSetting) {
+            if ($waterSetting->getWaterSettingId()->equals($waterSettingId)) {
+                return $waterSetting;
+            }
+        }
+        throw new NotFoundException('指定した水やり設定IDは見つかりませんでした');
     }
 
     /**
-     * @param TarmWaterSetting $waterSetting
+     * @param WaterSettingCollection $waterSettingCollection
      * @return void
      */
-    public function save(TarmWaterSetting $waterSetting): void
-    //コレクションが引数
+    public function save(WaterSettingCollection $waterSettingCollection): void
     {
-        $this->waterSettings->add($waterSetting);
+        $collectionArray = $waterSettingCollection->toArray();
+        foreach ($collectionArray as $collectionValue) {
+            $this->waterSettings[] = $collectionValue;
+        }
     }
 
     /**
-
-     * @param TarmWaterSetting $waterSetting
+     * @param WaterSettingID $waterSettingId
      * @return void
+     * @throws NotFoundException
      */
-    public function delete(TarmWaterSetting $waterSetting): void
-
+    public function delete(WaterSettingID $waterSettingId): void
     {
-        $this->waterSettings->delete($waterSetting);
+        $deleteSetting = $this->findById($waterSettingId);
+        $index = array_search($deleteSetting, $this->waterSettings);
+        unset($this->waterSettings[$index]);
+
     }
 }

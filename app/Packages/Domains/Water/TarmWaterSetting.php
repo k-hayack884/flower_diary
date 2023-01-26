@@ -129,6 +129,7 @@ class TarmWaterSetting
         return implode(",", $this->alertTimes);
     }
 
+
     /**
      * @return WaterSettingID
      */

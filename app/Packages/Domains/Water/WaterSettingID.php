@@ -22,7 +22,6 @@ class WaterSettingID
         return $this->uuid->getValue();
     }
 
-
     /**
      * @param WaterCheckSeatID $waterSettingID
      * @return bool
