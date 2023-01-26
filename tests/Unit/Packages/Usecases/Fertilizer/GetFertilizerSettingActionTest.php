@@ -24,7 +24,7 @@ class GetFertilizerSettingActionTest extends TestCase
         });
         $result = (app()->make(GetFertilizerSettingsAction::class))->__invoke($request);
 
-        $this->assertInstanceOf(FertilizerSettingDto::class, $result->fertilizeSettings[0]);
-        $this->assertSame('983c1092-7a0d-40b0-af6e-30bff5975e31',$result->fertilizeSettings[0]->fertilizerSettingId);
+        $this->assertInstanceOf(FertilizerSettingDto::class, $result->fertilizerSettings[0]);
+        $this->assertSame('983c1092-7a0d-40b0-af6e-30bff5975e31',$result->fertilizerSettings[0]->fertilizerSettingId);
     }
 }

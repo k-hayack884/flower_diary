@@ -8,8 +8,8 @@ class FertilizerSettingDto
         public string $fertilizerSettingId,
         public array  $months,
         public string $note,
-        public int $fertilizerAmount,
-        public string    $wateringName
+        public int    $fertilizerAmount,
+        public string $fertilizerName
     )
     {
     }

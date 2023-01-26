@@ -9,8 +9,11 @@ class fertilizerName
     public const RESET = '';
     private string $name;
 
-    public function __construct(string $name)
+    public function __construct(string|null $name=null)
     {
+        if($name===null){
+            $this->name='';
+        }
         if (mb_strlen($name) > 10) {
             throw new DomainException('肥料の名前は１０字以下に設定してください');
         }
@@ -21,7 +24,7 @@ class fertilizerName
      * @param string|null $name
      * @return fertilizerName
      */
-    public function update(string|null $name): fertilizerName
+    public function update(string|null $name=null): fertilizerName
     {
         if (mb_strlen($name) > 10) {
             throw new DomainException('肥料の名前は１０字以下に設定してください');

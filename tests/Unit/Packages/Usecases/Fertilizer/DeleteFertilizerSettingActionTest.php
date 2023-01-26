@@ -3,7 +3,7 @@
 namespace Packages\Usecases\Fertilizer;
 
 use App\Exceptions\NotFoundException;
-use App\Packages\Domains\Fertilizer\FertilizerSettingID;
+use App\Packages\Domains\Fertilizer\FertilizerSettingId;
 use App\Packages\Domains\Shared\Uuid;
 use App\Packages\infrastructures\Fertilizer\MockFertilizerRepository;
 use App\Packages\Presentations\Requests\Fertilizer\DeleteFertilizerSettingRequest;
@@ -25,10 +25,10 @@ class DeleteFertilizerSettingActionTest extends TestCase
                 $mockFertilizerSettingRepository
             );
         });
-        $this->expectExceptionMessage('選んだ設定が見つかりませんでした (id:' . $fertilizerSettingId . ')');
+        $this->expectExceptionMessage('指定した肥料設定IDは見つかりませんでした (id:' . $fertilizerSettingId . ')');
         $this->expectException(NotFoundException::class);
         $result = (app()->make(DeleteFertilizerSettingAction::class))->__invoke($request, $fertilizerSettingId);
-        $fertilizerSetting = $mockFertilizerSettingRepository->findById(new FertilizerSettingID($fertilizerSettingId));
+        $fertilizerSetting = $mockFertilizerSettingRepository->findById(new FertilizerSettingId($fertilizerSettingId));
     }
 
     public function test_存在しない水やり設定IDを入力するとエラーを返すこと()
@@ -44,9 +44,9 @@ class DeleteFertilizerSettingActionTest extends TestCase
                 $mockFertilizerSettingRepository
             );
         });
-        $this->expectExceptionMessage('選んだ設定が見つかりませんでした (id:' . $fertilizerSettingId . ')');
+        $this->expectExceptionMessage('指定した肥料設定IDは見つかりませんでした (id:' . $fertilizerSettingId . ')');
         $this->expectException(NotFoundException::class);
         $result = (app()->make(DeleteFertilizerSettingAction::class))->__invoke($request, $fertilizerSettingId);
-        $fertilizerSetting = $mockFertilizerSettingRepository->findById(new FertilizerSettingID($fertilizerSettingId));
+        $fertilizerSetting = $mockFertilizerSettingRepository->findById(new FertilizerSettingId($fertilizerSettingId));
     }
 }

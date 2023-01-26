@@ -35,15 +35,15 @@ class FertilizerSettingCollection implements IteratorAggregate
     }
 
     /**
-     * @param FertilizerSettingID $fertilizerSettingId
+     * @param FertilizerSettingId $fertilizerSettingId
      * @return Closure
      * @throws NotFoundException
      */
-    public function findById(FertilizerSettingID $fertilizerSettingId)
+    public function findById(FertilizerSettingId $fertilizerSettingId)
     {
         $fertilizerSetting= $this->collection->get($fertilizerSettingId->getId());
         if (is_null($fertilizerSetting)) {
-            throw new NotFoundException('選んだ設定が見つかりませんでした (id:' . $fertilizerSettingId->getId() . ')');
+            throw new NotFoundException('指定した肥料設定IDが見つかりませんでした (id:' . $fertilizerSettingId->getId() . ')');
         }
         return $fertilizerSetting;
     }

@@ -5,7 +5,8 @@ namespace App\Packages\Usecases\Fertilizer;
 use App\Packages\Domains\Fertilizer\FertilizerAmount;
 use App\Packages\Domains\Fertilizer\fertilizerName;
 use App\Packages\Domains\Fertilizer\FertilizerRepositoryInterface;
-use App\Packages\Domains\Fertilizer\FertilizerSettingID;
+use App\Packages\Domains\Fertilizer\FertilizerSettingCollection;
+use App\Packages\Domains\Fertilizer\FertilizerSettingId;
 use App\Packages\Domains\Fertilizer\MonthsFertilizerSetting;
 use App\Packages\Presentations\Requests\Fertilizer\UpdateFertilizerSettingRequest;
 use App\Packages\Usecases\Dto\Fertilizer\FertilizerSettingWrapDto;
@@ -29,7 +30,7 @@ class UpdateFertilizerSettingAction
             'fertilizerSetting.name' => $updateFertilizerSettingRequest->getName(),
         ];
 
-        $fertilizerSetting = $this->fertilizerSettingRepository->findById(new FertilizerSettingID($fertilizerSettingId));
+        $fertilizerSetting = $this->fertilizerSettingRepository->findById(new FertilizerSettingId($fertilizerSettingId));
 
         $updateMonths = $requestArray['fertilizerSetting.months'];
         $updateNote = $fertilizerSetting->getFertilizerNote()->update($requestArray['fertilizerSetting.note']);
@@ -38,13 +39,14 @@ class UpdateFertilizerSettingAction
 
         try {
             $updateFertilizerSetting = new MonthsFertilizerSetting(
-                new FertilizerSettingID($fertilizerSettingId),
+                new FertilizerSettingId($fertilizerSettingId),
                 $updateMonths,
                 $updateNote,
                 $updateAmount,
                 $updateName,
             );
-            $this->fertilizerSettingRepository->save($updateFertilizerSetting);
+            $fertilizerSettingCollection = new FertilizerSettingCollection();
+            $this->fertilizerSettingRepository->save($fertilizerSettingCollection);
         } catch (Exception $e) {
             throw  $e;
         }
