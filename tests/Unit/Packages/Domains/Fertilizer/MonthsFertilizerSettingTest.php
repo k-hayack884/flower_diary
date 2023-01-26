@@ -5,7 +5,7 @@ namespace Packages\Domains\Fertilizer;
 use App\Packages\Domains\Fertilizer\FertilizerAmount;
 use App\Packages\Domains\Fertilizer\fertilizerName;
 use App\Packages\Domains\Fertilizer\FertilizerNote;
-use App\Packages\Domains\Fertilizer\FertilizerSettingID;
+use App\Packages\Domains\Fertilizer\FertilizerSettingId;
 use App\Packages\Domains\Fertilizer\MonthsFertilizerSetting;
 use DomainException;
 use PHPUnit\Framework\TestCase;
@@ -14,7 +14,7 @@ class MonthsFertilizerSettingTest extends TestCase
 {
     public function setUp(): void
     {
-        $this->fertilizerSettingId=new FertilizerSettingID();
+        $this->fertilizerSettingId=new FertilizerSettingId();
         $this->note=new FertilizerNote('株からある程度離して');
         $this->fertilizerAmount=new FertilizerAmount(100);
         $this->fertilizerName=new fertilizerName('牛糞堆肥');

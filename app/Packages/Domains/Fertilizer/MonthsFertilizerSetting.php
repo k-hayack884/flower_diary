@@ -11,16 +11,16 @@ use DomainException;
 
 class MonthsFertilizerSetting
 {
-    private FertilizerSettingID $fertilizerSettingID;
+    private FertilizerSettingId $fertilizerSettingId;
     private array $months = [];
     private FertilizerNote $fertilizerNote;
     private FertilizerAmount $fertilizerAmount;
     private FertilizerName $fertilizerName;
 
-    public const RESET = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+    public const RESET = [];
 
     public function __construct(
-        FertilizerSettingID $fertilizerSettingID,
+        FertilizerSettingId $fertilizerSettingId,
         array               $months,
         FertilizerNote      $fertilizerNote,
         FertilizerAmount    $fertilizerAmount,
@@ -35,7 +35,7 @@ class MonthsFertilizerSetting
                 throw new DomainException('その文字は使用できません');
             }
         }
-        $this->fertilizerSettingID = $fertilizerSettingID;
+        $this->fertilizerSettingId = $fertilizerSettingId;
         $this->months = $months;
         $this->fertilizerNote = $fertilizerNote;
         $this->fertilizerAmount = $fertilizerAmount;
@@ -88,11 +88,11 @@ class MonthsFertilizerSetting
     }
 
     /**
-     * @return FertilizerSettingID
+     * @return FertilizerSettingId
      */
-    public function getFertilizerSettingId(): FertilizerSettingID
+    public function getFertilizerSettingId(): FertilizerSettingId
     {
-        return $this->fertilizerSettingID;
+        return $this->fertilizerSettingId;
     }
 
     /**

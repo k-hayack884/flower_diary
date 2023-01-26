@@ -31,7 +31,7 @@ class GetFertilizerSettingsAction
 
         foreach ($fertilizerSettingCollection as $fertilizerSetting) {
             $fertilizerSettingDtos[] = new FertilizerSettingDto(
-                $fertilizerSetting->getFertilizerSettingId(),
+                $fertilizerSetting->getFertilizerSettingId()->getId(),
                 $fertilizerSetting->getMonths(),
                 $fertilizerSetting->getFertilizerNote()->getvalue(),
                 $fertilizerSetting->getFertilizerAmount()->getValue(),

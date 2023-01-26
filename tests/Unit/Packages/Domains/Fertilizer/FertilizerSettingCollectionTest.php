@@ -7,7 +7,7 @@ use App\Packages\Domains\Fertilizer\FertilizerAmount;
 use App\Packages\Domains\Fertilizer\fertilizerName;
 use App\Packages\Domains\Fertilizer\FertilizerNote;
 use App\Packages\Domains\Fertilizer\FertilizerSettingCollection;
-use App\Packages\Domains\Fertilizer\FertilizerSettingID;
+use App\Packages\Domains\Fertilizer\FertilizerSettingId;
 use App\Packages\Domains\Fertilizer\MonthsFertilizerSetting;
 use PHPUnit\Framework\TestCase;
 
@@ -17,14 +17,14 @@ class FertilizerSettingCollectionTest extends TestCase
     {
         $fertilizerSettings = [
             new MonthsFertilizerSetting(
-                new FertilizerSettingID('983c1092-7a0d-40b0-af6e-30bff5975e31'),
+                new FertilizerSettingId('983c1092-7a0d-40b0-af6e-30bff5975e31'),
                 [1, 3, 5],
                 new FertilizerNote('株からある程度離して'),
                 new FertilizerAmount(100),
                 new fertilizerName('牛糞堆肥'),
             ),
             new MonthsFertilizerSetting(
-                new FertilizerSettingID('334c1092-7a0d-40b0-af6e-30bff5975e31'),
+                new FertilizerSettingId('334c1092-7a0d-40b0-af6e-30bff5975e31'),
                 [1, 3, 5],
                 new FertilizerNote('なんでや！阪神関係ないやろ！'),
                 new FertilizerAmount(334),
@@ -53,14 +53,14 @@ class FertilizerSettingCollectionTest extends TestCase
     {
         $fertilizerSettings = [
             new MonthsFertilizerSetting(
-                new FertilizerSettingID('983c1092-7a0d-40b0-af6e-30bff5975e31'),
+                new FertilizerSettingId('983c1092-7a0d-40b0-af6e-30bff5975e31'),
                 [1, 3, 5],
                 new FertilizerNote('株からある程度離して'),
                 new FertilizerAmount(100),
                 new fertilizerName('牛糞堆肥'),
             ),
             new MonthsFertilizerSetting(
-                new FertilizerSettingID('334c1092-7a0d-40b0-af6e-30bff5975e31'),
+                new FertilizerSettingId('334c1092-7a0d-40b0-af6e-30bff5975e31'),
                 [1, 3, 5],
                 new FertilizerNote('なんでや！阪神関係ないやろ！'),
                 new FertilizerAmount(334),
@@ -72,7 +72,7 @@ class FertilizerSettingCollectionTest extends TestCase
 
         $addFertilizerSettingSetting =
             new MonthsFertilizerSetting(
-                new FertilizerSettingID('114c5142-7a0d-40b0-af6e-30bff5975e31'),
+                new FertilizerSettingId('114c5142-7a0d-40b0-af6e-30bff5975e31'),
                 [5, 7, 8],
                 new FertilizerNote('たくさんあげよう'),
                 new FertilizerAmount(114),
@@ -91,14 +91,14 @@ class FertilizerSettingCollectionTest extends TestCase
     {
         $fertilizerSettings = [
             new MonthsFertilizerSetting(
-                new FertilizerSettingID('983c1092-7a0d-40b0-af6e-30bff5975e31'),
+                new FertilizerSettingId('983c1092-7a0d-40b0-af6e-30bff5975e31'),
                 [1, 3, 5],
                 new FertilizerNote('株からある程度離して'),
                 new FertilizerAmount(100),
                 new fertilizerName('牛糞堆肥'),
             ),
             new MonthsFertilizerSetting(
-                new FertilizerSettingID('334c1092-7a0d-40b0-af6e-30bff5975e31'),
+                new FertilizerSettingId('334c1092-7a0d-40b0-af6e-30bff5975e31'),
                 [1, 3, 5],
                 new FertilizerNote('なんでや！阪神関係ないやろ！'),
                 new FertilizerAmount(334),
@@ -108,7 +108,7 @@ class FertilizerSettingCollectionTest extends TestCase
 
 
         $fertilizerSettingCollection = new FertilizerSettingCollection($fertilizerSettings);
-        $fertilizerSettingId = new FertilizerSettingID('334c1092-7a0d-40b0-af6e-30bff5975e31');
+        $fertilizerSettingId = new FertilizerSettingId('334c1092-7a0d-40b0-af6e-30bff5975e31');
         $deleteFertilizerSetting = $fertilizerSettingCollection->findById($fertilizerSettingId);
 
         $fertilizerSettingCollection->delete($deleteFertilizerSetting);

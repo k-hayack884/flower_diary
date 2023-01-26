@@ -12,7 +12,7 @@ class FertilizerSettingsDtoFactory
     {
         return new FertilizerSettingWrapDto(
             new FertilizerSettingDto(
-                $fertilizerSetting->getFertilizerSettingId(),
+                $fertilizerSetting->getFertilizerSettingId()->getId(),
                 $fertilizerSetting->getMonths(),
                 $fertilizerSetting->getFertilizerNote()->getvalue(),
                 $fertilizerSetting->getFertilizerAmount()->getValue(),

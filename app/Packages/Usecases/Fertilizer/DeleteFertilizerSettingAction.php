@@ -3,7 +3,7 @@
 namespace App\Packages\Usecases\Fertilizer;
 
 use App\Packages\Domains\Fertilizer\FertilizerRepositoryInterface;
-use App\Packages\Domains\Fertilizer\FertilizerSettingID;
+use App\Packages\Domains\Fertilizer\FertilizerSettingId;
 use App\Packages\Domains\Water\FertilizerSettingRepositoryInterface;
 use App\Packages\Presentations\Requests\Fertilizer\DeleteFertilizerSettingRequest;
 use PHPUnit\Exception;
@@ -33,9 +33,8 @@ class DeleteFertilizerSettingAction
     ): void
     {
         try {
-            $fertilizerSettingId = new FertilizerSettingID($fertilizerSettingIdValue);
-            $fertilizerSetting = $this->fertilizerSettingRepository->findById($fertilizerSettingId);
-            $this->fertilizerSettingRepository->delete($fertilizerSetting);
+            $fertilizerSettingId = new FertilizerSettingId($fertilizerSettingIdValue);
+            $this->fertilizerSettingRepository->delete($fertilizerSettingId);
         } catch (Exception $e) {
             throw  $e;
         }

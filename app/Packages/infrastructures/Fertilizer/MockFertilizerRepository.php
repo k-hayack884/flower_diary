@@ -8,7 +8,7 @@ use App\Packages\Domains\Fertilizer\fertilizerName;
 use App\Packages\Domains\Fertilizer\FertilizerNote;
 use App\Packages\Domains\Fertilizer\FertilizerRepositoryInterface;
 use App\Packages\Domains\Fertilizer\FertilizerSettingCollection;
-use App\Packages\Domains\Fertilizer\FertilizerSettingID;
+use App\Packages\Domains\Fertilizer\FertilizerSettingId;
 use App\Packages\Domains\Fertilizer\MonthsFertilizerSetting;
 
 class MockFertilizerRepository implements FertilizerRepositoryInterface
@@ -18,7 +18,7 @@ class MockFertilizerRepository implements FertilizerRepositoryInterface
     {
         $this->fertilizerSettings[]=
             new MonthsFertilizerSetting(
-                new FertilizerSettingID('983c1092-7a0d-40b0-af6e-30bff5975e31'),
+                new FertilizerSettingId('983c1092-7a0d-40b0-af6e-30bff5975e31'),
                 [1, 3, 5],
                 new FertilizerNote('株からある程度離して'),
                 new FertilizerAmount(100),
@@ -26,7 +26,7 @@ class MockFertilizerRepository implements FertilizerRepositoryInterface
         );
         $this->fertilizerSettings[]=
             new MonthsFertilizerSetting(
-            new FertilizerSettingID('334c1092-7a0d-40b0-af6e-30bff5975e31'),
+            new FertilizerSettingId('334c1092-7a0d-40b0-af6e-30bff5975e31'),
             [1, 3, 5],
             new FertilizerNote('なんでや！阪神関係ないやろ！'),
             new FertilizerAmount(334),
@@ -43,11 +43,11 @@ class MockFertilizerRepository implements FertilizerRepositoryInterface
     }
 
     /**
-     * @param FertilizerSettingID $fertilizerSettingId
+     * @param FertilizerSettingId $fertilizerSettingId
      * @return MonthsFertilizerSetting
      * @throws NotFoundException
      */
-    public function findById(FertilizerSettingID $fertilizerSettingId): MonthsFertilizerSetting
+    public function findById(FertilizerSettingId $fertilizerSettingId): MonthsFertilizerSetting
     {
 
         foreach ($this->fertilizerSettings as $fertilizerSetting) {
@@ -55,7 +55,7 @@ class MockFertilizerRepository implements FertilizerRepositoryInterface
                 return $fertilizerSetting;
             }
         }
-        throw new NotFoundException('指定した水やり設定IDは見つかりませんでした');
+        throw new NotFoundException('指定した肥料設定IDは見つかりませんでした (id:' . $fertilizerSettingId->getId() . ')');
     }
 
     /**
@@ -71,10 +71,10 @@ class MockFertilizerRepository implements FertilizerRepositoryInterface
     }
 
     /**
-     * @param FertilizerSettingID $fertilizerSettingId
+     * @param FertilizerSettingId $fertilizerSettingId
      * @return void
      */
-    public function delete(FertilizerSettingID $fertilizerSettingId): void
+    public function delete(FertilizerSettingId $fertilizerSettingId): void
     {
         $deleteSetting = $this->findById($fertilizerSettingId);
         $index = array_search($deleteSetting, $this->fertilizerSettings);

@@ -6,7 +6,8 @@ use App\Packages\Domains\Fertilizer\FertilizerAmount;
 use App\Packages\Domains\Fertilizer\fertilizerName;
 use App\Packages\Domains\Fertilizer\FertilizerNote;
 use App\Packages\Domains\Fertilizer\FertilizerRepositoryInterface;
-use App\Packages\Domains\Fertilizer\FertilizerSettingID;
+use App\Packages\Domains\Fertilizer\FertilizerSettingCollection;
+use App\Packages\Domains\Fertilizer\FertilizerSettingId;
 use App\Packages\Domains\Fertilizer\MonthsFertilizerSetting;
 use App\Packages\Presentations\Requests\Fertilizer\CreateFertilizerSettingRequest;
 use App\Packages\Usecases\Dto\Fertilizer\FertilizerSettingWrapDto;
@@ -29,7 +30,7 @@ class CreateFertilizerSettingAction
             'fertilizerSetting.name' => $createFertilizerSettingRequest->getName(),
         ];
         try {
-            $fertilizerSettingId = new FertilizerSettingID();
+            $fertilizerSettingId = new FertilizerSettingId();
             $fertilizerSettingMonths = $requestArray['fertilizerSetting.months'];
             $fertilizerSettingNote = new FertilizerNote($requestArray['fertilizerSetting.note']);
             $fertilizerSettingAmount = new FertilizerAmount($requestArray['fertilizerSetting.amount']);
@@ -42,7 +43,8 @@ class CreateFertilizerSettingAction
                 $fertilizerSettingAmount,
                 $fertilizerSettingName,
             );
-            $this->fertilizerSettingRepository->save($fertilizerSetting);
+            $FertilizerSettingCollection=new FertilizerSettingCollection();
+            $this->fertilizerSettingRepository->save($FertilizerSettingCollection);
         } catch (Exception $e) {
             throw  $e;
         }

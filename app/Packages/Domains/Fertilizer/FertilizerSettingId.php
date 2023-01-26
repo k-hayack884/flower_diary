@@ -4,10 +4,11 @@ namespace App\Packages\Domains\Fertilizer;
 
 use App\Packages\Domains\Shared\Uuid;
 
-class FertilizerSettingID
+class FertilizerSettingId
 {
-    private Uuid $uuid;
     private string $value;
+    private Uuid $uuid;
+
 
     public function __construct(string|null $value = null)
     {
@@ -23,10 +24,10 @@ class FertilizerSettingID
     }
 
     /**
-     * @param FertilizerSettingID $fertilizerSettingID
+     * @param FertilizerSettingId $fertilizerSettingID
      * @return bool
      */
-    public function equals(FertilizerSettingID $fertilizerSettingID): bool
+    public function equals(FertilizerSettingId $fertilizerSettingID): bool
     {
         return $this->getId() === $fertilizerSettingID->getId();
     }

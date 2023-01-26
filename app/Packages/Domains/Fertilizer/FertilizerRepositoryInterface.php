@@ -6,9 +6,9 @@ interface FertilizerRepositoryInterface
 {
     public function find();
 
-    public function findById(FertilizerSettingID $fertilizerSettingId);
+    public function findById(FertilizerSettingId $fertilizerSettingId);
 
     public function save(FertilizerSettingCollection $fertilizerSetting);
 
-    public function delete(FertilizerSettingID $fertilizerSettingId);
+    public function delete(FertilizerSettingId $fertilizerSettingId);
 }
