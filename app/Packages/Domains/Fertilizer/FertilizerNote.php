@@ -25,7 +25,7 @@ class FertilizerNote
     /**
      * @return string
      */
-    public function getvalue(): string
+    public function getValue(): string
     {
         return $this->note;
     }

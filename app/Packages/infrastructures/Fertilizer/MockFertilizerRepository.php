@@ -9,7 +9,7 @@ use App\Packages\Domains\Fertilizer\FertilizerNote;
 use App\Packages\Domains\Fertilizer\FertilizerRepositoryInterface;
 use App\Packages\Domains\Fertilizer\FertilizerSettingCollection;
 use App\Packages\Domains\Fertilizer\FertilizerSettingID;
-use App\Packages\Domains\Fertilizer\TarmFertilizerSetting;
+use App\Packages\Domains\Fertilizer\MonthsFertilizerSetting;
 
 class MockFertilizerRepository implements FertilizerRepositoryInterface
 {
@@ -17,7 +17,7 @@ class MockFertilizerRepository implements FertilizerRepositoryInterface
     public function __construct()
     {
         $this->fertilizerSettings[]=
-            new TarmFertilizerSetting(
+            new MonthsFertilizerSetting(
                 new FertilizerSettingID('983c1092-7a0d-40b0-af6e-30bff5975e31'),
                 [1, 3, 5],
                 new FertilizerNote('株からある程度離して'),
@@ -25,7 +25,7 @@ class MockFertilizerRepository implements FertilizerRepositoryInterface
                 new fertilizerName('牛糞堆肥'),
         );
         $this->fertilizerSettings[]=
-            new TarmFertilizerSetting(
+            new MonthsFertilizerSetting(
             new FertilizerSettingID('334c1092-7a0d-40b0-af6e-30bff5975e31'),
             [1, 3, 5],
             new FertilizerNote('なんでや！阪神関係ないやろ！'),
@@ -44,10 +44,10 @@ class MockFertilizerRepository implements FertilizerRepositoryInterface
 
     /**
      * @param FertilizerSettingID $fertilizerSettingId
-     * @return TarmFertilizerSetting
+     * @return MonthsFertilizerSetting
      * @throws NotFoundException
      */
-    public function findById(FertilizerSettingID $fertilizerSettingId): TarmFertilizerSetting
+    public function findById(FertilizerSettingID $fertilizerSettingId): MonthsFertilizerSetting
     {
 
         foreach ($this->fertilizerSettings as $fertilizerSetting) {

@@ -9,7 +9,7 @@ use App\Packages\Domains\Water\WaterNote;
 use App\Packages\Domains\Water\WaterSettingId;
 use DomainException;
 
-class TarmFertilizerSetting
+class MonthsFertilizerSetting
 {
     private FertilizerSettingID $fertilizerSettingID;
     private array $months = [];
@@ -44,9 +44,9 @@ class TarmFertilizerSetting
 
     /**
      * @param array $months
-     * @return TarmFertilizerSetting
+     * @return MonthsFertilizerSetting
      */
-    public function tarmUpdate(array $months): TarmFertilizerSetting
+    public function tarmUpdate(array $months): MonthsFertilizerSetting
     {
         if (count($months) > 13) {
             throw new DomainException('月の数が１３個以上あります');
@@ -66,9 +66,9 @@ class TarmFertilizerSetting
     }
 
     /**
-     * @return TarmFertilizerSetting
+     * @return MonthsFertilizerSetting
      */
-    public function tarmReset(): TarmFertilizerSetting
+    public function tarmReset(): MonthsFertilizerSetting
     {
         return new self(
             $this->fertilizerSettingID,

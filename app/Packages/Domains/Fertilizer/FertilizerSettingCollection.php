@@ -26,10 +26,10 @@ class FertilizerSettingCollection implements IteratorAggregate
     }
 
     /**
-     * @param TarmFertilizerSetting $fertilizerSetting
+     * @param MonthsFertilizerSetting $fertilizerSetting
      * @return void
      */
-    public function add(TarmFertilizerSetting $fertilizerSetting)
+    public function add(MonthsFertilizerSetting $fertilizerSetting)
     {
         $this->collection->put($fertilizerSetting->getFertilizerSettingId()->getId(), $fertilizerSetting);
     }
@@ -49,10 +49,10 @@ class FertilizerSettingCollection implements IteratorAggregate
     }
 
     /**
-     * @param TarmFertilizerSetting $fertilizerSetting
+     * @param MonthsFertilizerSetting $fertilizerSetting
      * @return void
      */
-    public function delete(TarmFertilizerSetting $fertilizerSetting):void
+    public function delete(MonthsFertilizerSetting $fertilizerSetting):void
     {
         $this->collection->forget($fertilizerSetting->getFertilizerSettingId()->getId());
     }

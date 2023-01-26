@@ -7,7 +7,7 @@ use App\Packages\Domains\Fertilizer\fertilizerName;
 use App\Packages\Domains\Fertilizer\FertilizerNote;
 use App\Packages\Domains\Fertilizer\FertilizerRepositoryInterface;
 use App\Packages\Domains\Fertilizer\FertilizerSettingID;
-use App\Packages\Domains\Fertilizer\TarmFertilizerSetting;
+use App\Packages\Domains\Fertilizer\MonthsFertilizerSetting;
 use App\Packages\Presentations\Requests\Fertilizer\CreateFertilizerSettingRequest;
 use App\Packages\Usecases\Dto\Fertilizer\FertilizerSettingWrapDto;
 
@@ -35,7 +35,7 @@ class CreateFertilizerSettingAction
             $fertilizerSettingAmount = new FertilizerAmount($requestArray['fertilizerSetting.amount']);
             $fertilizerSettingName = new FertilizerName($requestArray['fertilizerSetting.name']);
 
-            $fertilizerSetting = new TarmFertilizerSetting(
+            $fertilizerSetting = new MonthsFertilizerSetting(
                 $fertilizerSettingId,
                 $fertilizerSettingMonths,
                 $fertilizerSettingNote,
