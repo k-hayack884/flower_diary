@@ -2,7 +2,7 @@
 
 namespace App\Packages\Usecases\Water;
 
-use App\Packages\Domains\Water\WaterSettingID;
+use App\Packages\Domains\Water\WaterSettingId;
 use App\Packages\Domains\Water\WaterSettingRepositoryInterface;
 use App\Packages\Presentations\Requests\Water\DeleteWaterSettingRequest;
 use PHPUnit\Exception;
@@ -32,7 +32,7 @@ class DeleteWaterSettingAction
     ): void
     {
         try {
-            $waterSettingId = new WaterSettingID($waterSettingIdValue);
+            $waterSettingId = new WaterSettingId($waterSettingIdValue);
             $waterSetting = $this->waterSettingRepository->findById($waterSettingId);
             $this->waterSettingRepository->delete($waterSetting);
         } catch (Exception $e) {

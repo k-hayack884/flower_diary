@@ -3,15 +3,15 @@
 namespace App\Packages\infrastructures\Water;
 
 use App\Exceptions\NotFoundException;
-use App\Packages\Domains\Water\TarmWaterSetting;
+use App\Packages\Domains\Water\MonthsWaterSetting;
 use App\Packages\Domains\Water\WaterAmount;
 use App\Packages\Domains\Water\WateringInterval;
 use App\Packages\Domains\Water\WateringTimes;
 use App\Packages\Domains\Water\WaterNote;
 use App\Packages\Domains\Water\WaterSetting;
 use App\Packages\Domains\Water\WaterSettingCollection;
-use App\Packages\Domains\Water\WaterSettingID;
-use Illuminate\Support\Collection;
+use App\Packages\Domains\Water\WaterSettingId;
+use App\Packages\Domains\Water\WaterSettingRepositoryInterface;
 
 class MockWaterRepository implements WaterSettingRepositoryInterface
 {
@@ -20,8 +20,8 @@ class MockWaterRepository implements WaterSettingRepositoryInterface
     public function __construct()
     {
         $this->waterSettings[] =
-            new TarmWaterSetting(
-                new WaterSettingID('983c1092-7a0d-40b0-af6e-30bff5975e31'),
+            new MonthsWaterSetting(
+                new WaterSettingId('983c1092-7a0d-40b0-af6e-30bff5975e31'),
                 [1, 3, 5],
                 new WaterNote('水やりは慎重に'),
                 new WaterAmount('a_lot'),
@@ -30,8 +30,8 @@ class MockWaterRepository implements WaterSettingRepositoryInterface
                 ['09:00', '23:30']
             );
         $this->waterSettings[] =
-            new TarmWaterSetting(
-                new WaterSettingID('334c1092-7a0d-40b0-af6e-30bff5975e31'),
+            new MonthsWaterSetting(
+                new WaterSettingId('334c1092-7a0d-40b0-af6e-30bff5975e31'),
                 [1, 3, 5],
                 new WaterNote('なんでや！阪神関係ないやろ！'),
                 new WaterAmount('sparingly'),
@@ -51,11 +51,11 @@ class MockWaterRepository implements WaterSettingRepositoryInterface
     }
 
     /**
-     * @param WaterSettingID $waterSettingId
-     * @return TarmWaterSetting
+     * @param WaterSettingId $waterSettingId
+     * @return MonthsWaterSetting
      * @throws NotFoundException
      */
-    public function findById(WaterSettingID $waterSettingId): TarmWaterSetting
+    public function findById(WaterSettingId $waterSettingId): MonthsWaterSetting
     {
         foreach ($this->waterSettings as $waterSetting) {
             if ($waterSetting->getWaterSettingId()->equals($waterSettingId)) {
@@ -78,11 +78,11 @@ class MockWaterRepository implements WaterSettingRepositoryInterface
     }
 
     /**
-     * @param WaterSettingID $waterSettingId
+     * @param WaterSettingId $waterSettingId
      * @return void
      * @throws NotFoundException
      */
-    public function delete(WaterSettingID $waterSettingId): void
+    public function delete(WaterSettingId $waterSettingId): void
     {
         $deleteSetting = $this->findById($waterSettingId);
         $index = array_search($deleteSetting, $this->waterSettings);

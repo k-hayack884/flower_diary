@@ -28,20 +28,20 @@ class WaterSettingCollection implements IteratorAggregate
     }
 
     /**
-     * @param TarmWaterSetting $waterSetting
+     * @param MonthsWaterSetting $waterSetting
      * @return void
      */
-    public function add(TarmWaterSetting $waterSetting)
+    public function add(MonthsWaterSetting $waterSetting)
     {
         $this->collection->put($waterSetting->getWaterSettingId()->getId(), $waterSetting);
     }
 
     /**
-     * @param WaterSettingID $waterSettingId
+     * @param WaterSettingId $waterSettingId
      * @return Closure
      * @throws NotFoundException
      */
-    public function findById(WaterSettingID $waterSettingId)
+    public function findById(WaterSettingId $waterSettingId)
     {
         $waterSetting = $this->collection->get($waterSettingId->getId());
         if (is_null($waterSetting)) {
@@ -51,10 +51,10 @@ class WaterSettingCollection implements IteratorAggregate
     }
 
     /**
-     * @param TarmWaterSetting $waterSetting
+     * @param MonthsWaterSetting $waterSetting
      * @return void
      */
-    public function delete(TarmWaterSetting $waterSetting):void
+    public function delete(MonthsWaterSetting $waterSetting):void
     {
         $this->collection->forget($waterSetting->getWaterSettingId()->getId());
     }

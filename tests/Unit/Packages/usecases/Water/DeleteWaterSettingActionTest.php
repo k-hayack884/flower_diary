@@ -4,7 +4,7 @@ namespace Packages\usecases\Water;
 
 use App\Exceptions\NotFoundException;
 use App\Packages\Domains\Shared\Uuid;
-use App\Packages\Domains\Water\WaterSettingID;
+use App\Packages\Domains\Water\WaterSettingId;
 use App\Packages\infrastructures\Water\MockWaterRepository;
 use App\Packages\Presentations\Requests\Water\DeleteWaterSettingRequest;
 use App\Packages\Usecases\Water\DeleteWaterSettingAction;
@@ -28,7 +28,7 @@ class DeleteWaterSettingActionTest extends TestCase
         $this->expectExceptionMessage('選んだ設定が見つかりませんでした (id:' . $waterSettingId . ')');
         $this->expectException(NotFoundException::class);
         $result = (app()->make(DeleteWaterSettingAction::class))->__invoke($request, $waterSettingId);
-        $waterSetting = $mockWaterSettingRepository->findById(new WaterSettingID($waterSettingId));
+        $waterSetting = $mockWaterSettingRepository->findById(new WaterSettingId($waterSettingId));
     }
 
     public function test_存在しない水やり設定IDを入力するとエラーを返すこと()
@@ -47,6 +47,6 @@ class DeleteWaterSettingActionTest extends TestCase
         $this->expectExceptionMessage('選んだ設定が見つかりませんでした (id:' . $waterSettingId . ')');
         $this->expectException(NotFoundException::class);
         $result = (app()->make(DeleteWaterSettingAction::class))->__invoke($request, $waterSettingId);
-        $waterSetting = $mockWaterSettingRepository->findById(new WaterSettingID($waterSettingId));
+        $waterSetting = $mockWaterSettingRepository->findById(new WaterSettingId($waterSettingId));
     }
 }
