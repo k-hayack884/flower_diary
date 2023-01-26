@@ -13,7 +13,7 @@ use App\Packages\Domains\Water\WaterSettingCollection;
 use App\Packages\Domains\Water\WaterSettingID;
 use Illuminate\Support\Collection;
 
-class MockWaterRepository
+class MockWaterRepository implements WaterSettingRepositoryInterface
 {
     private array $waterSettings = [];
 
@@ -24,7 +24,7 @@ class MockWaterRepository
                 new WaterSettingID('983c1092-7a0d-40b0-af6e-30bff5975e31'),
                 [1, 3, 5],
                 new WaterNote('水やりは慎重に'),
-                WaterAmount::settingALot(),
+                new WaterAmount('a_lot'),
                 new WateringTimes(1),
                 new WateringInterval(2),
                 ['09:00', '23:30']
@@ -34,7 +34,7 @@ class MockWaterRepository
                 new WaterSettingID('334c1092-7a0d-40b0-af6e-30bff5975e31'),
                 [1, 3, 5],
                 new WaterNote('なんでや！阪神関係ないやろ！'),
-                WaterAmount::settingSparingly(),
+                new WaterAmount('sparingly'),
                 new WateringTimes(3),
                 new WateringInterval(34),
                 ['12:59', '3:34']
@@ -42,6 +42,7 @@ class MockWaterRepository
     }
 
     /**
+
      * @return array
      */
     public function find(): array
@@ -86,5 +87,6 @@ class MockWaterRepository
         $deleteSetting = $this->findById($waterSettingId);
         $index = array_search($deleteSetting, $this->waterSettings);
         unset($this->waterSettings[$index]);
+
     }
 }

@@ -34,7 +34,6 @@ class MockWaterRepositoryTest extends TestCase
     {
         $waterSettingId = new WaterSettingID('983c1092-7a0d-40b0-af6e-30bff5975e31');
         $waterSetting = $this->mockWaterRepository->findById($waterSettingId);
-
         $this->assertSame($waterSettingId->getId(),$waterSetting->getWaterSettingId()->getId());
     }
 
@@ -62,15 +61,19 @@ class MockWaterRepositoryTest extends TestCase
         $this->mockWaterRepository->save($WaterCollection);
 
         $addedWaterArray= $this->mockWaterRepository->find();
-
         $this->assertSame($addWaterSetting[0]->getWaterSettingId(), $addedWaterArray[2]->getWaterSettingId());
+
     }
 
     public function test_設定を削除する()
     {
         $waterSettingId = new WaterSettingID('983c1092-7a0d-40b0-af6e-30bff5975e31');
-        $this->mockWaterRepository->delete($waterSettingId);
+        $waterSetting = $this->mockWaterRepository->findById($waterSettingId);
+        $this->mockWaterRepository->delete($waterSetting);
         $this->expectException(NotFoundException::class);
         $waterSetting = $this->mockWaterRepository->findById($waterSettingId);
+
+
+
     }
 }

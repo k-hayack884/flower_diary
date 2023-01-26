@@ -9,6 +9,10 @@ class Uuid
 {
     private const UUID_LENGTH=36;
     private string $value;
+
+    /**
+     * @param string|null $value
+     */
     public function __construct(string|null $value=null)
     {
         if($value===null){
@@ -21,16 +25,26 @@ class Uuid
         }
     }
 
+    /**
+     * @return string|null
+     */
     public function getValue():?string
     {
         return $this->value;
     }
 
+    /**
+     * @param Uuid $uuid
+     * @return bool
+     */
     public function equals(Uuid $uuid):bool
     {
         return $this->value===$uuid->getvalue();
     }
 
+    /**
+     * @return String
+     */
     public function __toString():String
     {
         return $this->value;

@@ -80,6 +80,7 @@ class WaterSettingCollectionTest extends TestCase
 
         $waterSettingCollection = new WaterSettingCollection($waterSettings);
 
+
         $addWaterSetting =
             new TarmWaterSetting(
                 new WaterSettingID('114c5142-7a0d-40b0-af6e-30bff5975e31'),
@@ -95,7 +96,7 @@ class WaterSettingCollectionTest extends TestCase
 
         $this->assertCount(count($waterSettings), $waterSettingCollection);
         foreach ($waterSettingCollection as $index => $waterSetting) {
-            $this->assertSame($index, $waterSetting->getWaterSettingId()->getId());
+        this->assertSame($index, $waterSetting->getWaterSettingId()->getId());
         }
 
     }

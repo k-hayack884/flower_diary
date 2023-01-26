@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Packages\Domains\Water;
+namespace App\Packages\Domains\Fertilizer;
 
 use App\Packages\Domains\Shared\Uuid;
 
-class WaterSettingID
+class FertilizerSettingID
 {
-    private string $value;
     private Uuid $uuid;
+    private string $value;
 
     public function __construct(string|null $value = null)
     {
@@ -23,12 +23,12 @@ class WaterSettingID
     }
 
     /**
-     * @param WaterCheckSeatID $waterSettingID
+     * @param FertilizerSettingID $fertilizerSettingID
      * @return bool
      */
-    public function equals(WaterCheckSeatID $waterSettingID): bool
+    public function equals(FertilizerSettingID $fertilizerSettingID): bool
     {
-        return $this->getId() === $waterSettingID->getId();
+        return $this->getId() === $fertilizerSettingID->getId();
     }
 
     /**
