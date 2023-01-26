@@ -2,7 +2,7 @@
 
 namespace App\Packages\Usecases\Water;
 
-use App\Packages\Domains\Water\WaterSettingID;
+use App\Packages\Domains\Water\WaterSettingId;
 use App\Packages\Domains\Water\WaterSettingRepositoryInterface;
 use App\Packages\Usecases\Dto\Water\WaterSettingWrapDto;
 use App\Packages\Usecases\WaterSettingWrapDtoFactory;
@@ -28,7 +28,7 @@ class GetWaterSettingAction
         string                $waterSettingId
     ): WaterSettingWrapDto
     {
-        $waterSetting = $this->waterSettingRepository->findById(new WaterSettingID($waterSettingId));
+        $waterSetting = $this->waterSettingRepository->findById(new WaterSettingId($waterSettingId));
         return WaterSettingsDtoFactory::create($waterSetting);
     }
 }

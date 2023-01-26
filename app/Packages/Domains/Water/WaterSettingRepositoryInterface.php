@@ -6,9 +6,9 @@ interface WaterSettingRepositoryInterface
 {
     public function find();
 
-    public function findById(WaterSettingID $waterSettingId);
+    public function findById(WaterSettingId $waterSettingId);
 
-    public function save(TarmWaterSetting $waterSetting);
+    public function save(WaterSettingCollection $waterSettingCollection);
 
-    public function delete(TarmWaterSetting $waterSetting);
+    public function delete(WaterSettingId $waterSettingId);
 }

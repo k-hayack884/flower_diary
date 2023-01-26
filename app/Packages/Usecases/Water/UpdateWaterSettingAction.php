@@ -2,12 +2,12 @@
 
 namespace App\Packages\Usecases\Water;
 
-use App\Packages\Domains\Water\TarmWaterSetting;
+use App\Packages\Domains\Water\MonthsWaterSetting;
 use App\Packages\Domains\Water\WaterAmount;
 use App\Packages\Domains\Water\WateringInterval;
 use App\Packages\Domains\Water\WateringTimes;
 use App\Packages\Domains\Water\WaterNote;
-use App\Packages\Domains\Water\WaterSettingID;
+use App\Packages\Domains\Water\WaterSettingId;
 use App\Packages\Domains\Water\WaterSettingRepositoryInterface;
 use App\Packages\Presentations\Requests\Water\CreateWaterSettingRequest;
 use App\Packages\Presentations\Requests\Water\UpdateWaterSettingRequest;
@@ -35,7 +35,7 @@ class UpdateWaterSettingAction
             'waterSetting.alert_time' => $createWaterSettingRequest->getAlertTimes(),
         ];
 
-        $waterSetting = $this->waterSettingRepository->findById(new WaterSettingID($waterSettingId));
+        $waterSetting = $this->waterSettingRepository->findById(new WaterSettingId($waterSettingId));
 
         $updateMonths = $requestArray['waterSetting.months'];
         $updateNote = $waterSetting->getWaterNote()->update($requestArray['waterSetting.note']);
@@ -45,8 +45,8 @@ class UpdateWaterSettingAction
         $updateAlertTimes =$requestArray['waterSetting.alert_time'];
 
         try {
-            $updatewaterSetting = new TarmWaterSetting(
-                new WaterSettingID($waterSettingId),
+            $updatewaterSetting = new MonthsWaterSetting(
+                new WaterSettingId($waterSettingId),
                 $updateMonths,
                 $updateNote,
                 $updateAmount,

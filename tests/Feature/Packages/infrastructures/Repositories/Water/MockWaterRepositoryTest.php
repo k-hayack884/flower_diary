@@ -3,13 +3,13 @@
 namespace Packages\infrastructures\Repositories\Water;
 
 use App\Exceptions\NotFoundException;
-use App\Packages\Domains\Water\TarmWaterSetting;
+use App\Packages\Domains\Water\MonthsWaterSetting;
 use App\Packages\Domains\Water\WaterAmount;
 use App\Packages\Domains\Water\WateringInterval;
 use App\Packages\Domains\Water\WateringTimes;
 use App\Packages\Domains\Water\WaterNote;
 use App\Packages\Domains\Water\WaterSettingCollection;
-use App\Packages\Domains\Water\WaterSettingID;
+use App\Packages\Domains\Water\WaterSettingId;
 use App\Packages\infrastructures\Water\MockWaterRepository;
 use PHPUnit\Framework\TestCase;
 
@@ -32,14 +32,14 @@ class MockWaterRepositoryTest extends TestCase
 
     public function test_設定IDから検索して情報を取得する()
     {
-        $waterSettingId = new WaterSettingID('983c1092-7a0d-40b0-af6e-30bff5975e31');
+        $waterSettingId = new WaterSettingId('983c1092-7a0d-40b0-af6e-30bff5975e31');
         $waterSetting = $this->mockWaterRepository->findById($waterSettingId);
         $this->assertSame($waterSettingId->getId(),$waterSetting->getWaterSettingId()->getId());
     }
 
     public function test_存在しない設定IDから検索すると例外を出すこと()
     {
-        $waterSettingId = new WaterSettingID('111c1111-1a1d-11b1-af1e-11bff1111e11');
+        $waterSettingId = new WaterSettingId('111c1111-1a1d-11b1-af1e-11bff1111e11');
 
         $this->expectException(NotFoundException::class);
         $waterSetting = $this->mockWaterRepository->findById($waterSettingId);
@@ -48,8 +48,8 @@ class MockWaterRepositoryTest extends TestCase
     public function test_設定を追加する()
     {
 
-        $addWaterSetting[] = new TarmWaterSetting(
-            new WaterSettingID('999c1092-7a0d-40b0-af6e-30bff5975e31'),
+        $addWaterSetting[] = new MonthsWaterSetting(
+            new WaterSettingId('999c1092-7a0d-40b0-af6e-30bff5975e31'),
             [1, 3, 5],
             new WaterNote('やったぜ'),
             WaterAmount::settingALot(),
@@ -67,9 +67,9 @@ class MockWaterRepositoryTest extends TestCase
 
     public function test_設定を削除する()
     {
-        $waterSettingId = new WaterSettingID('983c1092-7a0d-40b0-af6e-30bff5975e31');
+        $waterSettingId = new WaterSettingId('983c1092-7a0d-40b0-af6e-30bff5975e31');
         $waterSetting = $this->mockWaterRepository->findById($waterSettingId);
-        $this->mockWaterRepository->delete($waterSetting);
+        $this->mockWaterRepository->delete($waterSetting->getWaterSettingId());
         $this->expectException(NotFoundException::class);
         $waterSetting = $this->mockWaterRepository->findById($waterSettingId);
 

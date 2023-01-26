@@ -2,7 +2,7 @@
 
 namespace Packages\infrastructures\Repositories\Water;
 
-use App\Packages\Domains\Water\WaterSettingID;
+use App\Packages\Domains\Water\WaterSettingId;
 use App\Packages\infrastructures\Water\WaterRepository;
 use PHPUnit\Framework\TestCase;
 
@@ -18,7 +18,7 @@ private WaterRepository $waterRepository;
 
     public function test_設定を1つ取得する()
     {
-        $waterSettingId=new WaterSettingID('334c1092-7a0d-40b0-af6e-30bff5975e31');
+        $waterSettingId=new WaterSettingId('334c1092-7a0d-40b0-af6e-30bff5975e31');
 
         $waterSetting=$this->waterRepository->findById($waterSettingId);
 

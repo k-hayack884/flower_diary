@@ -2,23 +2,23 @@
 
 namespace App\Packages\Usecases\Water;
 
-use App\Packages\Domains\Water\TarmWaterSetting;
+use App\Packages\Domains\Water\MonthsWaterSetting;
 use App\Packages\Usecases\Dto\Water\WaterSettingDto;
 use App\Packages\Usecases\Dto\Water\WaterSettingWrapDto;
 
 class WaterSettingsDtoFactory
 {
     /**
-     * @param TarmWaterSetting $waterSetting
+     * @param MonthsWaterSetting $waterSetting
      * @return WaterSettingWrapDto
      */
-    public static function create(TarmWaterSetting $waterSetting): WaterSettingWrapDto
+    public static function create(MonthsWaterSetting $waterSetting): WaterSettingWrapDto
     {
         return new WaterSettingWrapDto(
             new WaterSettingDto(
                 $waterSetting->getWaterSettingId()->getId(),
                 $waterSetting->getMonths(),
-                $waterSetting->getWaterNote()->getNote(),
+                $waterSetting->getWaterNote()->getValue(),
                 $waterSetting->getWaterAmount()->getValue(),
                 $waterSetting->getWateringTimes()->getValue(),
                 $waterSetting->getWateringInterval()->getValue(),

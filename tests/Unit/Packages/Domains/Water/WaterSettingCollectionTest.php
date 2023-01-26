@@ -3,13 +3,13 @@
 namespace Packages\Domains\Water;
 
 use App\Exceptions\NotFoundException;
-use App\Packages\Domains\Water\TarmWaterSetting;
+use App\Packages\Domains\Water\MonthsWaterSetting;
 use App\Packages\Domains\Water\WaterAmount;
 use App\Packages\Domains\Water\WateringInterval;
 use App\Packages\Domains\Water\WateringTimes;
 use App\Packages\Domains\Water\WaterNote;
 use App\Packages\Domains\Water\WaterSettingCollection;
-use App\Packages\Domains\Water\WaterSettingID;
+use App\Packages\Domains\Water\WaterSettingId;
 use DomainException;
 use PHPUnit\Framework\TestCase;
 
@@ -18,8 +18,8 @@ class WaterSettingCollectionTest extends TestCase
     public function test_オブジェクトが生成されること()
     {
         $waterSettings = [
-            new TarmWaterSetting(
-                new WaterSettingID('983c1092-7a0d-40b0-af6e-30bff5975e31'),
+            new MonthsWaterSetting(
+                new WaterSettingId('983c1092-7a0d-40b0-af6e-30bff5975e31'),
                 [1, 3, 5],
                 new WaterNote('水やりは慎重に'),
                 WaterAmount::settingALot(),
@@ -27,8 +27,8 @@ class WaterSettingCollectionTest extends TestCase
                 new WateringInterval(2),
                 ['09:00', '23:30']
             ),
-            new TarmWaterSetting(
-                new WaterSettingID('334c1092-7a0d-40b0-af6e-30bff5975e31'),
+            new MonthsWaterSetting(
+                new WaterSettingId('334c1092-7a0d-40b0-af6e-30bff5975e31'),
                 [1, 3, 5],
                 new WaterNote('なんでや！阪神関係ないやろ！'),
                 WaterAmount::settingSparingly(),
@@ -58,8 +58,8 @@ class WaterSettingCollectionTest extends TestCase
     public function test_新しい設定を追加すること()
     {
         $waterSettings = [
-            new TarmWaterSetting(
-                new WaterSettingID('983c1092-7a0d-40b0-af6e-30bff5975e31'),
+            new MonthsWaterSetting(
+                new WaterSettingId('983c1092-7a0d-40b0-af6e-30bff5975e31'),
                 [1, 3, 5],
                 new WaterNote('水やりは慎重に'),
                 WaterAmount::settingALot(),
@@ -67,8 +67,8 @@ class WaterSettingCollectionTest extends TestCase
                 new WateringInterval(2),
                 ['09:00', '23:30']
             ),
-            new TarmWaterSetting(
-                new WaterSettingID('334c1092-7a0d-40b0-af6e-30bff5975e31'),
+            new MonthsWaterSetting(
+                new WaterSettingId('334c1092-7a0d-40b0-af6e-30bff5975e31'),
                 [1, 3, 5],
                 new WaterNote('なんでや！阪神関係ないやろ！'),
                 WaterAmount::settingSparingly(),
@@ -82,8 +82,8 @@ class WaterSettingCollectionTest extends TestCase
 
 
         $addWaterSetting =
-            new TarmWaterSetting(
-                new WaterSettingID('114c5142-7a0d-40b0-af6e-30bff5975e31'),
+            new MonthsWaterSetting(
+                new WaterSettingId('114c5142-7a0d-40b0-af6e-30bff5975e31'),
                 [1, 3, 5],
                 new WaterNote('豪快に与える'),
                 WaterAmount::settingALot(),
@@ -96,7 +96,7 @@ class WaterSettingCollectionTest extends TestCase
 
         $this->assertCount(count($waterSettings), $waterSettingCollection);
         foreach ($waterSettingCollection as $index => $waterSetting) {
-        this->assertSame($index, $waterSetting->getWaterSettingId()->getId());
+        $this->assertSame($index, $waterSetting->getWaterSettingId()->getId());
         }
 
     }
@@ -104,8 +104,8 @@ class WaterSettingCollectionTest extends TestCase
     public function test_設定を削除すること()
     {
         $waterSettings = [
-            new TarmWaterSetting(
-                new WaterSettingID('983c1092-7a0d-40b0-af6e-30bff5975e31'),
+            new MonthsWaterSetting(
+                new WaterSettingId('983c1092-7a0d-40b0-af6e-30bff5975e31'),
                 [1, 3, 5],
                 new WaterNote('水やりは慎重に'),
                 WaterAmount::settingALot(),
@@ -113,8 +113,8 @@ class WaterSettingCollectionTest extends TestCase
                 new WateringInterval(2),
                 ['09:00', '23:30']
             ),
-            new TarmWaterSetting(
-                new WaterSettingID('334c1092-7a0d-40b0-af6e-30bff5975e31'),
+            new MonthsWaterSetting(
+                new WaterSettingId('334c1092-7a0d-40b0-af6e-30bff5975e31'),
                 [1, 3, 5],
                 new WaterNote('なんでや！阪神関係ないやろ！'),
                 WaterAmount::settingSparingly(),
@@ -126,8 +126,9 @@ class WaterSettingCollectionTest extends TestCase
 
         $waterSettingCollection = new WaterSettingCollection($waterSettings);
 
-        $deleteWaterSettingId = new WaterSettingID('334c1092-7a0d-40b0-af6e-30bff5975e31');
-        $waterSettingCollection->delete($deleteWaterSettingId->getId());
+        $deleteWaterSettingId = new WaterSettingId('334c1092-7a0d-40b0-af6e-30bff5975e31');
+        $deleteWaterSetting=$waterSettingCollection->findById($deleteWaterSettingId);
+        $waterSettingCollection->delete($deleteWaterSetting);
         $this->expectException(NotFoundException::class);
         $getWaterSetting = $waterSettingCollection->findById($deleteWaterSettingId);
     }

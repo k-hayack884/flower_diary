@@ -2,7 +2,7 @@
 
 namespace Packages\usecases\Water;
 
-use App\Packages\Domains\Water\WaterSettingID;
+use App\Packages\Domains\Water\WaterSettingId;
 use App\Packages\infrastructures\Water\MockWaterRepository;
 use App\Packages\Presentations\Requests\Water\UpdateWaterSettingRequest;
 use App\Packages\Usecases\Water\UpdateWaterSettingAction;
@@ -33,10 +33,10 @@ class UpdateWaterSettingActionTest extends TestCase
             );
         });
 
-        $prevWaterSetting = $mockWaterSettingRepository->findById(new WaterSettingID($waterSettingId));
+        $prevWaterSetting = $mockWaterSettingRepository->findById(new WaterSettingId($waterSettingId));
         $prevWaterSettingValue = $prevWaterSetting->getWaterSettingId();
         $result = (app()->make(UpdateWaterSettingAction::class))->__invoke($request, $waterSettingId);
-        $waterSetting = $mockWaterSettingRepository->findById(new WaterSettingID($waterSettingId));
+        $waterSetting = $mockWaterSettingRepository->findById(new WaterSettingId($waterSettingId));
         $this->assertSame( 'ち～ん',$result->waterSettings->note);
         $this->assertNotEquals($prevWaterSetting->getWaterNote()->getNote(),$result->waterSettings->note);
     }

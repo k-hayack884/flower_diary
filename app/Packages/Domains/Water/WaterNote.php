@@ -29,7 +29,7 @@ readonly class WaterNote
     /**
      * @return string
      */
-    public function getNote(): string
+    public function getValue(): string
     {
         return $this->note;
     }

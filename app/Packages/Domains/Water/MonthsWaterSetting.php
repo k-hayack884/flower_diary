@@ -4,11 +4,11 @@ namespace App\Packages\Domains\Water;
 
 use DomainException;
 
-class TarmWaterSetting
+class MonthsWaterSetting
 {
     public const RESET = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
-    private WaterSettingID $waterSettingID;
+    private WaterSettingId $waterSettingID;
     private array $months = [];
     private WaterNote $waterNote;
     private WaterAmount $waterAmount;
@@ -18,7 +18,7 @@ class TarmWaterSetting
 
 
     public function __construct(
-        WaterSettingID   $waterSettingID,
+        WaterSettingId   $waterSettingID,
         array            $months,
         WaterNote        $waterNote,
         WaterAmount      $waterAmount,
@@ -51,9 +51,9 @@ class TarmWaterSetting
 
     /**
      * @param array $months
-     * @return TarmWaterSetting
+     * @return MonthsWaterSetting
      */
-    public function tarmUpdate(array $months): TarmWaterSetting
+    public function tarmUpdate(array $months): MonthsWaterSetting
     {
         if (count($months) > 13) {
             throw new DomainException('月の数が１３個以上あります');
@@ -74,9 +74,9 @@ class TarmWaterSetting
     }
 
     /**
-     * @return TarmWaterSetting
+     * @return MonthsWaterSetting
      */
-    public function tarmReset(): TarmWaterSetting
+    public function tarmReset(): MonthsWaterSetting
     {
         return new self(
             $this->waterSettingID,
@@ -131,9 +131,9 @@ class TarmWaterSetting
 
 
     /**
-     * @return WaterSettingID
+     * @return WaterSettingId
      */
-    public function getWaterSettingId(): WaterSettingID
+    public function getWaterSettingId(): WaterSettingId
     {
         return $this->waterSettingID;
     }
