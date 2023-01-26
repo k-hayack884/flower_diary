@@ -4,6 +4,7 @@ namespace App\Packages\Domains\Water;
 
 use App\Exceptions\NotFoundException;
 use ArrayIterator;
+use Closure;
 use DomainException;
 use Illuminate\Support\Collection;
 use IteratorAggregate;
@@ -13,6 +14,9 @@ class WaterSettingCollection implements IteratorAggregate
 {
     private Collection $collection;
 
+    /**
+     * @param array $waterSettings
+     */
     public function __construct(array $waterSettings = [])
     {
         $this->collection = new Collection();
@@ -23,18 +27,21 @@ class WaterSettingCollection implements IteratorAggregate
 
     }
 
+    /**
+     * @param TarmWaterSetting $waterSetting
+     * @return void
+     */
     public function add(TarmWaterSetting $waterSetting)
     {
-        if($this->collection->has($waterSetting->getWaterSettingId())){
-            throw new DomainException('waterSettingIDが重複しています');
-        }
-        $this->collection->put($waterSetting->getWaterSettingId(), $waterSetting);
+        $this->collection->put($waterSetting->getWaterSettingId()->getId(), $waterSetting);
     }
 
     /**
+     * @param WaterSettingID $waterSettingId
+     * @return Closure
      * @throws NotFoundException
      */
-    public function find(WaterSettingID $waterSettingId)
+    public function findById(WaterSettingID $waterSettingId)
     {
         $waterSetting = $this->collection->get($waterSettingId->getId());
         if (is_null($waterSetting)) {
@@ -43,16 +50,26 @@ class WaterSettingCollection implements IteratorAggregate
         return $waterSetting;
     }
 
-    public function delete(string $waterSettingId):void
+    /**
+     * @param TarmWaterSetting $waterSetting
+     * @return void
+     */
+    public function delete(TarmWaterSetting $waterSetting):void
     {
-        $this->collection->forget($waterSettingId);
+        $this->collection->forget($waterSetting->getWaterSettingId()->getId());
     }
 
+    /**
+     * @return array
+     */
     public function toArray(): array
     {
         return $this->collection->toArray();
     }
 
+    /**
+     * @return ArrayIterator
+     */
     #[ReturnTypeWillChange] public function getIterator()
     {
         return new ArrayIterator($this->toArray());

@@ -6,11 +6,12 @@ use App\Exceptions\NotFoundException;
 use App\Packages\Domains\Fertilizer\FertilizerAmount;
 use App\Packages\Domains\Fertilizer\fertilizerName;
 use App\Packages\Domains\Fertilizer\FertilizerNote;
+use App\Packages\Domains\Fertilizer\FertilizerRepositoryInterface;
 use App\Packages\Domains\Fertilizer\FertilizerSettingCollection;
 use App\Packages\Domains\Fertilizer\FertilizerSettingID;
 use App\Packages\Domains\Fertilizer\TarmFertilizerSetting;
 
-class MockFertilizerRepository
+class MockFertilizerRepository implements FertilizerRepositoryInterface
 {
     private array $fertilizerSettings=[];
     public function __construct()
