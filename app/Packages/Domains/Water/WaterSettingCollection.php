@@ -41,7 +41,7 @@ class WaterSettingCollection implements IteratorAggregate
      * @return Closure
      * @throws NotFoundException
      */
-    public function find(WaterSettingID $waterSettingId)
+    public function findById(WaterSettingID $waterSettingId)
     {
         $waterSetting = $this->collection->get($waterSettingId->getId());
         if (is_null($waterSetting)) {
