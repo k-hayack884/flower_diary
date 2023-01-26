@@ -8,7 +8,7 @@ use App\Packages\Domains\Fertilizer\fertilizerName;
 use App\Packages\Domains\Fertilizer\FertilizerNote;
 use App\Packages\Domains\Fertilizer\FertilizerSettingCollection;
 use App\Packages\Domains\Fertilizer\FertilizerSettingID;
-use App\Packages\Domains\Fertilizer\TarmFertilizerSetting;
+use App\Packages\Domains\Fertilizer\MonthsFertilizerSetting;
 use App\Packages\infrastructures\Fertilizer\MockFertilizerRepository;
 use PHPUnit\Framework\TestCase;
 
@@ -47,7 +47,7 @@ class MockFertilizerRepositoryTest extends TestCase
 
     public function test_設定を追加する()
     {
-        $addFertilizerSetting[] = new TarmFertilizerSetting(
+        $addFertilizerSetting[] = new MonthsFertilizerSetting(
             new FertilizerSettingID('114c5142-7a0d-40b0-af6e-30bff5975e31'),
             [5, 7, 8],
             new FertilizerNote('たくさんあげよう'),

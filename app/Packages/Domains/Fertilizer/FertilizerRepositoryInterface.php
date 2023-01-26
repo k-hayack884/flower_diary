@@ -8,7 +8,7 @@ interface FertilizerRepositoryInterface
 
     public function findById(FertilizerSettingID $fertilizerSettingId);
 
-    public function save(TarmFertilizerSetting $fertilizerSetting);
+    public function save(FertilizerSettingCollection $fertilizerSetting);
 
-    public function delete(TarmFertilizerSetting $fertilizerSetting);
+    public function delete(FertilizerSettingID $fertilizerSettingId);
 }

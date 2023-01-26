@@ -8,7 +8,7 @@ use App\Packages\Domains\Fertilizer\fertilizerName;
 use App\Packages\Domains\Fertilizer\FertilizerNote;
 use App\Packages\Domains\Fertilizer\FertilizerSettingCollection;
 use App\Packages\Domains\Fertilizer\FertilizerSettingID;
-use App\Packages\Domains\Fertilizer\TarmFertilizerSetting;
+use App\Packages\Domains\Fertilizer\MonthsFertilizerSetting;
 use PHPUnit\Framework\TestCase;
 
 class FertilizerSettingCollectionTest extends TestCase
@@ -16,14 +16,14 @@ class FertilizerSettingCollectionTest extends TestCase
     public function test_オブジェクトが生成されること()
     {
         $fertilizerSettings = [
-            new TarmFertilizerSetting(
+            new MonthsFertilizerSetting(
                 new FertilizerSettingID('983c1092-7a0d-40b0-af6e-30bff5975e31'),
                 [1, 3, 5],
                 new FertilizerNote('株からある程度離して'),
                 new FertilizerAmount(100),
                 new fertilizerName('牛糞堆肥'),
             ),
-            new TarmFertilizerSetting(
+            new MonthsFertilizerSetting(
                 new FertilizerSettingID('334c1092-7a0d-40b0-af6e-30bff5975e31'),
                 [1, 3, 5],
                 new FertilizerNote('なんでや！阪神関係ないやろ！'),
@@ -52,14 +52,14 @@ class FertilizerSettingCollectionTest extends TestCase
     public function test_新しい設定を追加すること()
     {
         $fertilizerSettings = [
-            new TarmFertilizerSetting(
+            new MonthsFertilizerSetting(
                 new FertilizerSettingID('983c1092-7a0d-40b0-af6e-30bff5975e31'),
                 [1, 3, 5],
                 new FertilizerNote('株からある程度離して'),
                 new FertilizerAmount(100),
                 new fertilizerName('牛糞堆肥'),
             ),
-            new TarmFertilizerSetting(
+            new MonthsFertilizerSetting(
                 new FertilizerSettingID('334c1092-7a0d-40b0-af6e-30bff5975e31'),
                 [1, 3, 5],
                 new FertilizerNote('なんでや！阪神関係ないやろ！'),
@@ -71,7 +71,7 @@ class FertilizerSettingCollectionTest extends TestCase
         $fertilizerSettingCollection = new FertilizerSettingCollection($fertilizerSettings);
 
         $addFertilizerSettingSetting =
-            new TarmFertilizerSetting(
+            new MonthsFertilizerSetting(
                 new FertilizerSettingID('114c5142-7a0d-40b0-af6e-30bff5975e31'),
                 [5, 7, 8],
                 new FertilizerNote('たくさんあげよう'),
@@ -90,14 +90,14 @@ class FertilizerSettingCollectionTest extends TestCase
     public function test_設定を削除すること()
     {
         $fertilizerSettings = [
-            new TarmFertilizerSetting(
+            new MonthsFertilizerSetting(
                 new FertilizerSettingID('983c1092-7a0d-40b0-af6e-30bff5975e31'),
                 [1, 3, 5],
                 new FertilizerNote('株からある程度離して'),
                 new FertilizerAmount(100),
                 new fertilizerName('牛糞堆肥'),
             ),
-            new TarmFertilizerSetting(
+            new MonthsFertilizerSetting(
                 new FertilizerSettingID('334c1092-7a0d-40b0-af6e-30bff5975e31'),
                 [1, 3, 5],
                 new FertilizerNote('なんでや！阪神関係ないやろ！'),
