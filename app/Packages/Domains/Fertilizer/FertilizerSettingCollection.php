@@ -31,7 +31,7 @@ class FertilizerSettingCollection implements IteratorAggregate
      */
     public function add(TarmFertilizerSetting $fertilizerSetting)
     {
-        $this->collection->put($fertilizerSetting->getFertilizerSettingId(), $fertilizerSetting);
+        $this->collection->put($fertilizerSetting->getFertilizerSettingId()->getId(), $fertilizerSetting);
     }
 
     /**
@@ -39,7 +39,7 @@ class FertilizerSettingCollection implements IteratorAggregate
      * @return Closure
      * @throws NotFoundException
      */
-    public function find(FertilizerSettingID $fertilizerSettingId)
+    public function findById(FertilizerSettingID $fertilizerSettingId)
     {
         $fertilizerSetting= $this->collection->get($fertilizerSettingId->getId());
         if (is_null($fertilizerSetting)) {
@@ -54,7 +54,7 @@ class FertilizerSettingCollection implements IteratorAggregate
      */
     public function delete(TarmFertilizerSetting $fertilizerSetting):void
     {
-        $this->collection->forget($fertilizerSetting->getFertilizerSettingId());
+        $this->collection->forget($fertilizerSetting->getFertilizerSettingId()->getId());
     }
 
     /**

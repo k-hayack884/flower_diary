@@ -88,11 +88,11 @@ class TarmFertilizerSetting
     }
 
     /**
-     * @return string
+     * @return FertilizerSettingID
      */
-    public function getFertilizerSettingId(): string
+    public function getFertilizerSettingId(): FertilizerSettingID
     {
-        return $this->fertilizerSettingID->getId();
+        return $this->fertilizerSettingID;
     }
 
     /**
