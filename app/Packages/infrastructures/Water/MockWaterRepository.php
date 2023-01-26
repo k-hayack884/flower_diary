@@ -62,7 +62,7 @@ class MockWaterRepository implements WaterSettingRepositoryInterface
                 return $waterSetting;
             }
         }
-        throw new NotFoundException('指定した水やり設定IDは見つかりませんでした');
+        throw new NotFoundException('指定した水やり設定IDは見つかりませんでした (id:' . $waterSettingId->getId() . ')');
     }
 
     /**

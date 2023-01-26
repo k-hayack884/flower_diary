@@ -34,7 +34,7 @@ class GetWaterSettingsAction
                 $waterSetting->getWaterSettingId()->getId(),
                 $waterSetting->getMonths(),
                 $waterSetting->getWaterAmount()->getValue(),
-                $waterSetting->getWaterNote()->getNote(),
+                $waterSetting->getWaterNote()->getValue(),
                 $waterSetting->getWateringTimes()->getValue(),
                 $waterSetting->getWateringInterval()->getValue(),
                 $waterSetting->getAlertTimes()

@@ -38,13 +38,13 @@ readonly class WaterNote
      * @param string|null $note
      * @return WaterNote
      */
-    public function update(string|null $note): WaterNote
+    public function update(string|null $note=null): WaterNote
     {
-        if (mb_strlen($note) > 20) {
-            throw new DomainException('備考欄に入力できる文字数は20字までです');
-        }
         if($note===null){
             $note=self::RESET;
+        }
+        if (mb_strlen($note) > 20) {
+            throw new DomainException('備考欄に入力できる文字数は20字までです');
         }
         return new self($note);
     }

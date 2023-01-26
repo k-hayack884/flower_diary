@@ -33,8 +33,8 @@ class DeleteWaterSettingAction
     {
         try {
             $waterSettingId = new WaterSettingId($waterSettingIdValue);
-            $waterSetting = $this->waterSettingRepository->findById($waterSettingId);
-            $this->waterSettingRepository->delete($waterSetting);
+
+            $this->waterSettingRepository->delete($waterSettingId);
         } catch (Exception $e) {
             throw  $e;
         }

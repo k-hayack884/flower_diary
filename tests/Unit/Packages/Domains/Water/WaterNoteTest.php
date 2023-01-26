@@ -35,7 +35,7 @@ class WaterNoteTest extends TestCase
     public function test_備考欄の内容を空にする()
     {
         $note=new WaterNote('あいうえおかきくけこさしすせそたちつてと');
-        $note=$note->update('');
+        $note=$note->update();
         $this->assertInstanceOf(WaterNote::class,$note);
         $this->assertSame('',$note->getValue());
     }

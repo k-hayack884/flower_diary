@@ -8,7 +8,7 @@ class WaterSettingDto
      * @param string $waterSettingId
      * @param array $months
      * @param string $note
-     * @param string $WaterAmount
+     * @param string $waterAmount
      * @param int $wateringTimes
      * @param int $wateringInterval
      * @param array $alertTimes
@@ -17,7 +17,7 @@ class WaterSettingDto
         public string $waterSettingId,
         public array  $months,
         public string $note,
-        public string $WaterAmount,
+        public string $waterAmount,
         public int    $wateringTimes,
         public int    $wateringInterval,
         public array  $alertTimes
