@@ -96,7 +96,7 @@ class WaterSettingCollectionTest extends TestCase
 
         $this->assertCount(count($waterSettings), $waterSettingCollection);
         foreach ($waterSettingCollection as $index => $waterSetting) {
-        $this->assertSame($index, $waterSetting->getWaterSettingId()->getId());
+            $this->assertSame($index, $waterSetting->getWaterSettingId()->getId());
         }
 
     }
@@ -127,10 +127,81 @@ class WaterSettingCollectionTest extends TestCase
         $waterSettingCollection = new WaterSettingCollection($waterSettings);
 
         $deleteWaterSettingId = new WaterSettingId('334c1092-7a0d-40b0-af6e-30bff5975e31');
-        $deleteWaterSetting=$waterSettingCollection->findById($deleteWaterSettingId);
+        $deleteWaterSetting = $waterSettingCollection->findById($deleteWaterSettingId);
         $waterSettingCollection->delete($deleteWaterSetting);
         $this->expectException(NotFoundException::class);
         $getWaterSetting = $waterSettingCollection->findById($deleteWaterSettingId);
     }
 
+    public function test_月が被ったオブジェクトを摘出すること()
+    {
+        $waterSettings = [
+            new MonthsWaterSetting(
+                new WaterSettingId('983c1092-7a0d-40b0-af6e-30bff5975e31'),
+                [1, 3, 5],
+                new WaterNote('水やりは慎重に'),
+                WaterAmount::settingALot(),
+                new WateringTimes(1),
+                new WateringInterval(2),
+                ['09:00', '23:30']
+            ),
+            new MonthsWaterSetting(
+                new WaterSettingId('334c1092-7a0d-40b0-af6e-30bff5975e31'),
+                [10, 11, 12],
+                new WaterNote('なんでや！阪神関係ないやろ！'),
+                WaterAmount::settingSparingly(),
+                new WateringTimes(3),
+                new WateringInterval(34),
+                ['12:59', '3:34']
+            ),
+            new MonthsWaterSetting(
+                new WaterSettingId('893c1092-7a0d-40b0-af6e-30bff5975e31'),
+                [5, 7, 9],
+                new WaterNote('男なら豪快に'),
+                WaterAmount::settingALot(),
+                new WateringTimes(5),
+                new WateringInterval(1),
+                ['06:00', '12:30']
+            ),
+        ];
+        $waterSettingCollection = new WaterSettingCollection($waterSettings);
+        $duplicationCollection=$waterSettingCollection->duplicationDisplay();
+        $this->assertSame($waterSettingCollection->getValue(0),$duplicationCollection->getValue(0));
+        $this->assertSame($waterSettingCollection->getValue(2),$duplicationCollection->getValue(1));
+    }
+    public function test_月が被らなかった場合は空のオブジェクトを返していること()
+    {
+        $waterSettings = [
+            new MonthsWaterSetting(
+                new WaterSettingId('983c1092-7a0d-40b0-af6e-30bff5975e31'),
+                [1, 3, 5],
+                new WaterNote('水やりは慎重に'),
+                WaterAmount::settingALot(),
+                new WateringTimes(1),
+                new WateringInterval(2),
+                ['09:00', '23:30']
+            ),
+            new MonthsWaterSetting(
+                new WaterSettingId('334c1092-7a0d-40b0-af6e-30bff5975e31'),
+                [10, 11, 12],
+                new WaterNote('なんでや！阪神関係ないやろ！'),
+                WaterAmount::settingSparingly(),
+                new WateringTimes(3),
+                new WateringInterval(34),
+                ['12:59', '3:34']
+            ),
+            new MonthsWaterSetting(
+                new WaterSettingId('893c1092-7a0d-40b0-af6e-30bff5975e31'),
+                [7, 8, 9],
+                new WaterNote('男なら豪快に'),
+                WaterAmount::settingALot(),
+                new WateringTimes(5),
+                new WateringInterval(1),
+                ['06:00', '12:30']
+            ),
+        ];
+        $waterSettingCollection = new WaterSettingCollection($waterSettings);
+        $duplicationCollection=$waterSettingCollection->duplicationDisplay();
+        $this->assertCount(0, $duplicationCollection);
+    }
 }
