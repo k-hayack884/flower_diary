@@ -10,15 +10,17 @@ readonly class WaterNote
     public const RESET='';
     public string $note;
 
+    /**
+     * @param string|null $note
+     */
     public function __construct(string|null $note)
     {
-
-        if (mb_strlen($note) > 20) {
-            throw new DomainException('備考欄に入力できる文字数は20字までです');
-        }
         if($note===null){
             $this->note=self::RESET;
         }else{
+            if (mb_strlen($note) > 20) {
+                throw new DomainException('備考欄に入力できる文字数は20字までです');
+            }
             $this->note = $note;
         }
 
@@ -27,17 +29,22 @@ readonly class WaterNote
     /**
      * @return string
      */
-    public function getNote(): string
+    public function getValue(): string
     {
         return $this->note;
     }
-    public function update(string|null $note): WaterNote
+
+    /**
+     * @param string|null $note
+     * @return WaterNote
+     */
+    public function update(string|null $note=null): WaterNote
     {
-        if (mb_strlen($note) > 20) {
-            throw new DomainException('備考欄に入力できる文字数は20字までです');
-        }
         if($note===null){
             $note=self::RESET;
+        }
+        if (mb_strlen($note) > 20) {
+            throw new DomainException('備考欄に入力できる文字数は20字までです');
         }
         return new self($note);
     }

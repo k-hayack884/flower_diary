@@ -7,6 +7,9 @@ class WateringTimes
     public const RESET=1;
     private int $wateringTimes;
 
+    /**
+     * @param int $wateringTimes
+     */
     public function __construct(int $wateringTimes)
     {
         if ($wateringTimes < 1 || $wateringTimes > 9) {

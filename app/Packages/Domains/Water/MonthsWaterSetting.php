@@ -4,20 +4,21 @@ namespace App\Packages\Domains\Water;
 
 use DomainException;
 
-class TarmWaterSetting
+class MonthsWaterSetting
 {
-    private WaterSettingID $waterSettingID;
+    public const RESET = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+
+    private WaterSettingId $waterSettingID;
     private array $months = [];
     private WaterNote $waterNote;
     private WaterAmount $waterAmount;
     private WateringTimes $wateringTimes;
     private WateringInterval $wateringInterval;
-    public const RESET = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-
     private array $alertTimes = [];
 
+
     public function __construct(
-        WaterSettingID   $waterSettingID,
+        WaterSettingId   $waterSettingID,
         array            $months,
         WaterNote        $waterNote,
         WaterAmount      $waterAmount,
@@ -48,8 +49,11 @@ class TarmWaterSetting
 
     }
 
-
-    public function tarmUpdate(array $months): TarmWaterSetting
+    /**
+     * @param array $months
+     * @return MonthsWaterSetting
+     */
+    public function tarmUpdate(array $months): MonthsWaterSetting
     {
         if (count($months) > 13) {
             throw new DomainException('月の数が１３個以上あります');
@@ -69,7 +73,10 @@ class TarmWaterSetting
             $this->alertTimes);
     }
 
-    public function tarmReset(): TarmWaterSetting
+    /**
+     * @return MonthsWaterSetting
+     */
+    public function tarmReset(): MonthsWaterSetting
     {
         return new self(
             $this->waterSettingID,
@@ -98,24 +105,37 @@ class TarmWaterSetting
         $this->alertTimes[] = $dateTime;
     }
 
+    /**
+     * @return void
+     */
     public function resetAlertTime(): void
     {
         $this->alertTimes = [];
     }
 
+    /**
+     * @return string
+     */
     public function monthsIntoString(): string
     {
         return implode(",", $this->months);
     }
 
+    /**
+     * @return string
+     */
     public function alertTimesIntoString(): string
     {
         return implode(",", $this->alertTimes);
     }
 
-    public function getWaterSettingId(): string
+
+    /**
+     * @return WaterSettingId
+     */
+    public function getWaterSettingId(): WaterSettingId
     {
-        return $this->waterSettingID->getId();
+        return $this->waterSettingID;
     }
 
     /**
@@ -158,6 +178,9 @@ class TarmWaterSetting
         return $this->wateringInterval;
     }
 
+    /**
+     * @return array
+     */
     public function getAlertTimes(): array
     {
         return $this->alertTimes;
