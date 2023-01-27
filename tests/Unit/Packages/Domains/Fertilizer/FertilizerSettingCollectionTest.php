@@ -78,7 +78,7 @@ class FertilizerSettingCollectionTest extends TestCase
                 new FertilizerAmount(114),
                 new fertilizerName('泥'),
             );
-        $fertilizerSettingCollection->add($addFertilizerSettingSetting);
+        $fertilizerSettingCollection->addSetting($addFertilizerSettingSetting);
         $fertilizerSettings[] = $addFertilizerSettingSetting;
 
         $this->assertCount(count($fertilizerSettings), $fertilizerSettingCollection);

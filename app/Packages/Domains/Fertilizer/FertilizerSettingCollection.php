@@ -11,7 +11,7 @@ use Illuminate\Support\Collection;
 use IteratorAggregate;
 use ReturnTypeWillChange;
 
-class FertilizerSettingCollection implements IteratorAggregate
+class FertilizerSettingCollection  extends Collection
 {
     private Collection $collection;
 
@@ -20,7 +20,7 @@ class FertilizerSettingCollection implements IteratorAggregate
         $this->collection = new Collection();
 
         foreach ($fertilizerSettings as $fertilizerSetting) {
-            $this->add($fertilizerSetting);
+            $this->addSetting($fertilizerSetting);
         }
 
     }
@@ -29,9 +29,9 @@ class FertilizerSettingCollection implements IteratorAggregate
      * @param MonthsFertilizerSetting $fertilizerSetting
      * @return void
      */
-    public function add(MonthsFertilizerSetting $fertilizerSetting): void
+    public function addSetting(MonthsFertilizerSetting $fertilizerSetting): void
     {
-        $this->collection->put($fertilizerSetting->getFertilizerSettingId()->getId(), $fertilizerSetting);
+        $this->put($fertilizerSetting->getFertilizerSettingId()->getId(), $fertilizerSetting);
     }
 
     /**
@@ -41,7 +41,7 @@ class FertilizerSettingCollection implements IteratorAggregate
      */
     public function findById(FertilizerSettingId $fertilizerSettingId):MonthsFertilizerSetting
     {
-        $fertilizerSetting= $this->collection->get($fertilizerSettingId->getId());
+        $fertilizerSetting= $this->get($fertilizerSettingId->getId());
         if (is_null($fertilizerSetting)) {
             throw new NotFoundException('指定した肥料設定IDが見つかりませんでした (id:' . $fertilizerSettingId->getId() . ')');
         }
@@ -66,7 +66,7 @@ class FertilizerSettingCollection implements IteratorAggregate
      */
     public function delete(MonthsFertilizerSetting $fertilizerSetting):void
     {
-        $this->collection->forget($fertilizerSetting->getFertilizerSettingId()->getId());
+        $this->forget($fertilizerSetting->getFertilizerSettingId()->getId());
     }
 
     /**
@@ -111,15 +111,6 @@ class FertilizerSettingCollection implements IteratorAggregate
      */
     public function toArray(): array
     {
-        return $this->collection->toArray();
+        return parent::toArray();
     }
-
-    /**
-     * @return ArrayIterator
-     */
-    #[ReturnTypeWillChange] public function getIterator()
-    {
-        return new ArrayIterator($this->toArray());
-    }
-
 }

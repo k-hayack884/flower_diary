@@ -3,25 +3,19 @@
 namespace App\Packages\Domains\Water;
 
 use App\Exceptions\NotFoundException;
-use ArrayIterator;
 use Closure;
 use Illuminate\Support\Collection;
 use IteratorAggregate;
-use ReturnTypeWillChange;
 
-class WaterSettingCollection implements IteratorAggregate
+class WaterSettingCollection extends Collection implements IteratorAggregate
 {
-    private Collection $collection;
-
     /**
      * @param array $waterSettings
      */
     public function __construct(array $waterSettings = [])
     {
-        $this->collection = new Collection();
-
         foreach ($waterSettings as $waterSetting) {
-            $this->add($waterSetting);
+            $this->addSetting($waterSetting);
         }
 
     }
@@ -30,9 +24,9 @@ class WaterSettingCollection implements IteratorAggregate
      * @param MonthsWaterSetting $waterSetting
      * @return void
      */
-    public function add(MonthsWaterSetting $waterSetting): void
+    public function addSetting(MonthsWaterSetting $waterSetting): void
     {
-        $this->collection->put($waterSetting->getWaterSettingId()->getId(), $waterSetting);
+        $this->put($waterSetting->getWaterSettingId()->getId(), $waterSetting);
     }
 
     /**
@@ -42,13 +36,13 @@ class WaterSettingCollection implements IteratorAggregate
      */
     public function findById(WaterSettingId $waterSettingId): MonthsWaterSetting
     {
-        $waterSetting = $this->collection->get($waterSettingId->getId());
+        $waterSetting = $this->get($waterSettingId->getId());
 
         if (is_null($waterSetting)) {
-            throw new NotFoundException('選んだ水やり設定IDが見つかりませんでした (id:' . $waterSettingId->getId() . ')');
+            throw new NotFoundException('指定した水やり設定IDが見つかりませんでした (id:' . $waterSettingId->getId() . ')');
         }
         if (!$waterSetting->getWaterSettingId()->equals($waterSettingId)) {
-            throw new NotFoundException('選んだ水やり設定IDが見つかりませんでした (id:' . $waterSettingId->getId() . ')');
+            throw new NotFoundException('指定した水やり設定IDが見つかりませんでした (id:' . $waterSettingId->getId() . ')');
         }
         return $waterSetting;
     }
@@ -68,7 +62,7 @@ class WaterSettingCollection implements IteratorAggregate
      */
     public function delete(MonthsWaterSetting $waterSetting): void
     {
-        $this->collection->forget($waterSetting->getWaterSettingId()->getId());
+        $this->forget($waterSetting->getWaterSettingId()->getId());
     }
 
     /**
@@ -111,15 +105,6 @@ class WaterSettingCollection implements IteratorAggregate
      */
     public function toArray(): array
     {
-        return $this->collection->toArray();
+        return parent::toArray();
     }
-
-    /**
-     * @return ArrayIterator
-     */
-    #[ReturnTypeWillChange] public function getIterator()
-    {
-        return new ArrayIterator($this->toArray());
-    }
-
 }
