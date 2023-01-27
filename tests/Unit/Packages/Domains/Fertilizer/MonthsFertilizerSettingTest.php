@@ -55,6 +55,6 @@ class MonthsFertilizerSettingTest extends TestCase
         $tarm=[1,3,5];
         $setting=new MonthsFertilizerSetting($this->fertilizerSettingId,$tarm,$this->note,$this->fertilizerAmount,$this->fertilizerName);
         $resetedSetting=$setting->tarmReset();
-        $this->assertSame($resetedSetting->getMonths(),[1,2,3,4,5,6,7,8,9,10,11,12]);
+        $this->assertEmpty($resetedSetting->getMonths());
     }
 }

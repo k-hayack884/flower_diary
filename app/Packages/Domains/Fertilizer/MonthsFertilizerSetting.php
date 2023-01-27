@@ -57,7 +57,7 @@ class MonthsFertilizerSetting
             }
         }
         return new self(
-            $this->fertilizerSettingID,
+            $this->fertilizerSettingId,
             $months,
             $this->fertilizerNote,
             $this->fertilizerAmount,
@@ -71,7 +71,7 @@ class MonthsFertilizerSetting
     public function tarmReset(): MonthsFertilizerSetting
     {
         return new self(
-            $this->fertilizerSettingID,
+            $this->fertilizerSettingId,
             self::RESET,
             $this->fertilizerNote,
             $this->fertilizerAmount,
