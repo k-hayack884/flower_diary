@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Packages\Domains\Water;
+namespace App\Packages\Domains\CheckSeat;
 
 use App\Packages\Domains\Shared\Uuid;
 
-class WaterCheckSeatID
+class CheckSeatId
 {
     private string $value;
     private Uuid $uuid;
@@ -26,10 +26,10 @@ class WaterCheckSeatID
     }
 
     /**
-     * @param WaterCheckSeatID $waterSettingID
+     * @param CheckSeatId $waterSettingID
      * @return bool
      */
-    public function equals(WaterCheckSeatID $waterSettingID): bool
+    public function equals(CheckSeatId $waterSettingID): bool
     {
         return $this->getId() === $waterSettingID->getId();
     }

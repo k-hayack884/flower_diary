@@ -78,7 +78,7 @@ class FertilizerSettingCollectionTest extends TestCase
                 new FertilizerAmount(114),
                 new fertilizerName('泥'),
             );
-        $fertilizerSettingCollection->add($addFertilizerSettingSetting);
+        $fertilizerSettingCollection->addSetting($addFertilizerSettingSetting);
         $fertilizerSettings[] = $addFertilizerSettingSetting;
 
         $this->assertCount(count($fertilizerSettings), $fertilizerSettingCollection);
@@ -115,6 +115,7 @@ class FertilizerSettingCollectionTest extends TestCase
         $this->expectException(NotFoundException::class);
         $getFertilizerSetting = $fertilizerSettingCollection->findById($fertilizerSettingId);
     }
+   //TODO 月が被ったオブジェクトを摘出していないので修正
     public function test_月が被ったオブジェクトを摘出すること()
     {
         $fertilizerSettings = [

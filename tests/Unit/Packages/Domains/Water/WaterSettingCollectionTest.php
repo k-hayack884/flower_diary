@@ -91,7 +91,7 @@ class WaterSettingCollectionTest extends TestCase
                 new WateringInterval(1),
                 ['11:30', '21:15']
             );
-        $waterSettingCollection->add($addWaterSetting);
+        $waterSettingCollection->addSetting($addWaterSetting);
         $waterSettings[] = $addWaterSetting;
 
         $this->assertCount(count($waterSettings), $waterSettingCollection);
