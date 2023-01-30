@@ -27,9 +27,9 @@ class FertilizerSettingId
      * @param FertilizerSettingId $fertilizerSettingID
      * @return bool
      */
-    public function equals(FertilizerSettingId $fertilizerSettingID): bool
+    public function equals(FertilizerSettingId $fertilizerSettingId): bool
     {
-        return $this->getId() === $fertilizerSettingID->getId();
+        return $this->getId() === $fertilizerSettingId->getId();
     }
 
     /**
