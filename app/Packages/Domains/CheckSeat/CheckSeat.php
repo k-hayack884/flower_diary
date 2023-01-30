@@ -7,12 +7,12 @@ use App\Packages\Domains\Water\WaterSettingCollection;
 use DomainException;
 class CheckSeat
 {
-    private readonly CheckSeatId $checkSeatID;
+    private readonly CheckSeatId $checkSeatId;
     private WaterSettingCollection $waterSettingCollection;
     private FertilizerSettingCollection $fertilizerSettingCollection;
 
     public function __construct(
-        CheckSeatId                 $waterCheckSeatID,
+        CheckSeatId                 $waterCheckSeatId,
         WaterSettingCollection      $waterSettingCollection,
         FertilizerSettingCollection $fertilizerSettingCollection
     )
@@ -21,7 +21,7 @@ class CheckSeat
         {
             throw new DomainException("チェックシートを作成するには水やり設定か肥料設定のどちらかを作成する必要があります");
         }
-        $this->checkSeatID = $waterCheckSeatID;
+        $this->checkSeatId = $waterCheckSeatId;
         $this->waterSettingCollection=$waterSettingCollection;
         $this->fertilizerSettingCollection=$fertilizerSettingCollection;
     }
