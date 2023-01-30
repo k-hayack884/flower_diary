@@ -24,7 +24,7 @@ class FertilizerSettingId
     }
 
     /**
-     * @param FertilizerSettingId $fertilizerSettingID
+     * @param FertilizerSettingId $fertilizerSettingId
      * @return bool
      */
     public function equals(FertilizerSettingId $fertilizerSettingId): bool

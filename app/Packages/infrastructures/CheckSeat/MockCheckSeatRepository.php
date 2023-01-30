@@ -5,6 +5,7 @@ namespace App\Packages\infrastructures\CheckSeat;
 use App\Exceptions\NotFoundException;
 use App\Packages\Domains\CheckSeat\CheckSeat;
 use App\Packages\Domains\CheckSeat\CheckSeatId;
+use App\Packages\Domains\CheckSeat\CheckSeatRepositoryInterface;
 use App\Packages\Domains\Fertilizer\FertilizerAmount;
 use App\Packages\Domains\Fertilizer\fertilizerName;
 use App\Packages\Domains\Fertilizer\FertilizerNote;
@@ -19,7 +20,7 @@ use App\Packages\Domains\Water\WaterNote;
 use App\Packages\Domains\Water\WaterSettingCollection;
 use App\Packages\Domains\Water\WaterSettingId;
 
-class MockCheckSeatRepository
+class MockCheckSeatRepository implements CheckSeatRepositoryInterface
 {
     private array $checkSeats = [];
 
