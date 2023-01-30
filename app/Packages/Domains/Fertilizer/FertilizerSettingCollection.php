@@ -95,7 +95,7 @@ class FertilizerSettingCollection  extends Collection
             if ($referenceFertilizerSetting === $fertilizerSetting) {
                 continue;
             }
-            if($referenceFertilizerSetting->getFertilizerName()===$fertilizerSetting->getFertilizerName()){
+            if($referenceFertilizerSetting->getFertilizerName()->getValue()===$fertilizerSetting->getFertilizerName()->getValue()){
                 $sumMonthArray = array_merge($referenceFertilizerSetting->getMonths(), $fertilizerSetting->getMonths());
                 $deleteDuplicationArray = array_unique($sumMonthArray);
                 if (count($sumMonthArray) !== count($deleteDuplicationArray)) {

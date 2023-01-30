@@ -53,7 +53,7 @@ class WaterSettingCollection extends Collection implements IteratorAggregate
      */
     public function getValue(int $value): ?Closure
     {
-        return $this->collection->get($value);
+        return $this->get($value);
     }
 
     /**

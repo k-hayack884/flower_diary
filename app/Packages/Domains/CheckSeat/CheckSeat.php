@@ -35,6 +35,8 @@ class CheckSeat
         if (!empty($this->fertilizerSettingCollection->duplicationDisplay()->toArray())) {
             throw new DomainException('同じ肥料の月が重複している設定があります');
         }
+        $hoge=$this->fertilizerSettingCollection->duplicationDisplay()->toArray();
+        $hog='';
     }
 
     /**

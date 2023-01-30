@@ -115,6 +115,7 @@ class FertilizerSettingCollectionTest extends TestCase
         $this->expectException(NotFoundException::class);
         $getFertilizerSetting = $fertilizerSettingCollection->findById($fertilizerSettingId);
     }
+   //TODO 月が被ったオブジェクトを摘出していないので修正
     public function test_月が被ったオブジェクトを摘出すること()
     {
         $fertilizerSettings = [
