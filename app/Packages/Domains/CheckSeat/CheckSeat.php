@@ -4,12 +4,12 @@ namespace App\Packages\Domains\CheckSeat;
 use DomainException;
 class CheckSeat
 {
-    private readonly CheckSeatId $checkSeatID;
+    private readonly CheckSeatId $checkSeatId;
     private array  $waterSettingIds=[];
     private array $fertilizerSettingIds=[];
 
     public function __construct(
-        CheckSeatId                 $waterCheckSeatID,
+        CheckSeatId                 $waterCheckSeatId,
         array  $waterSettingIds,
         array $fertilizerSettingIds
     )
@@ -18,7 +18,7 @@ class CheckSeat
         {
             throw new DomainException("チェックシートを作成するには水やり設定か肥料設定のどちらかを作成する必要があります");
         }
-        $this->checkSeatID = $waterCheckSeatID;
+        $this->checkSeatId = $waterCheckSeatId;
         $this->waterSettingIds=$waterSettingIds;
         $this->fertilizerSettingIds=$fertilizerSettingIds;
 
