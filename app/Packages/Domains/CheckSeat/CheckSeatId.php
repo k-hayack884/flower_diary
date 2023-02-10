@@ -26,12 +26,12 @@ class CheckSeatId
     }
 
     /**
-     * @param CheckSeatId $waterSettingID
+     * @param CheckSeatId $checkSeatId
      * @return bool
      */
-    public function equals(CheckSeatId $waterSettingID): bool
+    public function equals(CheckSeatId $checkSeatId): bool
     {
-        return $this->getId() === $waterSettingID->getId();
+        return $this->getId() === $checkSeatId->getId();
     }
 
     /**

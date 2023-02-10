@@ -21,6 +21,7 @@ class CheckSeat
         $this->checkSeatID = $waterCheckSeatID;
         $this->waterSettingIds=$waterSettingIds;
         $this->fertilizerSettingIds=$fertilizerSettingIds;
+
     }
 
     /**

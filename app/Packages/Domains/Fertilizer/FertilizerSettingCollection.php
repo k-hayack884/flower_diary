@@ -3,22 +3,17 @@
 namespace App\Packages\Domains\Fertilizer;
 
 use App\Exceptions\NotFoundException;
-
-use ArrayIterator;
 use Closure;
-use DomainException;
 use Illuminate\Support\Collection;
 use IteratorAggregate;
-use ReturnTypeWillChange;
 
-class FertilizerSettingCollection  extends Collection
+class FertilizerSettingCollection  extends Collection implements IteratorAggregate
 {
-    private Collection $collection;
-
+    /**
+     * @param array $fertilizerSettings
+     */
     public function __construct(array $fertilizerSettings = [])
     {
-        $this->collection = new Collection();
-
         foreach ($fertilizerSettings as $fertilizerSetting) {
             $this->addSetting($fertilizerSetting);
         }
@@ -57,7 +52,7 @@ class FertilizerSettingCollection  extends Collection
      */
     public function getValue(int $value): ?Closure
     {
-        return $this->collection->get($value);
+        return $this->get($value);
     }
 
     /**
