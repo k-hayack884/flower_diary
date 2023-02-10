@@ -2,18 +2,24 @@
 
 namespace App\Packages\Usecases\CheckSeat;
 
+use App\Exceptions\CheckSeatException;
+use App\Packages\Domains\CheckSeat\CheckSeat;
 use App\Packages\Domains\CheckSeat\CheckSeatId;
 use App\Packages\Domains\CheckSeat\CheckSeatRepositoryInterface;
 use App\Packages\Presentations\Requests\CheckSeat\CreateCheckSeatRequest;
 use App\Packages\Usecases\Dto\CheckSeat\CheckSeatDto;
+use App\Packages\Usecases\Fertilizer\FertilizerSettingsDtoFactory;
 
 class CreateCheckSeatAction
 {
     public function __construct(CheckSeatRepositoryInterface $checkSeatRepository)
     {
-        $this->$checkSeatRepository = $checkSeatRepository;
+        $this->checkSeatRepository = $checkSeatRepository;
     }
 
+    /**
+     * @throws CheckSeatException
+     */
     public function __invoke(
         CreateCheckSeatRequest $createCheckSeatRequest
     ):CheckSeatDto
@@ -22,23 +28,21 @@ class CreateCheckSeatAction
             'checkSeat.waterIds' => $createCheckSeatRequest->getWaterIds(),
             'checkSeat.fertilizerIds' => $createCheckSeatRequest->getFertilizerIds(),
         ];
+
         try {
             $checkSeatId = new CheckSeatId();
-            $fertilizerSettingMonths = $requestArray['checkSeat.waterIds'];
-            $fertilizerSettingNote = new FertilizerNote($requestArray['checkSeat.fertilizerIds']);
+            $waterSettingIds = $requestArray['checkSeat.waterIds'];
+            $fertilizerSettingIds =$requestArray['checkSeat.fertilizerIds'];
 
-            $fertilizerSetting = new MonthsFertilizerSetting(
-                $fertilizerSettingId,
-                $fertilizerSettingMonths,
-                $fertilizerSettingNote,
-                $fertilizerSettingAmount,
-                $fertilizerSettingName,
+            $checkSeat = new CheckSeat(
+                $checkSeatId,
+                $waterSettingIds,
+                $fertilizerSettingIds
             );
-            $FertilizerSettingCollection=new FertilizerSettingCollection();
-            $this->fertilizerSettingRepository->save($FertilizerSettingCollection);
-        } catch (Exception $e) {
+            $this->checkSeatRepository->save($checkSeat);
+        } catch (CheckSeatException $e) {
             throw  $e;
         }
-        return FertilizerSettingsDtoFactory::create($fertilizerSetting);
+        return CheckSeatDtoFactory::create($checkSeat);
     }
 }

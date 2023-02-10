@@ -2,6 +2,7 @@
 
 namespace App\Packages\Usecases\CheckSeat;
 
+use App\Packages\Domains\CheckSeat\CheckSeat;
 use App\Packages\Domains\CheckSeat\CheckSeatId;
 use App\Packages\Domains\CheckSeat\CheckSeatRepositoryInterface;
 use App\Packages\Presentations\Requests\CheckSeat\GetCheckSeatRequest;
@@ -21,15 +22,17 @@ class GetCheckSeatAction
 
     /**
      * @param GetCheckSeatRequest $getCheckSeatRequest
-     * @param string $CheckSeatId
+     * @param string $checkSeatId
      * @return CheckSeatDto
      */
     public function __invoke(
         GetCheckSeatRequest $getCheckSeatRequest,
-        string                $CheckSeatId
+        string                $checkSeatId
     ): CheckSeatDto
     {
-        $CheckSeat = $this->checkSeatRepository->findById(new CheckSeatId($CheckSeatId));
-        return CheckSeatDtoFactory::create($CheckSeat);
+        $checkSeatArray = $this->checkSeatRepository->findById(new CheckSeatId($checkSeatId));
+        $checkSeat=new CheckSeat(new CheckSeatId($checkSeatId),$checkSeatArray['water_ids'],$checkSeatArray['fertilizer_ids']);
+
+        return CheckSeatDtoFactory::create($checkSeat);
     }
 }

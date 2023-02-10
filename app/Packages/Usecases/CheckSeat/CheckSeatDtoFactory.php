@@ -10,20 +10,10 @@ class CheckSeatDtoFactory
 {
     public static function create(CheckSeat $checkSeat): CheckSeatDto
     {
-        $waterSettingIds = [];
-        $fertilizerSettingIds = [];
-        $waterSettingCollection = $checkSeat->getWaterSettingCollection();
-        $fertilizerSettingCollection = $checkSeat->getFertilizerSettingCollection();
-        foreach ($waterSettingCollection as $waterSetting) {
-            $waterSettingIds[] = $waterSetting->getWaterSettingId()->getId();
-        }
-        foreach ($fertilizerSettingCollection as $fertilizerSetting) {
-            $fertilizerSettingIds[] = $fertilizerSetting->getFertilizerSettingId()->getId();
-        }
         return new CheckSeatDto(
             $checkSeat->getCheckSeatId()->getId(),
-            $waterSettingIds,
-            $fertilizerSettingIds
+            $checkSeat->getWaterSettingIds(),
+            $checkSeat->getFertilizerSettingIds()
         );
     }
 }
