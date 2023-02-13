@@ -1,27 +1,30 @@
 <?php
 
 namespace App\Packages\Domains\CheckSeat;
+
+use Carbon\Carbon;
 use DomainException;
+
 class CheckSeat
 {
-    private readonly CheckSeatId $checkSeatId;
-    private array  $waterSettingIds=[];
-    private array $fertilizerSettingIds=[];
+    private readonly CheckSeatId $checkSeatID;
+    private array $waterSettingIds = [];
+    private array $fertilizerSettingIds = [];
+    private Carbon $createDate;
 
     public function __construct(
-        CheckSeatId                 $waterCheckSeatId,
-        array  $waterSettingIds,
-        array $fertilizerSettingIds
+        CheckSeatId $waterCheckSeatID,
+        array       $waterSettingIds,
+        array       $fertilizerSettingIds
     )
     {
-        if (empty($waterSettingIds) &&empty($fertilizerSettingIds))
-        {
+        if (empty($waterSettingIds) && empty($fertilizerSettingIds)) {
             throw new DomainException("チェックシートを作成するには水やり設定か肥料設定のどちらかを作成する必要があります");
         }
-        $this->checkSeatId = $waterCheckSeatId;
-        $this->waterSettingIds=$waterSettingIds;
-        $this->fertilizerSettingIds=$fertilizerSettingIds;
-
+        $this->checkSeatID = $waterCheckSeatID;
+        $this->waterSettingIds = $waterSettingIds;
+        $this->fertilizerSettingIds = $fertilizerSettingIds;
+        $this->createDate=Carbon::now();
     }
 
     /**
@@ -35,7 +38,7 @@ class CheckSeat
     /**
      * @return array
      */
-    public function getWaterSettingIds():array
+    public function getWaterSettingIds(): array
     {
         return $this->waterSettingIds;
     }
@@ -43,8 +46,13 @@ class CheckSeat
     /**
      * @return array
      */
-    public function getFertilizerSettingIds():array
+    public function getFertilizerSettingIds(): array
     {
         return $this->fertilizerSettingIds;
+    }
+
+    public function getCreateDate(): Carbon
+    {
+        return $this->createDate;
     }
 }
