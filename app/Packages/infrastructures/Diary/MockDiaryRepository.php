@@ -1,0 +1,74 @@
+<?php
+
+namespace App\Packages\infrastructures\Diary;
+
+use App\Packages\Domains\Dairy\DiaryCollection;
+use App\Packages\Domains\Dairy\DiaryId;
+use App\Packages\Domains\Dairy\DiaryRepositoryInterface;
+
+class MockDiaryRepository implements DiaryRepositoryInterface
+{
+    private array $diaries=[];
+    public function __construct()
+    {
+        $diaryA=
+            new Diary(
+                new DiaryId('983c1092-7a0d-40b0-af6e-30bff5975e31'),
+                new FertilizerNote('とてもいい'),
+            );
+        $diaryB=
+            new Diary(
+                new DiaryId('333c1092-7a0d-40b0-af6e-30bff5975e31'),
+                new FertilizerNote('ほげえ'),
+            );
+        $this->diaries=$diaryA;
+        $this->diaries=$diaryB;
+    }
+
+    /**
+     * @return array
+     */
+    public function find(): array
+    {
+        return $this->diaries;
+    }
+
+    /**
+     * @param DiaryId $diaryId
+     * @return Diary
+     */
+    public function findById(DiaryId $diaryId):Diary
+    {
+
+        foreach ($this->diaries as $diary) {
+            if ($diary->getDiaryId()->equals($diaryId)) {
+                return $diary;
+            }
+        }
+        throw new NotFoundException('指定した日記IDは見つかりませんでした (id:' . $diaryId->getId() . ')');
+    }
+
+    /**
+     * @param DiaryCollection $diary
+     * @return void
+     */
+    public function save(DiaryCollection $diary): void
+    {
+        $collectionArray = $diary->toArray();
+        foreach ($collectionArray as $collectionValue) {
+            $this->diaries[] = $collectionValue;
+        }
+    }
+
+    /**
+     * @param DiaryId $diaryId
+     * @return void
+     */
+    public function delete(DiaryId $diaryId): void
+    {
+        $deleteSetting = $this->findById($diaryId);
+        $index = array_search($deleteSetting, $this->diaries);
+        unset($this->diaries[$index]);
+
+    }
+}
