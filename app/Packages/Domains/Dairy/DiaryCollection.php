@@ -2,8 +2,10 @@
 
 namespace App\Packages\Domains\Dairy;
 
+use App\Exceptions\NotFoundException;
 use Closure;
 use Illuminate\Support\Collection;
+use IteratorAggregate;
 
 class DiaryCollection extends Collection implements IteratorAggregate
 {
@@ -29,9 +31,9 @@ class DiaryCollection extends Collection implements IteratorAggregate
 
     /**
      * @param DiaryId $diaryId
-     * @return Closure
+     * @return Diary
      */
-    public function findById(DiaryId $diaryId): Closure
+    public function findById(DiaryId $diaryId):Diary
     {
         $diary= $this->get($diaryId->getId());
         if (is_null($diary)) {
@@ -42,6 +44,16 @@ class DiaryCollection extends Collection implements IteratorAggregate
         }
         return $diary;
     }
+
+    /**
+     * @param Diary $diary
+     * @return void
+     */
+    public function delete(Diary $diary):void
+    {
+        $this->forget($diary->getDiaryId()->getId());
+    }
+
 
     /**
      * @param int $value

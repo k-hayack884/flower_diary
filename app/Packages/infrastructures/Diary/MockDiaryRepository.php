@@ -2,7 +2,10 @@
 
 namespace App\Packages\infrastructures\Diary;
 
+use App\Exceptions\NotFoundException;
+use App\Packages\Domains\Dairy\Diary;
 use App\Packages\Domains\Dairy\DiaryCollection;
+use App\Packages\Domains\Dairy\DiaryContent;
 use App\Packages\Domains\Dairy\DiaryId;
 use App\Packages\Domains\Dairy\DiaryRepositoryInterface;
 
@@ -11,18 +14,23 @@ class MockDiaryRepository implements DiaryRepositoryInterface
     private array $diaries=[];
     public function __construct()
     {
+        $commentIdA=['114c1092-7a0d-40b0-af6e-30bff5975e31','514c1092-7a0d-40b0-af6e-30bff5975e31'];
+        $commentIdB=['721c1092-7a0d-40b0-af6e-30bff5975e31'];
+
         $diaryA=
             new Diary(
                 new DiaryId('983c1092-7a0d-40b0-af6e-30bff5975e31'),
-                new FertilizerNote('とてもいい'),
+                new DiaryContent('とてもいい'),
+                $commentIdA
             );
         $diaryB=
             new Diary(
                 new DiaryId('333c1092-7a0d-40b0-af6e-30bff5975e31'),
-                new FertilizerNote('ほげえ'),
+                new DiaryContent('ほげえ'),
+                $commentIdB
             );
-        $this->diaries=$diaryA;
-        $this->diaries=$diaryB;
+        $this->diaries[]=$diaryA;
+        $this->diaries[]=$diaryB;
     }
 
     /**
@@ -36,6 +44,7 @@ class MockDiaryRepository implements DiaryRepositoryInterface
     /**
      * @param DiaryId $diaryId
      * @return Diary
+     * @throws NotFoundException
      */
     public function findById(DiaryId $diaryId):Diary
     {
