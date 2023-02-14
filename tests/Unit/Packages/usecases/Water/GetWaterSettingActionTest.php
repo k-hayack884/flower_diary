@@ -27,7 +27,6 @@ class GetWaterSettingActionTest extends TestCase
 
         $this->assertInstanceOf(WaterSettingDto::class, $result->waterSettings[0]);
         $this->assertSame('983c1092-7a0d-40b0-af6e-30bff5975e31',$result->waterSettings[0]->waterSettingId);
-
     }
 
 }

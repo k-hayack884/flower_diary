@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Packages\Domains\Dairy;
+namespace App\Packages\Domains\Diary;
 
 use Carbon\Carbon;
 
@@ -11,10 +11,15 @@ class Diary
     private array $comments = [];
     private Carbon $createDate;
 
-    public function __construct(DiaryId $diaryId, DiaryContent $diaryContent)
+    public function __construct(DiaryId $diaryId, DiaryContent $diaryContent,array $comments=null)
     {
         $this->diaryId = $diaryId;
         $this->diaryContent = $diaryContent;
+        if($comments===null){
+            $this->comments=[];
+        }else{
+            $this->comments = $comments;
+        }
         $this->createDate = Carbon::now();
     }
 
