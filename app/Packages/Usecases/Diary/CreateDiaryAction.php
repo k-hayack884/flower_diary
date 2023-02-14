@@ -24,11 +24,11 @@ class CreateDiaryAction
     ): DiaryWrapDto
     {
         $requestArray = [
-            'diary.months' => $createDiaryRequest->getDiaryContent()
+            'diary.content' => $createDiaryRequest->getDiaryContent()
         ];
         try {
             $diaryId = new DiaryId();
-            $diaryMonths = new DiaryContent($requestArray['diary.months']);
+            $diaryMonths = new DiaryContent($requestArray['diary.content']);
             $diary = new Diary(
                 $diaryId,
                 $diaryMonths

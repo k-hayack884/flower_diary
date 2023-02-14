@@ -11,7 +11,7 @@ class Diary
     private array $comments = [];
     private Carbon $createDate;
 
-    public function __construct(DiaryId $diaryId, DiaryContent $diaryContent,array $comments=null)
+    public function __construct(DiaryId $diaryId, DiaryContent $diaryContent,array $comments=null,Carbon $createDate=null)
     {
         $this->diaryId = $diaryId;
         $this->diaryContent = $diaryContent;
@@ -20,7 +20,12 @@ class Diary
         }else{
             $this->comments = $comments;
         }
-        $this->createDate = Carbon::now();
+        if($createDate===null){
+            $this->createDate = Carbon::now();;
+        }else{
+            $this->createDate = $createDate;
+        }
+
     }
 
     public function updateContent(string $content): void

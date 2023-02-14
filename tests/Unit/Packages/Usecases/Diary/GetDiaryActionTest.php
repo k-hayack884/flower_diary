@@ -3,6 +3,7 @@
 namespace Packages\Usecases\Diary;
 
 use App\Exceptions\NotFoundException;
+use App\Packages\Domains\Shared\Uuid;
 use App\Packages\infrastructures\Diary\MockDiaryRepository;
 use App\Packages\Presentations\Requests\Diary\GetDiaryRequest;
 use App\Packages\Usecases\Diary\GetDiaryAction;
@@ -35,7 +36,7 @@ class GetDiaryActionTest extends TestCase
 
     public function test_存在しないIDの場合エラーを出すこと()
     {
-        $diaryId = '334c1092-7a0d-40b0-af6e-30bff5975e31';
+        $diaryId =new Uuid();
         $request = GetDiaryRequest::create('diary', 'GET', []);
         $mockDiarySettingRepository = app()->make(MockDiaryRepository::class);
 
@@ -46,7 +47,7 @@ class GetDiaryActionTest extends TestCase
                 $mockDiarySettingRepository
             );
         });
-        $this->expectExceptionMessage('指定した日記IDが見つかりませんでした (id:' . $diaryId . ')');
+        $this->expectExceptionMessage('指定した日記IDは見つかりませんでした (id:' . $diaryId . ')');
         $this->expectException(NotFoundException::class);
         $result = (app()->make(GetDiaryAction::class))->__invoke($request, $diaryId);
 

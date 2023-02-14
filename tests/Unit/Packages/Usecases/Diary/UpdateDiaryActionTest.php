@@ -2,13 +2,16 @@
 
 namespace Packages\Usecases\Diary;
 
+use App\Exceptions\NotFoundException;
+use App\Packages\Domains\Diary\DiaryId;
 use App\Packages\infrastructures\Diary\MockDiaryRepository;
+use App\Packages\Presentations\Requests\Diary\UpdateDiaryRequest;
 use App\Packages\Usecases\Diary\UpdateDiaryAction;
 use PHPUnit\Framework\TestCase;
 
 class UpdateDiaryActionTest extends TestCase
 {
-    public function test_指定した水やり設定のレスポンスの型があっていること()
+    public function test_変更をした日記のレスポンスの型があっていること()
     {
         $diaryId = '333c1092-7a0d-40b0-af6e-30bff5975e31';
         $request = UpdateDiaryRequest::create('diary', 'POST', [
@@ -29,22 +32,16 @@ class UpdateDiaryActionTest extends TestCase
         $prevDiary = $mockDiaryRepository->findById(new DiaryId($diaryId));
         $result = (app()->make(UpdateDiaryAction::class))->__invoke($request, $diaryId);
 
-        $this->assertSame([5, 7, 9], $result->diary->months);
-        $this->assertSame('ち～ん', $result->Diarys->note);
-        $this->assertSame(334, $result->Diarys->DiaryAmount);
-        $this->assertSame('甲子園の土', $result->Diarys->DiaryName);
-        $this->assertNotEquals($prevDiary->getDiaryNote()->getvalue(), $result->Diarys->note);
+        $this->assertSame('書き換え完了', $result->diary->content);
+        $this->assertNotEquals($prevDiary->getDiaryContent()->getvalue(), $result->diary->content);
     }
 
-    public function test_存在しない肥料設定IDを入力するとエラーを返すこと()
+    public function test_存在しない日記IDを入力するとエラーを返すこと()
     {
-        $DiaryId = new Uuid();
-        $request = UpdateDiaryRequest::create('Diary/settings/Update', 'POST', [
-            'Diary' => [
-                'Diary.months' => [5, 7, 9],
-                'Diary.note' => 'ち～ん',
-                'Diary.amount' => 334,
-                'Diary.name' => '甲子園の土',
+        $diaryId = '334c1092-7a0d-40b0-af6e-30bff5975e31';
+        $request = UpdateDiaryRequest::create('diary', 'POST', [
+            'diary' => [
+                'diary.content' =>'書き換え完了',
             ]
         ]);
         $mockDiaryRepository = app()->make(MockDiaryRepository::class);
@@ -56,8 +53,8 @@ class UpdateDiaryActionTest extends TestCase
                 $mockDiaryRepository
             );
         });
-        $this->expectExceptionMessage('指定した肥料設定IDは見つかりませんでした (id:' . $DiaryId . ')');
+        $this->expectExceptionMessage('指定した日記IDは見つかりませんでした (id:' . $diaryId . ')');
         $this->expectException(NotFoundException::class);
-        $result = (app()->make(UpdateDiaryAction::class))->__invoke($request, $DiaryId);
+        $result = (app()->make(UpdateDiaryAction::class))->__invoke($request, $diaryId);
     }
 }

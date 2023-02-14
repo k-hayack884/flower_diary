@@ -30,12 +30,14 @@ class GetDiariesAction
         $diaryDtos = [];
 
         foreach ($diaryCollection as $diary) {
-            $diaryDtos[] = new DiaryDto(
-                $diary->getDiaryId()->getId(),
-                $diary->getcomments(),
-                $diary->getDiaryContent()->getValue(),
-                $diary->getCreateDate()->format('Y/m/d'),
+            $diaryDtos[] =
+                new DiaryDto(
+                    $diary->getDiaryId()->getId(),
+                    $diary->getDiaryContent()->getValue(),
+                    $diary->getcomments(),
+                    $diary->getCreateDate()->format('Y/m/d'),
             );
+
         }
         return new DiariesWrapDto($diaryDtos);
     }
