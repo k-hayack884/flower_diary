@@ -1,12 +1,12 @@
 <?php
 
-namespace Packages\Domains\Dairy;
+namespace Packages\Domains\Diary;
 
 use App\Exceptions\NotFoundException;
-use App\Packages\Domains\Dairy\Diary;
-use App\Packages\Domains\Dairy\DiaryCollection;
-use App\Packages\Domains\Dairy\DiaryContent;
-use App\Packages\Domains\Dairy\DiaryId;
+use App\Packages\Domains\Diary\Diary;
+use App\Packages\Domains\Diary\DiaryCollection;
+use App\Packages\Domains\Diary\DiaryContent;
+use App\Packages\Domains\Diary\DiaryId;
 use PHPUnit\Framework\TestCase;
 
 class DiaryCollectionTest extends TestCase

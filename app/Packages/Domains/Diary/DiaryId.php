@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Packages\Domains\Dairy;
+namespace App\Packages\Domains\Diary;
 
 use App\Packages\Domains\Shared\Uuid;
 
