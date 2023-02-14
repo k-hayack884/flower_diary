@@ -6,6 +6,7 @@ use App\Packages\Domains\Diary\DiaryId;
 use App\Packages\Domains\Diary\DiaryRepositoryInterface;
 use App\Packages\Presentations\Requests\Diary\GetDiaryRequest;
 use App\Packages\Usecases\Dto\Diary\DiaryDto;
+use App\Packages\Usecases\Dto\Diary\DiaryWrapDto;
 
 class GetDiaryAction
 {
@@ -21,12 +22,12 @@ class GetDiaryAction
     /**
      * @param GetDiaryRequest $getDiaryRequest
      * @param string $diaryId
-     * @return DiaryDto
+     * @return DiaryWrapDto
      */
     public function __invoke(
         GetDiaryRequest $getDiaryRequest,
         string $diaryId
-    ): DiaryDto
+    ): DiaryWrapDto
     {
         $hitDiary = $this->diaryRepository->findById(new DiaryId($diaryId));
 
