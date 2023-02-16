@@ -11,10 +11,14 @@ use PHPUnit\Framework\TestCase;
 
 class DeleteDiaryActionTest extends TestCase
 {
-    public function test_指定した水やり設定が削除されていること()
+    public function test_指定した日記が削除されていること()
     {
         $diaryId = '334c1092-7a0d-40b0-af6e-30bff5975e31';
-        $request = DeleteDiaryRequest::create('diary', 'DELETE', []);
+        $request = DeleteDiaryRequest::create('diary', 'DELETE', [
+            'comment' => [
+                'comment.userId'=>'893c1092-7a0d-40b0-af6e-30bff5975e31'
+            ]
+        ]);
         $mockDiaryRepository = app()->make(MockDiaryRepository::class);
 
         app()->bind(DeleteDiaryAction::class, function () use (
@@ -30,7 +34,7 @@ class DeleteDiaryActionTest extends TestCase
         $diary = $mockDiaryRepository->findById(new DiaryId($diaryId));
     }
 
-    public function test_存在しない水やり設定IDを入力するとエラーを返すこと()
+    public function test_存在しない日記IDを入力するとエラーを返すこと()
     {
         $diaryId =new Uuid();
         $request = DeleteDiaryRequest::create('diary', 'DELETE', []);
