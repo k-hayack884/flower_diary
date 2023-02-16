@@ -29,17 +29,17 @@ class DiaryContent
     }
 
     /**
-     * @param string|null $note
-     * @return FertilizerNote
+     * @param string|null $content
+     * @return DiaryContent
      */
-    public function update(string|null $note=null):DiaryContent
+    public function update(string|null $content=null):DiaryContent
     {
-        if (mb_strlen($note) > 20) {
+        if (mb_strlen($content) > 20) {
             throw new DomainException('日記の内容にに入力できる文字数は200字までです');
         }
-        if ($note === null) {
-            $note = self::RESET;
+        if ($content === null) {
+            $content = self::RESET;
         }
-        return new self($note);
+        return new self($content);
     }
 }
