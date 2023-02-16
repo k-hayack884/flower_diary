@@ -43,6 +43,8 @@ class MockCheckSeatRepository implements CheckSeatRepositoryInterface
      */
     public function save(CheckSeat $checkSeat): void
     {
+
+
         $checkSeatId = $checkSeat->getCheckSeatId()->getId();
         $waterArrayIds = $checkSeat->getWaterSettingIds();
         $fertilizerIds = $checkSeat->getFertilizerSettingIds();
