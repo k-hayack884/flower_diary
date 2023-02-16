@@ -7,13 +7,13 @@ use DomainException;
 
 class CheckSeat
 {
-    private readonly CheckSeatId $checkSeatID;
+    private readonly CheckSeatId $checkSeatId;
     private array $waterSettingIds = [];
     private array $fertilizerSettingIds = [];
     private Carbon $createDate;
 
     public function __construct(
-        CheckSeatId $waterCheckSeatID,
+        CheckSeatId $checkSeatId,
         array       $waterSettingIds,
         array       $fertilizerSettingIds
     )
@@ -21,7 +21,7 @@ class CheckSeat
         if (empty($waterSettingIds) && empty($fertilizerSettingIds)) {
             throw new DomainException("チェックシートを作成するには水やり設定か肥料設定のどちらかを作成する必要があります");
         }
-        $this->checkSeatID = $waterCheckSeatID;
+        $this->checkSeatId = $checkSeatId;
         $this->waterSettingIds = $waterSettingIds;
         $this->fertilizerSettingIds = $fertilizerSettingIds;
         $this->createDate=Carbon::now();
