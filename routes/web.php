@@ -33,3 +33,9 @@ Route::middleware([
         return Inertia::render('Dashboard');
     })->name('dashboard');
 });
+Route::prefix('admin')
+    ->middleware('can:admin')->group(function(){
+        Route::get('index',function(){
+       dd('admin');
+        });
+    });
