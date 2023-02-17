@@ -20,6 +20,13 @@ class DiaryCollection extends Collection implements IteratorAggregate
 
     }
 
+    public function sortDate()
+    {
+        $sorted=$this->sortByDesc(function ($product,$key){
+           return $product->getCreateDate();
+        });
+        return $sorted;
+    }
     /**
      * @param Diary $diary
      * @return void
