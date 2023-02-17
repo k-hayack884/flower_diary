@@ -7,6 +7,7 @@ use App\Packages\Domains\CheckSeat\CheckSeatId;
 use App\Packages\Domains\Water\TarmWaterSetting;
 use App\Packages\Domains\Water\WaterAmountNote;
 use App\Packages\Domains\Water\WaterSetting;
+use Carbon\Carbon;
 use DomainException;
 use PHPUnit\Framework\TestCase;
 
@@ -23,6 +24,7 @@ class CheckSeatTest extends TestCase
             $fertilizerSettingIds
         );
         $this->assertInstanceOf(CheckSeat::class, $checkSeat);
+        $this->assertInstanceOf(Carbon::class,$checkSeat->getCreateDate());
     }
 
     public function test_水やり設定のみのチェックシートが生成される()

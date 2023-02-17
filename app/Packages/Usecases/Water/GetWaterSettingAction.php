@@ -20,7 +20,7 @@ class GetWaterSettingAction
     }
 
     /**
-     * @param GetWaterSettingAction $getWaterSettingAction
+     * @param GetWaterSettingRequest $getWaterSettingRequest
      * @param string $waterSettingId
      * @return WaterSettingWrapDto
      */
