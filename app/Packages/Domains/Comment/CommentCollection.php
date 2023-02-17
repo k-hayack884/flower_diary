@@ -27,6 +27,14 @@ class CommentCollection extends Collection
         $this->put($comment->getCommentId()->getId(), $comment);
     }
 
+    public function sortDate()
+    {
+        $sorted=$this->sortByDesc(function ($product,$key){
+            return $product->getCreateDate();
+        });
+        return $sorted;
+    }
+
     /**
      * @param CommentId $commentId
      * @return Comment

@@ -138,7 +138,5 @@ class DiaryCollectionTest extends TestCase
         $this->assertSame('今日＋1時間', $results[1]);
         $this->assertSame('今日', $results[2]);
         $this->assertSame('昨日', $results[3]);
-
-
     }
 }
