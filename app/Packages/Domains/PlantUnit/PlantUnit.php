@@ -2,8 +2,8 @@
 
 namespace App\Packages\Domains\PlantUnit;
 
-use App\Packages\Domains\CheckSeat\CheckSeat;
 use App\Packages\Domains\CheckSeat\CheckSeatId;
+use App\Packages\Domains\User\UserId;
 use Carbon\Carbon;
 
 class PlantUnit
@@ -35,6 +35,4 @@ class PlantUnit
         $this->createDate=Carbon::now();
         $this->updateDate=Carbon::now();
     }
-
-
 }
