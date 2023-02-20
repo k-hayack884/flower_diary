@@ -24,7 +24,9 @@ class PlantUnit
         UserId      $userId,
         CheckSeatId $checkSeatId,
         PlantName   $plantName,
-        array       $diaries
+        array       $diaries,
+        Carbon  $createDate=null,
+        Carbon  $updateDate=null,
     )
     {
         $this->plantUnitId = $plantUnitId;
@@ -33,8 +35,16 @@ class PlantUnit
         $this->checkSeatId = $checkSeatId;
         $this->plantName = $plantName;
         $this->diaries = $diaries;
-        $this->createDate=Carbon::now();
-        $this->updateDate=Carbon::now();
+        if($createDate===null){
+            $this->createDate = Carbon::now();;
+        }else{
+            $this->createDate = $createDate;
+        }
+        if($updateDate===null){
+            $this->updateDate = Carbon::now();;
+        }else{
+            $this->updateDate = $updateDate;
+        }
     }
 
     /**
