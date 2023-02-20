@@ -9,9 +9,10 @@ use App\Packages\Domains\PlantUnit\plantName;
 use App\Packages\Domains\PlantUnit\PlantUnit;
 use App\Packages\Domains\PlantUnit\PlantUnitCollection;
 use App\Packages\Domains\PlantUnit\PlantUnitId;
+use App\Packages\Domains\PlantUnit\PlantUnitRepositoryInterface;
 use App\Packages\Domains\User\UserId;
 
-class MockPlantUnitRepository
+class MockPlantUnitRepository implements PlantUnitRepositoryInterface
 {
     private array $plantUnits = [];
 
