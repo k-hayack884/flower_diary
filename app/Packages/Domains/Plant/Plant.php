@@ -18,5 +18,4 @@ class Plant
     private int $recommendWinterWaterTimes;
     private string $fertilizerName;
     private array $fertilizerMonths;
-
 }

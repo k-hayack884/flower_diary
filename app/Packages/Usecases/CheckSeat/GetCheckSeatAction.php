@@ -27,11 +27,11 @@ class GetCheckSeatAction
      */
     public function __invoke(
         GetCheckSeatRequest $getCheckSeatRequest,
-        string                $checkSeatId
     ): CheckSeatDto
     {
-        $checkSeatArray = $this->checkSeatRepository->findById(new CheckSeatId($checkSeatId));
-        $checkSeat=new CheckSeat(new CheckSeatId($checkSeatId),$checkSeatArray['water_ids'],$checkSeatArray['fertilizer_ids']);
+        $id=$getCheckSeatRequest->getId();
+        $checkSeatArray = $this->checkSeatRepository->findById(new CheckSeatId($id));
+        $checkSeat=new CheckSeat(new CheckSeatId($id),$checkSeatArray['water_ids'],$checkSeatArray['fertilizer_ids']);
 
         return CheckSeatDtoFactory::create($checkSeat);
     }
