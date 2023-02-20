@@ -8,14 +8,12 @@ class GetCheckSeatRequest extends BaseRequest
 {
     public function rules(): array
     {
-        return [];
+        return ['checkSeatId'=>[
+            'required'
+        ]];
     }
-//        return ['checkSeat.id'=>[
-//            'required'
-//        ]];
-//    }
-//    public function getId():array
-//    {
-//        return $this->checkseat['checkSeat.id'];
-//    }
+    public function getId():string
+    {
+        return $this->input('checkSeatId');
+    }
 }

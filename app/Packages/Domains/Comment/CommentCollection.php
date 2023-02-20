@@ -8,7 +8,7 @@ use Illuminate\Support\Collection;
 class CommentCollection extends Collection
 {
     /**
-     * @param array $comments
+     * @param Comment[] $comments
      */
     public function __construct(array $comments = [])
     {
@@ -25,6 +25,7 @@ class CommentCollection extends Collection
     public function addComment(Comment $comment): void
     {
         $this->put($comment->getCommentId()->getId(), $comment);
+
     }
 
     public function sortDate()
