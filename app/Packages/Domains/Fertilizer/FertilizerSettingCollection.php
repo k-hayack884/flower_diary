@@ -10,14 +10,13 @@ use IteratorAggregate;
 class FertilizerSettingCollection  extends Collection implements IteratorAggregate
 {
     /**
-     * @param array $fertilizerSettings
+     * @param MonthsFertilizerSetting[] $fertilizerSettings
      */
     public function __construct(array $fertilizerSettings = [])
     {
         foreach ($fertilizerSettings as $fertilizerSetting) {
             $this->addSetting($fertilizerSetting);
         }
-
     }
 
     /**

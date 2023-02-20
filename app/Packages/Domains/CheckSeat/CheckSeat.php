@@ -2,16 +2,29 @@
 
 namespace App\Packages\Domains\CheckSeat;
 
+use App\Packages\Domains\Fertilizer\FertilizerSettingId;
+use App\Packages\Domains\Water\WaterSettingId;
 use Carbon\Carbon;
 use DomainException;
 
 class CheckSeat
 {
+    /**
+     * @var CheckSeatId
+     * @var WaterSettingId[]
+     * @var FertilizerSettingId[]
+     *
+     */
     private readonly CheckSeatId $checkSeatId;
     private array $waterSettingIds = [];
     private array $fertilizerSettingIds = [];
     private Carbon $createDate;
 
+    /**
+     * @param CheckSeatId $checkSeatId
+     * @param WaterSettingId[] $waterSettingIds
+     * @param FertilizerSettingId[] $fertilizerSettingIds
+     */
     public function __construct(
         CheckSeatId $checkSeatId,
         array       $waterSettingIds,
@@ -36,7 +49,7 @@ class CheckSeat
     }
 
     /**
-     * @return array
+     * @return WaterSettingId[]
      */
     public function getWaterSettingIds(): array
     {
@@ -44,13 +57,16 @@ class CheckSeat
     }
 
     /**
-     * @return array
+     * @return FertilizerSettingId[]
      */
     public function getFertilizerSettingIds(): array
     {
         return $this->fertilizerSettingIds;
     }
 
+    /**
+     * @return Carbon
+     */
     public function getCreateDate(): Carbon
     {
         return $this->createDate;

@@ -8,11 +8,23 @@ use DomainException;
 
 class Comment
 {
+    /**
+     * @var CommentId
+     * @var UserId
+     * @var CommentContent
+     * @var Carbon
+     */
     private CommentId $commentId;
     private UserId $userId;
     private CommentContent $commentContent;
     private Carbon $createDate;
 
+    /**
+     * @param CommentId $commentId
+     * @param UserId $userId
+     * @param CommentContent $commentContent
+     * @param Carbon|null $createDate
+     */
     public function __construct(CommentId $commentId, UserId $userId, CommentContent $commentContent, Carbon $createDate = null)
     {
         $this->commentId = $commentId;
@@ -23,9 +35,13 @@ class Comment
         } else {
             $this->createDate = $createDate;
         }
-
     }
 
+    /**
+     * @param UserId $userId
+     * @param string $content
+     * @return void
+     */
     public function updateComment(UserId $userId, string $content): void
     {
         if (!$this->userId->equals($userId)) {

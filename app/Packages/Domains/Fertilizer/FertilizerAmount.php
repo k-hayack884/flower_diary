@@ -6,9 +6,16 @@ use DomainException;
 
 class FertilizerAmount
 {
-    private int $amount;
     public const RESET=0;
 
+    /**
+     * @var int
+     */
+    private int $amount;
+
+    /**
+     * @param int $amount
+     */
     public function __construct(int $amount)
     {
         if ($amount < 0 || $amount > 10000) {

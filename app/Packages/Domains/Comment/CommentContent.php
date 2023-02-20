@@ -4,9 +4,17 @@ namespace App\Packages\Domains\Comment;
 
 class CommentContent
 {
+
     public const RESET = '';
+
+    /**
+     * @var string
+     */
     public string $content;
 
+    /**
+     * @param string|null $content
+     */
     public function __construct(string|null $content=null)
     {
         if (mb_strlen($content) > 200) {
@@ -17,7 +25,6 @@ class CommentContent
         } else {
             $this->content = $content;
         }
-
     }
 
     /**

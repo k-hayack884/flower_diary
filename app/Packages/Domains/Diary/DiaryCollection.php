@@ -10,23 +10,16 @@ use IteratorAggregate;
 class DiaryCollection extends Collection implements IteratorAggregate
 {
     /**
-     * @param array $diaries
+     * @param Diary[] $diaries
      */
     public function __construct(array $diaries = [])
     {
         foreach ($diaries as $diary) {
             $this->addDiary($diary);
         }
-
+        $this->sortDate();
     }
 
-    public function sortDate()
-    {
-        $sorted=$this->sortByDesc(function ($product,$key){
-           return $product->getCreateDate();
-        });
-        return $sorted;
-    }
     /**
      * @param Diary $diary
      * @return void
@@ -34,15 +27,26 @@ class DiaryCollection extends Collection implements IteratorAggregate
     public function addDiary(Diary $diary): void
     {
         $this->put($diary->getDiaryId()->getId(), $diary);
+        $this->sortDate();
+    }
+
+    /**
+     * @return void
+     */
+    private function sortDate(): void
+    {
+        $this->sortByDesc(function ($product, $key) {
+            return $product->getCreateDate();
+        });
     }
 
     /**
      * @param DiaryId $diaryId
      * @return Diary
      */
-    public function findById(DiaryId $diaryId):Diary
+    public function findById(DiaryId $diaryId): Diary
     {
-        $diary= $this->get($diaryId->getId());
+        $diary = $this->get($diaryId->getId());
         if (is_null($diary)) {
             throw new NotFoundException('指定した日記IDが見つかりませんでした (id:' . $diaryId->getId() . ')');
         }
@@ -56,11 +60,10 @@ class DiaryCollection extends Collection implements IteratorAggregate
      * @param Diary $diary
      * @return void
      */
-    public function delete(Diary $diary):void
+    public function delete(Diary $diary): void
     {
         $this->forget($diary->getDiaryId()->getId());
     }
-
 
     /**
      * @param int $value

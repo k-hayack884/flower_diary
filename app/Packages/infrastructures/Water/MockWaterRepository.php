@@ -15,6 +15,9 @@ use App\Packages\Domains\Water\WaterSettingRepositoryInterface;
 
 class MockWaterRepository implements WaterSettingRepositoryInterface
 {
+    /**
+     * @var MonthsWaterSetting[]
+     */
     private array $waterSettings = [];
 
     public function __construct()

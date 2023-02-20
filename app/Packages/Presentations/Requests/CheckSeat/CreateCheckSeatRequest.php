@@ -6,6 +6,7 @@ use App\Http\Requests\BaseRequest;
 
 class CreateCheckSeatRequest extends BaseRequest
 {
+
     public function rules(): array
     {
         return [

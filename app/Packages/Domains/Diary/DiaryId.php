@@ -6,6 +6,10 @@ use App\Packages\Domains\Shared\Uuid;
 
 class DiaryId
 {
+    /**
+     * @var string
+     * @var Uuid
+     */
     private string $value;
     private Uuid $uuid;
 

@@ -2,13 +2,25 @@
 
 namespace App\Packages\Domains\PlantUnit;
 
+use App\Packages\Domains\CheckSeat\CheckSeat;
 use App\Packages\Domains\CheckSeat\CheckSeatId;
+use App\Packages\Domains\Diary\DiaryId;
 use App\Packages\Domains\Plant\PlantId;
 use App\Packages\Domains\User\UserId;
 use Carbon\Carbon;
 
 class PlantUnit
 {
+    /**
+     * @var PlantUnitId $plantUnitId
+     * @var UserId $userId
+     * @var PlantId $plantId
+     * @var CheckSeatId $checkSeatId
+     * @var PlantName $plantName
+     * @var DiaryId[] $diaries
+     * @var Carbon $createDate
+     * @var Carbon $updateDate
+     */
     private PlantUnitId $plantUnitId;
     private UserId $userId;
     private PlantId $plantId;
@@ -18,6 +30,16 @@ class PlantUnit
     private Carbon $createDate;
     private Carbon $updateDate;
 
+    /**
+     * @param PlantUnitId $plantUnitId
+     * @param PlantId $plantId
+     * @param UserId $userId
+     * @param CheckSeatId $checkSeatId
+     * @param PlantName $plantName
+     * @param array $diaries
+     * @param Carbon|null $createDate
+     * @param Carbon|null $updateDate
+     */
     public function __construct(
         PlantUnitId $plantUnitId,
         PlantId     $plantId,
@@ -62,6 +84,7 @@ class PlantUnit
     {
         return $this->userId;
     }
+
     /**
      * @return PlantId
      */
@@ -87,7 +110,7 @@ class PlantUnit
     }
 
     /**
-     * @return array
+     * @return DiaryId[]
      */
     public function getDiaries(): array
     {

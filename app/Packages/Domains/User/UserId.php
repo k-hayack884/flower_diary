@@ -8,6 +8,9 @@ use App\Packages\Domains\Shared\Uuid;
 
 class UserId
 {
+    /**
+     * @var string
+     */
     private string $value;
     private Uuid $uuid;
 

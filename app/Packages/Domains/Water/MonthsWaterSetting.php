@@ -8,7 +8,15 @@ class MonthsWaterSetting
 {
     public const RESET = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
-    private WaterSettingId $waterSettingID;
+    /**
+     * @var WaterSettingId $waterSettingId
+     * @var int[] $months
+     * @var WaterNote $waterNote
+     * @var WaterAmount $waterAmount
+     * @var WateringTimes $wateringTimes
+     * @var WateringInterval $wateringInterval
+     */
+    private WaterSettingId $waterSettingId;
     private array $months = [];
     private WaterNote $waterNote;
     private WaterAmount $waterAmount;
@@ -16,9 +24,17 @@ class MonthsWaterSetting
     private WateringInterval $wateringInterval;
     private array $alertTimes = [];
 
-
+    /**
+     * @param WaterSettingId $waterSettingId
+     * @param array $months
+     * @param WaterNote $waterNote
+     * @param WaterAmount $waterAmount
+     * @param WateringTimes $wateringTimes
+     * @param WateringInterval $wateringInterval
+     * @param array|null $alertTimes
+     */
     public function __construct(
-        WaterSettingId   $waterSettingID,
+        WaterSettingId   $waterSettingId,
         array            $months,
         WaterNote        $waterNote,
         WaterAmount      $waterAmount,
@@ -35,7 +51,7 @@ class MonthsWaterSetting
                 throw new DomainException('その文字は使用できません');
             }
         }
-        $this->waterSettingID = $waterSettingID;
+        $this->waterSettingID = $waterSettingId;
         $this->months = $months;
         $this->waterNote = $waterNote;
         $this->waterAmount = $waterAmount;
@@ -46,7 +62,6 @@ class MonthsWaterSetting
         } else {
             $this->alertTimes = $alertTimes;
         }
-
     }
 
     /**

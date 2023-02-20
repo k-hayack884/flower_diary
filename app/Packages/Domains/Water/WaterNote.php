@@ -8,6 +8,9 @@ use DomainException;
 readonly class WaterNote
 {
     public const RESET='';
+    /**
+     * @var string
+     */
     public string $note;
 
     /**
@@ -23,7 +26,6 @@ readonly class WaterNote
             }
             $this->note = $note;
         }
-
     }
 
     /**
@@ -48,5 +50,4 @@ readonly class WaterNote
         }
         return new self($note);
     }
-
 }

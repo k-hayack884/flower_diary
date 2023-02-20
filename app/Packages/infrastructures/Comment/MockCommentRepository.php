@@ -37,15 +37,20 @@ public function __construct()
     $this->comments[]=$commentC;
 }
 
+    /**
+     * @return Comment[]
+     */
     public function find(): array
     {
         return $this->comments;
     }
 
     /**
+     * @param CommentId $commentId
+     * @return Comment
      * @throws NotFoundException
      */
-    public function findByCommentId(CommentId $commentId)
+    public function findByCommentId(CommentId $commentId):Comment
     {
         foreach ($this->comments as $comment) {
             if ($comment->getCommentId()->equals($commentId)) {
@@ -54,7 +59,13 @@ public function __construct()
         }
         throw new NotFoundException('指定したコメントIDは見つかりませんでした (id:' . $commentId->getId() . ')');
     }
-    public function findByUserId(UserId $userId)
+
+    /**
+     * @param UserId $userId
+     * @return Comment
+     * @throws NotFoundException
+     */
+    public function findByUserId(UserId $userId):Comment
     {
         $hitComments=[];
         foreach ($this->comments as $comment) {
@@ -67,14 +78,24 @@ public function __construct()
         }
         return $hitComments;
     }
-    public function save(CommentCollection $comment)
+
+    /**
+     * @param CommentCollection $comment
+     * @return void
+     */
+    public function save(CommentCollection $comment):void
     {
         $collectionArray = $comment->toArray();
         foreach ($collectionArray as $collectionValue) {
             $this->comments[] = $collectionValue;
         }    }
 
-    public function delete(CommentId $commentId)
+    /**
+     * @param CommentId $commentId
+     * @return void
+     * @throws NotFoundException
+     */
+    public function delete(CommentId $commentId):void
     {
         $deleteSetting = $this->findByCommentId($commentId);
         $index = array_search($deleteSetting, $this->comments);

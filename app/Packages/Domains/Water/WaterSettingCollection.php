@@ -10,14 +10,13 @@ use IteratorAggregate;
 class WaterSettingCollection extends Collection implements IteratorAggregate
 {
     /**
-     * @param array $waterSettings
+     * @param MonthsWaterSetting[] $waterSettings
      */
     public function __construct(array $waterSettings = [])
     {
         foreach ($waterSettings as $waterSetting) {
             $this->addSetting($waterSetting);
         }
-
     }
 
     /**

@@ -8,6 +8,9 @@ use Illuminate\Support\Str;
 class Uuid
 {
     private const UUID_LENGTH=36;
+    /**
+     * @var string
+     */
     private string $value;
 
     /**

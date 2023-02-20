@@ -7,8 +7,15 @@ use DomainException;
 class fertilizerName
 {
     public const RESET = '';
+
+    /**
+     * @var string
+     */
     private string $name;
 
+    /**
+     * @param string|null $name
+     */
     public function __construct(string|null $name=null)
     {
         if($name===null){

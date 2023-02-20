@@ -4,11 +4,11 @@ namespace App\Packages\Domains\Fertilizer;
 
 interface FertilizerRepositoryInterface
 {
-    public function find();
+    public function find():array;
 
-    public function findById(FertilizerSettingId $fertilizerSettingId);
+    public function findById(FertilizerSettingId $fertilizerSettingId):MonthsFertilizerSetting;
 
-    public function save(FertilizerSettingCollection $fertilizerSetting);
+    public function save(FertilizerSettingCollection $fertilizerSetting):void;
 
-    public function delete(FertilizerSettingId $fertilizerSettingId);
+    public function delete(FertilizerSettingId $fertilizerSettingId):void;
 }

@@ -5,6 +5,9 @@ namespace App\Packages\Domains\Water;
 class WateringInterval
 {
     public const RESET=1;
+    /**
+     * @var int
+     */
     private int $wateringInterval;
 
     /**

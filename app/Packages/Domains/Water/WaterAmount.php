@@ -9,11 +9,17 @@ use DomainException;
 
 class WaterAmount
 {
-    public string $value;
     public const A_lot = 'a_lot';
     public const MODERATE_AMOUNT = 'moderate_amount';
     public const SPARINGLY = 'sparingly';
 
+    /**
+     * @var string
+     */
+    public string $value;
+    /**
+     * @var array|string[]
+     */
     private array $amount = [
         self::A_lot => 'たっぷり',
         self::MODERATE_AMOUNT => '適量',
@@ -40,6 +46,9 @@ class WaterAmount
         return new self(self::A_lot);
     }
 
+    /**
+     * @return WaterAmount
+     */
     public static function settingModerateAmount(): WaterAmount
     {
         return new self(self::MODERATE_AMOUNT);
