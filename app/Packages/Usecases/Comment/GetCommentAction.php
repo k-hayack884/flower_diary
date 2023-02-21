@@ -25,9 +25,9 @@ class GetCommentAction
      */
     public function __invoke(
         GetCommentRequest $getCommentRequest,
-        string $commentId
     ): CommentWrapDto
     {
+        $commentId=$getCommentRequest->getId();
         $hitComment = $this->commentRepository->findByCommentId(new CommentId($commentId));
 
 

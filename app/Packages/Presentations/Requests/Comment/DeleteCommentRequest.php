@@ -9,15 +9,20 @@ class DeleteCommentRequest extends BaseRequest
     public function rules(): array
     {
         return [
-            'comment.userId' => [
+            'commentId' => [
+                'required',
+            ],
+            'commentUserId' => [
                 'required',
             ]
         ];
     }
-
+    public function getId()
+    {
+        return $this->input('commentId');
+    }
     public function getUserId()
     {
-        return $this->comment['comment.userId'];
-
+        return $this->input('commentUserId');
     }
 }

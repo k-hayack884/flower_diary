@@ -9,25 +9,31 @@ class UpdateCommentRequest extends BaseRequest
     public function rules(): array
     {
         return [
-            'comment.userId' => [
+            'commentId' => [
                 'required',
             ],
-            'comment.content' => [
+            'commentUserId' => [
+                'required',
+            ],
+            'commentContent' => [
                 'required',
                 'string',
                 'max:200'
             ]
         ];
     }
+    public function getId()
+    {
+        return $this->input('commentId');
+    }
 
     public function getUserId()
     {
-        return $this->comment['comment.userId'];
-
+        return $this->input('commentUserId');
     }
 
     public function getCommentContent()
     {
-        return $this->comment['comment.content'];
+        return $this->input('commentContent');
     }
 }

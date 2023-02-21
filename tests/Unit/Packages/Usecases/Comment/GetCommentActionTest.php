@@ -14,8 +14,9 @@ class GetCommentActionTest extends TestCase
 {
     public function test_コメント詳細のレスポンスの型があっていること()
     {
-        $commentId = '983c1092-7a0d-40b0-af6e-30bff5975e31';
-        $request = GetCommentRequest::create('Comment', 'GET', []);
+        $request = GetCommentRequest::create('Comment', 'GET', [
+            'commentId'=> '983c1092-7a0d-40b0-af6e-30bff5975e31'
+        ]);
         $mockCommentSettingRepository = app()->make(MockCommentRepository::class);
 
         app()->bind(GetCommentAction::class, function () use (
@@ -25,7 +26,7 @@ class GetCommentActionTest extends TestCase
                 $mockCommentSettingRepository
             );
         });
-        $result = (app()->make(GetCommentAction::class))->__invoke($request, $commentId);
+        $result = (app()->make(GetCommentAction::class))->__invoke($request);
 
         $this->assertInstanceOf(CommentWrapDto::class, $result);
         $this->assertSame('983c1092-7a0d-40b0-af6e-30bff5975e31', $result->comment->commentId);

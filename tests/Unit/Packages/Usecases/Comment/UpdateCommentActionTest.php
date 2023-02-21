@@ -13,12 +13,10 @@ class UpdateCommentActionTest extends TestCase
 {
     public function test_変更をしたコメントのレスポンスの型があっていること()
     {
-        $commentId = '983c1092-7a0d-40b0-af6e-30bff5975e31';
-        $request = UpdateCommentRequest::create('Comment', 'POST', [
-            'comment' => [
-                'comment.content' =>'書き換え完了',
-                'comment.userId'=>'893c1092-7a0d-40b0-af6e-30bff5975e31'
-            ]
+        $request = UpdateCommentRequest::create('comment', 'POST', [
+            'commentId' => '983c1092-7a0d-40b0-af6e-30bff5975e31',
+            'commentUserId' => '893c1092-7a0d-40b0-af6e-30bff5975e31',
+            'commentContent' => '書き換え完了',
         ]);
         $mockCommentRepository = app()->make(MockCommentRepository::class);
 
@@ -30,22 +28,20 @@ class UpdateCommentActionTest extends TestCase
             );
         });
 
-        $prevComment = $mockCommentRepository->findByCommentId(new CommentId($commentId));
-        $result = (app()->make(UpdateCommentAction::class))->__invoke($request, $commentId);
+        $prevComment = $mockCommentRepository->findByCommentId(new CommentId($request->getId()));
+        $result = (app()->make(UpdateCommentAction::class))->__invoke($request);
 
         $this->assertSame('書き換え完了', $result->comment->content);
-        $this->assertEquals('893c1092-7a0d-40b0-af6e-30bff5975e31',$result->comment->userId);
+        $this->assertEquals('893c1092-7a0d-40b0-af6e-30bff5975e31', $result->comment->userId);
         $this->assertNotEquals($prevComment->getCommentContent()->getvalue(), $result->comment->content);
     }
 
     public function test_存在しないコメントIDを入力するとエラーを返すこと()
     {
-        $commentId = '334c1092-7a0d-40b0-af6e-30bff5975e31';
-        $request = UpdateCommentRequest::create('Comment', 'POST', [
-            'comment' => [
-                'comment.content' =>'書き換え完了',
-                'comment.userId'=>'893c1092-7a0d-40b0-af6e-30bff5975e31'
-            ]
+        $request = UpdateCommentRequest::create('comment', 'POST', [
+            'commentId' => '334c1092-7a0d-40b0-af6e-30bff5975e31',
+            'commentUserId' => '893c1092-7a0d-40b0-af6e-30bff5975e31',
+            'commentContent' => '書き換え完了',
         ]);
         $mockCommentRepository = app()->make(MockCommentRepository::class);
 
@@ -56,18 +52,17 @@ class UpdateCommentActionTest extends TestCase
                 $mockCommentRepository
             );
         });
-        $this->expectExceptionMessage('指定したコメントIDは見つかりませんでした (id:' . $commentId . ')');
+        $this->expectExceptionMessage('指定したコメントIDは見つかりませんでした (id:' . $request->getId() . ')');
         $this->expectException(NotFoundException::class);
-        $result = (app()->make(UpdateCommentAction::class))->__invoke($request, $commentId);
+        $result = (app()->make(UpdateCommentAction::class))->__invoke($request);
     }
+
     public function test_存在しないユーザーIDを入力するとエラーを返すこと()
     {
-        $commentId = '334c1092-7a0d-40b0-af6e-30bff5975e31';
-        $request = UpdateCommentRequest::create('Comment', 'POST', [
-            'comment' => [
-                'comment.content' =>'書き換え完了',
-                'comment.userId'=>'000c1092-7a0d-40b0-af6e-30bff5975e31'
-            ]
+        $request = UpdateCommentRequest::create('comment', 'POST', [
+            'commentId' => '983c1092-7a0d-40b0-af6e-30bff5975e31',
+            'commentUserId' => '833c1092-7a0d-40b0-af6e-30bff5975e31',
+            'commentContent' => '書き換え完了',
         ]);
         $mockCommentRepository = app()->make(MockCommentRepository::class);
 
@@ -78,8 +73,8 @@ class UpdateCommentActionTest extends TestCase
                 $mockCommentRepository
             );
         });
-        $this->expectExceptionMessage('指定したユーザーIDは見つかりませんでした (id:000c1092-7a0d-40b0-af6e-30bff5975e31');
+        $this->expectExceptionMessage('指定したユーザーIDは見つかりませんでした (id:833c1092-7a0d-40b0-af6e-30bff5975e31');
         $this->expectException(NotFoundException::class);
-        $result = (app()->make(UpdateCommentAction::class))->__invoke($request, $commentId);
+        $result = (app()->make(UpdateCommentAction::class))->__invoke($request);
     }
 }

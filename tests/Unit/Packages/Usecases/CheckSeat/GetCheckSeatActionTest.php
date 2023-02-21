@@ -13,7 +13,6 @@ class GetCheckSeatActionTest extends TestCase
 {
     public function test_水やり設定のレスポンスの型があっていること()
     {
-        $checkSeatId= '777c1092-7a0d-40b0-af6e-30bff5975e31';
         $request = GetCheckSeatRequest::create('checkseat', 'GET', [
                 'checkSeatId'=>'777c1092-7a0d-40b0-af6e-30bff5975e31'
         ]);

@@ -17,7 +17,7 @@ class DiaryCollection extends Collection implements IteratorAggregate
         foreach ($diaries as $diary) {
             $this->addDiary($diary);
         }
-        $this->sortDate();
+//        $this->sortDate();
     }
 
     /**
@@ -27,15 +27,15 @@ class DiaryCollection extends Collection implements IteratorAggregate
     public function addDiary(Diary $diary): void
     {
         $this->put($diary->getDiaryId()->getId(), $diary);
-        $this->sortDate();
+//        $this->sortDate();
     }
 
     /**
      * @return void
      */
-    private function sortDate(): void
+    public function sortDate()
     {
-        $this->sortByDesc(function ($product, $key) {
+        return $this->sortByDesc(function ($product, $key) {
             return $product->getCreateDate();
         });
     }

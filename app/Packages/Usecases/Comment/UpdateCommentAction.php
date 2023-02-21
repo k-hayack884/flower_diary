@@ -9,6 +9,7 @@ use App\Packages\Domains\Comment\CommentRepositoryInterface;
 use App\Packages\Domains\User\UserId;
 use App\Packages\Presentations\Requests\Comment\UpdateCommentRequest;
 use App\Packages\Usecases\Dto\Comment\CommentWrapDto;
+use Exception;
 
 class UpdateCommentAction
 {
@@ -19,22 +20,19 @@ class UpdateCommentAction
 
     public function __invoke(
         UpdateCommentRequest $updateCommentRequest,
-        string               $commentId
     ): CommentWrapDto
     {
-        $requestArray = [
-            'comment.userId' => $updateCommentRequest->getUserId(),
-            'comment.content' => $updateCommentRequest->getCommentContent(),
-        ];
-        $this->commentRepository->findByUserId(new UserId($requestArray['comment.userId']));
+        $commentId = $updateCommentRequest->getId();
+        $userId = $updateCommentRequest->getUserId();
+        $content = $updateCommentRequest->getCommentContent();
+        $this->commentRepository->findByUserId(new UserId($userId));
         $comment = $this->commentRepository->findByCommentId(new CommentId($commentId));
-        $updateUserId = $requestArray['comment.userId'];
-        $updateContent = $comment->getCommentContent()->update($requestArray['comment.content']);
+        $updateContent = $comment->getCommentContent()->update($content);
 
         try {
             $updateComment = new Comment(
                 new CommentId($commentId),
-                new UserId($updateUserId),
+                new UserId($userId),
                 $updateContent,
                 $comment->getCreateDate()
             );

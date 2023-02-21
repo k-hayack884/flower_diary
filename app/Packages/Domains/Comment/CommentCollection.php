@@ -15,7 +15,7 @@ class CommentCollection extends Collection
         foreach ($comments as $comment) {
             $this->addComment($comment);
         }
-        $this->sortDate();
+//        $this->sortDate();
     }
 
     /**
@@ -25,15 +25,15 @@ class CommentCollection extends Collection
     public function addComment(Comment $comment): void
     {
         $this->put($comment->getCommentId()->getId(), $comment);
-        $this->sortDate();
+//        $this->sortDate();
     }
 
     /**
      * @return void
      */
-    private function sortDate(): void
+    public function sortDate()
     {
-        $this->sortByDesc(function ($product,$key){
+        return $this->sortByDesc(function ($product,$key){
             return $product->getCreateDate();
         });
     }

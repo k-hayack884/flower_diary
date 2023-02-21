@@ -32,7 +32,7 @@ class DeletePlantUnitActionTest extends TestCase
         $plantUnit = $mockPlantUnitRepository->findById(new PlantUnitId($request->getId()));
     }
 
-    public function test_存在しない日記IDを入力するとエラーを返すこと()
+    public function test_存在しない植物ユニットIDを入力するとエラーを返すこと()
     {
         $plantUnitId =new Uuid();
         $request = DeletePlantUnitRequest::create('plantUnit', 'DELETE', [

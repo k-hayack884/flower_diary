@@ -62,10 +62,10 @@ public function __construct()
 
     /**
      * @param UserId $userId
-     * @return Comment
+     * @return Comment[]
      * @throws NotFoundException
      */
-    public function findByUserId(UserId $userId):Comment
+    public function findByUserId(UserId $userId):array
     {
         $hitComments=[];
         foreach ($this->comments as $comment) {
