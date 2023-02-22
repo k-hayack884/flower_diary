@@ -9,8 +9,10 @@ use App\Packages\Usecases\Dto\Comment\CommentsWrapDto;
 
 class GetCommentsAction
 {
-
-    private CommentRepositoryInterface $CommentRepository;
+    /**
+     * @var CommentRepositoryInterface
+     */
+    private CommentRepositoryInterface $commentRepository;
 
     /**
      * @param CommentRepositoryInterface $commentRepository
@@ -22,7 +24,7 @@ class GetCommentsAction
 
     /**
      * @param GetCommentsRequest $getCommentRequest
-     * @return DiariesWrapDto
+     * @return CommentsWrapDto
      */
     public function __invoke(GetCommentsRequest $getCommentRequest
     ): CommentsWrapDto

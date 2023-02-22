@@ -13,6 +13,9 @@ use App\Packages\Usecases\Dto\Fertilizer\FertilizerSettingWrapDto;
 
 class ResetFertilizerSettingAction
 {
+    /**
+     * @var FertilizerRepositoryInterface
+     */
     private FertilizerRepositoryInterface $fertilizerSettingRepository;
 
     /**
@@ -24,8 +27,7 @@ class ResetFertilizerSettingAction
     }
 
     /**
-     * @param ResetfertilizerSettingRequest $resetFertilizerSettingRequest
-     * @param string $fertilizerSettingIdValue
+     * @param ResetFertilizerSettingRequest $resetFertilizerSettingRequest
      * @return FertilizerSettingWrapDto
      */
 

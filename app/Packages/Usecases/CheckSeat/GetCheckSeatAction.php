@@ -22,7 +22,6 @@ class GetCheckSeatAction
 
     /**
      * @param GetCheckSeatRequest $getCheckSeatRequest
-     * @param string $checkSeatId
      * @return CheckSeatDto
      */
     public function __invoke(

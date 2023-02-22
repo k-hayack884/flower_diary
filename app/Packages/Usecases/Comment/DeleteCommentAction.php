@@ -11,6 +11,9 @@ use Illuminate\Support\Facades\Auth;
 
 class DeleteCommentAction
 {
+    /**
+     * @var CommentRepositoryInterface
+     */
     private CommentRepositoryInterface $commentRepository;
 
     /**
@@ -23,21 +26,24 @@ class DeleteCommentAction
 
     /**
      * @param DeleteCommentRequest $deleteCommentRequest
-     * @param string $commentIdValue
      * @return void
+     * @throws Exception
      */
 
     public function __invoke(
         DeleteCommentRequest $deleteCommentRequest,
     ): void
     {
+        $commentId=$deleteCommentRequest->getId();
+        $userId=$deleteCommentRequest->getUserId();
 
-        $commentId=new CommentId($deleteCommentRequest->getId());
-        $userId=new UserId($deleteCommentRequest->getUserId());
         try {
-            $this->commentRepository->findByCommentId($commentId);
-            $this->commentRepository->findByUserId($userId);
-            $this->commentRepository->delete($commentId);
+            $deleteCommentId=new CommentId($commentId);
+            $deleteUserId=new UserId($userId);
+
+            $comment=$this->commentRepository->findByCommentId($deleteCommentId);
+            $this->commentRepository->findByUserId($deleteUserId);
+            $this->commentRepository->delete($comment->getCommentId());
         } catch (Exception $e) {
             throw  $e;
         }

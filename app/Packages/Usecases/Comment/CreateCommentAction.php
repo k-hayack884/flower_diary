@@ -13,20 +13,31 @@ use App\Packages\Usecases\Dto\Comment\CommentWrapDto;
 
 class CreateCommentAction
 {
+    private CommentRepositoryInterface $commentRepository;
+
+    /**
+     * @param CommentRepositoryInterface $commentRepository
+     */
     public function __construct(CommentRepositoryInterface $commentRepository)
     {
         $this->commentRepository = $commentRepository;
     }
 
+    /**
+     * @param CreateCommentRequest $createCommentRequest
+     * @return CommentWrapDto
+     */
     public function __invoke(
         CreateCommentRequest $createCommentRequest
     ): CommentWrapDto
     {
-$userId=$createCommentRequest->getUserId();
-$commentContent=$createCommentRequest->getCommentContent();
+        $userId = $createCommentRequest->getUserId();
+        $commentContent = $createCommentRequest->getCommentContent();
+
+
         try {
             $commentId = new CommentId();
-            $userId=new UserId($userId);
+            $userId = new UserId($userId);
             $commentContent = new CommentContent($commentContent);
             $comment = new Comment(
                 $commentId,

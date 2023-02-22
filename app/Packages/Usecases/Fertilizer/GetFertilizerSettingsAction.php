@@ -9,6 +9,9 @@ use App\Packages\Usecases\Dto\Fertilizer\FertilizerSettingsWrapDto;
 
 class GetFertilizerSettingsAction
 {
+    /**
+     * @var FertilizerRepositoryInterface
+     */
     private FertilizerRepositoryInterface $fertilizerSettingRepository;
 
     /**

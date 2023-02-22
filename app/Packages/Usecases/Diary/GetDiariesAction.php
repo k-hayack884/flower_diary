@@ -9,6 +9,9 @@ use App\Packages\Usecases\Dto\Diary\DiaryDto;
 
 class GetDiariesAction
 {
+    /**
+     * @var DiaryRepositoryInterface
+     */
     private DiaryRepositoryInterface $diaryRepository;
 
     /**
@@ -37,7 +40,6 @@ class GetDiariesAction
                     $diary->getcomments(),
                     $diary->getCreateDate()->format('Y/m/d'),
             );
-
         }
         return new DiariesWrapDto($diaryDtos);
     }

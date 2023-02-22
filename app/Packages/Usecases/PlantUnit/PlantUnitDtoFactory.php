@@ -8,6 +8,10 @@ use App\Packages\Usecases\Dto\PlantUnit\PlantUnitWrapDto;
 
 class PlantUnitDtoFactory
 {
+    /**
+     * @param PlantUnit $plantUnit
+     * @return PlantUnitWrapDto
+     */
     public static function create(PlantUnit $plantUnit): PlantUnitWrapDto
     {
         return new PlantUnitWrapDto(

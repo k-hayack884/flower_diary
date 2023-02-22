@@ -14,8 +14,9 @@ class ResetWaterSettingActionTest extends TestCase
 {
     public function test_指定した水やり設定がリセットされていること()
     {
-        $waterSettingId = '983c1092-7a0d-40b0-af6e-30bff5975e31';
-        $request = ResetWaterSettingRequest::create('water/settings/reset', 'POST', []);
+        $request = ResetWaterSettingRequest::create('waterSetting/reset', 'POST', [
+            'waterSettingId'=>'983c1092-7a0d-40b0-af6e-30bff5975e31'
+        ]);
         $mockWaterSettingRepository = app()->make(MockWaterRepository::class);
 
         app()->bind(ResetWaterSettingAction::class, function () use (
@@ -25,8 +26,8 @@ class ResetWaterSettingActionTest extends TestCase
                 $mockWaterSettingRepository
             );
         });
-        $prevWaterSetting = $mockWaterSettingRepository->findById(new WaterSettingId($waterSettingId));
-        $result = (app()->make(ResetWaterSettingAction::class))->__invoke($request, $waterSettingId);
+        $prevWaterSetting = $mockWaterSettingRepository->findById(new WaterSettingId($request->getId()));
+        $result = (app()->make(ResetWaterSettingAction::class))->__invoke($request);
 
         $this->assertSame( [1,2,3,4,5,6,7,8,9,10,11,12],$result->waterSettings->months);
         $this->assertSame( '',$result->waterSettings->note);
@@ -39,8 +40,9 @@ class ResetWaterSettingActionTest extends TestCase
     public function test_存在しない水やり設定IDを入力するとエラーを返すこと()
     {
         $waterSettingId = new Uuid();
-        $request = ResetWaterSettingRequest::create('water/settings', 'DELETE', []);
-        $mockWaterSettingRepository = app()->make(MockWaterRepository::class);
+        $request = ResetWaterSettingRequest::create('waterSetting/reset', 'POST', [
+            'waterSettingId'=>$waterSettingId
+        ]);        $mockWaterSettingRepository = app()->make(MockWaterRepository::class);
 
         app()->bind(ResetWaterSettingAction::class, function () use (
             $mockWaterSettingRepository
@@ -49,9 +51,9 @@ class ResetWaterSettingActionTest extends TestCase
                 $mockWaterSettingRepository
             );
         });
-        $this->expectExceptionMessage('指定した水やり設定IDは見つかりませんでした (id:' . $waterSettingId . ')');
+        $this->expectExceptionMessage('指定した水やり設定IDは見つかりませんでした (id:' . $request->getId() . ')');
         $this->expectException(NotFoundException::class);
-        $result = (app()->make(ResetWaterSettingAction::class))->__invoke($request, $waterSettingId);
-        $waterSetting = $mockWaterSettingRepository->findById(new WaterSettingId($waterSettingId));
+        $result = (app()->make(ResetWaterSettingAction::class))->__invoke($request);
+        $waterSetting = $mockWaterSettingRepository->findById(new WaterSettingId($request->getId()));
     }
 }

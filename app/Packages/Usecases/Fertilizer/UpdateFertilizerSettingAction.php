@@ -13,11 +13,23 @@ use App\Packages\Usecases\Dto\Fertilizer\FertilizerSettingWrapDto;
 
 class UpdateFertilizerSettingAction
 {
+    /**
+     * @var FertilizerRepositoryInterface
+     */
+    private FertilizerRepositoryInterface $fertilizerSettingRepository;
+
+    /**
+     * @param FertilizerRepositoryInterface $fertilizerSettingRepository
+     */
     public function __construct(FertilizerRepositoryInterface $fertilizerSettingRepository)
     {
         $this->fertilizerSettingRepository = $fertilizerSettingRepository;
     }
 
+    /**
+     * @param UpdateFertilizerSettingRequest $updateFertilizerSettingRequest
+     * @return FertilizerSettingWrapDto
+     */
     public function __invoke(
         UpdatefertilizerSettingRequest $updateFertilizerSettingRequest,
     ): FertilizerSettingWrapDto
@@ -28,10 +40,9 @@ class UpdateFertilizerSettingAction
         $fertilizerSettingAmount = $updateFertilizerSettingRequest->getAmount();
         $fertilizerSettingName = $updateFertilizerSettingRequest->getName();
 
-
         $fertilizerSetting = $this->fertilizerSettingRepository->findById(new FertilizerSettingId($fertilizerSettingId));
-
         $updateNote = $fertilizerSetting->getFertilizerNote()->update($fertilizerSettingNote);
+
         try {
             $updateFertilizerSetting = new MonthsFertilizerSetting(
                 new FertilizerSettingId($fertilizerSettingId),
@@ -45,6 +56,7 @@ class UpdateFertilizerSettingAction
         } catch (Exception $e) {
             throw  $e;
         }
+
         return FertilizerSettingsDtoFactory::create($updateFertilizerSetting);
     }
 }

@@ -8,6 +8,15 @@ class ResetWaterSettingRequest extends BaseRequest
 {
     public function rules(): array
     {
-        return [];
+        return [
+            'waterSettingId'=>[
+                'require'
+            ]
+        ];
+    }
+
+    public function getId()
+    {
+        return $this->input('waterSettingId');
     }
 }

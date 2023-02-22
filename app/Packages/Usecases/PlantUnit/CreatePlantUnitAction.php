@@ -16,11 +16,23 @@ use Exception;
 
 class CreatePlantUnitAction
 {
+    /**
+     * @var PlantUnitRepositoryInterface
+     */
+    private PlantUnitRepositoryInterface $plantUnitRepository;
+    /**
+     * @param PlantUnitRepositoryInterface $plantUnitRepository
+     */
     public function __construct(PlantUnitRepositoryInterface $plantUnitRepository)
     {
         $this->plantUnitRepository = $plantUnitRepository;
     }
 
+    /**
+     * @param CreatePlantUnitRequest $createPlantUnitRequest
+     * @return PlantUnitWrapDto
+     * @throws Exception
+     */
     public function __invoke(
         CreatePlantUnitRequest $createPlantUnitRequest
     ): PlantUnitWrapDto
@@ -48,7 +60,7 @@ class CreatePlantUnitAction
         } catch (Exception $e) {
             throw  $e;
         }
+
         return PlantUnitDtoFactory::create($plantUnit);
     }
-
 }

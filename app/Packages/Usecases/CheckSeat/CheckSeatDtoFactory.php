@@ -8,6 +8,10 @@ use App\Packages\Usecases\Dto\CheckSeat\CheckSeatWrapDto;
 
 class CheckSeatDtoFactory
 {
+    /**
+     * @param CheckSeat $checkSeat
+     * @return CheckSeatDto
+     */
     public static function create(CheckSeat $checkSeat): CheckSeatDto
     {
         return new CheckSeatDto(

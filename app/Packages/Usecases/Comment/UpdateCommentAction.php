@@ -13,11 +13,23 @@ use Exception;
 
 class UpdateCommentAction
 {
+    /**
+     * @var CommentRepositoryInterface
+     */
+    private CommentRepositoryInterface $commentRepository;
+    /**
+     * @param CommentRepositoryInterface $commentRepository
+     */
     public function __construct(CommentRepositoryInterface $commentRepository)
     {
         $this->commentRepository = $commentRepository;
     }
 
+    /**
+     * @param UpdateCommentRequest $updateCommentRequest
+     * @return CommentWrapDto
+     * @throws Exception
+     */
     public function __invoke(
         UpdateCommentRequest $updateCommentRequest,
     ): CommentWrapDto
@@ -41,6 +53,7 @@ class UpdateCommentAction
         } catch (Exception $e) {
             throw  $e;
         }
+
         return CommentDtoFactory::create($updateComment);
     }
 }

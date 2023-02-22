@@ -10,6 +10,9 @@ use PHPUnit\Exception;
 
 class DeleteFertilizerSettingAction
 {
+    /**
+     * @var FertilizerRepositoryInterface
+     */
     private FertilizerRepositoryInterface $fertilizerSettingRepository;
 
     /**
@@ -33,7 +36,8 @@ class DeleteFertilizerSettingAction
         $fertilizerSettingId=new FertilizerSettingId($deleteFertilizerSettingRequest->getId());
 
         try {
-            $this->fertilizerSettingRepository->delete($fertilizerSettingId);
+            $fertilizerSetting=$this->fertilizerSettingRepository->findById($fertilizerSettingId);
+            $this->fertilizerSettingRepository->delete($fertilizerSetting->getFertilizerSettingId());
         } catch (Exception $e) {
             throw  $e;
         }

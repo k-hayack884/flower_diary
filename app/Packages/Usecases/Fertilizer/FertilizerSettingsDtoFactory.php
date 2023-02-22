@@ -8,6 +8,10 @@ use App\Packages\Usecases\Dto\Fertilizer\FertilizerSettingWrapDto;
 
 class FertilizerSettingsDtoFactory
 {
+    /**
+     * @param MonthsFertilizerSetting $fertilizerSetting
+     * @return FertilizerSettingWrapDto
+     */
     public static function create(MonthsFertilizerSetting $fertilizerSetting): FertilizerSettingWrapDto
     {
         return new FertilizerSettingWrapDto(

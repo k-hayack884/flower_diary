@@ -16,6 +16,9 @@ use PHPUnit\Exception;
 
 class ResetWaterSettingAction
 {
+    /**
+     * @var WaterSettingRepositoryInterface
+     */
     private WaterSettingRepositoryInterface $waterSettingRepository;
 
     /**
@@ -27,27 +30,28 @@ class ResetWaterSettingAction
     }
 
     /**
-     * @param DeleteWaterSettingRequest $deleteWaterSettingRequest
+     * @param ResetWaterSettingRequest $deleteWaterSettingRequest
      * @param string $waterSettingIdValue
-     * @return void
+     * @return WaterSettingWrapDto
      * @throws Exception
      */
 
     public function __invoke(
         ResetWaterSettingRequest $deleteWaterSettingRequest,
-        string                    $waterSettingIdValue
     ): WaterSettingWrapDto
     {
-        $waterSetting = $this->waterSettingRepository->findById(new WaterSettingId($waterSettingIdValue));
+        $waterSettingId = $deleteWaterSettingRequest->getId();
 
+        $waterSetting=$this->waterSettingRepository->findById(new WaterSettingId($waterSettingId));
         $resetMonths = MonthsWaterSetting::RESET;
         $resetNote = $waterSetting->getWaterNote()->update(null);
         $resetAmount = WaterAmount::settingModerateAmount();
         $resetWateringTimes = new WateringTimes(1);
         $resetWateringInterval = new WateringInterval(1);
         try {
-            $resetWaterSetting = new MonthsWaterSetting(
-                new WaterSettingId($waterSettingIdValue),
+            $resetWaterSetting =
+                new MonthsWaterSetting(
+                new WaterSettingId($waterSettingId),
                 $resetMonths,
                 $resetNote,
                 $resetAmount,

@@ -11,7 +11,11 @@ use App\Packages\Usecases\Dto\PlantUnit\PlantUnitWrapDto;
 
 class GetPlantUnitAction
 {
+    /**
+     * @var PlantUnitRepositoryInterface
+     */
     private PlantUnitRepositoryInterface $plantUnitRepository;
+
     /**
      * @param PlantUnitRepositoryInterface $plantUnitRepository
      */
@@ -22,7 +26,7 @@ class GetPlantUnitAction
 
     /**
      * @param GetPlantUnitRequest $getPlantUnitRequest
-     * @return PlantUnitDto
+     * @return PlantUnitWrapDto
      */
     public function __invoke(
         GetPlantUnitRequest $getPlantUnitRequest,
@@ -31,7 +35,7 @@ class GetPlantUnitAction
         $plantUnitId=$getPlantUnitRequest->getId();
         $hitPlantUnit= $this->plantUnitRepository->findById(new PlantUnitId($plantUnitId));
 
-        $PlantUnit=new PlantUnit(
+        $plantUnit=new PlantUnit(
             $hitPlantUnit->getPlantUnitId(),
             $hitPlantUnit->getPlantId(),
             $hitPlantUnit->getUserId(),
@@ -42,6 +46,6 @@ class GetPlantUnitAction
             $hitPlantUnit->getUpdateDate(),
         );
 
-        return PlantUnitDtoFactory::create($PlantUnit);
+        return PlantUnitDtoFactory::create($plantUnit);
     }
 }

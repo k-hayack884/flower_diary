@@ -9,6 +9,9 @@ use Exception;
 
 class DeleteDiaryAction
 {
+    /**
+     * @var DiaryRepositoryInterface
+     */
     private DiaryRepositoryInterface $diaryRepository;
 
     /**
@@ -21,18 +24,18 @@ class DeleteDiaryAction
 
     /**
      * @param DeleteDiaryRequest $deleteDiaryRequest
-     * @param string $diaryIdValue
      * @return void
      * @throws Exception
      */
-
     public function __invoke(
         DeleteDiaryRequest $deleteDiaryRequest,
     ): void
     {
         $diaryId=new DiaryId($deleteDiaryRequest->getId());
+
         try {
-            $this->diaryRepository->delete($diaryId);
+            $diary=$this->diaryRepository->findById($diaryId);
+            $this->diaryRepository->delete($diary->getDiaryId());
         } catch (Exception $e) {
             throw  $e;
         }
