@@ -9,16 +9,16 @@ class GetDiaryRequest extends BaseRequest
     public function rules(): array
     {
         return [
-//            'diary.id' => [
-//                'required',
-//            ],
+            'diaryId' => [
+                'required',
+            ],
         ];
 
     }
 
-//    public function getId(): string
-//    {
-//        $hoge = [];
-//        return $this->diary['diary.id'];
-//    }
+    public function getId(): string
+    {
+        return $this->input('diaryId');
+    }
+
 }

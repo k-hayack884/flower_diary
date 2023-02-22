@@ -23,15 +23,13 @@ class CreateDiaryAction
         CreateDiaryRequest $createDiaryRequest
     ): DiaryWrapDto
     {
-        $requestArray = [
-            'diary.content' => $createDiaryRequest->getDiaryContent()
-        ];
+   $diaryContent=$createDiaryRequest->getDiaryContent();
         try {
             $diaryId = new DiaryId();
-            $diaryMonths = new DiaryContent($requestArray['diary.content']);
+            $diaryContent = new DiaryContent($diaryContent);
             $diary = new Diary(
                 $diaryId,
-                $diaryMonths
+                $diaryContent
             );
             $diaryCollection = new DiaryCollection();
             $this->diaryRepository->save($diaryCollection);

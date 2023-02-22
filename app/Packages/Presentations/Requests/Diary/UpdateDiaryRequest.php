@@ -9,6 +9,9 @@ class UpdateDiaryRequest extends BaseRequest
     public function rules(): array
     {
         return [
+            'diaryId'=>[
+                'required'
+            ],
             'diary.content' => [
                 'required',
                 'string',
@@ -21,12 +24,18 @@ class UpdateDiaryRequest extends BaseRequest
 
     }
 
+    public function getId()
+    {
+        return $this->input('diaryId');
+    }
     public function getDiaryContent()
     {
-        return $this->diary['diary.content'];
+        return $this->input('diaryContent');
     }
     public function getComments()
     {
-        return $this->diary['diary.comments'];
+        return $this->input('diaryComments');
     }
+
+
 }

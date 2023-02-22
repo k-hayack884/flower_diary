@@ -22,14 +22,12 @@ class CreateCommentAction
         CreateCommentRequest $createCommentRequest
     ): CommentWrapDto
     {
-        $requestArray = [
-            'comment.userId'=>$createCommentRequest->getUserId(),
-            'comment.content' => $createCommentRequest->getCommentContent()
-        ];
+$userId=$createCommentRequest->getUserId();
+$commentContent=$createCommentRequest->getCommentContent();
         try {
             $commentId = new CommentId();
-            $userId=new UserId($requestArray['comment.userId']);
-            $commentContent = new CommentContent($requestArray['comment.content']);
+            $userId=new UserId($userId);
+            $commentContent = new CommentContent($commentContent);
             $comment = new Comment(
                 $commentId,
                 $userId,

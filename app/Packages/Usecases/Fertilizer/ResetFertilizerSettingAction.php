@@ -31,10 +31,11 @@ class ResetFertilizerSettingAction
 
     public function __invoke(
         ResetfertilizerSettingRequest $resetFertilizerSettingRequest,
-        string                        $fertilizerSettingIdValue
     ): FertilizerSettingWrapDto
     {
-        $fertilizerSetting = $this->fertilizerSettingRepository->findById(new FertilizerSettingId($fertilizerSettingIdValue));
+        $fertilizerSettingId=$resetFertilizerSettingRequest->getId();
+
+        $fertilizerSetting = $this->fertilizerSettingRepository->findById(new FertilizerSettingId($fertilizerSettingId));
         $resetMonths = MonthsfertilizerSetting::RESET;
         $resetNote = $fertilizerSetting->getFertilizerNote()->update();
         $resetAmount = new FertilizerAmount(FertilizerAmount::RESET);
@@ -42,7 +43,7 @@ class ResetFertilizerSettingAction
         try {
             $resetFertilizerSetting =
                 new MonthsFertilizerSetting(
-                    new FertilizerSettingId($fertilizerSettingIdValue),
+                    new FertilizerSettingId($fertilizerSettingId),
                     $resetMonths,
                     $resetNote,
                     $resetAmount,

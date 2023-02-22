@@ -2,15 +2,17 @@
 
 namespace App\Packages\Presentations\Requests\Comment;
 
-class CreateCommentRequest extends \App\Http\Requests\BaseRequest
+use App\Http\Requests\BaseRequest;
+
+class CreateCommentRequest extends BaseRequest
 {
     public function rules(): array
     {
         return [
-            'comment.userId' => [
+            'commentUserId' => [
                 'required',
             ],
-            'comment.content' => [
+            'commentContent' => [
                 'required',
                 'string',
                 'max:200'
@@ -20,12 +22,12 @@ class CreateCommentRequest extends \App\Http\Requests\BaseRequest
 
     public function getUserId()
     {
-        return $this->comment['comment.userId'];
+        return $this->input('commentUserId');
 
     }
 
     public function getCommentContent()
     {
-        return $this->comment['comment.content'];
+        return $this->input('commentContent');
     }
 }

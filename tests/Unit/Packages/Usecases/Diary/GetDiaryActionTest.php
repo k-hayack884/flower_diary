@@ -15,8 +15,9 @@ class GetDiaryActionTest extends TestCase
 {
     public function test_日記詳細のレスポンスの型があっていること()
     {
-        $dairyId = '333c1092-7a0d-40b0-af6e-30bff5975e31';
-        $request = GetDiaryRequest::create('diary', 'GET', []);
+        $request = GetDiaryRequest::create('diary', 'GET', [
+            'diaryId'=>'333c1092-7a0d-40b0-af6e-30bff5975e31'
+        ]);
         $mockDiarySettingRepository = app()->make(MockDiaryRepository::class);
 
         app()->bind(GetDiaryAction::class, function () use (
@@ -26,7 +27,7 @@ class GetDiaryActionTest extends TestCase
                 $mockDiarySettingRepository
             );
         });
-        $result = (app()->make(GetDiaryAction::class))->__invoke($request, $dairyId);
+        $result = (app()->make(GetDiaryAction::class))->__invoke($request);
 
         $this->assertInstanceOf(DiaryWrapDto::class, $result);
         $this->assertSame('333c1092-7a0d-40b0-af6e-30bff5975e31', $result->diary->diaryId);
@@ -37,8 +38,9 @@ class GetDiaryActionTest extends TestCase
     public function test_存在しないIDの場合エラーを出すこと()
     {
         $diaryId =new Uuid();
-        $request = GetDiaryRequest::create('diary', 'GET', []);
-        $mockDiarySettingRepository = app()->make(MockDiaryRepository::class);
+        $request = GetDiaryRequest::create('diary', 'GET', [
+            'diaryId'=>$diaryId
+        ]);        $mockDiarySettingRepository = app()->make(MockDiaryRepository::class);
 
         app()->bind(GetDiaryAction::class, function () use (
             $mockDiarySettingRepository
@@ -47,9 +49,9 @@ class GetDiaryActionTest extends TestCase
                 $mockDiarySettingRepository
             );
         });
-        $this->expectExceptionMessage('指定した日記IDは見つかりませんでした (id:' . $diaryId . ')');
+        $this->expectExceptionMessage('指定した日記IDは見つかりませんでした (id:' . $request->getId() . ')');
         $this->expectException(NotFoundException::class);
-        $result = (app()->make(GetDiaryAction::class))->__invoke($request, $diaryId);
+        $result = (app()->make(GetDiaryAction::class))->__invoke($request, $request->getId());
 
     }
 }

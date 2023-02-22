@@ -37,7 +37,9 @@ class GetCommentActionTest extends TestCase
     public function test_存在しないIDの場合エラーを出すこと()
     {
         $commentId = new Uuid();
-        $request = GetCommentRequest::create('Comment', 'GET', []);
+        $request = GetCommentRequest::create('Comment', 'GET', [
+            'commentId'=> $commentId
+        ]);
         $mockCommentSettingRepository = app()->make(MockCommentRepository::class);
 
         app()->bind(GetCommentAction::class, function () use (
@@ -47,9 +49,9 @@ class GetCommentActionTest extends TestCase
                 $mockCommentSettingRepository
             );
         });
-        $this->expectExceptionMessage('指定したコメントIDは見つかりませんでした (id:' . $commentId . ')');
+        $this->expectExceptionMessage('指定したコメントIDは見つかりませんでした (id:' . $request->getId() . ')');
         $this->expectException(NotFoundException::class);
-        $result = (app()->make(GetCommentAction::class))->__invoke($request, $commentId);
+        $result = (app()->make(GetCommentAction::class))->__invoke($request);
 
     }
 }

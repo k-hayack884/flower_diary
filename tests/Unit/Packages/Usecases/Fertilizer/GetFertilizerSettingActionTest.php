@@ -12,7 +12,7 @@ class GetFertilizerSettingActionTest extends TestCase
 {
     public function test_水やり設定のレスポンスの型があっていること()
     {
-        $request = GetFertilizerSettingRequest::create('fertilizer/settings', 'GET', []);
+        $request = GetFertilizerSettingRequest::create('fertilizerSetting', 'GET', []);
         $mockFertilizerSettingRepository = app()->make(MockFertilizerRepository::class);
 
         app()->bind(GetFertilizerSettingsAction::class, function () use (

@@ -14,9 +14,7 @@ class CreateDiaryActionTest extends TestCase
     public function test_作成した日記のレスポンスの型があっていること()
     {
         $request = CreateDiaryRequest::create('diary', 'POST', [
-            'diary'=>[
-                'diary.content'=>'めちゃくちゃ成長している',
-            ]
+                'diaryContent'=>'めちゃくちゃ成長している',
         ]);
         $mockDiaryRepository = app()->make(MockDiaryRepository::class);
 

@@ -9,40 +9,47 @@ class UpdateFertilizerSettingRequest extends BaseRequest
     public function rules(): array
     {
         return [
-            'fertilizerSetting.months' => [
+
+            'fertilizerSettingId' => [
+                'required',
+            ],
+            'fertilizerSettingMonths' => [
                 'required',
                 'array'
             ],
-            'fertilizerSetting.note' => [
+            'fertilizerSettingNote' => [
                 'string',
                 'max:20'
             ],
-            'fertilizerSetting.amount' => [
+            'fertilizerSettingAmount' => [
                 'required',
                 'int'
             ],
-            'fertilizerSetting.name' => [
+            'fertilizerSettingName' => [
                 'required',
                 'string',
                 'max:20'
             ],
         ];
     }
-
+    public function getId()
+    {
+        return $this->input('fertilizerSettingId');
+    }
     public function getMonths():array
     {
-        return $this->fertilizerSetting['fertilizerSetting.months'];
+        return $this->input('fertilizerSettingMonths');
     }
     public function getNote():string|null
     {
-        return $this->fertilizerSetting['fertilizerSetting.note'];
+        return $this->input('fertilizerSettingNote');
     }
     public function getAmount():int
     {
-        return $this->fertilizerSetting['fertilizerSetting.amount'];
+        return $this->input('fertilizerSettingAmount');
     }
     public function getName():string
     {
-        return $this->fertilizerSetting['fertilizerSetting.name'];
+        return $this->input('fertilizerSettingName');
     }
 }

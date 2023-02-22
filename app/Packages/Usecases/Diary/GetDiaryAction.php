@@ -26,11 +26,10 @@ class GetDiaryAction
      */
     public function __invoke(
         GetDiaryRequest $getDiaryRequest,
-        string $diaryId
     ): DiaryWrapDto
     {
+        $diaryId=$getDiaryRequest->getId();
         $hitDiary = $this->diaryRepository->findById(new DiaryId($diaryId));
-
 
         return DiaryDtoFactory::create($hitDiary);
     }

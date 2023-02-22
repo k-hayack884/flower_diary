@@ -8,6 +8,15 @@ class DeleteFertilizerSettingRequest extends BaseRequest
 {
     public function rules(): array
     {
-        return [];
+        return [
+            'fertilizerSettingId' => [
+                'required',
+            ],
+        ];
+    }
+
+    public function getId()
+    {
+        return $this->input('fertilizerSettingId');
     }
 }

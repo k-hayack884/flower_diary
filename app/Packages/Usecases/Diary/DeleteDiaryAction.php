@@ -28,11 +28,10 @@ class DeleteDiaryAction
 
     public function __invoke(
         DeleteDiaryRequest $deleteDiaryRequest,
-        string                    $diaryIdValue
     ): void
     {
+        $diaryId=new DiaryId($deleteDiaryRequest->getId());
         try {
-            $diaryId = new DiaryId($diaryIdValue);
             $this->diaryRepository->delete($diaryId);
         } catch (Exception $e) {
             throw  $e;

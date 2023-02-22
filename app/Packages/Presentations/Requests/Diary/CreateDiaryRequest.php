@@ -9,7 +9,7 @@ class CreateDiaryRequest extends BaseRequest
     public function rules(): array
     {
         return [
-            'diary.content' => [
+            'diaryContent' => [
                 'required',
                 'string',
                 'max:200'
@@ -19,7 +19,7 @@ class CreateDiaryRequest extends BaseRequest
 
     public function getDiaryContent()
     {
-        return $this->diary['diary.content'];
+        return $this->input('diaryContent');
     }
 
 }

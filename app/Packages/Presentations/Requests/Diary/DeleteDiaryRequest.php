@@ -8,6 +8,14 @@ class DeleteDiaryRequest extends BaseRequest
 {
     public function rules():array
     {
-        return [];
+        return [
+            'diaryId' => [
+                'required',
+            ],
+        ];
+    }
+    public function getId()
+    {
+        return $this->input('diaryId');
     }
 }

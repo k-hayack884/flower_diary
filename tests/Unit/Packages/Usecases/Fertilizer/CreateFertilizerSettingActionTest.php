@@ -12,13 +12,11 @@ class CreateFertilizerSettingActionTest extends TestCase
 {
     public function test_作成した水やり設定のレスポンスの型があっていること()
     {
-        $request = CreateFertilizerSettingRequest::create('fertilizer/settings', 'POST', [
-            'fertilizerSetting'=>[
-                'fertilizerSetting.months'=>[10,12],
-                'fertilizerSetting.note'=>null,
-                'fertilizerSetting.amount'=>15,
-                'fertilizerSetting.name'=>'鶏糞堆肥',
-            ]
+        $request = CreateFertilizerSettingRequest::create('fertilizerSetting', 'POST', [
+                'fertilizerSettingMonths'=>[10,12],
+                'fertilizerSettingNote'=>null,
+                'fertilizerSettingAmount'=>15,
+                'fertilizerSettingName'=>'鶏糞堆肥',
         ]);
         $mockFertilizerSettingRepository = app()->make(MockFertilizerRepository::class);
 

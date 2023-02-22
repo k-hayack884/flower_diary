@@ -23,27 +23,19 @@ class CreateFertilizerSettingAction
         CreateFertilizerSettingRequest $createFertilizerSettingRequest
     ): FertilizerSettingWrapDto
     {
-        $requestArray = [
-            'fertilizerSetting.months' => $createFertilizerSettingRequest->getMonths(),
-            'fertilizerSetting.note' => $createFertilizerSettingRequest->getNote(),
-            'fertilizerSetting.amount' => $createFertilizerSettingRequest->getAmount(),
-            'fertilizerSetting.name' => $createFertilizerSettingRequest->getName(),
-        ];
+        $fertilizerSettingMonths = $createFertilizerSettingRequest->getMonths();
+        $fertilizerSettingNote = $createFertilizerSettingRequest->getNote();
+        $fertilizerSettingAmount = $createFertilizerSettingRequest->getAmount();
+        $fertilizerSettingName = $createFertilizerSettingRequest->getName();
         try {
-            $fertilizerSettingId = new FertilizerSettingId();
-            $fertilizerSettingMonths = $requestArray['fertilizerSetting.months'];
-            $fertilizerSettingNote = new FertilizerNote($requestArray['fertilizerSetting.note']);
-            $fertilizerSettingAmount = new FertilizerAmount($requestArray['fertilizerSetting.amount']);
-            $fertilizerSettingName = new FertilizerName($requestArray['fertilizerSetting.name']);
-
             $fertilizerSetting = new MonthsFertilizerSetting(
-                $fertilizerSettingId,
+                new FertilizerSettingId(),
                 $fertilizerSettingMonths,
-                $fertilizerSettingNote,
-                $fertilizerSettingAmount,
-                $fertilizerSettingName,
+                new FertilizerNote($fertilizerSettingNote),
+                new FertilizerAmount($fertilizerSettingAmount),
+                new fertilizerName($fertilizerSettingName),
             );
-            $FertilizerSettingCollection=new FertilizerSettingCollection();
+            $FertilizerSettingCollection = new FertilizerSettingCollection();
             $this->fertilizerSettingRepository->save($FertilizerSettingCollection);
         } catch (Exception $e) {
             throw  $e;

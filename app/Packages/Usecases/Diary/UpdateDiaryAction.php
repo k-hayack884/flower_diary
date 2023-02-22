@@ -4,6 +4,7 @@ namespace App\Packages\Usecases\Diary;
 
 use App\Packages\Domains\Diary\Diary;
 use App\Packages\Domains\Diary\DiaryCollection;
+use App\Packages\Domains\Diary\DiaryContent;
 use App\Packages\Domains\Diary\DiaryId;
 use App\Packages\Domains\Diary\DiaryRepositoryInterface;
 use App\Packages\Presentations\Requests\Diary\UpdateDiaryRequest;
@@ -18,20 +19,17 @@ class UpdateDiaryAction
 
     public function __invoke(
         UpdateDiaryRequest $updateDiaryRequest,
-        string                    $DiaryId
     ): DiaryWrapDto
     {
-        $requestArray = [
-            'diary.content' => $updateDiaryRequest->getDiaryContent(),
-        ];
+        $diaryId = $updateDiaryRequest->getId();
 
-        $diary = $this->diaryRepository->findById(new DiaryId($DiaryId));
+        $diary = $this->diaryRepository->findById(new DiaryId($diaryId));
 
-        $updateContent = $diary->getDiaryContent()->update($requestArray['diary.content']);
+        $updateContent = $diary->getDiaryContent()->update($updateDiaryRequest->getDiaryContent());
 
         try {
             $updateDiary = new Diary(
-                new DiaryId($DiaryId),
+                $diary->getDiaryId(),
                 $updateContent,
                 $diary->getComments(),
                 $diary->getCreateDate()

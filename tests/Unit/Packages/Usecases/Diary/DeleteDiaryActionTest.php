@@ -13,11 +13,8 @@ class DeleteDiaryActionTest extends TestCase
 {
     public function test_指定した日記が削除されていること()
     {
-        $diaryId = '334c1092-7a0d-40b0-af6e-30bff5975e31';
         $request = DeleteDiaryRequest::create('diary', 'DELETE', [
-            'comment' => [
-                'comment.userId'=>'893c1092-7a0d-40b0-af6e-30bff5975e31'
-            ]
+                'diaryId'=>'334c1092-7a0d-40b0-af6e-30bff5975e31'
         ]);
         $mockDiaryRepository = app()->make(MockDiaryRepository::class);
 
@@ -28,17 +25,18 @@ class DeleteDiaryActionTest extends TestCase
                 $mockDiaryRepository
             );
         });
-        $this->expectExceptionMessage('指定した日記IDは見つかりませんでした (id:' . $diaryId . ')');
+        $this->expectExceptionMessage('指定した日記IDは見つかりませんでした (id:' . $request->getId() . ')');
         $this->expectException(NotFoundException::class);
-        $result = (app()->make(DeleteDiaryAction::class))->__invoke($request, $diaryId);
-        $diary = $mockDiaryRepository->findById(new DiaryId($diaryId));
+        $result = (app()->make(DeleteDiaryAction::class))->__invoke($request);
+        $diary = $mockDiaryRepository->findById(new DiaryId($request->getId()));
     }
 
     public function test_存在しない日記IDを入力するとエラーを返すこと()
     {
         $diaryId =new Uuid();
-        $request = DeleteDiaryRequest::create('diary', 'DELETE', []);
-        $mockDiaryRepository = app()->make(MockDiaryRepository::class);
+        $request = DeleteDiaryRequest::create('diary', 'DELETE', [
+            'diaryId'=>$diaryId
+        ]);        $mockDiaryRepository = app()->make(MockDiaryRepository::class);
 
         app()->bind(DeleteDiaryAction::class, function () use (
             $mockDiaryRepository
