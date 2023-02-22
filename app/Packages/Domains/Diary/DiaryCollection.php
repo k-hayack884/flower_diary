@@ -7,17 +7,18 @@ use Closure;
 use Illuminate\Support\Collection;
 use IteratorAggregate;
 
-class DiaryCollection extends Collection implements IteratorAggregate
+final class DiaryCollection
 {
     /**
      * @param Diary[] $diaries
      */
     public function __construct(array $diaries = [])
     {
+        $this->diaries=(new Collection)->collect([]);
         foreach ($diaries as $diary) {
             $this->addDiary($diary);
         }
-//        $this->sortDate();
+        $this->sortDate();
     }
 
     /**
@@ -26,27 +27,29 @@ class DiaryCollection extends Collection implements IteratorAggregate
      */
     public function addDiary(Diary $diary): void
     {
-        $this->put($diary->getDiaryId()->getId(), $diary);
-//        $this->sortDate();
+        $this->diaries->put($diary->getDiaryId()->getId(), $diary);
+        $this->sortDate();
     }
 
     /**
      * @return void
      */
-    public function sortDate()
+    public function sortDate(): void
     {
-        return $this->sortByDesc(function ($product, $key) {
+        $sorted=$this->diaries->sortByDesc(function ($product, $key) {
             return $product->getCreateDate();
         });
+        $this->diaries=$sorted;
     }
 
     /**
      * @param DiaryId $diaryId
      * @return Diary
+     * @throws NotFoundException
      */
     public function findById(DiaryId $diaryId): Diary
     {
-        $diary = $this->get($diaryId->getId());
+        $diary = $this->diaries->get($diaryId->getId());
         if (is_null($diary)) {
             throw new NotFoundException('指定した日記IDが見つかりませんでした (id:' . $diaryId->getId() . ')');
         }
@@ -62,7 +65,7 @@ class DiaryCollection extends Collection implements IteratorAggregate
      */
     public function delete(Diary $diary): void
     {
-        $this->forget($diary->getDiaryId()->getId());
+        $this->diaries->forget($diary->getDiaryId()->getId());
     }
 
     /**
@@ -71,7 +74,7 @@ class DiaryCollection extends Collection implements IteratorAggregate
      */
     public function getValue(int $value): ?Closure
     {
-        return $this->get($value);
+        return $this->diaries->get($value);
     }
 
     /**
@@ -79,6 +82,6 @@ class DiaryCollection extends Collection implements IteratorAggregate
      */
     public function toArray(): array
     {
-        return parent::toArray();
+        return $this->diaries->toArray();
     }
 }

@@ -7,13 +7,15 @@ use Closure;
 use Illuminate\Support\Collection;
 use IteratorAggregate;
 
-class WaterSettingCollection extends Collection implements IteratorAggregate
+class WaterSettingCollection
 {
     /**
      * @param MonthsWaterSetting[] $waterSettings
      */
     public function __construct(array $waterSettings = [])
     {
+        $this->waterSettings= (new Collection)->collect([]);
+
         foreach ($waterSettings as $waterSetting) {
             $this->addSetting($waterSetting);
         }
@@ -25,7 +27,7 @@ class WaterSettingCollection extends Collection implements IteratorAggregate
      */
     public function addSetting(MonthsWaterSetting $waterSetting): void
     {
-        $this->put($waterSetting->getWaterSettingId()->getId(), $waterSetting);
+        $this->waterSettings->put($waterSetting->getWaterSettingId()->getId(), $waterSetting);
     }
 
     /**
@@ -35,7 +37,7 @@ class WaterSettingCollection extends Collection implements IteratorAggregate
      */
     public function findById(WaterSettingId $waterSettingId): MonthsWaterSetting
     {
-        $waterSetting = $this->get($waterSettingId->getId());
+        $waterSetting = $this->waterSettings->get($waterSettingId->getId());
 
         if (is_null($waterSetting)) {
             throw new NotFoundException('指定した水やり設定IDが見つかりませんでした (id:' . $waterSettingId->getId() . ')');
@@ -52,7 +54,7 @@ class WaterSettingCollection extends Collection implements IteratorAggregate
      */
     public function getValue(int $value): ?Closure
     {
-        return $this->get($value);
+        return $this->waterSettings->get($value);
     }
 
     /**
@@ -61,7 +63,7 @@ class WaterSettingCollection extends Collection implements IteratorAggregate
      */
     public function delete(MonthsWaterSetting $waterSetting): void
     {
-        $this->forget($waterSetting->getWaterSettingId()->getId());
+        $this->waterSettings->forget($waterSetting->getWaterSettingId()->getId());
     }
 
     /**
@@ -69,7 +71,7 @@ class WaterSettingCollection extends Collection implements IteratorAggregate
      */
     public function duplicationDisplay(): WaterSettingCollection
     {
-        $waterSettings = $this->toArray();
+        $waterSettings = $this->waterSettings->toArray();
         $duplicationSettings = [];
         foreach ($waterSettings as $waterSetting) {
             if ($this->duplicationMonthCheck($waterSetting)) {
@@ -85,7 +87,7 @@ class WaterSettingCollection extends Collection implements IteratorAggregate
      */
     private function duplicationMonthCheck($waterSetting): bool
     {
-        $referenceWaterSettings = $this->toArray();
+        $referenceWaterSettings = $this->waterSettings->toArray();
         foreach ($referenceWaterSettings as $referenceWaterSetting) {
             if ($referenceWaterSetting === $waterSetting) {
                 continue;
@@ -104,6 +106,6 @@ class WaterSettingCollection extends Collection implements IteratorAggregate
      */
     public function toArray(): array
     {
-        return parent::toArray();
+        return $this->waterSettings->toArray();
     }
 }

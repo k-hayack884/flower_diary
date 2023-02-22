@@ -39,9 +39,11 @@ class WaterSettingCollectionTest extends TestCase
         ];
 
         $waterSettingCollection = new WaterSettingCollection($waterSettings);
+        $waterSettingToArray = $waterSettingCollection->toArray();
 
-        $this->assertCount(count($waterSettings), $waterSettingCollection);
-        foreach ($waterSettingCollection as $index => $waterSetting) {
+
+        $this->assertCount(count($waterSettings), $waterSettingToArray);
+        foreach ($waterSettingToArray as $index => $waterSetting) {
             $this->assertSame($index, $waterSetting->getWaterSettingId()->getId());
         }
     }
@@ -51,7 +53,9 @@ class WaterSettingCollectionTest extends TestCase
         $waterSettings = [];
 
         $waterSettingCollection = new WaterSettingCollection($waterSettings);
-        $this->assertCount(count($waterSettings), $waterSettingCollection);
+        $waterSettingToArray = $waterSettingCollection->toArray();
+
+        $this->assertCount(count($waterSettings), $waterSettingToArray);
 
     }
 
@@ -93,9 +97,10 @@ class WaterSettingCollectionTest extends TestCase
             );
         $waterSettingCollection->addSetting($addWaterSetting);
         $waterSettings[] = $addWaterSetting;
+        $waterSettingToArray = $waterSettingCollection->toArray();
 
-        $this->assertCount(count($waterSettings), $waterSettingCollection);
-        foreach ($waterSettingCollection as $index => $waterSetting) {
+        $this->assertCount(count($waterSettings), $waterSettingToArray);
+        foreach ($waterSettingToArray as $index => $waterSetting) {
             $this->assertSame($index, $waterSetting->getWaterSettingId()->getId());
         }
 
@@ -202,6 +207,8 @@ class WaterSettingCollectionTest extends TestCase
         ];
         $waterSettingCollection = new WaterSettingCollection($waterSettings);
         $duplicationCollection=$waterSettingCollection->duplicationDisplay();
-        $this->assertCount(0, $duplicationCollection);
+        $waterSettingToArray = $duplicationCollection->toArray();
+
+        $this->assertCount(0, $waterSettingToArray);
     }
 }

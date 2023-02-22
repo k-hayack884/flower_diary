@@ -7,13 +7,14 @@ use Closure;
 use Illuminate\Support\Collection;
 use IteratorAggregate;
 
-class FertilizerSettingCollection  extends Collection implements IteratorAggregate
+class FertilizerSettingCollection
 {
     /**
      * @param MonthsFertilizerSetting[] $fertilizerSettings
      */
     public function __construct(array $fertilizerSettings = [])
     {
+        $this->fertilizerSettings= (new Collection)->collect([]);
         foreach ($fertilizerSettings as $fertilizerSetting) {
             $this->addSetting($fertilizerSetting);
         }
@@ -25,7 +26,7 @@ class FertilizerSettingCollection  extends Collection implements IteratorAggrega
      */
     public function addSetting(MonthsFertilizerSetting $fertilizerSetting): void
     {
-        $this->put($fertilizerSetting->getFertilizerSettingId()->getId(), $fertilizerSetting);
+        $this->fertilizerSettings->put($fertilizerSetting->getFertilizerSettingId()->getId(), $fertilizerSetting);
     }
 
     /**
@@ -35,7 +36,7 @@ class FertilizerSettingCollection  extends Collection implements IteratorAggrega
      */
     public function findById(FertilizerSettingId $fertilizerSettingId):MonthsFertilizerSetting
     {
-        $fertilizerSetting= $this->get($fertilizerSettingId->getId());
+        $fertilizerSetting= $this->fertilizerSettings->get($fertilizerSettingId->getId());
         if (is_null($fertilizerSetting)) {
             throw new NotFoundException('指定した肥料設定IDが見つかりませんでした (id:' . $fertilizerSettingId->getId() . ')');
         }
@@ -51,7 +52,7 @@ class FertilizerSettingCollection  extends Collection implements IteratorAggrega
      */
     public function getValue(int $value): ?Closure
     {
-        return $this->get($value);
+        return $this->fertilizerSettings->get($value);
     }
 
     /**
@@ -60,7 +61,7 @@ class FertilizerSettingCollection  extends Collection implements IteratorAggrega
      */
     public function delete(MonthsFertilizerSetting $fertilizerSetting):void
     {
-        $this->forget($fertilizerSetting->getFertilizerSettingId()->getId());
+        $this->fertilizerSettings->forget($fertilizerSetting->getFertilizerSettingId()->getId());
     }
 
     /**
@@ -68,7 +69,7 @@ class FertilizerSettingCollection  extends Collection implements IteratorAggrega
      */
     public function duplicationDisplay(): FertilizerSettingCollection
     {
-        $fertilizerSettings = $this->toArray();
+        $fertilizerSettings = $this->fertilizerSettings->toArray();
         $duplicationSettings = [];
         foreach ($fertilizerSettings as $fertilizerSetting) {
             if ($this->duplicationMonthCheck($fertilizerSetting)) {
@@ -84,7 +85,7 @@ class FertilizerSettingCollection  extends Collection implements IteratorAggrega
      */
     private function duplicationMonthCheck($fertilizerSetting): bool
     {
-        $referenceFertilizerSettings = $this->toArray();
+        $referenceFertilizerSettings = $this->fertilizerSettings->toArray();
         foreach ($referenceFertilizerSettings as $referenceFertilizerSetting) {
             if ($referenceFertilizerSetting === $fertilizerSetting) {
                 continue;
@@ -105,6 +106,6 @@ class FertilizerSettingCollection  extends Collection implements IteratorAggrega
      */
     public function toArray(): array
     {
-        return parent::toArray();
+        return $this->fertilizerSettings->toArray();
     }
 }

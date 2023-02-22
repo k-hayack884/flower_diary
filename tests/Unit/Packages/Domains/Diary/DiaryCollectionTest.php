@@ -26,9 +26,11 @@ class DiaryCollectionTest extends TestCase
         ];
 
         $diaryCollection = new DiaryCollection($diaries);
+        $diaryToArray=$diaryCollection->toArray();
 
-        $this->assertCount(count($diaries), $diaryCollection);
-        foreach ($diaryCollection as $index => $diaries) {
+
+        $this->assertCount(count($diaries), $diaryToArray);
+        foreach ($diaryToArray as $index => $diaries) {
             $this->assertSame($index, $diaries->getDiaryId()->getId());
         }
     }
@@ -38,7 +40,8 @@ class DiaryCollectionTest extends TestCase
         $diaries = [];
 
         $diaryCollection = new DiaryCollection($diaries);
-        $this->assertCount(count($diaries), $diaryCollection);
+        $diaryToArray=$diaryCollection->toArray();
+        $this->assertCount(count($diaries), $diaryToArray);
 
     }
 
@@ -64,9 +67,11 @@ class DiaryCollectionTest extends TestCase
             );
         $diaryCollection->addDiary($addDiary);
         $diaries[] = $addDiary;
+        $diaryToArray=$diaryCollection->toArray();
 
-        $this->assertCount(count($diaries), $diaryCollection);
-        foreach ($diaryCollection as $index => $diary) {
+
+        $this->assertCount(count($diaries), $diaryToArray);
+        foreach ($diaryToArray as $index => $diary) {
             $this->assertSame($index, $diary->getDiaryId()->getId());
         }
 
@@ -128,12 +133,11 @@ class DiaryCollectionTest extends TestCase
             )
         ];
         $diaryCollection = new DiaryCollection($diaries);
-        $sortedCollection = $diaryCollection->sortDate();
-        $sortedArray = $sortedCollection->toArray();
-        foreach ($sortedArray as $value) {
+        $diaryToArray = $diaryCollection->toArray();
+        foreach ($diaryToArray as $value) {
             $results[] = $value->getDiaryContent()->getValue();
         }
-        $this->assertCount(count($diaries), $sortedCollection);
+        $this->assertCount(count($diaries), $diaryToArray);
         $this->assertSame('明日', $results[0]);
         $this->assertSame('今日＋1時間', $results[1]);
         $this->assertSame('今日', $results[2]);

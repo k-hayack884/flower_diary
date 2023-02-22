@@ -29,10 +29,11 @@ class CommentCollectionTest extends TestCase
         ];
 
         $commentCollection = new CommentCollection($comments);
+        $commentToArray = $commentCollection->toArray();
+        $this->assertCount(count($comments), $commentToArray);
 
-        $this->assertCount(count($comments), $commentCollection);
-        foreach ($commentCollection as $index => $comments) {
-            $this->assertSame($index, $comments->getCommentId()->getId());
+        foreach ($commentToArray as $index => $comment) {
+            $this->assertSame($index, $comment->getCommentId()->getId());
         }
     }
 
@@ -41,7 +42,9 @@ class CommentCollectionTest extends TestCase
         $comments = [];
 
         $commentCollection = new CommentCollection($comments);
-        $this->assertCount(count($comments), $commentCollection);
+        $commentToArray = $commentCollection->toArray();
+        $this->assertEmpty($commentToArray);
+        $this->assertCount(count($comments), $commentToArray);
 
     }
 
@@ -70,13 +73,15 @@ class CommentCollectionTest extends TestCase
             );
         $commentCollection->addComment($addComment);
         $comments[] = $addComment;
+        $commentToArray = $commentCollection->toArray();
 
-        $this->assertCount(count($comments), $commentCollection);
-        foreach ($commentCollection as $index => $comment) {
+        $this->assertCount(count($comments), $commentToArray);
+        foreach ($commentToArray as $index => $comment) {
             $this->assertSame($index, $comment->getCommentId()->getId());
         }
 
     }
+
     public function test_設定を削除すること()
     {
         $comments = [
@@ -100,6 +105,7 @@ class CommentCollectionTest extends TestCase
         $this->expectException(NotFoundException::class);
         $getComment = $commentCollection->findById($commentId);
     }
+
     public function test_オブジェクトの内容が日付順で並び変えられること()
     {
         $before1DayDate = Carbon::yesterday();
@@ -134,12 +140,10 @@ class CommentCollectionTest extends TestCase
             ),
         ];
         $commentCollection = new CommentCollection($comments);
-        $sortedCollection = $commentCollection->sortDate();
-        $sortedArray = $sortedCollection->toArray();
-        foreach ($sortedArray as $value) {
+        $commentToArray = $commentCollection->toArray();
+        foreach ($commentToArray as $value) {
             $results[] = $value->getCommentContent()->getValue();
         }
-        $this->assertCount(count($comments), $sortedCollection);
         $this->assertSame('明日', $results[0]);
         $this->assertSame('今日＋1時間', $results[1]);
         $this->assertSame('今日', $results[2]);
