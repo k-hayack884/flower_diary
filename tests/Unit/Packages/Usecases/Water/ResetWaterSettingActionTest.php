@@ -29,13 +29,13 @@ class ResetWaterSettingActionTest extends TestCase
         $prevWaterSetting = $mockWaterSettingRepository->findById(new WaterSettingId($request->getId()));
         $result = (app()->make(ResetWaterSettingAction::class))->__invoke($request);
 
-        $this->assertSame( [1,2,3,4,5,6,7,8,9,10,11,12],$result->waterSettings->months);
-        $this->assertSame( '',$result->waterSettings->note);
-        $this->assertSame( 'moderate_amount',$result->waterSettings->waterAmount);
-        $this->assertSame( 1,$result->waterSettings->wateringTimes);
-        $this->assertSame( 1,$result->waterSettings->wateringInterval);
-        $this->assertEmpty($result->waterSettings->alertTimes);
-        $this->assertNotEquals($prevWaterSetting->getWaterNote()->getValue(),$result->waterSettings->note);
+        $this->assertSame( [1,2,3,4,5,6,7,8,9,10,11,12],$result->waterSetting->months);
+        $this->assertSame( '',$result->waterSetting->note);
+        $this->assertSame( 'moderate_amount',$result->waterSetting->waterAmount);
+        $this->assertSame( 1,$result->waterSetting->wateringTimes);
+        $this->assertSame( 1,$result->waterSetting->wateringInterval);
+        $this->assertEmpty($result->waterSetting->alertTimes);
+        $this->assertNotEquals($prevWaterSetting->getWaterNote()->getValue(),$result->waterSetting->note);
     }
     public function test_存在しない水やり設定IDを入力するとエラーを返すこと()
     {

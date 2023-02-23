@@ -10,6 +10,9 @@ use App\Packages\Usecases\WaterSettingWrapDtoFactory;
 
 class GetWaterSettingAction
 {
+    /**
+     * @var WaterSettingRepositoryInterface
+     */
     private WaterSettingRepositoryInterface $waterSettingRepository;
     /**
      * @param WaterSettingRepositoryInterface $waterSettingRepository
@@ -21,14 +24,13 @@ class GetWaterSettingAction
 
     /**
      * @param GetWaterSettingRequest $getWaterSettingRequest
-     * @param string $waterSettingId
      * @return WaterSettingWrapDto
      */
     public function __invoke(
         GetWaterSettingRequest $getWaterSettingRequest,
-        string                $waterSettingId
     ): WaterSettingWrapDto
     {
+        $waterSettingId=$getWaterSettingRequest->getId();
         $waterSetting = $this->waterSettingRepository->findById(new WaterSettingId($waterSettingId));
         return WaterSettingsDtoFactory::create($waterSetting);
     }

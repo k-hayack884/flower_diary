@@ -4,16 +4,17 @@ namespace Packages\usecases\Water;
 
 use App\Packages\infrastructures\Water\MockWaterRepository;
 use App\Packages\Presentations\Requests\Water\GetWaterSettingRequest;
+use App\Packages\Presentations\Requests\Water\GetWaterSettingsRequest;
 use App\Packages\Usecases\Dto\Water\WaterSettingDto;
 use App\Packages\Usecases\Water\GetWaterSettingAction;
 use App\Packages\Usecases\Water\GetWaterSettingsAction;
 use PHPUnit\Framework\TestCase;
 
-class GetWaterSettingActionTest extends TestCase
+class GetWaterSettingsActionTest extends TestCase
 {
     public function test_水やり設定のレスポンスの型があっていること()
     {
-        $request = GetWaterSettingRequest::create('waterSetting', 'GET', []);
+        $request = GetWaterSettingsRequest::create('waterSetting', 'GET', []);
         $mockWaterSettingRepository = app()->make(MockWaterRepository::class);
 
         app()->bind(GetWaterSettingsAction::class, function () use (

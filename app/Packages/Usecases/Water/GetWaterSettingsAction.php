@@ -4,6 +4,7 @@ namespace App\Packages\Usecases\Water;
 
 use App\Packages\Domains\Water\WaterSettingRepositoryInterface;
 use App\Packages\Presentations\Requests\Water\GetWaterSettingRequest;
+use App\Packages\Presentations\Requests\Water\GetWaterSettingsRequest;
 use App\Packages\Usecases\Dto\Water\WaterSettingDto;
 use App\Packages\Usecases\Dto\Water\WaterSettingsWrapDto;
 
@@ -20,10 +21,10 @@ class GetWaterSettingsAction
     }
 
     /**
-     * @param GetWaterSettingRequest $getWaterSettingRequest
+     * @param GetWaterSettingsRequest $getWaterSettingRequest
      * @return WaterSettingsWrapDto
      */
-    public function __invoke(GetWaterSettingRequest $getWaterSettingRequest
+    public function __invoke(GetWaterSettingsRequest $getWaterSettingRequest
     ): WaterSettingsWrapDto
     {
         $waterSettingCollection = $this->waterSettingRepository->find();
