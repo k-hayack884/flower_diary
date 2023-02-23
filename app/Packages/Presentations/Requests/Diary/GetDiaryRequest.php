@@ -6,6 +6,9 @@ use App\Http\Requests\BaseRequest;
 
 class GetDiaryRequest extends BaseRequest
 {
+    /**
+     * @return array[]
+     */
     public function rules(): array
     {
         return [
@@ -16,9 +19,11 @@ class GetDiaryRequest extends BaseRequest
 
     }
 
+    /**
+     * @return string
+     */
     public function getId(): string
     {
         return $this->input('diaryId');
     }
-
 }

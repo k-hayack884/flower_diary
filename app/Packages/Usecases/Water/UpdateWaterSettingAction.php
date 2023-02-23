@@ -18,49 +18,48 @@ use PHPUnit\Exception;
 class UpdateWaterSettingAction
 {
     private WaterSettingRepositoryInterface $waterSettingRepository;
+
     public function __construct(WaterSettingRepositoryInterface $waterSettingRepository)
     {
         $this->waterSettingRepository = $waterSettingRepository;
     }
 
+    /**
+     * @param UpdateWaterSettingRequest $createWaterSettingRequest
+     * @return WaterSettingWrapDto
+     * @throws Exception
+     */
     public function __invoke(
         UpdateWaterSettingRequest $createWaterSettingRequest,
-        string                    $waterSettingId
     ): WaterSettingWrapDto
     {
-        $requestArray = [
-            'waterSetting.months' => $createWaterSettingRequest->getMonths(),
-            'waterSetting.note' => $createWaterSettingRequest->getNote(),
-            'waterSetting.amount' => $createWaterSettingRequest->getAmount(),
-            'waterSetting.times' => $createWaterSettingRequest->getWateringTimes(),
-            'waterSetting.interval' => $createWaterSettingRequest->getWateringInterval(),
-            'waterSetting.alert_time' => $createWaterSettingRequest->getAlertTimes(),
-        ];
+        $waterSettingId = $createWaterSettingRequest->getId();
+        $waterSettingMonths = $createWaterSettingRequest->getMonths();
+        $waterSettingNote = $createWaterSettingRequest->getNote();
+        $waterSettingAmount = $createWaterSettingRequest->getAmount();
+        $waterSettingTimes = $createWaterSettingRequest->getWateringTimes();
+        $waterSettingInterval = $createWaterSettingRequest->getWateringInterval();
+        $waterSettingAlertTimes = $createWaterSettingRequest->getAlertTimes();
 
         $waterSetting = $this->waterSettingRepository->findById(new WaterSettingId($waterSettingId));
-
-        $updateMonths = $requestArray['waterSetting.months'];
-        $updateNote = $waterSetting->getWaterNote()->update($requestArray['waterSetting.note']);
-        $updateAmount = new WaterAmount($requestArray['waterSetting.amount']);
-        $updateWateringTimes = new WateringTimes($requestArray['waterSetting.times']);
-        $updateWateringInterval = new WateringInterval($requestArray['waterSetting.interval']);
-        $updateAlertTimes =$requestArray['waterSetting.alert_time'];
+        $updateNote = $waterSetting->getWaterNote()->update($waterSettingNote);
 
         try {
             $updateWaterSetting = new MonthsWaterSetting(
                 new WaterSettingId($waterSettingId),
-                $updateMonths,
+                $waterSettingMonths,
                 $updateNote,
-                $updateAmount,
-                $updateWateringTimes,
-                $updateWateringInterval,
-                $updateAlertTimes
+                new WaterAmount($waterSettingAmount),
+                new WateringTimes($waterSettingTimes),
+                new WateringInterval($waterSettingInterval),
+                $waterSettingAlertTimes
             );
-            $waterSettingCollection=new WaterSettingCollection();
+            $waterSettingCollection = new WaterSettingCollection();
             $this->waterSettingRepository->save($waterSettingCollection);
         } catch (Exception $e) {
             throw  $e;
         }
+
         return WaterSettingsDtoFactory::create($updateWaterSetting);
     }
 }

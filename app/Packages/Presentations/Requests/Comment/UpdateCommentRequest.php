@@ -6,6 +6,9 @@ use App\Http\Requests\BaseRequest;
 
 class UpdateCommentRequest extends BaseRequest
 {
+    /**
+     * @return array[]
+     */
     public function rules(): array
     {
         return [
@@ -22,17 +25,27 @@ class UpdateCommentRequest extends BaseRequest
             ]
         ];
     }
-    public function getId()
+
+    /**
+     * @return string
+     */
+    public function getId():string
     {
         return $this->input('commentId');
     }
 
-    public function getUserId()
+    /**
+     * @return string
+     */
+    public function getUserId():string
     {
         return $this->input('commentUserId');
     }
 
-    public function getCommentContent()
+    /**
+     * @return string
+     */
+    public function getCommentContent():string
     {
         return $this->input('commentContent');
     }

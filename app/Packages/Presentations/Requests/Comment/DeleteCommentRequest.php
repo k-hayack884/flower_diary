@@ -6,6 +6,9 @@ use App\Http\Requests\BaseRequest;
 
 class DeleteCommentRequest extends BaseRequest
 {
+    /**
+     * @return array[]
+     */
     public function rules(): array
     {
         return [
@@ -17,11 +20,19 @@ class DeleteCommentRequest extends BaseRequest
             ]
         ];
     }
-    public function getId()
+
+    /**
+     * @return string
+     */
+    public function getId():string
     {
         return $this->input('commentId');
     }
-    public function getUserId()
+
+    /**
+     * @return string
+     */
+    public function getUserId():string
     {
         return $this->input('commentUserId');
     }

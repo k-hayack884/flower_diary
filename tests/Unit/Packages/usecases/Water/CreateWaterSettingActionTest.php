@@ -13,14 +13,12 @@ class CreateWaterSettingActionTest extends TestCase
 {
     public function test_作成した水やり設定のレスポンスの型があっていること()
     {
-        $request = CreateWaterSettingRequest::create('water/settings', 'POST', [
-            'waterSetting'=>[
-            'waterSetting.months'=>[2,3,4],
-            'waterSetting.note'=>null,
-            'waterSetting.amount'=>'a_lot',
-            'waterSetting.times'=>2,
-            'waterSetting.interval'=>4
-        ]
+        $request = CreateWaterSettingRequest::create('waterSetting', 'POST', [
+            'waterSettingMonths'=>[2,3,4],
+            'waterSettingNote'=>null,
+            'waterSettingAmount'=>'a_lot',
+            'waterSettingTimes'=>2,
+            'waterSettingInterval'=>4
         ]);
         $mockWaterSettingRepository = app()->make(MockWaterRepository::class);
 

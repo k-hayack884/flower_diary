@@ -13,10 +13,8 @@ class CreateCheckSeatActionTest extends TestCase
     public function test_作成した水やり設定のレスポンスの型があっていること()
     {
         $request = CreateCheckSeatRequest::create('checkSeat', 'POST', [
-            'checkSeat'=>[
-                'checkSeat.waterIds'=>['983c1092-7a0d-40b0-af6e-30bff5975e31','334c1092-7a0d-40b0-af6e-30bff5975e31'],
-                'checkSeat.fertilizerIds'=>['983c1092-7a0d-40b0-af6e-30bff5975e31','334c1092-7a0d-40b0-af6e-30bff5975e31'],
-            ]
+                'checkSeatWaterIds'=>['983c1092-7a0d-40b0-af6e-30bff5975e31','334c1092-7a0d-40b0-af6e-30bff5975e31'],
+                'checkSeatFertilizerIds'=>['983c1092-7a0d-40b0-af6e-30bff5975e31','334c1092-7a0d-40b0-af6e-30bff5975e31'],
         ]);
         $mockCheckSeatRepository = app()->make(MockCheckSeatRepository::class);
 

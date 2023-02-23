@@ -7,6 +7,9 @@ use App\Http\Requests\BaseRequest;
 class
 CreatePlantUnitRequest extends BaseRequest
 {
+    /**
+     * @return array[]
+     */
     public function rules(): array
     {
         return [
@@ -18,10 +21,18 @@ CreatePlantUnitRequest extends BaseRequest
             ],
         ];
     }
+
+    /**
+     * @return string
+     */
     public function getPlantUnitPlantId():string
     {
         return $this->input('plantUnitPlantId');
     }
+
+    /**
+     * @return string
+     */
     public function getPlantUnitUserId():string
     {
         return $this->input('plantUnitUserId');

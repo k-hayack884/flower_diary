@@ -6,6 +6,9 @@ use App\Http\Requests\BaseRequest;
 
 class DeleteFertilizerSettingRequest extends BaseRequest
 {
+    /**
+     * @return array[]
+     */
     public function rules(): array
     {
         return [
@@ -15,7 +18,10 @@ class DeleteFertilizerSettingRequest extends BaseRequest
         ];
     }
 
-    public function getId()
+    /**
+     * @return string
+     */
+    public function getId():string
     {
         return $this->input('fertilizerSettingId');
     }

@@ -31,11 +31,9 @@ class ResetWaterSettingAction
 
     /**
      * @param ResetWaterSettingRequest $deleteWaterSettingRequest
-     * @param string $waterSettingIdValue
      * @return WaterSettingWrapDto
      * @throws Exception
      */
-
     public function __invoke(
         ResetWaterSettingRequest $deleteWaterSettingRequest,
     ): WaterSettingWrapDto
