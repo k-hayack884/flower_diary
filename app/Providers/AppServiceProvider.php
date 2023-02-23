@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Packages\Domains\Water\WaterSettingRepositoryInterface;
+use App\Packages\infrastructures\Water\MockWaterRepository;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -13,7 +15,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+       $this->app->bind(
+           WaterSettingRepositoryInterface::class,
+           MockWaterRepository::class
+       );
     }
 
     /**

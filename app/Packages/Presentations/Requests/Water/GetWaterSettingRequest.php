@@ -11,15 +11,17 @@ class GetWaterSettingRequest extends BaseRequest
      */
     public function rules(): array
     {
-        return ['waterSettingId'=>[
-            'required'
-        ]];
+        return [
+            'waterSettingId' => [
+                'required'
+            ]
+        ];
     }
 
     /**
      * @return string
      */
-    public function getId():string
+    public function getId(): string
     {
         return $this->input('waterSettingId');
     }
