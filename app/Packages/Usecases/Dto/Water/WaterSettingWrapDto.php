@@ -5,10 +5,10 @@ namespace App\Packages\Usecases\Dto\Water;
 class WaterSettingWrapDto
 {
     /**
-     * @param WaterSettingDto $waterSettings
+     * @param WaterSettingDto $waterSetting
      */
     public function __construct(
-        public WaterSettingDto $waterSettings
+        public WaterSettingDto $waterSetting
     )
     {
     }

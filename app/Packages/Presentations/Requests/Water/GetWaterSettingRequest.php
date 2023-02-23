@@ -7,10 +7,20 @@ use App\Http\Requests\BaseRequest;
 class GetWaterSettingRequest extends BaseRequest
 {
     /**
-     * @return array
+     * @return array[]
      */
     public function rules(): array
     {
-        return [];
+        return ['waterSettingId'=>[
+            'required'
+        ]];
+    }
+
+    /**
+     * @return string
+     */
+    public function getId():string
+    {
+        return $this->input('waterSettingId');
     }
 }
