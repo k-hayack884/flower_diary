@@ -6,24 +6,34 @@ use App\Http\Requests\BaseRequest;
 
 class CreateCheckSeatRequest extends BaseRequest
 {
+    /**
+     * @return array[]
+     */
     public function rules(): array
     {
         return [
-            'checkSeat.waterIds' => [
+            'checkSeatWaterIds' => [
                 'array'
             ],
-            'checkSeat.fertilizerIds' => [
+            'checkSeatFertilizerIds' => [
                 'array',
             ],
         ];
     }
 
-    public function getWaterIds()
+    /**
+     * @return array
+     */
+    public function getWaterIds():array
     {
-        return $this->checkSeat['checkSeat.waterIds'];
+        return $this->input('checkSeatWaterIds');
     }
-    public function getFertilizerIds()
+
+    /**
+     * @return array
+     */
+    public function getFertilizerIds():array
     {
-        return $this->checkSeat['checkSeat.fertilizerIds'];
+        return $this->input('checkSeatFertilizerIds');
     }
 }

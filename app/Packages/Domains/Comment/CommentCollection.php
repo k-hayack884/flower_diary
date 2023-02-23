@@ -5,17 +5,18 @@ namespace App\Packages\Domains\Comment;
 use App\Exceptions\NotFoundException;
 use Illuminate\Support\Collection;
 
-class CommentCollection extends Collection
+final class CommentCollection
 {
     /**
      * @param Comment[] $comments
      */
     public function __construct(array $comments = [])
     {
+        $this->comments= (new Collection)->collect([]);
         foreach ($comments as $comment) {
             $this->addComment($comment);
         }
-
+        $this->sortDate();
     }
 
     /**
@@ -24,16 +25,20 @@ class CommentCollection extends Collection
      */
     public function addComment(Comment $comment): void
     {
-        $this->put($comment->getCommentId()->getId(), $comment);
-
+        $this->comments->put($comment->getCommentId()->getId(), $comment);
+        $this->sortDate();
     }
 
-    public function sortDate()
+    /**
+     * @return void
+     */
+    private function sortDate(): void
     {
-        $sorted=$this->sortByDesc(function ($product,$key){
+        $sorted=$this->comments->sortByDesc(function ($product,$key){
             return $product->getCreateDate();
         });
-        return $sorted;
+        $this->comments=$sorted;
+
     }
 
     /**
@@ -43,7 +48,7 @@ class CommentCollection extends Collection
      */
     public function findById(CommentId $commentId):Comment
     {
-        $comment= $this->get($commentId->getId());
+        $comment= $this->comments->get($commentId->getId());
         if (is_null($comment)) {
             throw new NotFoundException('指定したコメントIDが見つかりませんでした (id:' . $commentId->getId() . ')');
         }
@@ -59,9 +64,8 @@ class CommentCollection extends Collection
      */
     public function delete(Comment $comment):void
     {
-        $this->forget($comment->getCommentId()->getId());
+        $this->comments->forget($comment->getCommentId()->getId());
     }
-
 
     /**
      * @param int $value
@@ -69,7 +73,7 @@ class CommentCollection extends Collection
      */
     public function getValue(int $value): ?Closure
     {
-        return $this->get($value);
+        return $this->comments->get($value);
     }
 
     /**
@@ -77,6 +81,6 @@ class CommentCollection extends Collection
      */
     public function toArray(): array
     {
-        return parent::toArray();
+        return $this->comments->toArray();
     }
 }

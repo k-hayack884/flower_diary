@@ -14,8 +14,9 @@ class ResetFertilizerSettingActionTest extends TestCase
 {
     public function test_指定した肥料設定がリセットされていること()
     {
-        $fertilizerSettingId = '983c1092-7a0d-40b0-af6e-30bff5975e31';
-        $request = ResetfertilizerSettingRequest::create('fertilizer/settings/reset', 'POST', []);
+        $request = ResetfertilizerSettingRequest::create('fertilizerSetting/reset', 'POST', [
+            'fertilizerSettingId'=>'983c1092-7a0d-40b0-af6e-30bff5975e31'
+        ]);
         $mockFertilizerSettingRepository = app()->make(MockFertilizerRepository::class);
 
         app()->bind(ResetFertilizerSettingAction::class, function () use (
@@ -25,8 +26,8 @@ class ResetFertilizerSettingActionTest extends TestCase
                 $mockFertilizerSettingRepository
             );
         });
-        $prevFertilizerSetting = $mockFertilizerSettingRepository->findById(new FertilizerSettingId($fertilizerSettingId));
-        $result = (app()->make(ResetFertilizerSettingAction::class))->__invoke($request, $fertilizerSettingId);
+        $prevFertilizerSetting = $mockFertilizerSettingRepository->findById(new FertilizerSettingId($request->getId()));
+        $result = (app()->make(ResetFertilizerSettingAction::class))->__invoke($request);
 
         $this->assertSame( [],$result->fertilizerSettings->months);
         $this->assertSame( '',$result->fertilizerSettings->note);
@@ -37,7 +38,9 @@ class ResetFertilizerSettingActionTest extends TestCase
     public function test_存在しない肥料設定IDを入力するとエラーを返すこと()
     {
         $fertilizerSettingId = new Uuid();
-        $request = ResetfertilizerSettingRequest::create('fertilizer/settings/reset', 'POST', []);
+        $request = ResetfertilizerSettingRequest::create('fertilizerSetting/reset', 'POST', [
+            'fertilizerSettingId'=>$fertilizerSettingId
+        ]);
         $mockFertilizerSettingRepository = app()->make(MockfertilizerRepository::class);
 
         app()->bind(ResetfertilizerSettingAction::class, function () use (
@@ -47,9 +50,9 @@ class ResetFertilizerSettingActionTest extends TestCase
                 $mockFertilizerSettingRepository
             );
         });
-        $this->expectExceptionMessage('指定した肥料設定IDは見つかりませんでした (id:' . $fertilizerSettingId . ')');
+        $this->expectExceptionMessage('指定した肥料設定IDは見つかりませんでした (id:' . $request->getId() . ')');
         $this->expectException(NotFoundException::class);
-        $result = (app()->make(ResetfertilizerSettingAction::class))->__invoke($request, $fertilizerSettingId);
-        $fertilizerSetting = $mockFertilizerSettingRepository->findById(new FertilizerSettingId($fertilizerSettingId));
+        $result = (app()->make(ResetfertilizerSettingAction::class))->__invoke($request);
+        $fertilizerSetting = $mockFertilizerSettingRepository->findById(new FertilizerSettingId($request->getId()));
     }
 }

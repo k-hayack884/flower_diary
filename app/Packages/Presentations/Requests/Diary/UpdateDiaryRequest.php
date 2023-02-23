@@ -6,9 +6,15 @@ use App\Http\Requests\BaseRequest;
 
 class UpdateDiaryRequest extends BaseRequest
 {
+    /**
+     * @return array[]
+     */
     public function rules(): array
     {
         return [
+            'diaryId'=>[
+                'required'
+            ],
             'diary.content' => [
                 'required',
                 'string',
@@ -18,15 +24,31 @@ class UpdateDiaryRequest extends BaseRequest
                 'array',
             ],
         ];
-
     }
 
+    /**
+     * @return string
+     */
+    public function getId():string
+    {
+        return $this->input('diaryId');
+    }
+
+    /**
+     * @return mixed
+     */
     public function getDiaryContent()
     {
-        return $this->diary['diary.content'];
+        return $this->input('diaryContent');
     }
-    public function getComments()
+
+    /**
+     * @return string
+     */
+    public function getComments():string
     {
-        return $this->diary['diary.comments'];
+        return $this->input('diaryComments');
     }
+
+
 }

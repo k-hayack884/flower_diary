@@ -11,14 +11,26 @@ use DomainException;
 
 class MonthsFertilizerSetting
 {
+    public const RESET = [];
+    /**
+     * @var FertilizerSettingId
+     * @var int[]
+     * @var FertilizerNote
+     * @var fertilizerName
+     */
     private FertilizerSettingId $fertilizerSettingId;
     private array $months = [];
     private FertilizerNote $fertilizerNote;
     private FertilizerAmount $fertilizerAmount;
     private FertilizerName $fertilizerName;
 
-    public const RESET = [];
-
+    /**
+     * @param FertilizerSettingId $fertilizerSettingId
+     * @param int[] $months
+     * @param FertilizerNote $fertilizerNote
+     * @param FertilizerAmount $fertilizerAmount
+     * @param FertilizerName $fertilizerName
+     */
     public function __construct(
         FertilizerSettingId $fertilizerSettingId,
         array               $months,
@@ -29,7 +41,6 @@ class MonthsFertilizerSetting
         if (count($months) > 12) {
             throw new DomainException('月の数が１３個以上あります');
         }
-
         foreach ($months as $month) {
             if (!preg_match("/^[0-9]$|^1[0-2]$/", $month)) {
                 throw new DomainException('その文字は使用できません');
@@ -43,7 +54,7 @@ class MonthsFertilizerSetting
     }
 
     /**
-     * @param array $months
+     * @param int[] $months
      * @return MonthsFertilizerSetting
      */
     public function tarmUpdate(array $months): MonthsFertilizerSetting

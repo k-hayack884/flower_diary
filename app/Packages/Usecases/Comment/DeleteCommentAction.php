@@ -6,9 +6,14 @@ use App\Packages\Domains\Comment\CommentId;
 use App\Packages\Domains\Comment\CommentRepositoryInterface;
 use App\Packages\Domains\User\UserId;
 use App\Packages\Presentations\Requests\Comment\DeleteCommentRequest;
+use Exception;
+use Illuminate\Support\Facades\Auth;
 
 class DeleteCommentAction
 {
+    /**
+     * @var CommentRepositoryInterface
+     */
     private CommentRepositoryInterface $commentRepository;
 
     /**
@@ -21,22 +26,24 @@ class DeleteCommentAction
 
     /**
      * @param DeleteCommentRequest $deleteCommentRequest
-     * @param string $commentIdValue
      * @return void
+     * @throws Exception
      */
 
     public function __invoke(
         DeleteCommentRequest $deleteCommentRequest,
-        string               $commentIdValue
     ): void
     {
-        $requestArray = [
-            'comment.userId' => $deleteCommentRequest->getUserId(),
-        ];
-        $this->commentRepository->findByUserId(new UserId($requestArray['comment.userId']));
+        $commentId=$deleteCommentRequest->getId();
+        $userId=$deleteCommentRequest->getUserId();
+
         try {
-            $commentId = new CommentId($commentIdValue);
-            $this->commentRepository->delete($commentId);
+            $deleteCommentId=new CommentId($commentId);
+            $deleteUserId=new UserId($userId);
+
+            $comment=$this->commentRepository->findByCommentId($deleteCommentId);
+            $this->commentRepository->findByUserId($deleteUserId);
+            $this->commentRepository->delete($comment->getCommentId());
         } catch (Exception $e) {
             throw  $e;
         }

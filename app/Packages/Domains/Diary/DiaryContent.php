@@ -5,8 +5,14 @@ namespace App\Packages\Domains\Diary;
 class DiaryContent
 {
     public const RESET = '';
+    /**
+     * @var string
+     */
     public string $content;
 
+    /**
+     * @param string|null $content
+     */
     public function __construct(string|null $content=null)
     {
         if (mb_strlen($content) > 200) {
@@ -17,7 +23,6 @@ class DiaryContent
         } else {
             $this->content = $content;
         }
-
     }
 
     /**

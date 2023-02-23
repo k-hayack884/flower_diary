@@ -14,30 +14,43 @@ use Exception;
 
 class CreateDiaryAction
 {
+    /**
+     * @var DiaryRepositoryInterface
+     */
+    private DiaryRepositoryInterface $diaryRepository;
+
+    /**
+     * @param DiaryRepositoryInterface $diaryRepository
+     */
     public function __construct(DiaryRepositoryInterface $diaryRepository)
     {
         $this->diaryRepository = $diaryRepository;
     }
 
+    /**
+     * @param CreateDiaryRequest $createDiaryRequest
+     * @return DiaryWrapDto
+     * @throws Exception
+     */
     public function __invoke(
         CreateDiaryRequest $createDiaryRequest
     ): DiaryWrapDto
     {
-        $requestArray = [
-            'diary.content' => $createDiaryRequest->getDiaryContent()
-        ];
+        $diaryContent = $createDiaryRequest->getDiaryContent();
+
         try {
             $diaryId = new DiaryId();
-            $diaryMonths = new DiaryContent($requestArray['diary.content']);
+            $diaryContent = new DiaryContent($diaryContent);
             $diary = new Diary(
                 $diaryId,
-                $diaryMonths
+                $diaryContent
             );
             $diaryCollection = new DiaryCollection();
             $this->diaryRepository->save($diaryCollection);
         } catch (Exception $e) {
             throw  $e;
         }
+
         return DiaryDtoFactory::create($diary);
     }
 }

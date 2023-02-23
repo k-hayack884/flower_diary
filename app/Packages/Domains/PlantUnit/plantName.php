@@ -5,8 +5,14 @@ namespace App\Packages\Domains\PlantUnit;
 class plantName
 {
     public const RESET = '';
+    /**
+     * @var string|null
+     */
     private string $name;
 
+    /**
+     * @param string|null $name
+     */
     public function __construct(string|null $name=null)
     {
         if($name===null){
@@ -20,7 +26,7 @@ class plantName
 
     /**
      * @param string|null $name
-     * @return fertilizerName
+     * @return plantName
      */
     public function update(string|null $name=null): PlantName
     {

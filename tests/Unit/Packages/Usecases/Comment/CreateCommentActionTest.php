@@ -12,11 +12,9 @@ class CreateCommentActionTest extends TestCase
 {
     public function test_作成した日記のレスポンスの型があっていること()
     {
-        $request = CreateCommentRequest::create('Comment', 'POST', [
-            'comment'=>[
-                'comment.userId'=>'774c1092-7a0d-40b0-af6e-30bff5975e31',
-                'comment.content'=>'めちゃくちゃ成長している',
-            ]
+        $request = CreateCommentRequest::create('comment', 'POST', [
+                'commentUserId'=>'774c1092-7a0d-40b0-af6e-30bff5975e31',
+                'commentContent'=>'めちゃくちゃ成長している',
         ]);
         $mockCommentRepository = app()->make(MockCommentRepository::class);
 

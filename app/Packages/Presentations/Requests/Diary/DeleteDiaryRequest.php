@@ -6,8 +6,23 @@ use App\Http\Requests\BaseRequest;
 
 class DeleteDiaryRequest extends BaseRequest
 {
+    /**
+     * @return array[]
+     */
     public function rules():array
     {
-        return [];
+        return [
+            'diaryId' => [
+                'required',
+            ],
+        ];
+    }
+
+    /**
+     * @return string
+     */
+    public function getId():string
+    {
+        return $this->input('diaryId');
     }
 }

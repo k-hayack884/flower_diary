@@ -7,9 +7,16 @@ use App\Packages\Domains\Shared\Uuid;
 
 class WaterSettingId
 {
+    /**
+     * @var string
+     * @var Uuid
+     */
     private string $value;
     private Uuid $uuid;
 
+    /**
+     * @param string|null $value
+     */
     public function __construct(string|null $value = null)
     {
         $this->uuid = new Uuid($value);

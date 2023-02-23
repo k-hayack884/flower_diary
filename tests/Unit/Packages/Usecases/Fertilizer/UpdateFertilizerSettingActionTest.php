@@ -14,14 +14,12 @@ class UpdateFertilizerSettingActionTest extends TestCase
 {
     public function test_指定した水やり設定のレスポンスの型があっていること()
     {
-        $fertilizerSettingId = '334c1092-7a0d-40b0-af6e-30bff5975e31';
-        $request = UpdateFertilizerSettingRequest::create('fertilizer/settings', 'POST', [
-            'fertilizerSetting' => [
-                'fertilizerSetting.months' => [5, 7, 9],
-                'fertilizerSetting.note' => 'ち～ん',
-                'fertilizerSetting.amount' => 334,
-                'fertilizerSetting.name' => '甲子園の土',
-            ]
+        $request = UpdateFertilizerSettingRequest::create('fertilizerSettings', 'POST', [
+            'fertilizerSettingId' => '334c1092-7a0d-40b0-af6e-30bff5975e31',
+            'fertilizerSettingMonths' => [5, 7, 9],
+            'fertilizerSettingNote' => 'ち～ん',
+            'fertilizerSettingAmount' => 334,
+            'fertilizerSettingName' => '甲子園の土',
         ]);
         $mockFertilizerSettingRepository = app()->make(MockFertilizerRepository::class);
 
@@ -33,26 +31,25 @@ class UpdateFertilizerSettingActionTest extends TestCase
             );
         });
 
-        $prevFertilizerSetting = $mockFertilizerSettingRepository->findById(new FertilizerSettingId($fertilizerSettingId));
-        $result = (app()->make(UpdateFertilizerSettingAction::class))->__invoke($request, $fertilizerSettingId);
+        $prevFertilizerSetting = $mockFertilizerSettingRepository->findById(new FertilizerSettingId($request->getId()));
+        $result = (app()->make(UpdateFertilizerSettingAction::class))->__invoke($request);
 
-        $this->assertSame( [5, 7, 9],$result->fertilizerSettings->months);
-        $this->assertSame( 'ち～ん',$result->fertilizerSettings->note);
-        $this->assertSame( 334,$result->fertilizerSettings->fertilizerAmount);
-        $this->assertSame( '甲子園の土',$result->fertilizerSettings->fertilizerName);
+        $this->assertSame([5, 7, 9], $result->fertilizerSettings->months);
+        $this->assertSame('ち～ん', $result->fertilizerSettings->note);
+        $this->assertSame(334, $result->fertilizerSettings->fertilizerAmount);
+        $this->assertSame('甲子園の土', $result->fertilizerSettings->fertilizerName);
         $this->assertNotEquals($prevFertilizerSetting->getFertilizerNote()->getvalue(), $result->fertilizerSettings->note);
     }
 
     public function test_存在しない肥料設定IDを入力するとエラーを返すこと()
     {
         $fertilizerSettingId = new Uuid();
-        $request = UpdatefertilizerSettingRequest::create('fertilizer/settings/Update', 'POST', [
-            'fertilizerSetting' => [
-                'fertilizerSetting.months' => [5, 7, 9],
-                'fertilizerSetting.note' => 'ち～ん',
-                'fertilizerSetting.amount' => 334,
-                'fertilizerSetting.name' => '甲子園の土',
-            ]
+        $request = UpdateFertilizerSettingRequest::create('fertilizerSettings', 'POST', [
+            'fertilizerSettingId' => $fertilizerSettingId,
+            'fertilizerSettingMonths' => [5, 7, 9],
+            'fertilizerSettingNote' => 'ち～ん',
+            'fertilizerSettingAmount' => 334,
+            'fertilizerSettingName' => '甲子園の土',
         ]);
         $mockFertilizerSettingRepository = app()->make(MockfertilizerRepository::class);
 
@@ -63,9 +60,9 @@ class UpdateFertilizerSettingActionTest extends TestCase
                 $mockFertilizerSettingRepository
             );
         });
-        $this->expectExceptionMessage('指定した肥料設定IDは見つかりませんでした (id:' . $fertilizerSettingId . ')');
+        $this->expectExceptionMessage('指定した肥料設定IDは見つかりませんでした (id:' . $request->getId() . ')');
         $this->expectException(NotFoundException::class);
-        $result = (app()->make(UpdatefertilizerSettingAction::class))->__invoke($request, $fertilizerSettingId);
-        $fertilizerSetting = $mockFertilizerSettingRepository->findById(new FertilizerSettingId($fertilizerSettingId));
+        $result = (app()->make(UpdatefertilizerSettingAction::class))->__invoke($request);
+        $fertilizerSetting = $mockFertilizerSettingRepository->findById(new FertilizerSettingId( $request->getId()));
     }
 }

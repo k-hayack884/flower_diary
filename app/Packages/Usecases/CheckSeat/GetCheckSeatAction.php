@@ -22,16 +22,15 @@ class GetCheckSeatAction
 
     /**
      * @param GetCheckSeatRequest $getCheckSeatRequest
-     * @param string $checkSeatId
      * @return CheckSeatDto
      */
     public function __invoke(
         GetCheckSeatRequest $getCheckSeatRequest,
     ): CheckSeatDto
     {
-        $id=$getCheckSeatRequest->getId();
-        $checkSeatArray = $this->checkSeatRepository->findById(new CheckSeatId($id));
-        $checkSeat=new CheckSeat(new CheckSeatId($id),$checkSeatArray['water_ids'],$checkSeatArray['fertilizer_ids']);
+        $checkSeatId=$getCheckSeatRequest->getId();
+        $checkSeatArray = $this->checkSeatRepository->findById(new CheckSeatId($checkSeatId));
+        $checkSeat=new CheckSeat(new CheckSeatId($checkSeatId),$checkSeatArray['water_ids'],$checkSeatArray['fertilizer_ids']);
 
         return CheckSeatDtoFactory::create($checkSeat);
     }

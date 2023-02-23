@@ -16,6 +16,9 @@ use PHPUnit\Exception;
 
 class CreateWaterSettingAction
 {
+    /**
+     * @var WaterSettingRepositoryInterface
+     */
     private WaterSettingRepositoryInterface $waterSettingRepository;
 
     /**
@@ -35,34 +38,26 @@ class CreateWaterSettingAction
         CreateWaterSettingRequest $createWaterSettingRequest
     ): WaterSettingWrapDto
     {
-        $requestArray = [
-            'waterSetting.months' => $createWaterSettingRequest->getMonths(),
-            'waterSetting.note' => $createWaterSettingRequest->getNote(),
-            'waterSetting.amount' => $createWaterSettingRequest->getAmount(),
-            'waterSetting.times' => $createWaterSettingRequest->getWateringTimes(),
-            'waterSetting.interval' => $createWaterSettingRequest->getWateringInterval()
-        ];
+        $waterSettingMonths = $createWaterSettingRequest->getMonths();
+        $waterSettingNote = $createWaterSettingRequest->getNote();
+        $waterSettingAmount = $createWaterSettingRequest->getAmount();
+        $waterSettingTimes = $createWaterSettingRequest->getWateringTimes();
+        $waterSettingInterval = $createWaterSettingRequest->getWateringInterval();
         try {
-            $waterSettingId = new WaterSettingId();
-            $waterSettingMonths = $requestArray['waterSetting.months'];
-            $waterSettingNote = new WaterNote($requestArray['waterSetting.note']);
-            $waterSettingAmount = new WaterAmount($requestArray['waterSetting.amount']);
-            $waterSettingTimes = new WateringTimes($requestArray['waterSetting.times']);
-            $waterSettingInterval = new WateringInterval($requestArray['waterSetting.interval']);
-
             $waterSettings = new MonthsWaterSetting(
-                $waterSettingId,
+                new WaterSettingId(),
                 $waterSettingMonths,
-                $waterSettingNote,
-                $waterSettingAmount,
-                $waterSettingTimes,
-                $waterSettingInterval
+                new WaterNote($waterSettingNote),
+                new WaterAmount($waterSettingAmount),
+                new WateringTimes($waterSettingTimes),
+                new WateringInterval($waterSettingInterval)
             );
-            $waterSettingCollection=new WaterSettingCollection();
+            $waterSettingCollection = new WaterSettingCollection();
             $this->waterSettingRepository->save($waterSettingCollection);
         } catch (Exception $e) {
             throw  $e;
         }
+
         return WaterSettingsDtoFactory::create($waterSettings);
     }
 }

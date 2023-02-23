@@ -9,6 +9,9 @@ use PHPUnit\Exception;
 
 class DeleteWaterSettingAction
 {
+    /**
+     * @var WaterSettingRepositoryInterface
+     */
     private WaterSettingRepositoryInterface $waterSettingRepository;
 
     /**
@@ -21,20 +24,18 @@ class DeleteWaterSettingAction
 
     /**
      * @param DeleteWaterSettingRequest $deleteWaterSettingRequest
-     * @param string $waterSettingIdValue
      * @return void
      * @throws Exception
      */
 
     public function __invoke(
         DeleteWaterSettingRequest $deleteWaterSettingRequest,
-        string                    $waterSettingIdValue
     ): void
     {
+        $waterSettingId=new WaterSettingId($deleteWaterSettingRequest->getId());
         try {
-            $waterSettingId = new WaterSettingId($waterSettingIdValue);
-
-            $this->waterSettingRepository->delete($waterSettingId);
+            $waterSetting=$this->waterSettingRepository->findById($waterSettingId);
+            $this->waterSettingRepository->delete($waterSetting->getWaterSettingId());
         } catch (Exception $e) {
             throw  $e;
         }

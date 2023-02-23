@@ -13,6 +13,9 @@ use App\Packages\Domains\Fertilizer\MonthsFertilizerSetting;
 
 class MockFertilizerRepository implements FertilizerRepositoryInterface
 {
+    /**
+     * @var MonthsFertilizerSetting[]
+     */
     private array $fertilizerSettings=[];
     public function __construct()
     {
@@ -35,7 +38,7 @@ class MockFertilizerRepository implements FertilizerRepositoryInterface
     }
 
     /**
-     * @return array
+     * @return MonthsFertilizerSetting[]
      */
     public function find(): array
     {
@@ -49,7 +52,6 @@ class MockFertilizerRepository implements FertilizerRepositoryInterface
      */
     public function findById(FertilizerSettingId $fertilizerSettingId): MonthsFertilizerSetting
     {
-
         foreach ($this->fertilizerSettings as $fertilizerSetting) {
             if ($fertilizerSetting->getFertilizerSettingId()->equals($fertilizerSettingId)) {
                 return $fertilizerSetting;
@@ -59,12 +61,12 @@ class MockFertilizerRepository implements FertilizerRepositoryInterface
     }
 
     /**
-     * @param FertilizerSettingCollection $fertilizerSettingCollection
+     * @param FertilizerSettingCollection $fertilizerSetting
      * @return void
      */
-    public function save(FertilizerSettingCollection $fertilizerSettingCollection): void
+    public function save(FertilizerSettingCollection $fertilizerSetting): void
     {
-        $collectionArray = $fertilizerSettingCollection->toArray();
+        $collectionArray = $fertilizerSetting->toArray();
         foreach ($collectionArray as $collectionValue) {
             $this->fertilizerSettings[] = $collectionValue;
         }
@@ -73,12 +75,12 @@ class MockFertilizerRepository implements FertilizerRepositoryInterface
     /**
      * @param FertilizerSettingId $fertilizerSettingId
      * @return void
+     * @throws NotFoundException
      */
     public function delete(FertilizerSettingId $fertilizerSettingId): void
     {
         $deleteSetting = $this->findById($fertilizerSettingId);
         $index = array_search($deleteSetting, $this->fertilizerSettings);
         unset($this->fertilizerSettings[$index]);
-
     }
 }

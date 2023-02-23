@@ -6,13 +6,13 @@ use App\Packages\Domains\User\UserId;
 
 interface CommentRepositoryInterface
 {
-    public function find();
+    public function find():array;
 
-    public function findByCommentId(CommentId $commentId);
+    public function findByCommentId(CommentId $commentId):Comment;
 
-    public function findByUserId(UserId $userId);
+    public function findByUserId(UserId $userId):array;
 
-    public function save(CommentCollection $comment);
+    public function save(CommentCollection $comment):void;
 
-    public function delete(CommentId $commentId);
+    public function delete(CommentId $commentId):void;
 }

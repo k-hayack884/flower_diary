@@ -6,13 +6,19 @@ use App\Http\Requests\BaseRequest;
 
 class UpdateCommentRequest extends BaseRequest
 {
+    /**
+     * @return array[]
+     */
     public function rules(): array
     {
         return [
-            'comment.userId' => [
+            'commentId' => [
                 'required',
             ],
-            'comment.content' => [
+            'commentUserId' => [
+                'required',
+            ],
+            'commentContent' => [
                 'required',
                 'string',
                 'max:200'
@@ -20,14 +26,27 @@ class UpdateCommentRequest extends BaseRequest
         ];
     }
 
-    public function getUserId()
+    /**
+     * @return string
+     */
+    public function getId():string
     {
-        return $this->comment['comment.userId'];
-
+        return $this->input('commentId');
     }
 
-    public function getCommentContent()
+    /**
+     * @return string
+     */
+    public function getUserId():string
     {
-        return $this->comment['comment.content'];
+        return $this->input('commentUserId');
+    }
+
+    /**
+     * @return string
+     */
+    public function getCommentContent():string
+    {
+        return $this->input('commentContent');
     }
 }

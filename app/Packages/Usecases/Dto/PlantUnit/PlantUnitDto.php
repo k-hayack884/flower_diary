@@ -4,6 +4,16 @@ namespace App\Packages\Usecases\Dto\PlantUnit;
 
 class PlantUnitDto
 {
+    /**
+     * @param string $plantUnitId
+     * @param string $userId
+     * @param string $plantId
+     * @param string $checkSeatId
+     * @param string $plantName
+     * @param array $diaries
+     * @param string $createDate
+     * @param string $updateDate
+     */
     public function __construct(
         public string $plantUnitId,
         public string $userId,

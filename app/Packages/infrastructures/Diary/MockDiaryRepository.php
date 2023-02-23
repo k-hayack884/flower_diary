@@ -11,6 +11,9 @@ use App\Packages\Domains\Diary\DiaryRepositoryInterface;
 
 class MockDiaryRepository implements DiaryRepositoryInterface
 {
+    /**
+     * @var Diary[]
+     */
     private array $diaries=[];
     public function __construct()
     {
@@ -34,7 +37,7 @@ class MockDiaryRepository implements DiaryRepositoryInterface
     }
 
     /**
-     * @return array
+     * @return Diary[]
      */
     public function find(): array
     {
@@ -72,6 +75,7 @@ class MockDiaryRepository implements DiaryRepositoryInterface
     /**
      * @param DiaryId $diaryId
      * @return void
+     * @throws NotFoundException
      */
     public function delete(DiaryId $diaryId): void
     {

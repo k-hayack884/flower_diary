@@ -2,15 +2,28 @@
 
 namespace App\Packages\Domains\Diary;
 
+use App\Packages\Domains\Comment\CommentId;
 use Carbon\Carbon;
 
 class Diary
 {
+    /**
+     * @var DiaryId
+     * @var DiaryContent
+     * @var CommentId[]
+     * @var Carbon
+     */
     private DiaryId $diaryId;
     private DiaryContent $diaryContent;
     private array $comments = [];
     private Carbon $createDate;
 
+    /**
+     * @param DiaryId $diaryId
+     * @param DiaryContent $diaryContent
+     * @param CommentId[]|null $comments
+     * @param Carbon|null $createDate
+     */
     public function __construct(DiaryId $diaryId, DiaryContent $diaryContent,array $comments=null,Carbon $createDate=null)
     {
         $this->diaryId = $diaryId;
@@ -28,6 +41,10 @@ class Diary
 
     }
 
+    /**
+     * @param string $content
+     * @return void
+     */
     public function updateContent(string $content): void
     {
         $diaryContent=$this->diaryContent->update($content);
@@ -43,7 +60,7 @@ class Diary
     }
 
     /**
-     * @return array
+     * @return CommentId[]
      */
     public function getComments(): array
     {
@@ -65,6 +82,5 @@ class Diary
     {
         return $this->createDate;
     }
-
 }
 

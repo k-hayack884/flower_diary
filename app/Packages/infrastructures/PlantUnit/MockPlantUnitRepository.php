@@ -14,6 +14,9 @@ use App\Packages\Domains\User\UserId;
 
 class MockPlantUnitRepository implements PlantUnitRepositoryInterface
 {
+    /**
+     * @var PlantUnit[]
+     */
     private array $plantUnits = [];
 
     public function __construct()
@@ -39,7 +42,7 @@ class MockPlantUnitRepository implements PlantUnitRepositoryInterface
     }
 
     /**
-     * @return array
+     * @return PlantUnit[]
      */
     public function find(): array
     {
@@ -49,10 +52,10 @@ class MockPlantUnitRepository implements PlantUnitRepositoryInterface
     /**
      * @param PlantUnitId $plantUnitId
      * @return PlantUnit
+     * @throws NotFoundException
      */
     public function findById(PlantUnitId $plantUnitId): PlantUnit
     {
-
         foreach ($this->plantUnits as $plantUnit) {
             if ($plantUnit->getPlantUnitId()->equals($plantUnitId)) {
                 return $plantUnit;
@@ -62,12 +65,12 @@ class MockPlantUnitRepository implements PlantUnitRepositoryInterface
     }
 
     /**
-     * @param PlantUnitCollection $plantUnitCollection
+     * @param PlantUnitCollection $plantUnits
      * @return void
      */
-    public function save(PlantUnitCollection $plantUnitCollection): void
+    public function save(PlantUnitCollection $plantUnits): void
     {
-        $collectionArray = $plantUnitCollection->toArray();
+        $collectionArray = $plantUnits->toArray();
         foreach ($collectionArray as $collectionValue) {
             $this->plantUnits[] = $collectionValue;
         }
@@ -76,12 +79,12 @@ class MockPlantUnitRepository implements PlantUnitRepositoryInterface
     /**
      * @param PlantUnitId $plantUnitId
      * @return void
+     * @throws NotFoundException
      */
     public function delete(PlantUnitId $plantUnitId): void
     {
         $deleteSetting = $this->findById($plantUnitId);
         $index = array_search($deleteSetting, $this->plantUnits);
         unset($this->plantUnits[$index]);
-
     }
 }

@@ -14,40 +14,46 @@ use App\Packages\Usecases\Dto\Fertilizer\FertilizerSettingWrapDto;
 
 class CreateFertilizerSettingAction
 {
+    /**
+     * @var FertilizerRepositoryInterface
+     */
+    private FertilizerRepositoryInterface $fertilizerSettingRepository;
+
+    /**
+     * @param FertilizerRepositoryInterface $fertilizerSettingRepository
+     */
     public function __construct(FertilizerRepositoryInterface $fertilizerSettingRepository)
     {
         $this->fertilizerSettingRepository = $fertilizerSettingRepository;
     }
 
+    /**
+     * @param CreateFertilizerSettingRequest $createFertilizerSettingRequest
+     * @return FertilizerSettingWrapDto
+     */
     public function __invoke(
         CreateFertilizerSettingRequest $createFertilizerSettingRequest
     ): FertilizerSettingWrapDto
     {
-        $requestArray = [
-            'fertilizerSetting.months' => $createFertilizerSettingRequest->getMonths(),
-            'fertilizerSetting.note' => $createFertilizerSettingRequest->getNote(),
-            'fertilizerSetting.amount' => $createFertilizerSettingRequest->getAmount(),
-            'fertilizerSetting.name' => $createFertilizerSettingRequest->getName(),
-        ];
-        try {
-            $fertilizerSettingId = new FertilizerSettingId();
-            $fertilizerSettingMonths = $requestArray['fertilizerSetting.months'];
-            $fertilizerSettingNote = new FertilizerNote($requestArray['fertilizerSetting.note']);
-            $fertilizerSettingAmount = new FertilizerAmount($requestArray['fertilizerSetting.amount']);
-            $fertilizerSettingName = new FertilizerName($requestArray['fertilizerSetting.name']);
+        $fertilizerSettingMonths = $createFertilizerSettingRequest->getMonths();
+        $fertilizerSettingNote = $createFertilizerSettingRequest->getNote();
+        $fertilizerSettingAmount = $createFertilizerSettingRequest->getAmount();
+        $fertilizerSettingName = $createFertilizerSettingRequest->getName();
 
+        try {
             $fertilizerSetting = new MonthsFertilizerSetting(
-                $fertilizerSettingId,
+                new FertilizerSettingId(),
                 $fertilizerSettingMonths,
-                $fertilizerSettingNote,
-                $fertilizerSettingAmount,
-                $fertilizerSettingName,
+                new FertilizerNote($fertilizerSettingNote),
+                new FertilizerAmount($fertilizerSettingAmount),
+                new fertilizerName($fertilizerSettingName),
             );
-            $FertilizerSettingCollection=new FertilizerSettingCollection();
+            $FertilizerSettingCollection = new FertilizerSettingCollection();
             $this->fertilizerSettingRepository->save($FertilizerSettingCollection);
         } catch (Exception $e) {
             throw  $e;
         }
+
         return FertilizerSettingsDtoFactory::create($fertilizerSetting);
     }
 }

@@ -8,6 +8,10 @@ use App\Packages\Usecases\Dto\Comment\CommentWrapDto;
 
 class CommentDtoFactory
 {
+    /**
+     * @param Comment $comment
+     * @return CommentWrapDto
+     */
     public static function create(Comment $comment): CommentWrapDto
     {
         return new CommentWrapDto(

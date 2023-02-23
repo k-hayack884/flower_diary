@@ -6,22 +6,25 @@ use App\Http\Requests\BaseRequest;
 
 class CreateFertilizerSettingRequest extends BaseRequest
 {
+    /**
+     * @return array[]
+     */
     public function rules(): array
     {
         return [
-            'fertilizerSetting.months' => [
+            'fertilizerSettingMonths' => [
                 'required',
                 'array'
             ],
-            'fertilizerSetting.note' => [
+            'fertilizerSettingNote' => [
                 'string',
                 'max:20'
             ],
-            'fertilizerSetting.amount' => [
+            'fertilizerSettingAmount' => [
                 'required',
                 'int'
             ],
-            'fertilizerSetting.name' => [
+            'fertilizerSettingName' => [
                 'required',
                 'string',
                 'max:20'
@@ -29,20 +32,35 @@ class CreateFertilizerSettingRequest extends BaseRequest
         ];
     }
 
+    /**
+     * @return array
+     */
     public function getMonths():array
     {
-        return $this->fertilizerSetting['fertilizerSetting.months'];
+        return $this->input('fertilizerSettingMonths');
     }
+
+    /**
+     * @return string|null
+     */
     public function getNote():string|null
     {
-        return $this->fertilizerSetting['fertilizerSetting.note'];
+        return $this->input('fertilizerSettingNote');
     }
+
+    /**
+     * @return int
+     */
     public function getAmount():int
     {
-        return $this->fertilizerSetting['fertilizerSetting.amount'];
+        return $this->input('fertilizerSettingAmount');
     }
+
+    /**
+     * @return string
+     */
     public function getName():string
     {
-        return $this->fertilizerSetting['fertilizerSetting.name'];
+        return $this->input('fertilizerSettingName');
     }
 }

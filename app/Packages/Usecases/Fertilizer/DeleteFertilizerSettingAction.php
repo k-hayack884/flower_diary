@@ -10,6 +10,9 @@ use PHPUnit\Exception;
 
 class DeleteFertilizerSettingAction
 {
+    /**
+     * @var FertilizerRepositoryInterface
+     */
     private FertilizerRepositoryInterface $fertilizerSettingRepository;
 
     /**
@@ -22,19 +25,19 @@ class DeleteFertilizerSettingAction
 
     /**
      * @param DeleteFertilizerSettingRequest $deleteFertilizerSettingRequest
-     * @param string $fertilizerSettingIdValue
      * @return void
      * @throws Exception
      */
 
     public function __invoke(
         DeleteFertilizerSettingRequest $deleteFertilizerSettingRequest,
-        string                    $fertilizerSettingIdValue
     ): void
     {
+        $fertilizerSettingId=new FertilizerSettingId($deleteFertilizerSettingRequest->getId());
+
         try {
-            $fertilizerSettingId = new FertilizerSettingId($fertilizerSettingIdValue);
-            $this->fertilizerSettingRepository->delete($fertilizerSettingId);
+            $fertilizerSetting=$this->fertilizerSettingRepository->findById($fertilizerSettingId);
+            $this->fertilizerSettingRepository->delete($fertilizerSetting->getFertilizerSettingId());
         } catch (Exception $e) {
             throw  $e;
         }

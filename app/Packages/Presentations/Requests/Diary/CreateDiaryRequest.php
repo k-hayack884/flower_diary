@@ -6,10 +6,13 @@ use App\Http\Requests\BaseRequest;
 
 class CreateDiaryRequest extends BaseRequest
 {
+    /**
+     * @return array[]
+     */
     public function rules(): array
     {
         return [
-            'diary.content' => [
+            'diaryContent' => [
                 'required',
                 'string',
                 'max:200'
@@ -17,9 +20,12 @@ class CreateDiaryRequest extends BaseRequest
         ];
     }
 
-    public function getDiaryContent()
+    /**
+     * @return string
+     */
+    public function getDiaryContent():string
     {
-        return $this->diary['diary.content'];
+        return $this->input('diaryContent');
     }
 
 }

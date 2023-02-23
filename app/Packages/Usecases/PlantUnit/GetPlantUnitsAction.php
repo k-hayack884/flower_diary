@@ -9,6 +9,9 @@ use App\Packages\Usecases\Dto\PlantUnit\PlantUnitsWrapDto;
 
 class GetPlantUnitsAction
 {
+    /**
+     * @var PlantUnitRepositoryInterface
+     */
     private PlantUnitRepositoryInterface $plantUnitRepository;
 
     /**
@@ -41,7 +44,6 @@ class GetPlantUnitsAction
                     $plantUnit->getCreateDate()->format('Y/m/d'),
                     $plantUnit->getUpdateDate()->format('Y/m/d'),
                 );
-
         }
         return new PlantUnitsWrapDto($plantUnitDtos);
     }

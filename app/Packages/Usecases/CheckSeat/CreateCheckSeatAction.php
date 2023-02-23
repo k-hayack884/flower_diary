@@ -12,28 +12,30 @@ use App\Packages\Usecases\Fertilizer\FertilizerSettingsDtoFactory;
 
 class CreateCheckSeatAction
 {
+    private CheckSeatRepositoryInterface $checkSeatRepository;
+
+    /**
+     * @param CheckSeatRepositoryInterface $checkSeatRepository
+     */
     public function __construct(CheckSeatRepositoryInterface $checkSeatRepository)
     {
         $this->checkSeatRepository = $checkSeatRepository;
     }
 
     /**
+     * @param CreateCheckSeatRequest $createCheckSeatRequest
+     * @return CheckSeatDto
      * @throws CheckSeatException
      */
     public function __invoke(
         CreateCheckSeatRequest $createCheckSeatRequest
     ):CheckSeatDto
     {
-        $requestArray = [
-            'checkSeat.waterIds' => $createCheckSeatRequest->getWaterIds(),
-            'checkSeat.fertilizerIds' => $createCheckSeatRequest->getFertilizerIds(),
-        ];
+        $waterSettingIds = $createCheckSeatRequest->getWaterIds();
+        $fertilizerSettingIds =$createCheckSeatRequest->getFertilizerIds();
 
         try {
             $checkSeatId = new CheckSeatId();
-            $waterSettingIds = $requestArray['checkSeat.waterIds'];
-            $fertilizerSettingIds =$requestArray['checkSeat.fertilizerIds'];
-
             $checkSeat = new CheckSeat(
                 $checkSeatId,
                 $waterSettingIds,
@@ -43,6 +45,7 @@ class CreateCheckSeatAction
         } catch (CheckSeatException $e) {
             throw  $e;
         }
+
         return CheckSeatDtoFactory::create($checkSeat);
     }
 }

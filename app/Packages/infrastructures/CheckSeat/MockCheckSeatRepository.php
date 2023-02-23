@@ -9,6 +9,9 @@ use App\Packages\Domains\CheckSeat\CheckSeatRepositoryInterface;
 
 class MockCheckSeatRepository implements CheckSeatRepositoryInterface
 {
+    /**
+     * @var array
+     */
     private array $checkSeats = [];
 
     public function __construct()
@@ -43,8 +46,6 @@ class MockCheckSeatRepository implements CheckSeatRepositoryInterface
      */
     public function save(CheckSeat $checkSeat): void
     {
-
-
         $checkSeatId = $checkSeat->getCheckSeatId()->getId();
         $waterArrayIds = $checkSeat->getWaterSettingIds();
         $fertilizerIds = $checkSeat->getFertilizerSettingIds();
@@ -63,17 +64,15 @@ class MockCheckSeatRepository implements CheckSeatRepositoryInterface
         $deleteCheckSeat = $this->findById($checkSeatId);
         $index = array_search($deleteCheckSeat, $this->checkSeats);
         unset($this->checkSeats[$index]);
-
     }
 
     /**
      * @param CheckSeatId $checkSeatId
-     * @return CheckSeat
+     * @return array
      * @throws NotFoundException
      */
     public function findById(CheckSeatId $checkSeatId): array
     {
-
         foreach ($this->checkSeats as $index => $checkSeat) {
             if ($checkSeat['check_seat_id'] === $checkSeatId->getId()) {
                 return $this->checkSeats[$index];

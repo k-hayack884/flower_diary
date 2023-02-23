@@ -14,11 +14,9 @@ class DeleteCommentActionTest extends TestCase
 {
     public function test_指定したコメントが削除されていること()
     {
-        $commentId = '983c1092-7a0d-40b0-af6e-30bff5975e31';
         $request = DeleteCommentRequest::create('comment', 'DELETE', [
-            'comment' => [
-                'comment.userId'=>'893c1092-7a0d-40b0-af6e-30bff5975e31'
-            ]
+            'commentId'=> '983c1092-7a0d-40b0-af6e-30bff5975e31',
+            'commentUserId'=>'893c1092-7a0d-40b0-af6e-30bff5975e31'
         ]);
         $mockCommentRepository = app()->make(MockCommentRepository::class);
 
@@ -29,19 +27,18 @@ class DeleteCommentActionTest extends TestCase
                 $mockCommentRepository
             );
         });
-        $this->expectExceptionMessage('指定したコメントIDは見つかりませんでした (id:' . $commentId . ')');
+        $this->expectExceptionMessage('指定したコメントIDは見つかりませんでした (id:' . $request->getId() . ')');
         $this->expectException(NotFoundException::class);
-        $result = (app()->make(DeleteCommentAction::class))->__invoke($request, $commentId);
-        $Comment = $mockCommentRepository->findByCommentId(new CommentId($commentId));
+        $result = (app()->make(DeleteCommentAction::class))->__invoke($request);
+        $Comment = $mockCommentRepository->findByCommentId(new CommentId($request->getId()));
     }
 
     public function test_存在しないコメントIDを入力するとエラーを返すこと()
     {
         $commentId =new Uuid();
         $request = DeleteCommentRequest::create('comment', 'DELETE', [
-            'comment' => [
-                'comment.userId'=>'893c1092-7a0d-40b0-af6e-30bff5975e31'
-            ]
+            'commentId'=> $commentId,
+             'commentUserId'=>'893c1092-7a0d-40b0-af6e-30bff5975e31'
         ]);
         $mockCommentRepository = app()->make(MockCommentRepository::class);
 
@@ -54,16 +51,14 @@ class DeleteCommentActionTest extends TestCase
         });
         $this->expectExceptionMessage('指定したコメントIDは見つかりませんでした (id:' . $commentId . ')');
         $this->expectException(NotFoundException::class);
-        $result = (app()->make(DeleteCommentAction::class))->__invoke($request, $commentId);
+        $result = (app()->make(DeleteCommentAction::class))->__invoke($request);
         $comment = $mockCommentRepository->findById(new CommentId($commentId));
     }
     public function test_存在しないユーザーIDを入力するとエラーを返すこと()
     {
-        $commentId = '334c1092-7a0d-40b0-af6e-30bff5975e31';
         $request = DeleteCommentRequest::create('comment', 'POST', [
-            'comment' => [
-                'comment.userId'=>'000c1092-7a0d-40b0-af6e-30bff5975e31'
-            ]
+            'commentId'=> '983c1092-7a0d-40b0-af6e-30bff5975e31',
+            'commentUserId'=>'334c1092-7a0d-40b0-af6e-30bff5975e31'
         ]);
         $mockCommentRepository = app()->make(MockCommentRepository::class);
 
@@ -74,8 +69,8 @@ class DeleteCommentActionTest extends TestCase
                 $mockCommentRepository
             );
         });
-        $this->expectExceptionMessage('指定したユーザーIDは見つかりませんでした (id:000c1092-7a0d-40b0-af6e-30bff5975e31');
+        $this->expectExceptionMessage('指定したユーザーIDは見つかりませんでした (id:334c1092-7a0d-40b0-af6e-30bff5975e31');
         $this->expectException(NotFoundException::class);
-        $result = (app()->make(DeleteCommentAction::class))->__invoke($request, $commentId);
+        $result = (app()->make(DeleteCommentAction::class))->__invoke($request);
     }
 }

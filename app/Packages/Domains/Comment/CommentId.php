@@ -6,6 +6,10 @@ use App\Packages\Domains\Shared\Uuid;
 
 class CommentId
 {
+    /**
+     * @var string
+     * @var Uuid
+     */
     private string $value;
     private Uuid $uuid;
 

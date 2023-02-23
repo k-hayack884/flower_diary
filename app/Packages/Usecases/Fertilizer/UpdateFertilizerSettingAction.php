@@ -13,43 +13,50 @@ use App\Packages\Usecases\Dto\Fertilizer\FertilizerSettingWrapDto;
 
 class UpdateFertilizerSettingAction
 {
+    /**
+     * @var FertilizerRepositoryInterface
+     */
+    private FertilizerRepositoryInterface $fertilizerSettingRepository;
+
+    /**
+     * @param FertilizerRepositoryInterface $fertilizerSettingRepository
+     */
     public function __construct(FertilizerRepositoryInterface $fertilizerSettingRepository)
     {
         $this->fertilizerSettingRepository = $fertilizerSettingRepository;
     }
 
+    /**
+     * @param UpdateFertilizerSettingRequest $updateFertilizerSettingRequest
+     * @return FertilizerSettingWrapDto
+     */
     public function __invoke(
         UpdatefertilizerSettingRequest $updateFertilizerSettingRequest,
-        string                    $fertilizerSettingId
     ): FertilizerSettingWrapDto
     {
-        $requestArray = [
-            'fertilizerSetting.months' => $updateFertilizerSettingRequest->getMonths(),
-            'fertilizerSetting.note' => $updateFertilizerSettingRequest->getNote(),
-            'fertilizerSetting.amount' => $updateFertilizerSettingRequest->getAmount(),
-            'fertilizerSetting.name' => $updateFertilizerSettingRequest->getName(),
-        ];
+        $fertilizerSettingId = $updateFertilizerSettingRequest->getId();
+        $fertilizerSettingMonths = $updateFertilizerSettingRequest->getMonths();
+        $fertilizerSettingNote = $updateFertilizerSettingRequest->getNote();
+        $fertilizerSettingAmount = $updateFertilizerSettingRequest->getAmount();
+        $fertilizerSettingName = $updateFertilizerSettingRequest->getName();
 
         $fertilizerSetting = $this->fertilizerSettingRepository->findById(new FertilizerSettingId($fertilizerSettingId));
-
-        $updateMonths = $requestArray['fertilizerSetting.months'];
-        $updateNote = $fertilizerSetting->getFertilizerNote()->update($requestArray['fertilizerSetting.note']);
-        $updateAmount = new FertilizerAmount($requestArray['fertilizerSetting.amount']);
-        $updateName = new fertilizerName($requestArray['fertilizerSetting.name']);
+        $updateNote = $fertilizerSetting->getFertilizerNote()->update($fertilizerSettingNote);
 
         try {
             $updateFertilizerSetting = new MonthsFertilizerSetting(
                 new FertilizerSettingId($fertilizerSettingId),
-                $updateMonths,
+                $fertilizerSettingMonths,
                 $updateNote,
-                $updateAmount,
-                $updateName,
+                new FertilizerAmount($fertilizerSettingAmount),
+                new fertilizerName($fertilizerSettingName)
             );
             $fertilizerSettingCollection = new FertilizerSettingCollection();
             $this->fertilizerSettingRepository->save($fertilizerSettingCollection);
         } catch (Exception $e) {
             throw  $e;
         }
+
         return FertilizerSettingsDtoFactory::create($updateFertilizerSetting);
     }
 }

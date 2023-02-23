@@ -7,14 +7,13 @@ use Illuminate\Database\Eloquent\Collection;
 class PlantUnitCollection extends Collection
 {
     /**
-     * @param array $plantUnits
+     * @param PlantUnit[] $plantUnits
      */
     public function __construct(array $plantUnits = [])
     {
         foreach ($plantUnits as $plantUnit) {
             $this->addUnit($plantUnit);
         }
-
     }
 
     /**
@@ -33,7 +32,6 @@ class PlantUnitCollection extends Collection
     public function findById(PlantUnitId $plantUnitId): PlantUnit
     {
         $plantUnit = $this->get($plantUnitId->getId());
-
         if (is_null($plantUnit)) {
             throw new NotFoundException('指定した植物ユニットIDが見つかりませんでした (id:' . $plantUnit->getId() . ')');
         }

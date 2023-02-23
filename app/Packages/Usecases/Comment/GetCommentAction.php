@@ -9,7 +9,10 @@ use App\Packages\Usecases\Dto\Comment\CommentWrapDto;
 
 class GetCommentAction
 {
-    private CommentRepositoryInterface $CommentRepository;
+    /**
+     * @var CommentRepositoryInterface
+     */
+    private CommentRepositoryInterface $commentRepository;
     /**
      * @param CommentRepositoryInterface $commentRepository
      */
@@ -20,16 +23,14 @@ class GetCommentAction
 
     /**
      * @param GetCommentRequest $getCommentRequest
-     * @param string $CommentId
      * @return CommentWrapDto
      */
     public function __invoke(
         GetCommentRequest $getCommentRequest,
-        string $commentId
     ): CommentWrapDto
     {
+        $commentId=$getCommentRequest->getId();
         $hitComment = $this->commentRepository->findByCommentId(new CommentId($commentId));
-
 
         return CommentDtoFactory::create($hitComment);
     }

@@ -10,7 +10,11 @@ use App\Packages\Usecases\Dto\Diary\DiaryWrapDto;
 
 class GetDiaryAction
 {
+    /**
+     * @var DiaryRepositoryInterface
+     */
     private DiaryRepositoryInterface $diaryRepository;
+
     /**
      * @param DiaryRepositoryInterface $diaryRepository
      */
@@ -21,16 +25,14 @@ class GetDiaryAction
 
     /**
      * @param GetDiaryRequest $getDiaryRequest
-     * @param string $diaryId
      * @return DiaryWrapDto
      */
     public function __invoke(
         GetDiaryRequest $getDiaryRequest,
-        string $diaryId
     ): DiaryWrapDto
     {
+        $diaryId=$getDiaryRequest->getId();
         $hitDiary = $this->diaryRepository->findById(new DiaryId($diaryId));
-
 
         return DiaryDtoFactory::create($hitDiary);
     }

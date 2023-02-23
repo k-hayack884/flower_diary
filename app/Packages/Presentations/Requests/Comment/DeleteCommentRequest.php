@@ -6,18 +6,34 @@ use App\Http\Requests\BaseRequest;
 
 class DeleteCommentRequest extends BaseRequest
 {
+    /**
+     * @return array[]
+     */
     public function rules(): array
     {
         return [
-            'comment.userId' => [
+            'commentId' => [
+                'required',
+            ],
+            'commentUserId' => [
                 'required',
             ]
         ];
     }
 
-    public function getUserId()
+    /**
+     * @return string
+     */
+    public function getId():string
     {
-        return $this->comment['comment.userId'];
+        return $this->input('commentId');
+    }
 
+    /**
+     * @return string
+     */
+    public function getUserId():string
+    {
+        return $this->input('commentUserId');
     }
 }

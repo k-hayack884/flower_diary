@@ -4,6 +4,7 @@ namespace Packages\Usecases\Diary;
 
 use App\Exceptions\NotFoundException;
 use App\Packages\Domains\Diary\DiaryId;
+use App\Packages\Domains\Shared\Uuid;
 use App\Packages\infrastructures\Diary\MockDiaryRepository;
 use App\Packages\Presentations\Requests\Diary\UpdateDiaryRequest;
 use App\Packages\Usecases\Diary\UpdateDiaryAction;
@@ -13,11 +14,10 @@ class UpdateDiaryActionTest extends TestCase
 {
     public function test_変更をした日記のレスポンスの型があっていること()
     {
-        $diaryId = '333c1092-7a0d-40b0-af6e-30bff5975e31';
+
         $request = UpdateDiaryRequest::create('diary', 'POST', [
-            'diary' => [
-                'diary.content' =>'書き換え完了',
-            ]
+            'diaryId'=>'333c1092-7a0d-40b0-af6e-30bff5975e31',
+                'diaryContent' =>'書き換え完了',
         ]);
         $mockDiaryRepository = app()->make(MockDiaryRepository::class);
 
@@ -29,8 +29,8 @@ class UpdateDiaryActionTest extends TestCase
             );
         });
 
-        $prevDiary = $mockDiaryRepository->findById(new DiaryId($diaryId));
-        $result = (app()->make(UpdateDiaryAction::class))->__invoke($request, $diaryId);
+        $prevDiary = $mockDiaryRepository->findById(new DiaryId($request->getId()));
+        $result = (app()->make(UpdateDiaryAction::class))->__invoke($request);
 
         $this->assertSame('書き換え完了', $result->diary->content);
         $this->assertNotEquals($prevDiary->getDiaryContent()->getvalue(), $result->diary->content);
@@ -38,11 +38,10 @@ class UpdateDiaryActionTest extends TestCase
 
     public function test_存在しない日記IDを入力するとエラーを返すこと()
     {
-        $diaryId = '334c1092-7a0d-40b0-af6e-30bff5975e31';
+        $diaryId = new Uuid();
         $request = UpdateDiaryRequest::create('diary', 'POST', [
-            'diary' => [
-                'diary.content' =>'書き換え完了',
-            ]
+            'diaryId'=>$diaryId,
+            'diaryContent' =>'書き換え完了',
         ]);
         $mockDiaryRepository = app()->make(MockDiaryRepository::class);
 
@@ -53,8 +52,8 @@ class UpdateDiaryActionTest extends TestCase
                 $mockDiaryRepository
             );
         });
-        $this->expectExceptionMessage('指定した日記IDは見つかりませんでした (id:' . $diaryId . ')');
+        $this->expectExceptionMessage('指定した日記IDは見つかりませんでした (id:' . $request->getId() . ')');
         $this->expectException(NotFoundException::class);
-        $result = (app()->make(UpdateDiaryAction::class))->__invoke($request, $diaryId);
+        $result = (app()->make(UpdateDiaryAction::class))->__invoke($request, $request->getId());
     }
 }

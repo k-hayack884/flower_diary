@@ -13,7 +13,7 @@ class GetWaterSettingActionTest extends TestCase
 {
     public function test_水やり設定のレスポンスの型があっていること()
     {
-        $request = GetWaterSettingRequest::create('water/settings', 'GET', []);
+        $request = GetWaterSettingRequest::create('waterSetting', 'GET', []);
         $mockWaterSettingRepository = app()->make(MockWaterRepository::class);
 
         app()->bind(GetWaterSettingsAction::class, function () use (

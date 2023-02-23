@@ -8,6 +8,10 @@ use App\Packages\Usecases\Dto\Diary\DiaryWrapDto;
 
 class DiaryDtoFactory
 {
+    /**
+     * @param Diary $diary
+     * @return DiaryWrapDto
+     */
     public static function create(Diary $diary): DiaryWrapDto
     {
         return new DiaryWrapDto(

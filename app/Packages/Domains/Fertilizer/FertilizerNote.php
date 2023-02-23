@@ -7,8 +7,14 @@ use DomainException;
 class FertilizerNote
 {
     public const RESET = '';
+    /**
+     * @var string
+     */
     public string $note;
 
+    /**
+     * @param string|null $note
+     */
     public function __construct(string|null $note=null)
     {
         if (mb_strlen($note) > 20) {
@@ -19,7 +25,6 @@ class FertilizerNote
         } else {
             $this->note = $note;
         }
-
     }
 
     /**
@@ -44,5 +49,4 @@ class FertilizerNote
         }
         return new self($note);
     }
-
 }

@@ -6,43 +6,53 @@ use App\Http\Requests\BaseRequest;
 
 class UpdateWaterSettingRequest extends BaseRequest
 {
+    /**
+     * @return array[]
+     */
     public function rules(): array
     {
         return [
-            'waterSetting.months' => [
+            'waterSettingId' => [
+                'required',
+            ],
+            'waterSettingMonths' => [
                 'required',
                 'array'
             ],
-            'waterSetting.note' => [
+            'waterSettingNote' => [
                 'string',
                 'max:20'
             ],
-            'waterSetting.amount' => [
+            'waterSettingAmount' => [
                 'required',
                 'string'
             ],
-            'waterSetting.times' => [
+            'waterSettingTimes' => [
                 'required',
                 'int',
                 'digits_between:1,9'
             ],
-            'waterSetting.interval' => [
+            'waterSettingInterval' => [
                 'required',
                 'int',
                 'digits_between:1,365'
             ],
-            'waterSetting.alertTimes' => [
+            'waterSettingAlertTimes' => [
                 'array'
             ],
         ];
 }
+    public function getId()
+    {
+        return $this->input('waterSettingId');
+    }
 
     /**
      * @return array
      */
     public function getMonths():array
     {
-        return $this->waterSetting['waterSetting.months'];
+        return $this->input('waterSettingMonths');
     }
 
     /**
@@ -50,7 +60,7 @@ class UpdateWaterSettingRequest extends BaseRequest
      */
     public function getNote():string|null
     {
-        return $this->waterSetting['waterSetting.note'];
+        return $this->input('waterSettingNote');
     }
 
     /**
@@ -58,7 +68,7 @@ class UpdateWaterSettingRequest extends BaseRequest
      */
     public function getAmount():string
     {
-        return $this->waterSetting['waterSetting.amount'];
+        return $this->input('waterSettingAmount');
     }
 
     /**
@@ -66,7 +76,7 @@ class UpdateWaterSettingRequest extends BaseRequest
      */
     public function getWateringTimes():int
     {
-        return $this->waterSetting['waterSetting.times'];
+        return $this->input('waterSettingTimes');
     }
 
     /**
@@ -74,7 +84,7 @@ class UpdateWaterSettingRequest extends BaseRequest
      */
     public function getWateringInterval():int
     {
-        return $this->waterSetting['waterSetting.interval'];
+        return $this->input('waterSettingInterval');
     }
 
     /**
@@ -82,8 +92,6 @@ class UpdateWaterSettingRequest extends BaseRequest
      */
     public function getAlertTimes(): mixed
     {
-        return $this->waterSetting['waterSetting.alertTime'];
-
+        return $this->input('waterSettingAlertTimes');
     }
-
 }

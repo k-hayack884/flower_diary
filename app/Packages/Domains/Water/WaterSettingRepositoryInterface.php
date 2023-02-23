@@ -4,11 +4,11 @@ namespace App\Packages\Domains\Water;
 
 interface WaterSettingRepositoryInterface
 {
-    public function find();
+    public function find():array;
 
-    public function findById(WaterSettingId $waterSettingId);
+    public function findById(WaterSettingId $waterSettingId):MonthsWaterSetting;
 
-    public function save(WaterSettingCollection $waterSettingCollection);
+    public function save(WaterSettingCollection $waterSettingCollection):void;
 
-    public function delete(WaterSettingId $waterSettingId);
+    public function delete(WaterSettingId $waterSettingId):void;
 }

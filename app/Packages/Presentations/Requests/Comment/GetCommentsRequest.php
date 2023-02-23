@@ -6,6 +6,9 @@ use App\Http\Requests\BaseRequest;
 
 class GetCommentsRequest extends BaseRequest
 {
+    /**
+     * @return array
+     */
     public function rules():array
     {
         return [];

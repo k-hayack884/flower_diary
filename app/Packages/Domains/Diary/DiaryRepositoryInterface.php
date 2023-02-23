@@ -4,11 +4,11 @@ namespace App\Packages\Domains\Diary;
 
 interface DiaryRepositoryInterface
 {
-    public function find();
+    public function find():array;
 
-    public function findById(DiaryId $diaryId);
+    public function findById(DiaryId $diaryId):Diary;
 
-    public function save(DiaryCollection $diary);
+    public function save(DiaryCollection $diary):void;
 
-    public function delete(DiaryId $diaryId);
+    public function delete(DiaryId $diaryId):void;
 }

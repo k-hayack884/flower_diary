@@ -9,6 +9,9 @@ use Exception;
 
 class DeletePlantUnitAction
 {
+    /**
+     * @var PlantUnitRepositoryInterface
+     */
     private PlantUnitRepositoryInterface $plantUnitRepository;
 
     /**
@@ -30,10 +33,10 @@ class DeletePlantUnitAction
     ): void
     {
         $requestId=$deletePlantUnitRequest->getId();
-        $hitPlantUnit= $this->plantUnitRepository->findById(new PlantUnitId($requestId));
+
         try {
-            $plantUnitId = new PlantUnitId($requestId);
-            $this->plantUnitRepository->delete($plantUnitId);
+            $hitPlantUnit= $this->plantUnitRepository->findById(new PlantUnitId($requestId));
+            $this->plantUnitRepository->delete($hitPlantUnit->getPlantUnitId());
         } catch (Exception $e) {
             throw  $e;
         }

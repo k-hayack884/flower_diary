@@ -6,19 +6,24 @@ use App\Http\Requests\BaseRequest;
 
 class GetDiaryRequest extends BaseRequest
 {
+    /**
+     * @return array[]
+     */
     public function rules(): array
     {
         return [
-//            'diary.id' => [
-//                'required',
-//            ],
+            'diaryId' => [
+                'required',
+            ],
         ];
 
     }
 
-//    public function getId(): string
-//    {
-//        $hoge = [];
-//        return $this->diary['diary.id'];
-//    }
+    /**
+     * @return string
+     */
+    public function getId(): string
+    {
+        return $this->input('diaryId');
+    }
 }

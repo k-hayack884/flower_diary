@@ -33,9 +33,10 @@ class FertilizerSettingCollectionTest extends TestCase
         ];
 
         $fertilizerSettingCollection = new FertilizerSettingCollection($fertilizerSettings);
+        $fertilizerSettingToArray = $fertilizerSettingCollection->toArray();
 
-        $this->assertCount(count($fertilizerSettings), $fertilizerSettingCollection);
-        foreach ($fertilizerSettingCollection as $index => $fertilizerSetting) {
+        $this->assertCount(count($fertilizerSettings), $fertilizerSettingToArray);
+        foreach ($fertilizerSettingToArray as $index => $fertilizerSetting) {
             $this->assertSame($index, $fertilizerSetting->getFertilizerSettingId()->getId());
         }
     }
@@ -45,7 +46,10 @@ class FertilizerSettingCollectionTest extends TestCase
         $fertilizerSettings = [];
 
         $fertilizerSettingCollection = new FertilizerSettingCollection($fertilizerSettings);
-        $this->assertCount(count($fertilizerSettings), $fertilizerSettingCollection);
+        $fertilizerSettingToArray = $fertilizerSettingCollection->toArray();
+
+        $this->assertEmpty($fertilizerSettingToArray);
+        $this->assertCount(count($fertilizerSettings), $fertilizerSettingToArray);
 
     }
 
@@ -80,9 +84,10 @@ class FertilizerSettingCollectionTest extends TestCase
             );
         $fertilizerSettingCollection->addSetting($addFertilizerSettingSetting);
         $fertilizerSettings[] = $addFertilizerSettingSetting;
+        $fertilizerSettingToArray = $fertilizerSettingCollection->toArray();
 
-        $this->assertCount(count($fertilizerSettings), $fertilizerSettingCollection);
-        foreach ($fertilizerSettingCollection as $index => $fertilizerSetting) {
+        $this->assertCount(count($fertilizerSettings), $fertilizerSettingToArray);
+        foreach ($fertilizerSettingToArray as $index => $fertilizerSetting) {
             $this->assertSame($index, $fertilizerSetting->getFertilizerSettingId()->getId());
         }
 
@@ -173,6 +178,8 @@ class FertilizerSettingCollectionTest extends TestCase
         ];
         $fertilizerSettingCollection = new fertilizerSettingCollection($fertilizerSettings);
         $duplicationCollection=$fertilizerSettingCollection->duplicationDisplay();
-        $this->assertCount(0, $duplicationCollection);
+        $fertilizerSettingToArray = $duplicationCollection->toArray();
+
+        $this->assertCount(0, $fertilizerSettingToArray);
     }
 }
