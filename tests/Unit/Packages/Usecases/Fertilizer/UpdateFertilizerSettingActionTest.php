@@ -12,9 +12,9 @@ use PHPUnit\Framework\TestCase;
 
 class UpdateFertilizerSettingActionTest extends TestCase
 {
-    public function test_指定した水やり設定のレスポンスの型があっていること()
+    public function test_指定した肥料設定のレスポンスの型があっていること()
     {
-        $request = UpdateFertilizerSettingRequest::create('fertilizerSettings', 'POST', [
+        $request = UpdateFertilizerSettingRequest::create('fertilizerSetting', 'POST', [
             'fertilizerSettingId' => '334c1092-7a0d-40b0-af6e-30bff5975e31',
             'fertilizerSettingMonths' => [5, 7, 9],
             'fertilizerSettingNote' => 'ち～ん',
@@ -34,17 +34,17 @@ class UpdateFertilizerSettingActionTest extends TestCase
         $prevFertilizerSetting = $mockFertilizerSettingRepository->findById(new FertilizerSettingId($request->getId()));
         $result = (app()->make(UpdateFertilizerSettingAction::class))->__invoke($request);
 
-        $this->assertSame([5, 7, 9], $result->fertilizerSettings->months);
-        $this->assertSame('ち～ん', $result->fertilizerSettings->note);
-        $this->assertSame(334, $result->fertilizerSettings->fertilizerAmount);
-        $this->assertSame('甲子園の土', $result->fertilizerSettings->fertilizerName);
-        $this->assertNotEquals($prevFertilizerSetting->getFertilizerNote()->getvalue(), $result->fertilizerSettings->note);
+        $this->assertSame([5, 7, 9], $result->fertilizerSetting->months);
+        $this->assertSame('ち～ん', $result->fertilizerSetting->note);
+        $this->assertSame(334, $result->fertilizerSetting->fertilizerAmount);
+        $this->assertSame('甲子園の土', $result->fertilizerSetting->fertilizerName);
+        $this->assertNotEquals($prevFertilizerSetting->getFertilizerNote()->getvalue(), $result->fertilizerSetting->note);
     }
 
     public function test_存在しない肥料設定IDを入力するとエラーを返すこと()
     {
         $fertilizerSettingId = new Uuid();
-        $request = UpdateFertilizerSettingRequest::create('fertilizerSettings', 'POST', [
+        $request = UpdateFertilizerSettingRequest::create('fertilizerSetting', 'POST', [
             'fertilizerSettingId' => $fertilizerSettingId,
             'fertilizerSettingMonths' => [5, 7, 9],
             'fertilizerSettingNote' => 'ち～ん',

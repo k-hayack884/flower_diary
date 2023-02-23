@@ -29,11 +29,11 @@ class ResetFertilizerSettingActionTest extends TestCase
         $prevFertilizerSetting = $mockFertilizerSettingRepository->findById(new FertilizerSettingId($request->getId()));
         $result = (app()->make(ResetFertilizerSettingAction::class))->__invoke($request);
 
-        $this->assertSame( [],$result->fertilizerSettings->months);
-        $this->assertSame( '',$result->fertilizerSettings->note);
-        $this->assertSame( 0,$result->fertilizerSettings->fertilizerAmount);
-        $this->assertSame( '',$result->fertilizerSettings->fertilizerName);
-        $this->assertNotEquals($prevFertilizerSetting->getfertilizerNote()->getValue(),$result->fertilizerSettings->note);
+        $this->assertSame( [],$result->fertilizerSetting->months);
+        $this->assertSame( '',$result->fertilizerSetting->note);
+        $this->assertSame( 0,$result->fertilizerSetting->fertilizerAmount);
+        $this->assertSame( '',$result->fertilizerSetting->fertilizerName);
+        $this->assertNotEquals($prevFertilizerSetting->getfertilizerNote()->getValue(),$result->fertilizerSetting->note);
     }
     public function test_存在しない肥料設定IDを入力するとエラーを返すこと()
     {

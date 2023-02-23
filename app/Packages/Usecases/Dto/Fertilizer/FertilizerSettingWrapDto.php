@@ -5,10 +5,10 @@ namespace App\Packages\Usecases\Dto\Fertilizer;
 class FertilizerSettingWrapDto
 {
     /**
-     * @param FertilizerSettingDto $fertilizerSettings
+     * @param FertilizerSettingDto $fertilizerSetting
      */
     public function __construct(
-        public FertilizerSettingDto $fertilizerSettings
+        public FertilizerSettingDto $fertilizerSetting
     )
     {
     }
