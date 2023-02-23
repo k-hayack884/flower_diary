@@ -2,29 +2,53 @@
 
 namespace Packages\Usecases\Fertilizer;
 
+use App\Exceptions\NotFoundException;
+use App\Packages\Domains\Shared\Uuid;
 use App\Packages\infrastructures\Fertilizer\MockFertilizerRepository;
 use App\Packages\Presentations\Requests\Fertilizer\GetFertilizerSettingRequest;
-use App\Packages\Usecases\Dto\Fertilizer\FertilizerSettingDto;
-use App\Packages\Usecases\Fertilizer\GetFertilizerSettingsAction;
+use App\Packages\Usecases\Dto\Fertilizer\FertilizerSettingWrapDto;
+use App\Packages\Usecases\Fertilizer\GetFertilizerSettingAction;
 use PHPUnit\Framework\TestCase;
 
 class GetFertilizerSettingActionTest extends TestCase
 {
-    public function test_水やり設定のレスポンスの型があっていること()
+    public function test_肥料設定詳細のレスポンスの型があっていること()
     {
-        $request = GetFertilizerSettingRequest::create('fertilizerSetting', 'GET', []);
+        $request = GetFertilizerSettingRequest::create('fertilizer', 'GET', [
+            'fertilizerSettingId'=>'334c1092-7a0d-40b0-af6e-30bff5975e31'
+        ]);
         $mockFertilizerSettingRepository = app()->make(MockFertilizerRepository::class);
 
-        app()->bind(GetFertilizerSettingsAction::class, function () use (
+        app()->bind(GetFertilizerSettingAction::class, function () use (
             $mockFertilizerSettingRepository
         ) {
-            return new GetFertilizerSettingsAction(
+            return new GetFertilizerSettingAction(
                 $mockFertilizerSettingRepository
             );
         });
-        $result = (app()->make(GetFertilizerSettingsAction::class))->__invoke($request);
+        $result = (app()->make(GetFertilizerSettingAction::class))->__invoke($request);
 
-        $this->assertInstanceOf(FertilizerSettingDto::class, $result->fertilizerSettings[0]);
-        $this->assertSame('983c1092-7a0d-40b0-af6e-30bff5975e31',$result->fertilizerSettings[0]->fertilizerSettingId);
+        $this->assertInstanceOf(FertilizerSettingWrapDto::class, $result);
+        $this->assertSame('334c1092-7a0d-40b0-af6e-30bff5975e31', $result->fertilizerSetting->fertilizerSettingId);
+    }
+
+    public function test_存在しないIDの場合エラーを出すこと()
+    {
+        $fertilizerId =new Uuid();
+        $request = GetFertilizerSettingRequest::create('fertilizer', 'GET', [
+            'fertilizerSettingId'=>$fertilizerId
+        ]);        $mockFertilizerSettingRepository = app()->make(MockFertilizerRepository::class);
+
+        app()->bind(GetFertilizerSettingAction::class, function () use (
+            $mockFertilizerSettingRepository
+        ) {
+            return new GetFertilizerSettingAction(
+                $mockFertilizerSettingRepository
+            );
+        });
+        $this->expectExceptionMessage('指定した肥料設定IDは見つかりませんでした (id:' . $request->getId() . ')');
+        $this->expectException(NotFoundException::class);
+        $result = (app()->make(GetFertilizerSettingAction::class))->__invoke($request, $request->getId());
+
     }
 }

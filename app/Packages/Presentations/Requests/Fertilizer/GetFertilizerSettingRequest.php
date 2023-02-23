@@ -5,10 +5,20 @@ namespace App\Packages\Presentations\Requests\Fertilizer;
 class GetFertilizerSettingRequest extends \App\Http\Requests\BaseRequest
 {
     /**
-     * @return array
+     * @return array[]
      */
     public function rules(): array
     {
-        return [];
+        return ['fertilizerSettingId'=>[
+            'required'
+        ]];
+    }
+
+    /**
+     * @return string
+     */
+    public function getId():string
+    {
+        return $this->input('fertilizerSettingId');
     }
 }
