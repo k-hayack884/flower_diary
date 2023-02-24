@@ -3,7 +3,7 @@
 namespace App\Packages\Usecases\Fertilizer;
 
 use App\Packages\Domains\Fertilizer\FertilizerRepositoryInterface;
-use App\Packages\Presentations\Requests\Fertilizer\GetFertilizerSettingRequest;
+use App\Packages\Presentations\Requests\Fertilizer\GetFertilizerSettingsRequest;
 use App\Packages\Usecases\Dto\Fertilizer\FertilizerSettingDto;
 use App\Packages\Usecases\Dto\Fertilizer\FertilizerSettingsWrapDto;
 
@@ -23,10 +23,10 @@ class GetFertilizerSettingsAction
     }
 
     /**
-     * @param GetFertilizerSettingRequest $getFertilizerSettingRequest
+     * @param GetFertilizerSettingsRequest $getFertilizerSettingRequest
      * @return FertilizerSettingsWrapDto
      */
-    public function __invoke(GetFertilizerSettingRequest $getFertilizerSettingRequest
+    public function __invoke(GetFertilizerSettingsRequest $getFertilizerSettingRequest
     ): FertilizerSettingsWrapDto
     {
         $fertilizerSettingCollection = $this->fertilizerSettingRepository->find();
