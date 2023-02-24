@@ -31,12 +31,11 @@ class DeleteFertilizerSettingAction
 
     public function __invoke(
         DeleteFertilizerSettingRequest $deleteFertilizerSettingRequest,
+        string $fertilizerSettingId
     ): void
     {
-        $fertilizerSettingId=new FertilizerSettingId($deleteFertilizerSettingRequest->getId());
-
         try {
-            $fertilizerSetting=$this->fertilizerSettingRepository->findById($fertilizerSettingId);
+            $fertilizerSetting=$this->fertilizerSettingRepository->findById(new FertilizerSettingId($fertilizerSettingId));
             $this->fertilizerSettingRepository->delete($fertilizerSetting->getFertilizerSettingId());
         } catch (Exception $e) {
             throw  $e;

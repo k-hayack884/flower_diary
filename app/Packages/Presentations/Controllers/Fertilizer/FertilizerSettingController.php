@@ -4,11 +4,13 @@ namespace App\Packages\Presentations\Controllers\Fertilizer;
 
 use App\Http\Controllers\Controller;
 use App\Packages\Presentations\Requests\Fertilizer\CreateFertilizerSettingRequest;
+use App\Packages\Presentations\Requests\Fertilizer\DeleteFertilizerSettingRequest;
 use App\Packages\Presentations\Requests\Fertilizer\GetFertilizerSettingRequest;
 use App\Packages\Presentations\Requests\Fertilizer\GetFertilizerSettingsRequest;
 use App\Packages\Presentations\Requests\Fertilizer\ResetFertilizerSettingRequest;
 use App\Packages\Presentations\Requests\Fertilizer\UpdateFertilizerSettingRequest;
 use App\Packages\Usecases\Fertilizer\CreateFertilizerSettingAction;
+use App\Packages\Usecases\Fertilizer\DeleteFertilizerSettingAction;
 use App\Packages\Usecases\Fertilizer\GetFertilizerSettingAction;
 use App\Packages\Usecases\Fertilizer\GetFertilizerSettingsAction;
 use App\Packages\Usecases\Fertilizer\ResetFertilizerSettingAction;
@@ -57,5 +59,12 @@ class FertilizerSettingController extends Controller
     {
         return (array)$action($request,$fertilizerId);
     }
-
+    public function delete(
+        DeleteFertilizerSettingRequest $request,
+        DeleteFertilizerSettingAction $action,
+        string $fertilizerId
+    ):array
+    {
+        return (array)$action($request,$fertilizerId);
+    }
 }

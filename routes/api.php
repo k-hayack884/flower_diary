@@ -1,7 +1,9 @@
 <?php
 
+use App\Packages\Presentations\Controllers\Diary\DiaryController;
 use App\Packages\Presentations\Controllers\Water\WaterSettingController;
 use App\Packages\Presentations\Controllers\Fertilizer\FertilizerSettingController;
+use App\Packages\Presentations\Controllers\CheckSeat\CheckSeatController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -42,6 +44,10 @@ Route::put(
     'waterSetting/{waterSettingId}/reset',
     [WaterSettingController::class,'reset']
 );
+Route::delete(
+    'waterSetting/{waterSettingId}',
+    [WaterSettingController::class,'delete']
+);
 //肥料設定のルート
 Route::get(
     'fertilizerSetting',
@@ -62,4 +68,41 @@ Route::put(
 Route::put(
     'fertilizerSetting/{fertilizerSettingId}/reset',
     [FertilizerSettingController::class,'reset']
+);
+Route::delete(
+    'fertilizerSetting/{fertilizerSettingId}',
+    [FertilizerSettingController::class,'delete']
+);
+
+//チェックシートルート
+
+Route::post(
+    'checkSeat',
+    [CheckSeatController::class,'create']
+);
+Route::get(
+    'checkSeat/{checkSeatId}',
+    [CheckSeatController::class,'show']
+);
+
+//日記
+Route::get(
+    'diary',
+    [DiaryController::class,'index']
+);
+Route::post(
+    'diary',
+    [DiaryController::class,'create']
+);
+Route::get(
+    'diary/{diaryId}',
+    [DiaryController::class,'show']
+);
+Route::put(
+    'diary/{diaryId}',
+    [DiaryController::class,'update']
+);
+Route::delete(
+    'diary/{diaryId}',
+    [DiaryController::class,'delete']
 );
