@@ -13,7 +13,7 @@ class DeleteWaterSettingRequest extends BaseRequest
     {
         return [
             'waterSettingId'=>[
-                'require'
+                'required'
             ]
         ];
     }

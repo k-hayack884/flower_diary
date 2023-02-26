@@ -15,13 +15,10 @@ class UpdateDiaryRequest extends BaseRequest
             'diaryId'=>[
                 'required'
             ],
-            'diary.content' => [
+            'diaryContent' => [
                 'required',
                 'string',
                 'max:200'
-            ],
-            'diary.comments' => [
-                'array',
             ],
         ];
     }
@@ -37,17 +34,9 @@ class UpdateDiaryRequest extends BaseRequest
     /**
      * @return mixed
      */
-    public function getDiaryContent()
+    public function getDiaryContent(): mixed
     {
         return $this->input('diaryContent');
-    }
-
-    /**
-     * @return string
-     */
-    public function getComments():string
-    {
-        return $this->input('diaryComments');
     }
 
 

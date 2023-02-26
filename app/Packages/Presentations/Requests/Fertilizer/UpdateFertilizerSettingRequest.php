@@ -12,9 +12,6 @@ class UpdateFertilizerSettingRequest extends BaseRequest
     public function rules(): array
     {
         return [
-            'fertilizerSettingId' => [
-                'required',
-            ],
             'fertilizerSettingMonths' => [
                 'required',
                 'array'
@@ -33,14 +30,6 @@ class UpdateFertilizerSettingRequest extends BaseRequest
                 'max:20'
             ],
         ];
-    }
-
-    /**
-     * @return string
-     */
-    public function getId():string
-    {
-        return $this->input('fertilizerSettingId');
     }
 
     /**

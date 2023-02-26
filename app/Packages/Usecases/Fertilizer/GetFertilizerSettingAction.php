@@ -27,9 +27,9 @@ class GetFertilizerSettingAction
      */
     public function __invoke(
         GetFertilizerSettingRequest $getFertilizerSettingRequest,
+        string $fertilizerSettingId
     ): FertilizerSettingWrapDto
     {
-        $fertilizerSettingId=$getFertilizerSettingRequest->getId();
         $fertilizerSetting = $this->fertilizerRepository->findById(new FertilizerSettingId($fertilizerSettingId));
         return FertilizerSettingsDtoFactory::create($fertilizerSetting);
     }

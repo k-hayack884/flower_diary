@@ -13,7 +13,7 @@ class ResetWaterSettingRequest extends BaseRequest
     {
         return [
             'waterSettingId'=>[
-                'require'
+                'required'
             ]
         ];
     }

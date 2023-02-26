@@ -9,16 +9,7 @@ class GetFertilizerSettingRequest extends \App\Http\Requests\BaseRequest
      */
     public function rules(): array
     {
-        return ['fertilizerSettingId'=>[
-            'required'
-        ]];
+        return [];
     }
 
-    /**
-     * @return string
-     */
-    public function getId():string
-    {
-        return $this->input('fertilizerSettingId');
-    }
 }
