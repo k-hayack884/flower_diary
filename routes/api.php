@@ -1,6 +1,8 @@
 <?php
 
+use App\Packages\Presentations\Controllers\Comment\CommentController;
 use App\Packages\Presentations\Controllers\Diary\DiaryController;
+use App\Packages\Presentations\Controllers\PlantUnit\PlantUnitController;
 use App\Packages\Presentations\Controllers\Water\WaterSettingController;
 use App\Packages\Presentations\Controllers\Fertilizer\FertilizerSettingController;
 use App\Packages\Presentations\Controllers\CheckSeat\CheckSeatController;
@@ -105,4 +107,44 @@ Route::put(
 Route::delete(
     'diary/{diaryId}',
     [DiaryController::class,'delete']
+);
+
+//コメント
+Route::get(
+    'comment',
+    [CommentController::class,'index']
+);
+Route::post(
+    'comment',
+    [CommentController::class,'create']
+);
+Route::get(
+    'comment/{commentId}',
+    [CommentController::class,'show']
+);
+Route::put(
+    'comment/{commentId}',
+    [CommentController::class,'update']
+);
+Route::delete(
+    'comment/{commentId}',
+    [CommentController::class,'delete']
+);
+
+//植物ユニット
+Route::get(
+    'plantUnit',
+    [PlantUnitController::class,'index']
+);
+Route::post(
+    'plantUnit',
+    [PlantUnitController::class,'create']
+);
+Route::get(
+    'plantUnit/{plantUnitId}',
+    [PlantUnitController::class,'show']
+);
+Route::delete(
+    'plantUnit/{plantUnitId}',
+    [PlantUnitController::class,'delete']
 );
