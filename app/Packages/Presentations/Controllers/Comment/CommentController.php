@@ -40,22 +40,29 @@ class CommentController extends Controller
     public function show(
         GetCommentRequest $request,
         GetCommentAction  $action,
+        string $commentId
     ): array
     {
+        $request->merge(['commentId' => $commentId]);
+
         return (array)$action($request);
     }
     public function update(
         UpdateCommentRequest $request,
-        UpdateCommentAction  $action
+        UpdateCommentAction  $action,
+        string $commentId
     ): array
     {
+        $request->merge(['commentId' => $commentId]);
         return (array)$action($request);
     }
     public function delete(
         DeleteCommentRequest $request,
-        DeleteCommentAction  $action
+        DeleteCommentAction  $action,
+        string $commentId
     ): array
     {
+        $request->merge(['commentId' => $commentId]);
         return (array)$action($request);
     }
 

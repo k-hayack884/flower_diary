@@ -11,5 +11,11 @@ class ResetFertilizerSettingRequest extends \App\Http\Requests\BaseRequest
     {
         return [];
     }
-
+    /**
+     * @return string
+     */
+    public function getId():string
+    {
+        return $this->input('fertilizerSettingId');
+    }
 }

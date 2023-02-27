@@ -13,9 +13,6 @@ CreatePlantUnitRequest extends BaseRequest
     public function rules(): array
     {
         return [
-            'plantUnitPlantId' => [
-                'required'
-            ],
             'plantUnitUserId' => [
                 'required'
             ],

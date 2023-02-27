@@ -38,22 +38,30 @@ class DiaryController extends Controller
     public function show(
         GetDiaryRequest $request,
         GetDiaryAction  $action,
+        string          $diaryId
     ): array
     {
+        $request->merge(['diaryId' => $diaryId]);
         return (array)$action($request);
     }
+
     public function update(
         UpdateDiaryRequest $request,
-        UpdateDiaryAction  $action
+        UpdateDiaryAction  $action,
+        string             $diaryId
     ): array
     {
+        $request->merge(['diaryId' => $diaryId]);
         return (array)$action($request);
     }
+
     public function delete(
         DeleteDiaryRequest $request,
-        DeleteDiaryAction  $action
+        DeleteDiaryAction  $action,
+        string             $diaryId
     ): array
     {
+        $request->merge(['diaryId' => $diaryId]);
         return (array)$action($request);
     }
 

@@ -11,9 +11,7 @@ class GetCheckSeatRequest extends BaseRequest
      */
     public function rules(): array
     {
-        return ['checkSeatId'=>[
-            'required'
-        ]];
+        return [];
     }
 
     /**

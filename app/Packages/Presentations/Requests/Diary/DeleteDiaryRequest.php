@@ -11,11 +11,7 @@ class DeleteDiaryRequest extends BaseRequest
      */
     public function rules():array
     {
-        return [
-            'diaryId' => [
-                'required',
-            ],
-        ];
+        return [];
     }
 
     /**

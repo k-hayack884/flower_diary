@@ -32,9 +32,9 @@ class UpdateFertilizerSettingAction
      */
     public function __invoke(
         UpdatefertilizerSettingRequest $updateFertilizerSettingRequest,
-        string $fertilizerSettingId
     ): FertilizerSettingWrapDto
     {
+        $fertilizerSettingId=$updateFertilizerSettingRequest->getId();
         $fertilizerSettingMonths = $updateFertilizerSettingRequest->getMonths();
         $fertilizerSettingNote = $updateFertilizerSettingRequest->getNote();
         $fertilizerSettingAmount = $updateFertilizerSettingRequest->getAmount();

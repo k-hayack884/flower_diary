@@ -12,9 +12,6 @@ class UpdateWaterSettingRequest extends BaseRequest
     public function rules(): array
     {
         return [
-            'waterSettingId' => [
-                'required',
-            ],
             'waterSettingMonths' => [
                 'required',
                 'array'

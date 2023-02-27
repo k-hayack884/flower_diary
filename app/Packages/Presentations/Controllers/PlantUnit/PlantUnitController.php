@@ -34,16 +34,20 @@ class PlantUnitController extends Controller
     public function show(
         GetPlantUnitRequest $request,
         GetPlantUnitAction $action,
+        string $plantUnitId
     ):array
     {
+        $request->merge(['plantUnitId' => $plantUnitId]);
         return (array)$action($request);
     }
 
     public function delete(
         DeletePlantUnitRequest $request,
         DeletePlantUnitAction $action,
+        string $plantUnitId
     ):array
     {
+        $request->merge(['plantUnitId' => $plantUnitId]);
         return (array)$action($request);
     }
 }

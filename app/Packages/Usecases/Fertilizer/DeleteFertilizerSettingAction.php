@@ -31,10 +31,10 @@ class DeleteFertilizerSettingAction
 
     public function __invoke(
         DeleteFertilizerSettingRequest $deleteFertilizerSettingRequest,
-        string $fertilizerSettingId
     ): void
     {
         try {
+            $fertilizerSettingId=$deleteFertilizerSettingRequest->getId();
             $fertilizerSetting=$this->fertilizerSettingRepository->findById(new FertilizerSettingId($fertilizerSettingId));
             $this->fertilizerSettingRepository->delete($fertilizerSetting->getFertilizerSettingId());
         } catch (Exception $e) {

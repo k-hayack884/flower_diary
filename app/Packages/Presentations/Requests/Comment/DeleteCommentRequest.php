@@ -12,9 +12,6 @@ class DeleteCommentRequest extends BaseRequest
     public function rules(): array
     {
         return [
-            'commentId' => [
-                'required',
-            ],
             'commentUserId' => [
                 'required',
             ]

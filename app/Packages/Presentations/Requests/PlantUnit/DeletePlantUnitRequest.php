@@ -9,9 +9,7 @@ class DeletePlantUnitRequest extends \App\Http\Requests\BaseRequest
      */
     public function rules(): array
     {
-        return ['plantUnitId'=>[
-            'required'
-        ]];
+        return [];
     }
 
     /**

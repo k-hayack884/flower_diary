@@ -40,7 +40,8 @@ class FertilizerSettingController extends Controller
         string $fertilizerId
     ):array
     {
-        return (array)$action($request,$fertilizerId);
+        $request->merge(['fertilizerSettingId' => $fertilizerId]);
+        return (array)$action($request);
     }
 
     public function update(
@@ -49,7 +50,8 @@ class FertilizerSettingController extends Controller
         string $fertilizerId
     ):array
     {
-        return (array)$action($request,$fertilizerId);
+        $request->merge(['fertilizerSettingId' => $fertilizerId]);
+        return (array)$action($request);
     }
     public function reset(
         ResetFertilizerSettingRequest $request,
@@ -57,7 +59,8 @@ class FertilizerSettingController extends Controller
         string $fertilizerId
     ):array
     {
-        return (array)$action($request,$fertilizerId);
+        $request->merge(['fertilizerSettingId' => $fertilizerId]);
+        return (array)$action($request);
     }
     public function delete(
         DeleteFertilizerSettingRequest $request,
@@ -65,6 +68,7 @@ class FertilizerSettingController extends Controller
         string $fertilizerId
     ):array
     {
-        return (array)$action($request,$fertilizerId);
+        $request->merge(['fertilizerSettingId' => $fertilizerId]);
+        return (array)$action($request);
     }
 }

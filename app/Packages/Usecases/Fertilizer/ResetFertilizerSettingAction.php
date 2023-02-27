@@ -33,9 +33,9 @@ class ResetFertilizerSettingAction
 
     public function __invoke(
         ResetfertilizerSettingRequest $resetFertilizerSettingRequest,
-        string $fertilizerSettingId
     ): FertilizerSettingWrapDto
     {
+        $fertilizerSettingId=$resetFertilizerSettingRequest->getId();
         $fertilizerSetting = $this->fertilizerSettingRepository->findById(new FertilizerSettingId($fertilizerSettingId));
         $resetMonths = MonthsfertilizerSetting::RESET;
         $resetNote = $fertilizerSetting->getFertilizerNote()->update();

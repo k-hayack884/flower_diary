@@ -11,11 +11,7 @@ class GetWaterSettingRequest extends BaseRequest
      */
     public function rules(): array
     {
-        return [
-            'waterSettingId' => [
-                'required'
-            ]
-        ];
+        return [];
     }
 
     /**

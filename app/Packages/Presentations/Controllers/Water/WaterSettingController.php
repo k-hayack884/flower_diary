@@ -37,30 +37,38 @@ class WaterSettingController extends Controller
     public function show(
         GetWaterSettingRequest $request,
         GetWaterSettingAction $action,
+        string $waterId
     ):array
     {
+        $request->merge(['waterSettingId' => $waterId]);
         return (array)$action($request);
     }
 
     public function update(
         UpdateWaterSettingRequest $request,
         UpdateWaterSettingAction $action,
+        string $waterId
     ):array
     {
+        $request->merge(['waterSettingId' => $waterId]);
         return (array)$action($request);
     }
     public function reset(
         ResetWaterSettingRequest $request,
         ResetWaterSettingAction $action,
+        string $waterId
     ):array
     {
+        $request->merge(['waterSettingId' => $waterId]);
         return (array)$action($request);
     }
     public function delete(
         DeleteWaterSettingRequest $request,
         DeleteWaterSettingAction $action,
+        string $waterId
     ):array
     {
+        $request->merge(['waterSettingId' => $waterId]);
         return (array)$action($request);
     }
 

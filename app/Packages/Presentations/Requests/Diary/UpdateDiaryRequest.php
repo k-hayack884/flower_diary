@@ -12,9 +12,6 @@ class UpdateDiaryRequest extends BaseRequest
     public function rules(): array
     {
         return [
-            'diaryId'=>[
-                'required'
-            ],
             'diaryContent' => [
                 'required',
                 'string',

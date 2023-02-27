@@ -23,21 +23,21 @@ class MockPlantUnitRepository implements PlantUnitRepositoryInterface
     {
         $this->plantUnits[] =
             new PlantUnit(
-                new PlantUnitId('334c1092-7a0d-40b0-af6e-30bff5975e31'),
-                new PlantId('123c1092-7a0d-40b0-af6e-30bff5975e31'),
-                new UserId('883c1092-7a0d-40b0-af6e-30bff5975e31'),
-                new CheckSeatId('456c1092-7a0d-40b0-af6e-30bff5975e31'),
+                new PlantUnitId('001c1092-7a0d-40b0-af6e-30bff5975e31'),
+                new PlantId('111c1092-7a0d-40b0-af6e-30bff5975e31'),
+                new UserId('222c1092-7a0d-40b0-af6e-30bff5975e31'),
+                new CheckSeatId('555c1092-7a0d-40b0-af6e-30bff5975e31'),
                 new PlantName('バラ'),
-                ['774c1092-7a0d-40b0-af6e-30bff5975e31', '721c1092-7a0d-40b0-af6e-30bff5975e31', '800c1092-7a0d-40b0-af6e-30bff5975e31'],
+                ['333c1092-7a0d-40b0-af6e-30bff5975e31', '335c1092-7a0d-40b0-af6e-30bff5975e31', '336c1092-7a0d-40b0-af6e-30bff5975e31'],
             );
         $this->plantUnits[] =
             new PlantUnit(
-                new PlantUnitId('999c1092-7a0d-40b0-af6e-30bff5975e31'),
-                new PlantId('893c1092-7a0d-40b0-af6e-30bff5975e31'),
-                new UserId('666c1092-7a0d-40b0-af6e-30bff5975e31'),
-                new CheckSeatId('334c1092-7a0d-40b0-af6e-30bff5975e31'),
+                new PlantUnitId('002c1092-7a0d-40b0-af6e-30bff5975e31'),
+                new PlantId('112c1092-7a0d-40b0-af6e-30bff5975e31'),
+                new UserId('224c1092-7a0d-40b0-af6e-30bff5975e31'),
+                new CheckSeatId('556c1092-7a0d-40b0-af6e-30bff5975e31'),
                 new PlantName('クレマチス'),
-                ['135c1092-7a0d-40b0-af6e-30bff5975e31', '832c1092-7a0d-40b0-af6e-30bff5975e31', '127c1092-7a0d-40b0-af6e-30bff5975e31'],
+                ['337c1092-7a0d-40b0-af6e-30bff5975e31', '338c1092-7a0d-40b0-af6e-30bff5975e31', '339c1092-7a0d-40b0-af6e-30bff5975e31'],
             );
     }
 

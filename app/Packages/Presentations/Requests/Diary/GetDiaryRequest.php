@@ -4,18 +4,14 @@ namespace App\Packages\Presentations\Requests\Diary;
 
 use App\Http\Requests\BaseRequest;
 
-class GetDiaryRequest extends BaseRequest
+class GetDiaryRequest extends BaseRequest //GETはRequestを継承
 {
     /**
      * @return array[]
      */
     public function rules(): array
     {
-        return [
-            'diaryId' => [
-                'required',
-            ],
-        ];
+        return [];
 
     }
 

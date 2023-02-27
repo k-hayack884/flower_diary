@@ -24,8 +24,10 @@ class CheckSeatController extends Controller
     public function show(
         GetCheckSeatRequest $request,
         GetCheckSeatAction  $action,
+        string $checkSeatId
     ): array
     {
+        $request->merge(['checkSeatId' => $checkSeatId]);
         return (array)$action($request);
     }
 }

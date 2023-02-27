@@ -12,9 +12,6 @@ class UpdateCommentRequest extends BaseRequest
     public function rules(): array
     {
         return [
-            'commentId' => [
-                'required',
-            ],
             'commentUserId' => [
                 'required',
             ],

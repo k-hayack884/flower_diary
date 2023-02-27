@@ -33,6 +33,13 @@ class UpdateFertilizerSettingRequest extends BaseRequest
     }
 
     /**
+     * @return string
+     */
+    public function getId():string
+    {
+        return $this->input('fertilizerSettingId');
+    }
+    /**
      * @return array
      */
     public function getMonths():array
