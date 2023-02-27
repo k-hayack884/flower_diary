@@ -24,7 +24,7 @@ class MockWaterRepository implements WaterSettingRepositoryInterface
     {
         $this->waterSettings[] =
             new MonthsWaterSetting(
-                new WaterSettingId('983c1092-7a0d-40b0-af6e-30bff5975e31'),
+                new WaterSettingId('999c1092-7a0d-40b0-af6e-30bff5975e31'),
                 [1, 3, 5],
                 new WaterNote('水やりは慎重に'),
                 new WaterAmount('a_lot'),
@@ -34,7 +34,7 @@ class MockWaterRepository implements WaterSettingRepositoryInterface
             );
         $this->waterSettings[] =
             new MonthsWaterSetting(
-                new WaterSettingId('334c1092-7a0d-40b0-af6e-30bff5975e31'),
+                new WaterSettingId('998c1092-7a0d-40b0-af6e-30bff5975e31'),
                 [1, 3, 5],
                 new WaterNote('なんでや！阪神関係ないやろ！'),
                 new WaterAmount('sparingly'),

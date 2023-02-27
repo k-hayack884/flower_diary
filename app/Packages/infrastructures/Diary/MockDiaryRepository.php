@@ -17,18 +17,18 @@ class MockDiaryRepository implements DiaryRepositoryInterface
     private array $diaries=[];
     public function __construct()
     {
-        $commentIdA=['114c1092-7a0d-40b0-af6e-30bff5975e31','514c1092-7a0d-40b0-af6e-30bff5975e31'];
-        $commentIdB=['721c1092-7a0d-40b0-af6e-30bff5975e31'];
+        $commentIdA=['666c1092-7a0d-40b0-af6e-30bff5975e31','665c1092-7a0d-40b0-af6e-30bff5975e31'];
+        $commentIdB=['667c1092-7a0d-40b0-af6e-30bff5975e31'];
 
         $diaryA=
             new Diary(
-                new DiaryId('983c1092-7a0d-40b0-af6e-30bff5975e31'),
+                new DiaryId('333c1092-7a0d-40b0-af6e-30bff5975e31'),
                 new DiaryContent('とてもいい'),
                 $commentIdA
             );
         $diaryB=
             new Diary(
-                new DiaryId('333c1092-7a0d-40b0-af6e-30bff5975e31'),
+                new DiaryId('337c1092-7a0d-40b0-af6e-30bff5975e31'),
                 new DiaryContent('ほげえ'),
                 $commentIdB
             );

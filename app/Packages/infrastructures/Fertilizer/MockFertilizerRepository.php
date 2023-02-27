@@ -21,7 +21,7 @@ class MockFertilizerRepository implements FertilizerRepositoryInterface
     {
         $this->fertilizerSettings[]=
             new MonthsFertilizerSetting(
-                new FertilizerSettingId('983c1092-7a0d-40b0-af6e-30bff5975e31'),
+                new FertilizerSettingId('888c1092-7a0d-40b0-af6e-30bff5975e31'),
                 [1, 3, 5],
                 new FertilizerNote('株からある程度離して'),
                 new FertilizerAmount(100),
@@ -29,7 +29,7 @@ class MockFertilizerRepository implements FertilizerRepositoryInterface
         );
         $this->fertilizerSettings[]=
             new MonthsFertilizerSetting(
-            new FertilizerSettingId('334c1092-7a0d-40b0-af6e-30bff5975e31'),
+            new FertilizerSettingId('893c1092-7a0d-40b0-af6e-30bff5975e31'),
             [1, 3, 5],
             new FertilizerNote('なんでや！阪神関係ないやろ！'),
             new FertilizerAmount(334),

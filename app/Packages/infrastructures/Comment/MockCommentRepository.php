@@ -7,29 +7,30 @@ use App\Packages\Domains\Comment\Comment;
 use App\Packages\Domains\Comment\CommentCollection;
 use App\Packages\Domains\Comment\CommentContent;
 use App\Packages\Domains\Comment\CommentId;
+use App\Packages\Domains\Comment\CommentRepositoryInterface;
 use App\Packages\Domains\User\UserId;
 
-class MockCommentRepository implements \App\Packages\Domains\Comment\CommentRepositoryInterface
+class MockCommentRepository implements CommentRepositoryInterface
 {
     private array $comments=[];
 public function __construct()
 {
     $commentA=
         new Comment(
-            new CommentId('983c1092-7a0d-40b0-af6e-30bff5975e31'),
-            new UserId('893c1092-7a0d-40b0-af6e-30bff5975e31'),
+            new CommentId('666c1092-7a0d-40b0-af6e-30bff5975e31'),
+            new UserId('222c1092-7a0d-40b0-af6e-30bff5975e31'),
             new CommentContent('とてもいい'),
         );
     $commentB=
         new Comment(
-            new CommentId('333c1092-7a0d-40b0-af6e-30bff5975e31'),
-            new UserId('111c1092-7a0d-40b0-af6e-30bff5975e31'),
+            new CommentId('665c1092-7a0d-40b0-af6e-30bff5975e31'),
+            new UserId('224c1092-7a0d-40b0-af6e-30bff5975e31'),
             new CommentContent('ほげえ'),
         );
     $commentC=
         new Comment(
-            new CommentId('777c1092-7a0d-40b0-af6e-30bff5975e31'),
-            new UserId('111c1092-7a0d-40b0-af6e-30bff5975e31'),
+            new CommentId('667c1092-7a0d-40b0-af6e-30bff5975e31'),
+            new UserId('224c1092-7a0d-40b0-af6e-30bff5975e31'),
             new CommentContent('ウェーイ'),
         );
     $this->comments[]=$commentA;
