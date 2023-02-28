@@ -6,6 +6,7 @@ use App\Packages\Domains\PlantUnit\PlantUnitRepositoryInterface;
 use App\Packages\Presentations\Requests\PlantUnit\GetPlantUnitsRequest;
 use App\Packages\Usecases\Dto\PlantUnit\PlantUnitDto;
 use App\Packages\Usecases\Dto\PlantUnit\PlantUnitsWrapDto;
+use Illuminate\Support\Facades\Log;
 
 class GetPlantUnitsAction
 {
@@ -29,6 +30,8 @@ class GetPlantUnitsAction
     public function __invoke(GetPlantUnitsRequest $getPlantUnitsRequest
     ): PlantUnitsWrapDto
     {
+        Log::info(__METHOD__, ['開始']);
+
         $plantUnitCollection = $this->plantUnitRepository->find();
         $plantUnitDtos = [];
 
@@ -45,6 +48,8 @@ class GetPlantUnitsAction
                     $plantUnit->getUpdateDate()->format('Y/m/d'),
                 );
         }
+        Log::info(__METHOD__, ['終了']);
+
         return new PlantUnitsWrapDto($plantUnitDtos);
     }
 }

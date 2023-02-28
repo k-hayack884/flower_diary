@@ -7,6 +7,7 @@ use App\Packages\Domains\Diary\DiaryRepositoryInterface;
 use App\Packages\Presentations\Requests\Diary\GetDiaryRequest;
 use App\Packages\Usecases\Dto\Diary\DiaryDto;
 use App\Packages\Usecases\Dto\Diary\DiaryWrapDto;
+use Illuminate\Support\Facades\Log;
 
 class GetDiaryAction
 {
@@ -31,9 +32,12 @@ class GetDiaryAction
         GetDiaryRequest $getDiaryRequest,
     ): DiaryWrapDto
     {
+        Log::info(__METHOD__, ['開始']);
+
         $diaryId=$getDiaryRequest->getId();
         $hitDiary = $this->diaryRepository->findById(new DiaryId($diaryId));
 
+        Log::info(__METHOD__, ['終了']);
         return DiaryDtoFactory::create($hitDiary);
     }
 }

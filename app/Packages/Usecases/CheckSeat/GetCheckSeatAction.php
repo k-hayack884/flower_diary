@@ -8,6 +8,7 @@ use App\Packages\Domains\CheckSeat\CheckSeatRepositoryInterface;
 use App\Packages\Presentations\Requests\CheckSeat\GetCheckSeatRequest;
 use App\Packages\Usecases\Dto\CheckSeat\CheckSeatDto;
 use App\Packages\Usecases\Dto\CheckSeat\CheckSeatWrapDto;
+use Illuminate\Support\Facades\Log;
 
 class GetCheckSeatAction
 {
@@ -28,9 +29,12 @@ class GetCheckSeatAction
         GetCheckSeatRequest $getCheckSeatRequest,
     ): CheckSeatDto
     {
+        Log::info(__METHOD__, ['開始']);
+
         $checkSeatId=$getCheckSeatRequest->getId();
         $checkSeatArray = $this->checkSeatRepository->findById(new CheckSeatId($checkSeatId));
         $checkSeat=new CheckSeat(new CheckSeatId($checkSeatId),$checkSeatArray['water_ids'],$checkSeatArray['fertilizer_ids']);
+        Log::info(__METHOD__, ['終了']);
 
         return CheckSeatDtoFactory::create($checkSeat);
     }

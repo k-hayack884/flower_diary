@@ -13,6 +13,7 @@ use App\Packages\Domains\Water\WaterSettingRepositoryInterface;
 use App\Packages\Presentations\Requests\Water\CreateWaterSettingRequest;
 use App\Packages\Presentations\Requests\Water\UpdateWaterSettingRequest;
 use App\Packages\Usecases\Dto\Water\WaterSettingWrapDto;
+use Illuminate\Support\Facades\Log;
 use PHPUnit\Exception;
 
 class UpdateWaterSettingAction
@@ -33,6 +34,8 @@ class UpdateWaterSettingAction
         UpdateWaterSettingRequest $createWaterSettingRequest,
     ): WaterSettingWrapDto
     {
+        Log::info(__METHOD__, ['開始']);
+
         $waterSettingId = $createWaterSettingRequest->getId();
         $waterSettingMonths = $createWaterSettingRequest->getMonths();
         $waterSettingNote = $createWaterSettingRequest->getNote();
@@ -56,8 +59,11 @@ class UpdateWaterSettingAction
             );
             $waterSettingCollection = new WaterSettingCollection();
             $this->waterSettingRepository->save($waterSettingCollection);
-        } catch (Exception $e) {
-            throw  $e;
+        } catch (\DomainException $e) {
+            Log::error(__METHOD__, ['エラー']);
+            abort(400,$e);
+        } finally {
+            Log::info(__METHOD__, ['終了']);
         }
 
         return WaterSettingsDtoFactory::create($updateWaterSetting);

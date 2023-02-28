@@ -12,6 +12,7 @@ use App\Packages\Domains\Water\WaterSettingRepositoryInterface;
 use App\Packages\Presentations\Requests\Water\DeleteWaterSettingRequest;
 use App\Packages\Presentations\Requests\Water\ResetWaterSettingRequest;
 use App\Packages\Usecases\Dto\Water\WaterSettingWrapDto;
+use Illuminate\Support\Facades\Log;
 use PHPUnit\Exception;
 
 class ResetWaterSettingAction
@@ -38,6 +39,8 @@ class ResetWaterSettingAction
         ResetWaterSettingRequest $deleteWaterSettingRequest,
     ): WaterSettingWrapDto
     {
+        Log::info(__METHOD__, ['開始']);
+
         $waterSettingId = $deleteWaterSettingRequest->getId();
 
         $waterSetting=$this->waterSettingRepository->findById(new WaterSettingId($waterSettingId));
@@ -58,8 +61,11 @@ class ResetWaterSettingAction
             );
             $waterSettingCollection=new WaterSettingCollection();
             $this->waterSettingRepository->save($waterSettingCollection);
-        } catch (Exception $e) {
-            throw  $e;
+        } catch (\DomainException $e) {
+            Log::error(__METHOD__, ['エラー']);
+            abort(400,$e);
+        } finally {
+            Log::info(__METHOD__, ['エラー']);
         }
         return WaterSettingsDtoFactory::create($resetWaterSetting);
     }

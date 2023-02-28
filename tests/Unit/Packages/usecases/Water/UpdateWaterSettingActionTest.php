@@ -15,7 +15,7 @@ class UpdateWaterSettingActionTest extends TestCase
     public function test_指定した水やり設定のレスポンスの型があっていること()
     {
         $request = UpdateWaterSettingRequest::create('waterSetting', 'POST', [
-            'waterSettingId' => '334c1092-7a0d-40b0-af6e-30bff5975e31',
+            'waterSettingId'=>'999c1092-7a0d-40b0-af6e-30bff5975e31',
             'waterSettingMonths' => [5, 7, 9],
             'waterSettingNote' => 'ち～ん',
             'waterSettingAmount' => 'moderate_amount',

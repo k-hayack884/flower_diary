@@ -7,6 +7,7 @@ use App\Packages\Domains\Water\WaterSettingRepositoryInterface;
 use App\Packages\Presentations\Requests\Water\GetWaterSettingRequest;
 use App\Packages\Usecases\Dto\Water\WaterSettingWrapDto;
 use App\Packages\Usecases\WaterSettingWrapDtoFactory;
+use Illuminate\Support\Facades\Log;
 
 class GetWaterSettingAction
 {
@@ -30,8 +31,13 @@ class GetWaterSettingAction
         GetWaterSettingRequest $getWaterSettingRequest,
     ): WaterSettingWrapDto
     {
+        Log::info(__METHOD__, ['開始']);
+
         $waterSettingId=$getWaterSettingRequest->getId();
         $waterSetting = $this->waterSettingRepository->findById(new WaterSettingId($waterSettingId));
+
+        Log::info(__METHOD__, ['終了']);
+
         return WaterSettingsDtoFactory::create($waterSetting);
     }
 }

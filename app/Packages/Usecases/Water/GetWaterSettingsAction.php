@@ -7,6 +7,7 @@ use App\Packages\Presentations\Requests\Water\GetWaterSettingRequest;
 use App\Packages\Presentations\Requests\Water\GetWaterSettingsRequest;
 use App\Packages\Usecases\Dto\Water\WaterSettingDto;
 use App\Packages\Usecases\Dto\Water\WaterSettingsWrapDto;
+use Illuminate\Support\Facades\Log;
 
 class GetWaterSettingsAction
 {
@@ -27,6 +28,8 @@ class GetWaterSettingsAction
     public function __invoke(GetWaterSettingsRequest $getWaterSettingRequest
     ): WaterSettingsWrapDto
     {
+        Log::info(__METHOD__, ['開始']);
+
         $waterSettingCollection = $this->waterSettingRepository->find();
         $waterSettingDtos = [];
 
@@ -41,6 +44,8 @@ class GetWaterSettingsAction
                 $waterSetting->getAlertTimes()
             );
         }
+        Log::info(__METHOD__, ['終了']);
+
         return new WaterSettingsWrapDto($waterSettingDtos);
     }
 }

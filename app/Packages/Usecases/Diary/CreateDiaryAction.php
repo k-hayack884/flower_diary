@@ -11,6 +11,7 @@ use App\Packages\Presentations\Requests\Diary\CreateDiaryRequest;
 use App\Packages\Usecases\Dto\Diary\DiaryDto;
 use App\Packages\Usecases\Dto\Diary\DiaryWrapDto;
 use Exception;
+use Illuminate\Support\Facades\Log;
 
 class CreateDiaryAction
 {
@@ -36,6 +37,8 @@ class CreateDiaryAction
         CreateDiaryRequest $createDiaryRequest
     ): DiaryWrapDto
     {
+        Log::info(__METHOD__, ['開始']);
+
         $diaryContent = $createDiaryRequest->getDiaryContent();
 
         try {
@@ -47,8 +50,11 @@ class CreateDiaryAction
             );
             $diaryCollection = new DiaryCollection();
             $this->diaryRepository->save($diaryCollection);
-        } catch (Exception $e) {
-            throw  $e;
+        } catch (\DomainException $e) {
+            Log::error(__METHOD__, ['エラー']);
+            abort(400,$e);
+        } finally {
+            Log::info(__METHOD__, ['終了']);
         }
 
         return DiaryDtoFactory::create($diary);

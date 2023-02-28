@@ -12,6 +12,7 @@ use App\Packages\Domains\Water\WaterSettingId;
 use App\Packages\Domains\Water\WaterSettingRepositoryInterface;
 use App\Packages\Presentations\Requests\Water\CreateWaterSettingRequest;
 use App\Packages\Usecases\Dto\Water\WaterSettingWrapDto;
+use Illuminate\Support\Facades\Log;
 use PHPUnit\Exception;
 
 class CreateWaterSettingAction
@@ -38,6 +39,8 @@ class CreateWaterSettingAction
         CreateWaterSettingRequest $createWaterSettingRequest
     ): WaterSettingWrapDto
     {
+        Log::info(__METHOD__, ['開始']);
+
         $waterSettingMonths = $createWaterSettingRequest->getMonths();
         $waterSettingNote = $createWaterSettingRequest->getNote();
         $waterSettingAmount = $createWaterSettingRequest->getAmount();
@@ -54,8 +57,11 @@ class CreateWaterSettingAction
             );
             $waterSettingCollection = new WaterSettingCollection();
             $this->waterSettingRepository->save($waterSettingCollection);
-        } catch (Exception $e) {
-            throw  $e;
+        } catch (\DomainException $e) {
+            Log::error(__METHOD__, ['エラー']);
+            abort(400,$e);
+        } finally {
+            Log::info(__METHOD__, ['終了']);
         }
 
         return WaterSettingsDtoFactory::create($waterSettings);

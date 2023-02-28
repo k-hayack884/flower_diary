@@ -17,6 +17,7 @@ use App\Packages\Domains\Water\WaterSettingRepositoryInterface;
 use App\Packages\infrastructures\Shared\TransactionInterface;
 use App\Packages\Presentations\Requests\PlantUnit\DeletePlantUnitRequest;
 use Exception;
+use Illuminate\Support\Facades\Log;
 
 class DeletePlantUnitAction
 {
@@ -62,6 +63,8 @@ class DeletePlantUnitAction
         DeletePlantUnitRequest $deletePlantUnitRequest
     ): void
     {
+        Log::info(__METHOD__, ['開始']);
+
         $requestId = $deletePlantUnitRequest->getId();
 
         try {
@@ -92,8 +95,14 @@ class DeletePlantUnitAction
 
             //植物ユニットの削除
             $this->plantUnitRepository->delete($hitPlantUnit->getPlantUnitId());
-        } catch (Exception $e) {
-            throw  $e;
+
+            $this->transaction->commit();
+        } catch (\DomainException $e) {
+            $this->transaction->rollback();
+            Log::error(__METHOD__, ['エラー']);
+            abort(400,$e);
+        } finally {
+            Log::info(__METHOD__, ['終了']);
         }
     }
 }

@@ -10,6 +10,7 @@ use App\Packages\Domains\Fertilizer\FertilizerSettingId;
 use App\Packages\Domains\Fertilizer\MonthsFertilizerSetting;
 use App\Packages\Presentations\Requests\Fertilizer\UpdateFertilizerSettingRequest;
 use App\Packages\Usecases\Dto\Fertilizer\FertilizerSettingWrapDto;
+use Illuminate\Support\Facades\Log;
 
 class UpdateFertilizerSettingAction
 {
@@ -34,6 +35,8 @@ class UpdateFertilizerSettingAction
         UpdatefertilizerSettingRequest $updateFertilizerSettingRequest,
     ): FertilizerSettingWrapDto
     {
+        Log::info(__METHOD__, ['開始']);
+
         $fertilizerSettingId=$updateFertilizerSettingRequest->getId();
         $fertilizerSettingMonths = $updateFertilizerSettingRequest->getMonths();
         $fertilizerSettingNote = $updateFertilizerSettingRequest->getNote();
@@ -53,8 +56,13 @@ class UpdateFertilizerSettingAction
             );
             $fertilizerSettingCollection = new FertilizerSettingCollection();
             $this->fertilizerSettingRepository->save($fertilizerSettingCollection);
-        } catch (Exception $e) {
-            throw  $e;
+        } catch (\DomainException $e) {
+            Log::error(__METHOD__, ['エラー']);
+
+            abort(400,$e);
+        } finally {
+            Log::info(__METHOD__, ['終了']);
+
         }
 
         return FertilizerSettingsDtoFactory::create($updateFertilizerSetting);
