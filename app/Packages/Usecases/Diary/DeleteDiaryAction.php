@@ -9,6 +9,7 @@ use App\Packages\Domains\Diary\DiaryRepositoryInterface;
 use App\Packages\infrastructures\Shared\TransactionInterface;
 use App\Packages\Presentations\Requests\Diary\DeleteDiaryRequest;
 use Exception;
+use Illuminate\Support\Facades\Log;
 
 class DeleteDiaryAction
 {
@@ -39,6 +40,7 @@ class DeleteDiaryAction
         DeleteDiaryRequest $deleteDiaryRequest,
     ): void
     {
+        Log::info(__METHOD__, ['開始']);
         $diaryId = new DiaryId($deleteDiaryRequest->getId());
 
         try {
@@ -52,7 +54,11 @@ class DeleteDiaryAction
             $this->transaction->commit();
         } catch (\DomainException $e) {
             $this->transaction->rollback();
+            Log::error(__METHOD__, ['エラー']);
+
             abort(400,$e);
+        } finally {
+            Log::info(__METHOD__, ['終了']);
         }
     }
 }

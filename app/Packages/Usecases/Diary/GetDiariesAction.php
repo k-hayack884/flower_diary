@@ -6,6 +6,7 @@ use App\Packages\Domains\Diary\DiaryRepositoryInterface;
 use App\Packages\Presentations\Requests\Diary\GetDiariesRequest;
 use App\Packages\Usecases\Dto\Diary\DiariesWrapDto;
 use App\Packages\Usecases\Dto\Diary\DiaryDto;
+use Illuminate\Support\Facades\Log;
 
 class GetDiariesAction
 {
@@ -29,6 +30,8 @@ class GetDiariesAction
     public function __invoke(GetDiariesRequest $getDiaryRequest
     ): DiariesWrapDto
     {
+        Log::info(__METHOD__, ['開始']);
+
         $diaryCollection = $this->DiaryRepository->find();
         $diaryDtos = [];
 
@@ -41,6 +44,8 @@ class GetDiariesAction
                     $diary->getCreateDate()->format('Y/m/d'),
             );
         }
+        Log::info(__METHOD__, ['終了']);
+
         return new DiariesWrapDto($diaryDtos);
     }
 }

@@ -9,6 +9,7 @@ use App\Packages\Domains\Diary\DiaryId;
 use App\Packages\Domains\Diary\DiaryRepositoryInterface;
 use App\Packages\Presentations\Requests\Diary\UpdateDiaryRequest;
 use App\Packages\Usecases\Dto\Diary\DiaryWrapDto;
+use Illuminate\Support\Facades\Log;
 
 class UpdateDiaryAction
 {
@@ -33,6 +34,8 @@ class UpdateDiaryAction
         UpdateDiaryRequest $updateDiaryRequest,
     ): DiaryWrapDto
     {
+        Log::info(__METHOD__, ['開始']);
+
         $diaryId = $updateDiaryRequest->getId();
         $diary = $this->diaryRepository->findById(new DiaryId($diaryId));
         $updateContent = $diary->getDiaryContent()->update($updateDiaryRequest->getDiaryContent());
@@ -48,6 +51,9 @@ class UpdateDiaryAction
             $this->diaryRepository->save($diaryCollection);
         } catch (\DomainException $e) {
            abort(400,$e);
+            Log::error(__METHOD__, ['開始']);
+        } finally {
+            Log::info(__METHOD__, ['終了']);
         }
 
         return DiaryDtoFactory::create($updateDiary);

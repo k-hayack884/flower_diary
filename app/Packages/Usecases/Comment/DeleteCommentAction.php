@@ -8,6 +8,7 @@ use App\Packages\Domains\User\UserId;
 use App\Packages\Presentations\Requests\Comment\DeleteCommentRequest;
 use Exception;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class DeleteCommentAction
 {
@@ -34,6 +35,7 @@ class DeleteCommentAction
         DeleteCommentRequest $deleteCommentRequest,
     ): void
     {
+        Log::info(__METHOD__, ['開始']);
         $commentId=$deleteCommentRequest->getId();
         $userId=$deleteCommentRequest->getUserId();
 
@@ -45,8 +47,10 @@ class DeleteCommentAction
             $this->commentRepository->findByUserId($deleteUserId);
             $this->commentRepository->delete($comment->getCommentId());
         } catch (\DomainException $e) {
+            Log::error(__METHOD__, ['エラー']);
             abort(400,$e);
-
+        } finally {
+            Log::info(__METHOD__, ['終了']);
         }
     }
 }

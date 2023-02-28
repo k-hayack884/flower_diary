@@ -6,6 +6,7 @@ use App\Packages\Domains\Comment\CommentRepositoryInterface;
 use App\Packages\Presentations\Requests\Comment\GetCommentsRequest;
 use App\Packages\Usecases\Dto\Comment\CommentDto;
 use App\Packages\Usecases\Dto\Comment\CommentsWrapDto;
+use Illuminate\Support\Facades\Log;
 
 class GetCommentsAction
 {
@@ -29,6 +30,8 @@ class GetCommentsAction
     public function __invoke(GetCommentsRequest $getCommentRequest
     ): CommentsWrapDto
     {
+        Log::info(__METHOD__, ['開始']);
+
         $commentCollection = $this->commentRepository->find();
         $commentDtos = [];
 
@@ -41,6 +44,8 @@ class GetCommentsAction
                     $comment->getCreateDate()->format('Y/m/d'),
                 );
         }
+        Log::info(__METHOD__, ['終了']);
+
         return new CommentsWrapDto($commentDtos);
     }
 }

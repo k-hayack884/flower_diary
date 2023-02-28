@@ -6,6 +6,7 @@ use App\Packages\Domains\Fertilizer\FertilizerRepositoryInterface;
 use App\Packages\Presentations\Requests\Fertilizer\GetFertilizerSettingsRequest;
 use App\Packages\Usecases\Dto\Fertilizer\FertilizerSettingDto;
 use App\Packages\Usecases\Dto\Fertilizer\FertilizerSettingsWrapDto;
+use Illuminate\Support\Facades\Log;
 
 class GetFertilizerSettingsAction
 {
@@ -29,6 +30,8 @@ class GetFertilizerSettingsAction
     public function __invoke(GetFertilizerSettingsRequest $getFertilizerSettingRequest
     ): FertilizerSettingsWrapDto
     {
+        Log::info(__METHOD__, ['開始']);
+
         $fertilizerSettingCollection = $this->fertilizerSettingRepository->find();
         $fertilizerSettingDtos = [];
 
@@ -41,6 +44,8 @@ class GetFertilizerSettingsAction
                 $fertilizerSetting->getFertilizerName()->getValue(),
             );
         }
+        Log::info(__METHOD__, ['終了']);
+
         return new FertilizerSettingsWrapDto($fertilizerSettingDtos);
     }
 }

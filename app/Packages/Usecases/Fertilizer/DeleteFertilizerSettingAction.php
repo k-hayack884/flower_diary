@@ -6,6 +6,7 @@ use App\Packages\Domains\Fertilizer\FertilizerRepositoryInterface;
 use App\Packages\Domains\Fertilizer\FertilizerSettingId;
 use App\Packages\Domains\Water\FertilizerSettingRepositoryInterface;
 use App\Packages\Presentations\Requests\Fertilizer\DeleteFertilizerSettingRequest;
+use Illuminate\Support\Facades\Log;
 use PHPUnit\Exception;
 
 class DeleteFertilizerSettingAction
@@ -33,12 +34,17 @@ class DeleteFertilizerSettingAction
         DeleteFertilizerSettingRequest $deleteFertilizerSettingRequest,
     ): void
     {
+        Log::info(__METHOD__, ['開始']);
+
         try {
             $fertilizerSettingId=$deleteFertilizerSettingRequest->getId();
             $fertilizerSetting=$this->fertilizerSettingRepository->findById(new FertilizerSettingId($fertilizerSettingId));
             $this->fertilizerSettingRepository->delete($fertilizerSetting->getFertilizerSettingId());
         } catch (\DomainException $e) {
+            Log::error(__METHOD__, ['エラー']);
             abort(400,$e);
+        } finally {
+            Log::info(__METHOD__, ['終了']);
         }
     }
 }

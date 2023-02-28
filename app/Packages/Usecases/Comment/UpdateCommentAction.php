@@ -10,6 +10,7 @@ use App\Packages\Domains\User\UserId;
 use App\Packages\Presentations\Requests\Comment\UpdateCommentRequest;
 use App\Packages\Usecases\Dto\Comment\CommentWrapDto;
 use Exception;
+use Illuminate\Support\Facades\Log;
 
 class UpdateCommentAction
 {
@@ -17,6 +18,7 @@ class UpdateCommentAction
      * @var CommentRepositoryInterface
      */
     private CommentRepositoryInterface $commentRepository;
+
     /**
      * @param CommentRepositoryInterface $commentRepository
      */
@@ -34,6 +36,8 @@ class UpdateCommentAction
         UpdateCommentRequest $updateCommentRequest,
     ): CommentWrapDto
     {
+        Log::info(__METHOD__, ['開始']);
+
         $commentId = $updateCommentRequest->getId();
         $userId = $updateCommentRequest->getUserId();
         $content = $updateCommentRequest->getCommentContent();
@@ -51,7 +55,10 @@ class UpdateCommentAction
             $commentCollection = new CommentCollection();
             $this->commentRepository->save($commentCollection);
         } catch (\DomainException $e) {
-            abort(400,$e);
+            Log::error(__METHOD__, ['エラー']);
+            abort(400, $e);
+        } finally {
+            Log::info(__METHOD__, ['終了']);
         }
 
         return CommentDtoFactory::create($updateComment);

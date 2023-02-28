@@ -13,6 +13,7 @@ use App\Packages\Domains\User\UserId;
 use App\Packages\Presentations\Requests\PlantUnit\CreatePlantUnitRequest;
 use App\Packages\Usecases\Dto\PlantUnit\PlantUnitWrapDto;
 use Exception;
+use Illuminate\Support\Facades\Log;
 
 class CreatePlantUnitAction
 {
@@ -20,6 +21,7 @@ class CreatePlantUnitAction
      * @var PlantUnitRepositoryInterface
      */
     private PlantUnitRepositoryInterface $plantUnitRepository;
+
     /**
      * @param PlantUnitRepositoryInterface $plantUnitRepository
      */
@@ -37,17 +39,18 @@ class CreatePlantUnitAction
         CreatePlantUnitRequest $createPlantUnitRequest
     ): PlantUnitWrapDto
     {
+        Log::info(__METHOD__, ['開始']);
 
         try {
             $plantUnitId = new PlantUnitId();
-            $plantId =new PlantId($createPlantUnitRequest->getPlantUnitPlantId());
+            $plantId = new PlantId($createPlantUnitRequest->getPlantUnitPlantId());
             $userId = new UserId($createPlantUnitRequest->getPlantUnitUserId());
             $plantUnitCheckSeatId = new CheckSeatId();
             //Todo PlantRepositoryを作ったら植物ユニットIDから名前を取得するように改良
-            $plantName=new PlantName('');
+            $plantName = new PlantName('');
             $plantDiaries = [];
 
-            $plantUnit=new PlantUnit(
+            $plantUnit = new PlantUnit(
                 $plantUnitId,
                 $plantId,
                 $userId,
@@ -57,8 +60,11 @@ class CreatePlantUnitAction
             );
             $plantUnitCollection = new PlantUnitCollection();
             $this->plantUnitRepository->save($plantUnitCollection);
-        } catch (Exception $e) {
-            throw  $e;
+        } catch (\DomainException $e) {
+            Log::error(__METHOD__, ['エラー']);
+            abort(400, $e);
+        } finally {
+            Log::info(__METHOD__, ['終了']);
         }
 
         return PlantUnitDtoFactory::create($plantUnit);
