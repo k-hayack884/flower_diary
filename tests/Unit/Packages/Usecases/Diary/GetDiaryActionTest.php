@@ -32,7 +32,7 @@ class GetDiaryActionTest extends TestCase
         $this->assertInstanceOf(DiaryWrapDto::class, $result);
         $this->assertSame('333c1092-7a0d-40b0-af6e-30bff5975e31', $result->diary->diaryId);
         $this->assertIsArray($result->diary->comments);
-        $this->assertSame('ほげえ', $result->diary->content);
+        $this->assertSame('とてもいい', $result->diary->content);
     }
 
     public function test_存在しないIDの場合エラーを出すこと()

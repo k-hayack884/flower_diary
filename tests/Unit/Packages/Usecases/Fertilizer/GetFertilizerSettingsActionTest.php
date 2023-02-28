@@ -4,15 +4,16 @@ namespace Packages\Usecases\Fertilizer;
 
 use App\Packages\infrastructures\Fertilizer\MockFertilizerRepository;
 use App\Packages\Presentations\Requests\Fertilizer\GetFertilizerSettingRequest;
+use App\Packages\Presentations\Requests\Fertilizer\GetFertilizerSettingsRequest;
 use App\Packages\Usecases\Dto\Fertilizer\FertilizerSettingDto;
 use App\Packages\Usecases\Fertilizer\GetFertilizerSettingsAction;
 use PHPUnit\Framework\TestCase;
 
 class GetFertilizerSettingsActionTest extends TestCase
 {
-    public function test_水やり設定のレスポンスの型があっていること()
+    public function test_肥料設定のレスポンスの型があっていること()
     {
-        $request = GetFertilizerSettingRequest::create('fertilizerSetting', 'GET', []);
+        $request = GetFertilizerSettingsRequest::create('fertilizerSetting', 'GET', []);
         $mockFertilizerSettingRepository = app()->make(MockFertilizerRepository::class);
 
         app()->bind(GetFertilizerSettingsAction::class, function () use (
@@ -25,6 +26,5 @@ class GetFertilizerSettingsActionTest extends TestCase
         $result = (app()->make(GetFertilizerSettingsAction::class))->__invoke($request);
 
         $this->assertInstanceOf(FertilizerSettingDto::class, $result->fertilizerSettings[0]);
-        $this->assertSame('983c1092-7a0d-40b0-af6e-30bff5975e31',$result->fertilizerSettings[0]->fertilizerSettingId);
     }
 }

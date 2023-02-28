@@ -15,8 +15,8 @@ class DeleteCommentActionTest extends TestCase
     public function test_指定したコメントが削除されていること()
     {
         $request = DeleteCommentRequest::create('comment', 'DELETE', [
-            'commentId'=> '983c1092-7a0d-40b0-af6e-30bff5975e31',
-            'commentUserId'=>'893c1092-7a0d-40b0-af6e-30bff5975e31'
+            'commentId'=> '666c1092-7a0d-40b0-af6e-30bff5975e31',
+            'commentUserId'=>'222c1092-7a0d-40b0-af6e-30bff5975e31'
         ]);
         $mockCommentRepository = app()->make(MockCommentRepository::class);
 
@@ -38,7 +38,7 @@ class DeleteCommentActionTest extends TestCase
         $commentId =new Uuid();
         $request = DeleteCommentRequest::create('comment', 'DELETE', [
             'commentId'=> $commentId,
-             'commentUserId'=>'893c1092-7a0d-40b0-af6e-30bff5975e31'
+             'commentUserId'=>'222c1092-7a0d-40b0-af6e-30bff5975e31'
         ]);
         $mockCommentRepository = app()->make(MockCommentRepository::class);
 
@@ -57,7 +57,7 @@ class DeleteCommentActionTest extends TestCase
     public function test_存在しないユーザーIDを入力するとエラーを返すこと()
     {
         $request = DeleteCommentRequest::create('comment', 'POST', [
-            'commentId'=> '983c1092-7a0d-40b0-af6e-30bff5975e31',
+            'commentId'=>  '666c1092-7a0d-40b0-af6e-30bff5975e31',
             'commentUserId'=>'334c1092-7a0d-40b0-af6e-30bff5975e31'
         ]);
         $mockCommentRepository = app()->make(MockCommentRepository::class);

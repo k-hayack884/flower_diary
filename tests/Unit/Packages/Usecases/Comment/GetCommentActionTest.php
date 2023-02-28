@@ -15,7 +15,7 @@ class GetCommentActionTest extends TestCase
     public function test_コメント詳細のレスポンスの型があっていること()
     {
         $request = GetCommentRequest::create('Comment', 'GET', [
-            'commentId'=> '983c1092-7a0d-40b0-af6e-30bff5975e31'
+            'commentId'=> '665c1092-7a0d-40b0-af6e-30bff5975e31'
         ]);
         $mockCommentSettingRepository = app()->make(MockCommentRepository::class);
 
@@ -29,9 +29,9 @@ class GetCommentActionTest extends TestCase
         $result = (app()->make(GetCommentAction::class))->__invoke($request);
 
         $this->assertInstanceOf(CommentWrapDto::class, $result);
-        $this->assertSame('983c1092-7a0d-40b0-af6e-30bff5975e31', $result->comment->commentId);
-        $this->assertSame('893c1092-7a0d-40b0-af6e-30bff5975e31', $result->comment->userId);
-        $this->assertSame('とてもいい', $result->comment->content);
+        $this->assertSame('665c1092-7a0d-40b0-af6e-30bff5975e31', $result->comment->commentId);
+        $this->assertSame('224c1092-7a0d-40b0-af6e-30bff5975e31', $result->comment->userId);
+        $this->assertSame('ほげえ', $result->comment->content);
     }
 
     public function test_存在しないIDの場合エラーを出すこと()

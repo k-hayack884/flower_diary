@@ -42,6 +42,16 @@ class MockWaterRepository implements WaterSettingRepositoryInterface
                 new WateringInterval(34),
                 ['12:59', '3:34']
             );
+        $this->waterSettings[] =
+            new MonthsWaterSetting(
+                new WaterSettingId('997c1092-7a0d-40b0-af6e-30bff5975e31'),
+                [1, 11,12],
+                new WaterNote('どばどば出す'),
+                new WaterAmount('sparingly'),
+                new WateringTimes(1),
+                new WateringInterval(1),
+                ['12:00']
+            );
     }
 
     /**

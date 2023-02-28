@@ -19,6 +19,8 @@ class MockDiaryRepository implements DiaryRepositoryInterface
     {
         $commentIdA=['666c1092-7a0d-40b0-af6e-30bff5975e31','665c1092-7a0d-40b0-af6e-30bff5975e31'];
         $commentIdB=['667c1092-7a0d-40b0-af6e-30bff5975e31'];
+        $commentIdC=[];
+        $commentIdD=[];
 
         $diaryA=
             new Diary(
@@ -32,8 +34,22 @@ class MockDiaryRepository implements DiaryRepositoryInterface
                 new DiaryContent('ほげえ'),
                 $commentIdB
             );
+        $diaryC=
+            new Diary(
+                new DiaryId('335c1092-7a0d-40b0-af6e-30bff5975e31'),
+                new DiaryContent('あかん'),
+                $commentIdC
+            );
+        $diaryD=
+            new Diary(
+                new DiaryId('336c1092-7a0d-40b0-af6e-30bff5975e31'),
+                new DiaryContent('アイイイイイイイ！'),
+                $commentIdD
+            );
         $this->diaries[]=$diaryA;
         $this->diaries[]=$diaryB;
+        $this->diaries[]=$diaryC;
+        $this->diaries[]=$diaryD;
     }
 
     /**

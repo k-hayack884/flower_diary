@@ -14,7 +14,7 @@ class GetPlantUnitActionTest extends TestCase
     public function test_水やり設定のレスポンスの型があっていること()
     {
         $request = GetPlantUnitRequest::create('plantUnit', 'GET', [
-            'plantUnitId'=>'334c1092-7a0d-40b0-af6e-30bff5975e31'
+            'plantUnitId'=>'001c1092-7a0d-40b0-af6e-30bff5975e31'
         ]);
         $mockPlantUnitSettingRepository = app()->make(MockPlantUnitRepository::class);
 
@@ -28,6 +28,6 @@ class GetPlantUnitActionTest extends TestCase
         $result = (app()->make(GetPlantUnitAction::class))->__invoke($request);
 
         $this->assertInstanceOf(PlantUnitWrapDto::class, $result);
-        $this->assertSame('334c1092-7a0d-40b0-af6e-30bff5975e31',$result->plantUnit->plantUnitId);
+        $this->assertSame('001c1092-7a0d-40b0-af6e-30bff5975e31',$result->plantUnit->plantUnitId);
     }
 }

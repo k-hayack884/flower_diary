@@ -14,8 +14,8 @@ class UpdateCommentActionTest extends TestCase
     public function test_変更をしたコメントのレスポンスの型があっていること()
     {
         $request = UpdateCommentRequest::create('comment', 'POST', [
-            'commentId' => '983c1092-7a0d-40b0-af6e-30bff5975e31',
-            'commentUserId' => '893c1092-7a0d-40b0-af6e-30bff5975e31',
+            'commentId' => '666c1092-7a0d-40b0-af6e-30bff5975e31',
+            'commentUserId' => '222c1092-7a0d-40b0-af6e-30bff5975e31',
             'commentContent' => '書き換え完了',
         ]);
         $mockCommentRepository = app()->make(MockCommentRepository::class);
@@ -32,7 +32,7 @@ class UpdateCommentActionTest extends TestCase
         $result = (app()->make(UpdateCommentAction::class))->__invoke($request);
 
         $this->assertSame('書き換え完了', $result->comment->content);
-        $this->assertEquals('893c1092-7a0d-40b0-af6e-30bff5975e31', $result->comment->userId);
+        $this->assertEquals('222c1092-7a0d-40b0-af6e-30bff5975e31', $result->comment->userId);
         $this->assertNotEquals($prevComment->getCommentContent()->getvalue(), $result->comment->content);
     }
 
@@ -40,7 +40,7 @@ class UpdateCommentActionTest extends TestCase
     {
         $request = UpdateCommentRequest::create('comment', 'POST', [
             'commentId' => '334c1092-7a0d-40b0-af6e-30bff5975e31',
-            'commentUserId' => '893c1092-7a0d-40b0-af6e-30bff5975e31',
+            'commentUserId' => '222c1092-7a0d-40b0-af6e-30bff5975e31',
             'commentContent' => '書き換え完了',
         ]);
         $mockCommentRepository = app()->make(MockCommentRepository::class);
@@ -60,7 +60,7 @@ class UpdateCommentActionTest extends TestCase
     public function test_存在しないユーザーIDを入力するとエラーを返すこと()
     {
         $request = UpdateCommentRequest::create('comment', 'POST', [
-            'commentId' => '983c1092-7a0d-40b0-af6e-30bff5975e31',
+            'commentId' => '666c1092-7a0d-40b0-af6e-30bff5975e31',
             'commentUserId' => '833c1092-7a0d-40b0-af6e-30bff5975e31',
             'commentContent' => '書き換え完了',
         ]);

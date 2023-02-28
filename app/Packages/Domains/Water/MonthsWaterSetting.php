@@ -51,7 +51,7 @@ class MonthsWaterSetting
                 throw new DomainException('その文字は使用できません');
             }
         }
-        $this->waterSettingID = $waterSettingId;
+        $this->waterSettingId = $waterSettingId;
         $this->months = $months;
         $this->waterNote = $waterNote;
         $this->waterAmount = $waterAmount;
@@ -79,7 +79,7 @@ class MonthsWaterSetting
             }
         }
         return new self(
-            $this->waterSettingID,
+            $this->waterSettingId,
             $months,
             $this->waterNote,
             $this->waterAmount,
@@ -94,7 +94,7 @@ class MonthsWaterSetting
     public function tarmReset(): MonthsWaterSetting
     {
         return new self(
-            $this->waterSettingID,
+            $this->waterSettingId,
             self::RESET,
             $this->waterNote,
             $this->waterAmount,
@@ -150,7 +150,7 @@ class MonthsWaterSetting
      */
     public function getWaterSettingId(): WaterSettingId
     {
-        return $this->waterSettingID;
+        return $this->waterSettingId;
     }
 
     /**

@@ -17,7 +17,7 @@ class MockCheckSeatRepository implements CheckSeatRepositoryInterface
     public function __construct()
     {
         $waterSettingIdsA = ['999c1092-7a0d-40b0-af6e-30bff5975e31', '998c1092-7a0d-40b0-af6e-30bff5975e31', '997c1092-7a0d-40b0-af6e-30bff5975e31'];
-        $fertilizerSettingIdsA = ['888c1092-7a0d-40b0-af6e-30bff5975e31', '893c1092-7a0d-40b0-af6e-30bff5975e31', '334c1092-7a0d-40b0-af6e-30bff5975e31'];
+        $fertilizerSettingIdsA = ['888c1092-7a0d-40b0-af6e-30bff5975e31', '893c1092-7a0d-40b0-af6e-30bff5975e31', '887c1092-7a0d-40b0-af6e-30bff5975e31'];
         $checkSeatIdA = '555c1092-7a0d-40b0-af6e-30bff5975e31';
         $checkSeatA = ['check_seat_id' => $checkSeatIdA, 'water_ids' => $waterSettingIdsA, 'fertilizer_ids' => $fertilizerSettingIdsA];
 
