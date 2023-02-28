@@ -44,8 +44,9 @@ class DeleteCommentAction
             $comment=$this->commentRepository->findByCommentId($deleteCommentId);
             $this->commentRepository->findByUserId($deleteUserId);
             $this->commentRepository->delete($comment->getCommentId());
-        } catch (Exception $e) {
-            throw  $e;
+        } catch (\DomainException $e) {
+            abort(400,$e);
+
         }
     }
 }

@@ -36,8 +36,8 @@ class DeleteWaterSettingAction
         try {
             $waterSetting=$this->waterSettingRepository->findById($waterSettingId);
             $this->waterSettingRepository->delete($waterSetting->getWaterSettingId());
-        } catch (Exception $e) {
-            throw  $e;
+        } catch (\DomainException $e) {
+            abort(400,$e);
         }
     }
 }

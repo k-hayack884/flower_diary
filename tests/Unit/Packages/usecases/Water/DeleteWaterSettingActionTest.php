@@ -15,7 +15,7 @@ class DeleteWaterSettingActionTest extends TestCase
     public function test_指定した水やり設定が削除されていること()
     {
         $request = DeleteWaterSettingRequest::create('waterSetting', 'DELETE', [
-            'waterSettingId'=>'983c1092-7a0d-40b0-af6e-30bff5975e31'
+            'waterSettingId'=>'999c1092-7a0d-40b0-af6e-30bff5975e31'
         ]);
         $mockWaterSettingRepository = app()->make(MockWaterRepository::class);
 

@@ -92,8 +92,11 @@ class DeletePlantUnitAction
 
             //植物ユニットの削除
             $this->plantUnitRepository->delete($hitPlantUnit->getPlantUnitId());
-        } catch (Exception $e) {
-            throw  $e;
+
+            $this->transaction->commit();
+        } catch (\DomainException $e) {
+            $this->transaction->rollback();
+            abort(400,$e);
         }
     }
 }

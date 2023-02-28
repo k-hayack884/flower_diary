@@ -53,8 +53,8 @@ class ResetFertilizerSettingAction
                 );
             $fertilizerSettingCollection = new FertilizerSettingCollection();
             $this->fertilizerSettingRepository->save($fertilizerSettingCollection);
-        } catch (Exception $e) {
-            throw  $e;
+        } catch (\DomainException $e) {
+            abort(400,$e);
         }
         return FertilizerSettingsDtoFactory::create($resetFertilizerSetting);
     }

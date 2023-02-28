@@ -37,8 +37,8 @@ class DeleteFertilizerSettingAction
             $fertilizerSettingId=$deleteFertilizerSettingRequest->getId();
             $fertilizerSetting=$this->fertilizerSettingRepository->findById(new FertilizerSettingId($fertilizerSettingId));
             $this->fertilizerSettingRepository->delete($fertilizerSetting->getFertilizerSettingId());
-        } catch (Exception $e) {
-            throw  $e;
+        } catch (\DomainException $e) {
+            abort(400,$e);
         }
     }
 }

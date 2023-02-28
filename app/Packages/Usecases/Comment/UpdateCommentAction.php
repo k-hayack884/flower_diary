@@ -50,8 +50,8 @@ class UpdateCommentAction
             );
             $commentCollection = new CommentCollection();
             $this->commentRepository->save($commentCollection);
-        } catch (Exception $e) {
-            throw  $e;
+        } catch (\DomainException $e) {
+            abort(400,$e);
         }
 
         return CommentDtoFactory::create($updateComment);

@@ -50,8 +50,8 @@ class CreateFertilizerSettingAction
             );
             $FertilizerSettingCollection = new FertilizerSettingCollection();
             $this->fertilizerSettingRepository->save($FertilizerSettingCollection);
-        } catch (Exception $e) {
-            throw  $e;
+        } catch (\DomainException $e) {
+            abort(400,$e);
         }
 
         return FertilizerSettingsDtoFactory::create($fertilizerSetting);

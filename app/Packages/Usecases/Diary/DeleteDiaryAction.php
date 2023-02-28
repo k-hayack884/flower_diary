@@ -49,9 +49,10 @@ class DeleteDiaryAction
                 $this->commentRepository->delete(new CommentId($commentId));
             }
             $this->diaryRepository->delete($diary->getDiaryId());
-        } catch (Exception $e) {
-            throw  $e;
+            $this->transaction->commit();
+        } catch (\DomainException $e) {
             $this->transaction->rollback();
+            abort(400,$e);
         }
     }
 }

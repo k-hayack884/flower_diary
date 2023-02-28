@@ -8,7 +8,6 @@ use App\Packages\Domains\CheckSeat\CheckSeatId;
 use App\Packages\Domains\CheckSeat\CheckSeatRepositoryInterface;
 use App\Packages\Presentations\Requests\CheckSeat\CreateCheckSeatRequest;
 use App\Packages\Usecases\Dto\CheckSeat\CheckSeatDto;
-use App\Packages\Usecases\Fertilizer\FertilizerSettingsDtoFactory;
 
 class CreateCheckSeatAction
 {
@@ -42,8 +41,9 @@ class CreateCheckSeatAction
                 $fertilizerSettingIds
             );
             $this->checkSeatRepository->save($checkSeat);
-        } catch (Exception $e) {
-            throw  $e;
+        } catch (\DomainException $e) {
+            abort(400,$e);
+
         }
 
         return CheckSeatDtoFactory::create($checkSeat);

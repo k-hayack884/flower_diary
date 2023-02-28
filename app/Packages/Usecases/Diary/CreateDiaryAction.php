@@ -47,8 +47,8 @@ class CreateDiaryAction
             );
             $diaryCollection = new DiaryCollection();
             $this->diaryRepository->save($diaryCollection);
-        } catch (Exception $e) {
-            throw  $e;
+        } catch (\DomainException $e) {
+            abort(400,$e);
         }
 
         return DiaryDtoFactory::create($diary);

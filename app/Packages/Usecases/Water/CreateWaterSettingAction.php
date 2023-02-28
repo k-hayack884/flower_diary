@@ -54,8 +54,8 @@ class CreateWaterSettingAction
             );
             $waterSettingCollection = new WaterSettingCollection();
             $this->waterSettingRepository->save($waterSettingCollection);
-        } catch (Exception $e) {
-            throw  $e;
+        } catch (\DomainException $e) {
+            abort(400,$e);
         }
 
         return WaterSettingsDtoFactory::create($waterSettings);
