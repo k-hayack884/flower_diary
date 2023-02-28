@@ -4,6 +4,7 @@ namespace App\Packages\Domains\PlantUnit;
 
 use App\Packages\Domains\CheckSeat\CheckSeat;
 use App\Packages\Domains\CheckSeat\CheckSeatId;
+use App\Packages\Domains\Diary\DiaryCollection;
 use App\Packages\Domains\Diary\DiaryId;
 use App\Packages\Domains\Plant\PlantId;
 use App\Packages\Domains\User\UserId;
@@ -68,6 +69,7 @@ class PlantUnit
             $this->updateDate = $updateDate;
         }
     }
+
 
     /**
      * @return PlantUnitId

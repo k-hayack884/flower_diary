@@ -42,7 +42,7 @@ class CreateCheckSeatAction
                 $fertilizerSettingIds
             );
             $this->checkSeatRepository->save($checkSeat);
-        } catch (CheckSeatException $e) {
+        } catch (Exception $e) {
             throw  $e;
         }
 

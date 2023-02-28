@@ -35,17 +35,7 @@ class GetPlantUnitAction
         $plantUnitId=$getPlantUnitRequest->getId();
         $hitPlantUnit= $this->plantUnitRepository->findById(new PlantUnitId($plantUnitId));
 
-        $plantUnit=new PlantUnit(
-            $hitPlantUnit->getPlantUnitId(),
-            $hitPlantUnit->getPlantId(),
-            $hitPlantUnit->getUserId(),
-            $hitPlantUnit->getCheckSeatId(),
-            $hitPlantUnit->getPlantName(),
-            $hitPlantUnit->getDiaries(),
-            $hitPlantUnit->getCreateDate(),
-            $hitPlantUnit->getUpdateDate(),
-        );
 
-        return PlantUnitDtoFactory::create($plantUnit);
+        return PlantUnitDtoFactory::create($hitPlantUnit);
     }
 }

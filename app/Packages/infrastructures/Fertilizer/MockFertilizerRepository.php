@@ -35,6 +35,14 @@ class MockFertilizerRepository implements FertilizerRepositoryInterface
             new FertilizerAmount(334),
             new FertilizerName('腐葉土'),
         );
+        $this->fertilizerSettings[]=
+            new MonthsFertilizerSetting(
+                new FertilizerSettingId( '887c1092-7a0d-40b0-af6e-30bff5975e31'),
+                [1, 3, 5],
+                new FertilizerNote('とりあえず撒く'),
+                new FertilizerAmount(100),
+                new FertilizerName('ピートモス'),
+            );
     }
 
     /**

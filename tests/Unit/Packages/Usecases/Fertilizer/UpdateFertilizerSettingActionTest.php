@@ -14,8 +14,8 @@ class UpdateFertilizerSettingActionTest extends TestCase
 {
     public function test_指定した肥料設定のレスポンスの型があっていること()
     {
-        $fertilizerSettingId='334c1092-7a0d-40b0-af6e-30bff5975e31';
         $request = UpdateFertilizerSettingRequest::create('fertilizerSetting', 'POST', [
+            'fertilizerSettingId' => '888c1092-7a0d-40b0-af6e-30bff5975e31',
             'fertilizerSettingMonths' => [5, 7, 9],
             'fertilizerSettingNote' => 'ち～ん',
             'fertilizerSettingAmount' => 334,
@@ -31,8 +31,8 @@ class UpdateFertilizerSettingActionTest extends TestCase
             );
         });
 
-        $prevFertilizerSetting = $mockFertilizerSettingRepository->findById(new FertilizerSettingId($fertilizerSettingId));
-        $result = (app()->make(UpdateFertilizerSettingAction::class))->__invoke($request,$fertilizerSettingId);
+        $prevFertilizerSetting = $mockFertilizerSettingRepository->findById(new FertilizerSettingId($request->getId()));
+        $result = (app()->make(UpdateFertilizerSettingAction::class))->__invoke($request);
 
         $this->assertSame([5, 7, 9], $result->fertilizerSetting->months);
         $this->assertSame('ち～ん', $result->fertilizerSetting->note);
@@ -45,6 +45,7 @@ class UpdateFertilizerSettingActionTest extends TestCase
     {
         $fertilizerSettingId = new Uuid();
         $request = UpdateFertilizerSettingRequest::create('fertilizerSetting', 'POST', [
+            'fertilizerSettingId' => $fertilizerSettingId,
             'fertilizerSettingMonths' => [5, 7, 9],
             'fertilizerSettingNote' => 'ち～ん',
             'fertilizerSettingAmount' => 334,
@@ -59,9 +60,9 @@ class UpdateFertilizerSettingActionTest extends TestCase
                 $mockFertilizerSettingRepository
             );
         });
-        $this->expectExceptionMessage('指定した肥料設定IDは見つかりませんでした (id:' .$fertilizerSettingId . ')');
+        $this->expectExceptionMessage('指定した肥料設定IDは見つかりませんでした (id:' .$request->getId() . ')');
         $this->expectException(NotFoundException::class);
         $result = (app()->make(UpdatefertilizerSettingAction::class))->__invoke($request);
-        $fertilizerSetting = $mockFertilizerSettingRepository->findById(new FertilizerSettingId($fertilizerSettingId));
+        $fertilizerSetting = $mockFertilizerSettingRepository->findById(new FertilizerSettingId($request->getId()));
     }
 }

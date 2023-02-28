@@ -14,7 +14,7 @@ class GetCheckSeatActionTest extends TestCase
     public function test_水やり設定のレスポンスの型があっていること()
     {
         $request = GetCheckSeatRequest::create('checkseat', 'GET', [
-                'checkSeatId'=>'777c1092-7a0d-40b0-af6e-30bff5975e31'
+                'checkSeatId'=>'555c1092-7a0d-40b0-af6e-30bff5975e31'
         ]);
         $mockCheckSeatSettingRepository = app()->make(MockCheckSeatRepository::class);
 
@@ -28,6 +28,6 @@ class GetCheckSeatActionTest extends TestCase
         $result = (app()->make(GetCheckSeatAction::class))->__invoke($request);
 
         $this->assertInstanceOf(CheckSeatDto::class, $result);
-        $this->assertSame('777c1092-7a0d-40b0-af6e-30bff5975e31',$result->checkSeatId);
+        $this->assertSame('555c1092-7a0d-40b0-af6e-30bff5975e31',$result->checkSeatId);
     }
 }
