@@ -6,7 +6,7 @@ use App\Packages\infrastructures\Fertilizer\MockFertilizerRepository;
 use App\Packages\Presentations\Requests\Fertilizer\CreateFertilizerSettingRequest;
 use App\Packages\Usecases\Dto\Fertilizer\FertilizerSettingWrapDto;
 use App\Packages\Usecases\Fertilizer\CreateFertilizerSettingAction;
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 
 class CreateFertilizerSettingActionTest extends TestCase
 {

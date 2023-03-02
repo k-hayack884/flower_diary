@@ -3,6 +3,7 @@
 namespace App\Packages\Usecases\PlantUnit;
 
 use App\Packages\Domains\Diary\DiaryCollection;
+use App\Packages\Domains\Diary\DiaryRepositoryInterface;
 use App\Packages\Domains\PlantUnit\PlantUnit;
 use App\Packages\Domains\PlantUnit\PlantUnitId;
 use App\Packages\Domains\PlantUnit\PlantUnitRepositoryInterface;
@@ -23,9 +24,10 @@ class GetPlantUnitAction
     /**
      * @param PlantUnitRepositoryInterface $plantUnitRepository
      */
-    public function __construct(PlantUnitRepositoryInterface $plantUnitRepository)
+    public function __construct(PlantUnitRepositoryInterface $plantUnitRepository,DiaryRepositoryInterface $diaryRepository)
     {
         $this->plantUnitRepository = $plantUnitRepository;
+        $this->diaryRepository=$diaryRepository;
     }
 
     /**
@@ -40,8 +42,8 @@ class GetPlantUnitAction
 
         $plantUnitId = $getPlantUnitRequest->getId();
         $hitPlantUnit = $this->plantUnitRepository->findById(new PlantUnitId($plantUnitId));
-        $repository = new MockDiaryRepository();
-        $diaries = $repository->find();
+
+        $diaries = $this->diaryRepository->find();
         $diaryCollection = new DiaryCollection($diaries);
         $newDate = $diaryCollection->getFirstDate();
         $hitPlantUnit->getNewDate(new Carbon($newDate));
