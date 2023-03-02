@@ -9,8 +9,7 @@ use App\Packages\Presentations\Requests\Diary\GetDiaryRequest;
 use App\Packages\Usecases\Diary\GetDiaryAction;
 use App\Packages\Usecases\Dto\Diary\DiaryDto;
 use App\Packages\Usecases\Dto\Diary\DiaryWrapDto;
-use PHPUnit\Framework\TestCase;
-
+use Tests\TestCase;
 class GetDiaryActionTest extends TestCase
 {
     public function test_日記詳細のレスポンスの型があっていること()

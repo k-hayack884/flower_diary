@@ -6,7 +6,7 @@ use App\Packages\infrastructures\Comment\MockCommentRepository;
 use App\Packages\Presentations\Requests\Comment\CreateCommentRequest;
 use App\Packages\Usecases\Comment\CreateCommentAction;
 use App\Packages\Usecases\Dto\Comment\CommentWrapDto;
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 
 class CreateCommentActionTest extends TestCase
 {

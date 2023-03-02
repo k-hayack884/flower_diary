@@ -7,7 +7,7 @@ use App\Packages\Domains\Comment\CommentId;
 use App\Packages\infrastructures\Comment\MockCommentRepository;
 use App\Packages\Presentations\Requests\Comment\UpdateCommentRequest;
 use App\Packages\Usecases\Comment\UpdateCommentAction;
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 
 class UpdateCommentActionTest extends TestCase
 {

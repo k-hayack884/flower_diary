@@ -14,7 +14,7 @@ use App\Packages\infrastructures\Shared\MockTransaction;
 use App\Packages\infrastructures\Water\MockWaterRepository;
 use App\Packages\Presentations\Requests\PlantUnit\DeletePlantUnitRequest;
 use App\Packages\Usecases\PlantUnit\DeletePlantUnitAction;
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 
 class DeletePlantUnitActionTest extends TestCase
 {

@@ -8,7 +8,7 @@ use App\Packages\infrastructures\Comment\MockCommentRepository;
 use App\Packages\Presentations\Requests\Comment\GetCommentRequest;
 use App\Packages\Usecases\Comment\GetCommentAction;
 use App\Packages\Usecases\Dto\Comment\CommentWrapDto;
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 
 class GetCommentActionTest extends TestCase
 {

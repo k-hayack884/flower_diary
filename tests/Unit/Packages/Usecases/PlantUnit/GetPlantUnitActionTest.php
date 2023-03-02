@@ -7,7 +7,7 @@ use App\Packages\Presentations\Requests\PlantUnit\GetPlantUnitRequest;
 use App\Packages\Usecases\Dto\PlantUnit\PlantUnitDto;
 use App\Packages\Usecases\Dto\PlantUnit\PlantUnitWrapDto;
 use App\Packages\Usecases\PlantUnit\GetPlantUnitAction;
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 
 class GetPlantUnitActionTest extends TestCase
 {

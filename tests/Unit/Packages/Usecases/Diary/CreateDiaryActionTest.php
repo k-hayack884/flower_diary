@@ -7,7 +7,7 @@ use App\Packages\Presentations\Requests\Diary\CreateDiaryRequest;
 use App\Packages\Usecases\Diary\CreateDiaryAction;
 use App\Packages\Usecases\Dto\Diary\DiaryDto;
 use App\Packages\Usecases\Dto\Diary\DiaryWrapDto;
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 
 class CreateDiaryActionTest extends TestCase
 {
