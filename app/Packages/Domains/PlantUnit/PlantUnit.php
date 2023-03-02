@@ -70,7 +70,10 @@ class PlantUnit
         }
     }
 
-
+    public function UpdateDate(Carbon $createDate):void
+    {
+        $this->updateDate=$createDate;
+    }
     /**
      * @return PlantUnitId
      */
@@ -133,5 +136,9 @@ class PlantUnit
     public function getUpdateDate(): Carbon
     {
         return $this->updateDate;
+    }
+    public function getNewDate(Carbon $newDate):void
+    {
+        $this->updateDate=$newDate;
     }
 }

@@ -11,8 +11,7 @@ use App\Packages\infrastructures\Shared\MockTransaction;
 use App\Packages\infrastructures\Shared\Transaction;
 use App\Packages\Presentations\Requests\Diary\DeleteDiaryRequest;
 use App\Packages\Usecases\Diary\DeleteDiaryAction;
-use PHPUnit\Framework\TestCase;
-
+use Tests\TestCase;
 class DeleteDiaryActionTest extends TestCase
 {
     public function test_指定した日記が削除されていること()

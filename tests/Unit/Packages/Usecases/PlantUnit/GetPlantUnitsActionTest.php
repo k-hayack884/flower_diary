@@ -6,7 +6,7 @@ use App\Packages\infrastructures\PlantUnit\MockPlantUnitRepository;
 use App\Packages\Presentations\Requests\PlantUnit\GetPlantUnitsRequest;
 use App\Packages\Usecases\Dto\PlantUnit\PlantUnitsWrapDto;
 use App\Packages\Usecases\PlantUnit\GetPlantUnitsAction;
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 
 class GetPlantUnitsActionTest extends TestCase
 {

@@ -2,6 +2,7 @@
 
 namespace App\Packages\Usecases\Comment;
 
+use App\Packages\Domains\Comment\CommentCollection;
 use App\Packages\Domains\Comment\CommentRepositoryInterface;
 use App\Packages\Presentations\Requests\Comment\GetCommentsRequest;
 use App\Packages\Usecases\Dto\Comment\CommentDto;
@@ -32,10 +33,11 @@ class GetCommentsAction
     {
         Log::info(__METHOD__, ['開始']);
 
-        $commentCollection = $this->commentRepository->find();
+        $comments = $this->commentRepository->find();
+        $commentCollection=new CommentCollection($comments);
         $commentDtos = [];
 
-        foreach ($commentCollection as $comment) {
+        foreach ($commentCollection->toArray() as $comment) {
             $commentDtos[] =
                 new CommentDto(
                     $comment->getCommentId()->getId(),

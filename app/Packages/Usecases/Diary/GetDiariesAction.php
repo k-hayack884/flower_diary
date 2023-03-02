@@ -2,6 +2,7 @@
 
 namespace App\Packages\Usecases\Diary;
 
+use App\Packages\Domains\Diary\DiaryCollection;
 use App\Packages\Domains\Diary\DiaryRepositoryInterface;
 use App\Packages\Presentations\Requests\Diary\GetDiariesRequest;
 use App\Packages\Usecases\Dto\Diary\DiariesWrapDto;
@@ -32,10 +33,12 @@ class GetDiariesAction
     {
         Log::info(__METHOD__, ['開始']);
 
-        $diaryCollection = $this->DiaryRepository->find();
+        $diaries= $this->DiaryRepository->find();
+        $diaryCollection=new DiaryCollection($diaries);
+
         $diaryDtos = [];
 
-        foreach ($diaryCollection as $diary) {
+        foreach ($diaryCollection->toArray() as $diary) {
             $diaryDtos[] =
                 new DiaryDto(
                     $diary->getDiaryId()->getId(),

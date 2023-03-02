@@ -8,7 +8,7 @@ use App\Packages\Domains\Shared\Uuid;
 use App\Packages\infrastructures\Comment\MockCommentRepository;
 use App\Packages\Presentations\Requests\Comment\DeleteCommentRequest;
 use App\Packages\Usecases\Comment\DeleteCommentAction;
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 
 class DeleteCommentActionTest extends TestCase
 {

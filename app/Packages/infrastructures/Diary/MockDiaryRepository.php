@@ -8,6 +8,7 @@ use App\Packages\Domains\Diary\DiaryCollection;
 use App\Packages\Domains\Diary\DiaryContent;
 use App\Packages\Domains\Diary\DiaryId;
 use App\Packages\Domains\Diary\DiaryRepositoryInterface;
+use Carbon\Carbon;
 
 class MockDiaryRepository implements DiaryRepositoryInterface
 {
@@ -26,25 +27,31 @@ class MockDiaryRepository implements DiaryRepositoryInterface
             new Diary(
                 new DiaryId('333c1092-7a0d-40b0-af6e-30bff5975e31'),
                 new DiaryContent('とてもいい'),
-                $commentIdA
+                $commentIdA,
+              new Carbon('2023-01-28 14:21:00')
             );
         $diaryB=
             new Diary(
                 new DiaryId('337c1092-7a0d-40b0-af6e-30bff5975e31'),
                 new DiaryContent('ほげえ'),
-                $commentIdB
+                $commentIdB,
+                new Carbon('2023-02-02 18:22:35')
+
             );
         $diaryC=
             new Diary(
                 new DiaryId('335c1092-7a0d-40b0-af6e-30bff5975e31'),
                 new DiaryContent('あかん'),
-                $commentIdC
+                $commentIdC,
+                new Carbon('2023-01-14 12:24:00')
             );
         $diaryD=
             new Diary(
                 new DiaryId('336c1092-7a0d-40b0-af6e-30bff5975e31'),
                 new DiaryContent('アイイイイイイイ！'),
-                $commentIdD
+                $commentIdD,
+                new Carbon('2023-01-28 03:34:00')
+
             );
         $this->diaries[]=$diaryA;
         $this->diaries[]=$diaryB;
@@ -98,6 +105,5 @@ class MockDiaryRepository implements DiaryRepositoryInterface
         $deleteSetting = $this->findById($diaryId);
         $index = array_search($deleteSetting, $this->diaries);
         unset($this->diaries[$index]);
-
     }
 }

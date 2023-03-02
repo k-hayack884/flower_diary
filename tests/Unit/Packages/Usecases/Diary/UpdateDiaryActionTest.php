@@ -8,8 +8,7 @@ use App\Packages\Domains\Shared\Uuid;
 use App\Packages\infrastructures\Diary\MockDiaryRepository;
 use App\Packages\Presentations\Requests\Diary\UpdateDiaryRequest;
 use App\Packages\Usecases\Diary\UpdateDiaryAction;
-use PHPUnit\Framework\TestCase;
-
+use Tests\TestCase;
 class UpdateDiaryActionTest extends TestCase
 {
     public function test_変更をした日記のレスポンスの型があっていること()

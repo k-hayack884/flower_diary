@@ -3,6 +3,7 @@
 namespace App\Packages\Domains\Diary;
 
 use App\Exceptions\NotFoundException;
+use Carbon\Carbon;
 use Closure;
 use Illuminate\Support\Collection;
 use IteratorAggregate;
@@ -42,6 +43,14 @@ final class DiaryCollection
         $this->diaries=$sorted;
     }
 
+    /**
+     * @return Diary
+     */
+
+    public function getFirstDate():Carbon
+    {
+       return  $this->diaries->first()->getCreateDate();
+    }
     /**
      * @param DiaryId $diaryId
      * @return Diary

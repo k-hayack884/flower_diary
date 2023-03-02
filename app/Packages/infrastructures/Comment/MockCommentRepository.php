@@ -9,6 +9,7 @@ use App\Packages\Domains\Comment\CommentContent;
 use App\Packages\Domains\Comment\CommentId;
 use App\Packages\Domains\Comment\CommentRepositoryInterface;
 use App\Packages\Domains\User\UserId;
+use Carbon\Carbon;
 
 class MockCommentRepository implements CommentRepositoryInterface
 {
@@ -20,18 +21,21 @@ public function __construct()
             new CommentId('666c1092-7a0d-40b0-af6e-30bff5975e31'),
             new UserId('222c1092-7a0d-40b0-af6e-30bff5975e31'),
             new CommentContent('とてもいい'),
+            new Carbon('2023-01-28 14:21:00')
         );
     $commentB=
         new Comment(
             new CommentId('665c1092-7a0d-40b0-af6e-30bff5975e31'),
             new UserId('224c1092-7a0d-40b0-af6e-30bff5975e31'),
             new CommentContent('ほげえ'),
+            new Carbon('2023-02-22 14:08:00')
         );
     $commentC=
         new Comment(
             new CommentId('667c1092-7a0d-40b0-af6e-30bff5975e31'),
             new UserId('224c1092-7a0d-40b0-af6e-30bff5975e31'),
             new CommentContent('ウェーイ'),
+            new Carbon('2023-01-21 08:21:00')
         );
     $this->comments[]=$commentA;
     $this->comments[]=$commentB;
