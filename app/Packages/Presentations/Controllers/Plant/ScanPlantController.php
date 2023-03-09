@@ -13,5 +13,4 @@ class ScanPlantController
             'message' => $hoge
         ]); //200が入ってる
     }
-
 }
