@@ -2,6 +2,7 @@
 
 use App\Packages\Presentations\Controllers\Comment\CommentController;
 use App\Packages\Presentations\Controllers\Diary\DiaryController;
+use App\Packages\Presentations\Controllers\Plant\ScanPlantController;
 use App\Packages\Presentations\Controllers\PlantUnit\PlantUnitController;
 use App\Packages\Presentations\Controllers\Water\WaterSettingController;
 use App\Packages\Presentations\Controllers\Fertilizer\FertilizerSettingController;
@@ -25,6 +26,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+//植物のスキャン
+Route::post(
+    'scanPlant',
+    [ScanPlantController::class,'scan']
+);
 //水の設定のルート
 Route::get(
     'waterSetting',

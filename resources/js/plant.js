@@ -94,12 +94,12 @@ const app = new Vue({
 
             });
             classifier.classify(are,async (err, results) => {
-
-
+                axios.get('http://localhost:51177/api/scanPlant',this.myPlant)
+                    .then(res =>  {}).catch( error => { console.log(error); });
                 console.log(results[0].label)
 
                 // setTimeout(this.loop(classifier), 1000);
-            });
+            })
 
 
         },
