@@ -3,7 +3,7 @@
 namespace App\Packages\Usecases\Plant;
 
 use App\Packages\Domains\Plant\PlantRepositoryInterface;
-use Illuminate\Support\Facades\Request;
+use App\Packages\Usecases\Dto\Plant\PlantWrapDto;
 
 class ScanPlantAction
 {
@@ -15,11 +15,10 @@ class ScanPlantAction
     }
 
     public function __invoke(
-       string $plantLabel,
-    ){
-$plant=$this->plantRepository->findByName($plantLabel);
-        return response()->json([
-            'message' => $plant
-        ]);
+        string $plantLabel,
+    ): PlantWrapDto
+    {
+        $hitPlant = $this->plantRepository->findByName($plantLabel);
+        return PlantDtoFactory::create($hitPlant);
     }
 }
