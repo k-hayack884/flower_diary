@@ -6,12 +6,14 @@ use App\Packages\Domains\CheckSeat\CheckSeatRepositoryInterface;
 use App\Packages\Domains\Comment\CommentRepositoryInterface;
 use App\Packages\Domains\Diary\DiaryRepositoryInterface;
 use App\Packages\Domains\Fertilizer\FertilizerRepositoryInterface;
+use App\Packages\Domains\Plant\PlantRepositoryInterface;
 use App\Packages\Domains\PlantUnit\PlantUnitRepositoryInterface;
 use App\Packages\Domains\Water\WaterSettingRepositoryInterface;
 use App\Packages\infrastructures\CheckSeat\MockCheckSeatRepository;
 use App\Packages\infrastructures\Comment\MockCommentRepository;
 use App\Packages\infrastructures\Diary\MockDiaryRepository;
 use App\Packages\infrastructures\Fertilizer\MockFertilizerRepository;
+use App\Packages\infrastructures\Plant\PlantRepository;
 use App\Packages\infrastructures\PlantUnit\MockPlantUnitRepository;
 use App\Packages\infrastructures\Water\MockWaterRepository;
 
@@ -49,6 +51,10 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             PlantUnitRepositoryInterface::class,
             MockPlantUnitRepository::class
+        );
+        $this->app->bind(
+            PlantRepositoryInterface::class,
+            PlantRepository::class
         );
     }
 

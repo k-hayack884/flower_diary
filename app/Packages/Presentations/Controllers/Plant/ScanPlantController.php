@@ -3,14 +3,17 @@
 namespace App\Packages\Presentations\Controllers\Plant;
 
 
+use App\Http\Controllers\Controller;
+use App\Packages\Usecases\Plant\ScanPlantAction;
 use Illuminate\Http\Request;
 
-class ScanPlantController
+class ScanPlantController extends Controller
 {
-    public function scan(Request $request){
-        $hoge=$request->input('plantLabel');
-        return response()->json([
-            'message' => $hoge
-        ]); //200が入ってる
+    public function scan(
+        Request         $request,
+        ScanPlantAction $action):array
+    {
+        $request = $request->input('plantLabel');
+        return (array)$action($request);
     }
 }
