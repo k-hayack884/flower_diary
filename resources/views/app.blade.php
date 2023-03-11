@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+{{--<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">--}}
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -17,85 +17,87 @@
     @vite(['resources/js/app.js', "resources/js/Pages/{$page['component']}.vue"])
     @inertiaHead
 </head>
-<body class="font-sans antialiased">
-<div class="container text-center p-3 mb-2 bg-dark text-white" id="app">
-    <!-- タイトル行 -->
-    <div class="row my-3">
-        <div class="col-sm-6 mx-auto"><h1>植物判定アプリ</h1></div>
-    </div>
+{{--<body class="font-sans antialiased">--}}
 
-    <div class="info">
-        <p>
-            育て方を知りたい植物を<br>カメラに写して数秒待ってください<br>
-        </p>
-    </div>
+{{--<div class="container text-center p-3 mb-2 bg-dark text-white" id="app">--}}
+{{--    <!-- タイトル行 -->--}}
+{{--    <Welcome />--}}
+{{--    <div class="row my-3">--}}
+{{--        <div class="col-sm-6 mx-auto"><h1>植物判定アプリ</h1></div>--}}
+{{--    </div>--}}
 
-    <!--今日を含め3日間の天気を表示 -->
-    <div class="col-sm-6 mx-auto" id="wether">
-        <dl v-for="obj01 in object">
-            @{{ obj01.date }}：@{{ obj01.weather }}<br>
-            @{{ obj01.min_temperature }}℃ ~ @{{ obj01.max_temperature }}℃<br><br>
-            <img v-bind:src=obj01.image>
-        </dl>
-    </div>
+{{--    <div class="info">--}}
+{{--        <p>--}}
+{{--            育て方を知りたい植物を<br>カメラに写して数秒待ってください<br>--}}
+{{--        </p>--}}
+{{--    </div>--}}
 
-    <!--   植物判定 -->
-    <div class="col-sm-6 mx-auto" id="judge">
-        <div class="input-group-append">
-            <button @click="startCamera" 　class="btn btn-outline-success" type="button" id="button-addon2">
-                @{{ recogButton }}
-            </button>
-        </div>
-    </div>
-    <br>
-    <div>
-        <video id="webcam" width="160" height="160" muted autoplay playsinline></video>
-    </div>
-    <div>
-        <p id="error" v-show="error">@{{ error }}</p>
-        <label>
-            <p>クリックで画像を変更できます。</p>
-            <img :src="avatar" alt="Avatar" class="image" id="are">
-            <div>
-                <input
-                    type="file"
-                    id="avatar_name"
-                    accept="image/jpeg, image/png"
-                    @change="onImageChange"
-                />
-            </div>
-        </label>
-        <button @click="startImage()">アップロード</button>
-        <div v-if="getPlant">
-            <p>@{{ message }}</p>
-                名前：@{{plantName}}　id：@{{plantId}}
-                <button @click="registerPlant"　class="btn btn-outline-success" type="button" id="button-addon2">
-                    @{{ registerButton }}
-                </button>
+{{--    <!--今日を含め3日間の天気を表示 -->--}}
+{{--    <div class="col-sm-6 mx-auto" id="wether">--}}
+{{--        <dl v-for="obj01 in object">--}}
+{{--            @{{ obj01.date }}：@{{ obj01.weather }}<br>--}}
+{{--            @{{ obj01.min_temperature }}℃ ~ @{{ obj01.max_temperature }}℃<br><br>--}}
+{{--            <img v-bind:src=obj01.image>--}}
+{{--        </dl>--}}
+{{--    </div>--}}
+
+{{--    <!--   植物判定 -->--}}
+{{--    <div class="col-sm-6 mx-auto" id="judge">--}}
+{{--        <div class="input-group-append">--}}
+{{--            <button @click="startCamera" 　class="btn btn-outline-success" type="button" id="button-addon2">--}}
+{{--                @{{ recogButton }}--}}
+{{--            </button>--}}
+{{--        </div>--}}
+{{--    </div>--}}
+{{--    <br>--}}
+{{--    <div>--}}
+{{--        <video id="webcam" width="160" height="160" muted autoplay playsinline></video>--}}
+{{--    </div>--}}
+{{--    <div>--}}
+{{--        <p id="error" v-show="error">@{{ error }}</p>--}}
+{{--        <label>--}}
+{{--            <p>クリックで画像を変更できます。</p>--}}
+{{--            <img :src="avatar" alt="Avatar" class="image" id="are">--}}
+{{--            <div>--}}
+{{--                <input--}}
+{{--                    type="file"--}}
+{{--                    id="avatar_name"--}}
+{{--                    accept="image/jpeg, image/png"--}}
+{{--                    @change="onImageChange"--}}
+{{--                />--}}
+{{--            </div>--}}
+{{--        </label>--}}
+{{--        <button @click="startImage()">アップロード</button>--}}
+{{--        <div v-if="getPlant">--}}
+{{--            <p>@{{ message }}</p>--}}
+{{--                名前：@{{plantName}}　id：@{{plantId}}--}}
+{{--                <button @click="registerPlant"　class="btn btn-outline-success" type="button" id="button-addon2">--}}
+{{--                    @{{ registerButton }}--}}
+{{--                </button>--}}
 
 
-        </div>
-    </div>
+{{--        </div>--}}
+{{--    </div>--}}
 
-    <div class="col-sm-6 mx-auto" id="plant-name">
-        <dl v-for="obj02 in myPlant">
-            <h5>@{{ obj02.name }}</h5><br>
-        </dl>
-    </div>
+{{--    <div class="col-sm-6 mx-auto" id="plant-name">--}}
+{{--        <dl v-for="obj02 in myPlant">--}}
+{{--            <h5>@{{ obj02.name }}</h5><br>--}}
+{{--        </dl>--}}
+{{--    </div>--}}
 
-    <div class="col-sm-6 mx-auto" id="plant-info">
-        <dl v-for="obj03 in myPlant">
-            ＜越冬温度＞<br>
-            @{{ obj03.temperature }}<br><br>
-            ＜水＞<br>
-            @{{ obj03.water }}<br><br>
-            ＜光＞<br>
-            @{{ obj03.light }}<br><br>
-            ＜コメント＞<br>
-            @{{ obj03.comment }}<br>
-        </dl>
-    </div>
-</div>
+{{--    <div class="col-sm-6 mx-auto" id="plant-info">--}}
+{{--        <dl v-for="obj03 in myPlant">--}}
+{{--            ＜越冬温度＞<br>--}}
+{{--            @{{ obj03.temperature }}<br><br>--}}
+{{--            ＜水＞<br>--}}
+{{--            @{{ obj03.water }}<br><br>--}}
+{{--            ＜光＞<br>--}}
+{{--            @{{ obj03.light }}<br><br>--}}
+{{--            ＜コメント＞<br>--}}
+{{--            @{{ obj03.comment }}<br>--}}
+{{--        </dl>--}}
+{{--    </div>--}}
+{{--</div>--}}
 @inertia
 </body>
 <script src='https://unpkg.com/ml5@latest/dist/ml5.min.js'></script>
@@ -341,10 +343,7 @@ async registerPlant(){
                     .then(image => this.avatar = image)
                     .catch(error => this.setError(error, '画像のアップロードに失敗しました。'))
             },
-
-
         },
-
     });
 </script>
 </html>
