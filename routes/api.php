@@ -31,6 +31,7 @@ Route::post(
     'scanPlant',
     [ScanPlantController::class,'scan']
 );
+
 //水の設定のルート
 Route::get(
     'waterSetting',
