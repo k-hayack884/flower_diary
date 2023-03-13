@@ -2,7 +2,10 @@
     "private": true,
     "scripts": {
         "dev": "vite  --port 8000 --host 0.0.0.0",
-        "build": "vite build"
+        "build": "vite build",
+        "watch": "cross-env NODE_ENV=development webpack --watch --progress --hide-modules",
+        "hot": "cross-env NODE_ENV=development webpack-dev-server --inline --hot",
+        "production": "cross-env NODE_ENV=production webpack --progress --hide-modules"
     },
     "devDependencies": {
         "@inertiajs/inertia": "^0.11.0",
@@ -12,7 +15,7 @@
         "@tailwindcss/typography": "^0.5.2",
         "@vitejs/plugin-vue": "^4.0.0",
         "autoprefixer": "^10.4.7",
-        "axios": "^1.1.2",
+        "axios": "^1.3.4",
         "laravel-vite-plugin": "^0.7.2",
         "lodash": "^4.17.19",
         "postcss": "^8.4.14",
