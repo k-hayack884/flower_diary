@@ -135,4 +135,5 @@ import ApplicationLogo from '@/Components/ApplicationLogo.vue';
             </div>
         </div>
     </div>
+    <h1>ほげえええええええええええ</h1>
 </template>
