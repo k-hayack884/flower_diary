@@ -55,7 +55,7 @@ defineProps({
         <div class="col-sm-6 mx-auto" id="judge">
             <div class="input-group-append">
                 <button @click="startCamera" class="btn btn-outline-success" type="button" id="button-addon2">
-                    @{{ recogButton }}
+                    {{ recogButton }}
                 </button>
             </div>
         </div>
@@ -64,7 +64,7 @@ defineProps({
             <video id="webcam" width="160" height="160" muted autoplay playsinline></video>
         </div>
         <div>
-            <p id="error" v-show="error">@{{ error }}</p>
+            <p id="error" v-show="error">{{ error }}</p>
             <label>
                 <p>クリックで画像を変更できます。</p>
                 <img :src="avatar" alt="Avatar" class="image" id="are">
@@ -79,10 +79,10 @@ defineProps({
             </label>
             <button @click="startImage()">アップロード</button>
             <div v-if="getPlant">
-                <p>@{{ message }}</p>
-                名前：@{{ plantName }} id：@{{ plantId }}
+                <p>{{ message }}</p>
+                名前：{{ plantName }} id：{{ plantId }}
                 <button @click="registerPlant" class="btn btn-outline-success" type="button" id="button-addon2">
-                    @{{ registerButton }}
+                    {{ registerButton }}
                 </button>
             </div>
         </div>
