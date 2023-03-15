@@ -16,7 +16,15 @@ CreatePlantUnitRequest extends BaseRequest
             'plantUnitUserId' => [
                 'required'
             ],
+            'plantUnitPlantId' => [
+                'required'
+            ],
         ];
+    }
+
+    public function getPlantId():string
+    {
+        return $this->input('plantId');
     }
 
     /**

@@ -40,7 +40,6 @@ class CreatePlantUnitAction
     ): PlantUnitWrapDto
     {
         Log::info(__METHOD__, ['開始']);
-
         try {
             $plantUnitId = new PlantUnitId();
             $plantId = new PlantId($createPlantUnitRequest->getPlantUnitPlantId());
@@ -59,6 +58,7 @@ class CreatePlantUnitAction
                 $plantDiaries
             );
             $plantUnitCollection = new PlantUnitCollection();
+            $plantUnitCollection->addUnit($plantUnit);
             $this->plantUnitRepository->save($plantUnitCollection);
         } catch (\DomainException $e) {
             Log::error(__METHOD__, ['エラー']);
