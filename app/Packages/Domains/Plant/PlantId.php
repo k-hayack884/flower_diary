@@ -13,9 +13,9 @@ class PlantId
     private string $value;
 
     /**
-     * @param string|null $value
+     * @param string $value
      */
-    public function __construct(string|null $value = null)
+    public function __construct(string $value)
     {
         $this->value = $value;
     }

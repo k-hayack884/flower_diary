@@ -3,10 +3,15 @@
 namespace App\Packages\infrastructures\PlantUnit;
 
 use App\Models\Plant;
+use App\Packages\Domains\CheckSeat\CheckSeatId;
+use App\Packages\Domains\Plant\PlantId;
+use App\Packages\Domains\PlantUnit\plantName;
 use App\Packages\Domains\PlantUnit\PlantUnit;
 use App\Packages\Domains\PlantUnit\PlantUnitCollection;
 use App\Packages\Domains\PlantUnit\PlantUnitId;
 use App\Packages\Domains\PlantUnit\PlantUnitRepositoryInterface;
+use App\Packages\Domains\PlantUnit\UserId;
+use Carbon\Carbon;
 
 class PlantUnitRepository implements PlantUnitRepositoryInterface
 {
@@ -19,6 +24,23 @@ class PlantUnitRepository implements PlantUnitRepositoryInterface
 
     public function findById(PlantUnitId $plantUnitId): PlantUnit
     {
+        $plantUnit= \App\Models\PlantUnit::where('plant_unit_id',$plantUnitId->getId())->first();
+
+        $diaries=json_decode($plantUnit->diaries);
+        return new PlantUnit(
+            new PlantUnitId($plantUnit->plant_unit_id),
+            new PlantId($plantUnit->plant_id),
+            new \App\Packages\Domains\User\UserId($plantUnit->user_Id),
+            new CheckSeatId( $plantUnit->check_seat_id),
+           new plantName( $plantUnit->plant_name),
+            $diaries,
+            new Carbon($plantUnit->create_date),
+            new Carbon($plantUnit->update_date),
+        );
+    }
+    public function findByUser(UserId $userId): array
+    {
+        // TODO: Implement findByUser() method.
         return \App\Models\PlantUnit::all();
 
     }
