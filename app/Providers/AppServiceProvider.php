@@ -15,6 +15,7 @@ use App\Packages\infrastructures\Diary\MockDiaryRepository;
 use App\Packages\infrastructures\Fertilizer\MockFertilizerRepository;
 use App\Packages\infrastructures\Plant\PlantRepository;
 use App\Packages\infrastructures\PlantUnit\MockPlantUnitRepository;
+use App\Packages\infrastructures\PlantUnit\PlantUnitRepository;
 use App\Packages\infrastructures\Water\MockWaterRepository;
 
 use Illuminate\Support\ServiceProvider;
@@ -28,10 +29,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-       $this->app->bind(
-           WaterSettingRepositoryInterface::class,
-           MockWaterRepository::class
-       );
+        $this->app->bind(
+            WaterSettingRepositoryInterface::class,
+            MockWaterRepository::class
+        );
         $this->app->bind(
             FertilizerRepositoryInterface::class,
             MockFertilizerRepository::class
@@ -50,7 +51,8 @@ class AppServiceProvider extends ServiceProvider
         );
         $this->app->bind(
             PlantUnitRepositoryInterface::class,
-            MockPlantUnitRepository::class
+            PlantUnitRepository::class
+//            MockPlantUnitRepository::class
         );
         $this->app->bind(
             PlantRepositoryInterface::class,

@@ -11,14 +11,13 @@ class PlantId
      * @var Uuid
      */
     private string $value;
-    private Uuid $uuid;
 
     /**
-     * @param string|null $value
+     * @param string $value
      */
-    public function __construct(string|null $value = null)
+    public function __construct(string $value)
     {
-        $this->uuid = new Uuid($value);
+        $this->value = $value;
     }
 
     /**
@@ -26,7 +25,7 @@ class PlantId
      */
     public function getId(): ?string
     {
-        return $this->uuid->getValue();
+        return $this->value;
     }
 
     /**

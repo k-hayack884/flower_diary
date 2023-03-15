@@ -3,7 +3,6 @@
 namespace App\Packages\infrastructures\Plant;
 
 use App\Packages\Domains\Plant\PlantData;
-use App\Packages\Domains\Plant\PlantId;
 use App\Packages\Domains\Plant\PlantRepositoryInterface;
 use App\Models\Plant;
 class PlantRepository implements PlantRepositoryInterface
