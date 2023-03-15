@@ -26,19 +26,17 @@ class PlantUnitRepository implements PlantUnitRepositoryInterface
     public function save(PlantUnitCollection $plantUnit): void
     {
         $collectionArray = $plantUnit->toArray();
-
-        foreach ($collectionArray as $plant){
-
-$diaryJson=json_encode($plant->getDiaries());
+        foreach ($collectionArray as $plant) {
+            $diaryJson = json_encode($plant->getDiaries());
             \App\Models\PlantUnit::create([
-                'plant_unit_id'=>$plant->getPlantUnitId()->getId(),
-                'user_id'=>$plant->getUserId()->getId(),
-                'plant_id'=>$plant->getPlantId()->getId(),
-                'check_seat_id'=>$plant->getCheckSeatId()->getId(),
-                'plant_name'=>$plant->getPlantName()->getValue(),
-                'diaries'=>$diaryJson,
-                'create_date'=>$plant->getCreateDate()->format('Y/m/d'),
-                'update_date'=>$plant->getUpdateDate()->format('Y/m/d'),
+                'plant_unit_id' => $plant->getPlantUnitId()->getId(),
+                'user_id' => $plant->getUserId()->getId(),
+                'plant_id' => $plant->getPlantId()->getId(),
+                'check_seat_id' => $plant->getCheckSeatId()->getId(),
+                'plant_name' => $plant->getPlantName()->getValue(),
+                'diaries' => $diaryJson,
+                'create_date' => $plant->getCreateDate()->format('Y/m/d'),
+                'update_date' => $plant->getUpdateDate()->format('Y/m/d'),
             ]);
         }
     }
