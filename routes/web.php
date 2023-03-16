@@ -24,6 +24,10 @@ Route::get('/', function () {
     ]);
 });
 
+Route::get('/adminComment', function () {
+    return Inertia::render('Comment', [
+    ]);
+});
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
