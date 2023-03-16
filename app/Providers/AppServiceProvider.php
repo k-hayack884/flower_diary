@@ -10,6 +10,7 @@ use App\Packages\Domains\Plant\PlantRepositoryInterface;
 use App\Packages\Domains\PlantUnit\PlantUnitRepositoryInterface;
 use App\Packages\Domains\Water\WaterSettingRepositoryInterface;
 use App\Packages\infrastructures\CheckSeat\MockCheckSeatRepository;
+use App\Packages\infrastructures\Comment\CommentRepository;
 use App\Packages\infrastructures\Comment\MockCommentRepository;
 use App\Packages\infrastructures\Diary\MockDiaryRepository;
 use App\Packages\infrastructures\Fertilizer\MockFertilizerRepository;
@@ -47,7 +48,8 @@ class AppServiceProvider extends ServiceProvider
         );
         $this->app->bind(
             CommentRepositoryInterface::class,
-            MockCommentRepository::class
+            CommentRepository::class
+//            MockCommentRepository::class
         );
         $this->app->bind(
             PlantUnitRepositoryInterface::class,
