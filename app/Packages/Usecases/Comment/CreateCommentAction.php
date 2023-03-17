@@ -37,7 +37,6 @@ class CreateCommentAction
         $userId = $createCommentRequest->getUserId();
         $commentContent = $createCommentRequest->getCommentContent();
 
-
         try {
             $commentId = new CommentId();
             $userId = new UserId($userId);
@@ -48,6 +47,7 @@ class CreateCommentAction
                 $commentContent
             );
             $commentCollection = new CommentCollection();
+            $commentCollection->addComment($comment);
             $this->commentRepository->save($commentCollection);
         } catch (\DomainException $e) {
             Log::error(__METHOD__, ['エラー']);

@@ -7,7 +7,17 @@ export default defineConfig({
         laravel({
             input: 'resources/js/app.js',
             refresh: true,
+            server: {
+                host: true,
+                hmr: {
+                    host: 'localhost',
+                },
+                watch: {
+                    usePolling: true,
+                },
+            },
         }),
+
         vue({
             template: {
                 transformAssetUrls: {
@@ -15,6 +25,16 @@ export default defineConfig({
                     includeAbsolute: false,
                 },
             },
+            server: {
+                host: true,
+                hmr: {
+                    host: 'localhost',
+                },
+                watch: {
+                    usePolling: true,
+                },
+            },
         }),
+
     ],
 });
