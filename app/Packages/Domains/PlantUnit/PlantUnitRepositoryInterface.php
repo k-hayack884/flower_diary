@@ -2,6 +2,8 @@
 
 namespace App\Packages\Domains\PlantUnit;
 
+use App\Packages\Domains\User\UserId;
+
 interface PlantUnitRepositoryInterface
 {
     public function find():array;

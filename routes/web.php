@@ -37,6 +37,10 @@ Route::middleware([
         return Inertia::render('Comment', [
         ]);
     });
+    Route::get('/adminDiary', function () {
+        return Inertia::render('Diary', [
+        ]);
+    });
 });
 Route::prefix('admin')
     ->middleware('can:admin')->group(function(){
