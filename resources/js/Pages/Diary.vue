@@ -28,14 +28,14 @@ export default {
             });
         },
         async read() {
-            axios.get('http://localhost:51111/api/comment/336c1092-7a0d-40b0-af6e-30bff5975e31', {}).then(res => {
+            axios.get('http://localhost:51111/api/diary/333c1092-7a0d-40b0-af6e-30bff5975e31', {}).then(res => {
                 console.log('とうろくせいこう')
             }).catch(error => {
                 console.log(error);
             });
         },
         async update() {
-            axios.post('http://localhost:51111/api/comment/336c1092-7a0d-40b0-af6e-30bff5975e31',
+            axios.post('http://localhost:51111/api/diary/333c1092-7a0d-40b0-af6e-30bff5975e31',
                 {
                     diaryContent: '書き換え完了',
                 },
@@ -51,7 +51,7 @@ export default {
             });
         },
         async delete_suru() {
-            axios.post('http://localhost:51111/api/comment/336c1092-7a0d-40b0-af6e-30bff5975e31',
+            axios.post('http://localhost:51111/api/diary/333c1092-7a0d-40b0-af6e-30bff5975e31',
                 {
                 },
                 {

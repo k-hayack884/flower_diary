@@ -2,10 +2,13 @@
 
 namespace App\Packages\infrastructures\Diary;
 
+use App\Exceptions\NotFoundException;
 use App\Packages\Domains\Diary\Diary;
 use App\Packages\Domains\Diary\DiaryCollection;
+use App\Packages\Domains\Diary\DiaryContent;
 use App\Packages\Domains\Diary\DiaryId;
 use App\Packages\Domains\Diary\DiaryRepositoryInterface;
+use Carbon\Carbon;
 
 class DiaryRepository implements DiaryRepositoryInterface
 {
@@ -18,7 +21,16 @@ class DiaryRepository implements DiaryRepositoryInterface
 
     public function findById(DiaryId $diaryId): Diary
     {
-        return \App\Models\Diary::all();
+        $diary = \App\Models\Diary::where('diary_id', $diaryId->getId())->first();
+        if ($diary === null) {
+            throw new NotFoundException('指定した日記IDを見つけることができませんでした');
+        }
+        return new Diary(
+            new DiaryId($diary->diary_id),
+            new DiaryContent($diary->diary_content),
+            json_decode($diary->comments),
+            new Carbon($diary->create_date),
+        );
     }
 
     public function save(DiaryCollection $diary): void
@@ -38,6 +50,11 @@ class DiaryRepository implements DiaryRepositoryInterface
 
     public function delete(DiaryId $diaryId): void
     {
-        // TODO: Implement delete() method.
+        $diary = \App\Models\Diary::where('diary_id', $diaryId->getId())->first();
+
+        if ($diary === null) {
+            throw new NotFoundException('指定した日記IDを見つけることができませんでした');
+        }
+        $diary->delete();
     }
 }

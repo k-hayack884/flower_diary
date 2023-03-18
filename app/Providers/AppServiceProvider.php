@@ -18,6 +18,8 @@ use App\Packages\infrastructures\Fertilizer\MockFertilizerRepository;
 use App\Packages\infrastructures\Plant\PlantRepository;
 use App\Packages\infrastructures\PlantUnit\MockPlantUnitRepository;
 use App\Packages\infrastructures\PlantUnit\PlantUnitRepository;
+use App\Packages\infrastructures\Shared\Transaction;
+use App\Packages\infrastructures\Shared\TransactionInterface;
 use App\Packages\infrastructures\Water\MockWaterRepository;
 
 use Illuminate\Support\ServiceProvider;
@@ -61,6 +63,10 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             PlantRepositoryInterface::class,
             PlantRepository::class
+        );
+        $this->app->bind(
+            TransactionInterface::class,
+            Transaction::class
         );
     }
 

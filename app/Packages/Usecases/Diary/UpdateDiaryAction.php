@@ -48,6 +48,7 @@ class UpdateDiaryAction
                 $diary->getCreateDate()
             );
             $diaryCollection = new DiaryCollection();
+            $diaryCollection->addDiary($updateDiary);
             $this->diaryRepository->save($diaryCollection);
         } catch (\DomainException $e) {
            abort(400,$e);

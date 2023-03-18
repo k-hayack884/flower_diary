@@ -24,8 +24,9 @@ class Transaction implements TransactionInterface
     {
         DB::commit();
 
-        $pdo=DB::connection()->getPdo();
-        $pdo->exec('SET SESSION TRANSACTION LEVEL READ COMMITTED');
+//        $pdo=DB::connection()->getPdo();
+//        dd($pdo);
+//        $pdo->exec('SET SESSION TRANSACTION LEVEL READ COMMITTED');
 
     }
 
