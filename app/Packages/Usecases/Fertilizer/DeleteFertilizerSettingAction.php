@@ -38,8 +38,8 @@ class DeleteFertilizerSettingAction
 
         try {
             $fertilizerSettingId=$deleteFertilizerSettingRequest->getId();
-            $fertilizerSetting=$this->fertilizerSettingRepository->findById(new FertilizerSettingId($fertilizerSettingId));
-            $this->fertilizerSettingRepository->delete($fertilizerSetting->getFertilizerSettingId());
+//            $fertilizerSetting=$this->fertilizerSettingRepository->findById(new FertilizerSettingId($fertilizerSettingId));
+            $this->fertilizerSettingRepository->delete(new FertilizerSettingId($fertilizerSettingId));
         } catch (\DomainException $e) {
             Log::error(__METHOD__, ['エラー']);
             abort(400,$e);

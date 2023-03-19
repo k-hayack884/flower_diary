@@ -14,7 +14,7 @@ import AppLayout from '@/Layouts/AppLayout.vue';
 </template>
 <script>
 export default {
-    name: "Comment.vue",
+    name: "WaterSetting.vue",
 
     methods: {
         async create() {

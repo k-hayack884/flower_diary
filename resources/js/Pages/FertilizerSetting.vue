@@ -4,7 +4,7 @@ import AppLayout from '@/Layouts/AppLayout.vue';
 </script>
 <template>
 
-    <h1 class="red">コメント操作をする</h1>
+    <h1 class="red">肥料設定操作をする</h1>
     <div class="flex justify-between">
         <button @click="create()">Create</button>
         <button @click="read()">Read</button>
@@ -14,7 +14,7 @@ import AppLayout from '@/Layouts/AppLayout.vue';
 </template>
 <script>
 export default {
-    name: "Comment.vue",
+    name: "FertilizerSetting.vue",
 
     methods: {
         async create() {

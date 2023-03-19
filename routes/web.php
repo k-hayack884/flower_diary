@@ -42,15 +42,15 @@ Route::middleware([
         ]);
     });
     Route::get('/adminCheckSeat', function () {
-        return Inertia::render('Diary', [
+        return Inertia::render('CheckSeat', [
         ]);
     });
     Route::get('/adminWaterSetting', function () {
-        return Inertia::render('Diary', [
+        return Inertia::render('WaterSetting', [
         ]);
     });
     Route::get('/adminFertilizerSetting', function () {
-        return Inertia::render('Diary', [
+        return Inertia::render('FertilizerSetting', [
         ]);
     });
 });

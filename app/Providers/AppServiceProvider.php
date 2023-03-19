@@ -14,6 +14,7 @@ use App\Packages\infrastructures\Comment\CommentRepository;
 use App\Packages\infrastructures\Comment\MockCommentRepository;
 use App\Packages\infrastructures\Diary\DiaryRepository;
 use App\Packages\infrastructures\Diary\MockDiaryRepository;
+use App\Packages\infrastructures\Fertilizer\FertilizerSettingRepository;
 use App\Packages\infrastructures\Fertilizer\MockFertilizerRepository;
 use App\Packages\infrastructures\Plant\PlantRepository;
 use App\Packages\infrastructures\PlantUnit\MockPlantUnitRepository;
@@ -39,7 +40,8 @@ class AppServiceProvider extends ServiceProvider
         );
         $this->app->bind(
             FertilizerRepositoryInterface::class,
-            MockFertilizerRepository::class
+            FertilizerSettingRepository::class,
+//            MockFertilizerRepository::class
         );
         $this->app->bind(
             CheckSeatRepositoryInterface::class,

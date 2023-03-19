@@ -55,6 +55,7 @@ class UpdateFertilizerSettingAction
                 new fertilizerName($fertilizerSettingName)
             );
             $fertilizerSettingCollection = new FertilizerSettingCollection();
+            $fertilizerSettingCollection->addSetting($updateFertilizerSetting);
             $this->fertilizerSettingRepository->save($fertilizerSettingCollection);
         } catch (\DomainException $e) {
             Log::error(__METHOD__, ['エラー']);

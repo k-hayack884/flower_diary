@@ -51,8 +51,9 @@ class CreateFertilizerSettingAction
                 new FertilizerAmount($fertilizerSettingAmount),
                 new fertilizerName($fertilizerSettingName),
             );
-            $FertilizerSettingCollection = new FertilizerSettingCollection();
-            $this->fertilizerSettingRepository->save($FertilizerSettingCollection);
+            $fertilizerSettingCollection = new FertilizerSettingCollection();
+            $fertilizerSettingCollection->addSetting($fertilizerSetting);
+            $this->fertilizerSettingRepository->save($fertilizerSettingCollection);
         } catch (\DomainException $e) {
             Log::error(__METHOD__, ['エラー']);
             abort(400,$e);
