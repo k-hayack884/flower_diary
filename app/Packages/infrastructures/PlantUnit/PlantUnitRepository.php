@@ -10,7 +10,7 @@ use App\Packages\Domains\PlantUnit\PlantUnit;
 use App\Packages\Domains\PlantUnit\PlantUnitCollection;
 use App\Packages\Domains\PlantUnit\PlantUnitId;
 use App\Packages\Domains\PlantUnit\PlantUnitRepositoryInterface;
-use App\Packages\Domains\PlantUnit\UserId;
+use App\Packages\Domains\User\UserId;
 use Carbon\Carbon;
 
 class PlantUnitRepository implements PlantUnitRepositoryInterface
@@ -30,7 +30,7 @@ class PlantUnitRepository implements PlantUnitRepositoryInterface
         return new PlantUnit(
             new PlantUnitId($plantUnit->plant_unit_id),
             new PlantId($plantUnit->plant_id),
-            new \App\Packages\Domains\User\UserId($plantUnit->user_Id),
+            new UserId($plantUnit->user_Id),
             new CheckSeatId( $plantUnit->check_seat_id),
            new plantName( $plantUnit->plant_name),
             $diaries,

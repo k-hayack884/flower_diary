@@ -45,6 +45,7 @@ class DeleteDiaryAction
 
         try {
             $this->transaction->begin();
+
             $diary = $this->diaryRepository->findById($diaryId);
 
             foreach ($diary->getComments() as $commentId){

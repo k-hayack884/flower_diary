@@ -10,6 +10,7 @@ use App\Packages\Domains\User\UserId;
 use App\Packages\Presentations\Requests\Comment\UpdateCommentRequest;
 use App\Packages\Usecases\Dto\Comment\CommentWrapDto;
 use Exception;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class UpdateCommentAction
@@ -38,11 +39,13 @@ class UpdateCommentAction
     {
         Log::info(__METHOD__, ['開始']);
 
+
         $commentId = $updateCommentRequest->getId();
         $userId = $updateCommentRequest->getUserId();
         $content = $updateCommentRequest->getCommentContent();
         $this->commentRepository->findByUserId(new UserId($userId));
         $comment = $this->commentRepository->findByCommentId(new CommentId($commentId));
+        dd($comment);
         $updateContent = $comment->getCommentContent()->update($content);
 
         try {
@@ -53,6 +56,7 @@ class UpdateCommentAction
                 $comment->getCreateDate()
             );
             $commentCollection = new CommentCollection();
+            $commentCollection->addComment($updateComment);
             $this->commentRepository->save($commentCollection);
         } catch (\DomainException $e) {
             Log::error(__METHOD__, ['エラー']);

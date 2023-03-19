@@ -43,9 +43,8 @@ class DeleteCommentAction
             $deleteCommentId=new CommentId($commentId);
             $deleteUserId=new UserId($userId);
 
-            $comment=$this->commentRepository->findByCommentId($deleteCommentId);
             $this->commentRepository->findByUserId($deleteUserId);
-            $this->commentRepository->delete($comment->getCommentId());
+            $this->commentRepository->delete($deleteCommentId);
         } catch (\DomainException $e) {
             Log::error(__METHOD__, ['エラー']);
             abort(400,$e);

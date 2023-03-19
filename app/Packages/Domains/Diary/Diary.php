@@ -50,6 +50,10 @@ class Diary
         $diaryContent=$this->diaryContent->update($content);
         $this->diaryContent=$diaryContent;
     }
+    public function addCommentId(string $commentId):void
+    {
+        $this->comments[]=$commentId;
+    }
 
     /**
      * @return DiaryId

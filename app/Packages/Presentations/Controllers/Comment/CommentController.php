@@ -45,6 +45,7 @@ class CommentController extends Controller
     {
         $request->merge(['commentId' => $commentId]);
 
+
         return (array)$action($request);
     }
     public function update(

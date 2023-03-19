@@ -48,6 +48,10 @@ class MockPlantUnitRepository implements PlantUnitRepositoryInterface
     {
         return $this->plantUnits;
     }
+    public function findByUser(UserId $userId): array
+    {
+        // TODO: Implement findByUser() method.
+    }
 
     /**
      * @param PlantUnitId $plantUnitId

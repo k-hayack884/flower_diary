@@ -10,12 +10,16 @@ use App\Packages\Domains\Plant\PlantRepositoryInterface;
 use App\Packages\Domains\PlantUnit\PlantUnitRepositoryInterface;
 use App\Packages\Domains\Water\WaterSettingRepositoryInterface;
 use App\Packages\infrastructures\CheckSeat\MockCheckSeatRepository;
+use App\Packages\infrastructures\Comment\CommentRepository;
 use App\Packages\infrastructures\Comment\MockCommentRepository;
+use App\Packages\infrastructures\Diary\DiaryRepository;
 use App\Packages\infrastructures\Diary\MockDiaryRepository;
 use App\Packages\infrastructures\Fertilizer\MockFertilizerRepository;
 use App\Packages\infrastructures\Plant\PlantRepository;
 use App\Packages\infrastructures\PlantUnit\MockPlantUnitRepository;
 use App\Packages\infrastructures\PlantUnit\PlantUnitRepository;
+use App\Packages\infrastructures\Shared\Transaction;
+use App\Packages\infrastructures\Shared\TransactionInterface;
 use App\Packages\infrastructures\Water\MockWaterRepository;
 
 use Illuminate\Support\ServiceProvider;
@@ -43,11 +47,13 @@ class AppServiceProvider extends ServiceProvider
         );
         $this->app->bind(
             DiaryRepositoryInterface::class,
-            MockDiaryRepository::class
+            DiaryRepository::class
+//            MockDiaryRepository::class
         );
         $this->app->bind(
             CommentRepositoryInterface::class,
-            MockCommentRepository::class
+            CommentRepository::class
+//            MockCommentRepository::class
         );
         $this->app->bind(
             PlantUnitRepositoryInterface::class,
@@ -57,6 +63,10 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             PlantRepositoryInterface::class,
             PlantRepository::class
+        );
+        $this->app->bind(
+            TransactionInterface::class,
+            Transaction::class
         );
     }
 

@@ -49,6 +49,7 @@ class CreateDiaryAction
                 $diaryContent
             );
             $diaryCollection = new DiaryCollection();
+            $diaryCollection->addDiary($diary);
             $this->diaryRepository->save($diaryCollection);
         } catch (\DomainException $e) {
             Log::error(__METHOD__, ['エラー']);

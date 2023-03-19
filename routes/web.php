@@ -24,6 +24,7 @@ Route::get('/', function () {
     ]);
 });
 
+
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
@@ -32,6 +33,14 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');
     })->name('dashboard');
+    Route::get('/adminComment', function () {
+        return Inertia::render('Comment', [
+        ]);
+    });
+    Route::get('/adminDiary', function () {
+        return Inertia::render('Diary', [
+        ]);
+    });
 });
 Route::prefix('admin')
     ->middleware('can:admin')->group(function(){
