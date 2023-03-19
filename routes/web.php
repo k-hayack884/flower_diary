@@ -41,6 +41,18 @@ Route::middleware([
         return Inertia::render('Diary', [
         ]);
     });
+    Route::get('/adminCheckSeat', function () {
+        return Inertia::render('Diary', [
+        ]);
+    });
+    Route::get('/adminWaterSetting', function () {
+        return Inertia::render('Diary', [
+        ]);
+    });
+    Route::get('/adminFertilizerSetting', function () {
+        return Inertia::render('Diary', [
+        ]);
+    });
 });
 Route::prefix('admin')
     ->middleware('can:admin')->group(function(){
