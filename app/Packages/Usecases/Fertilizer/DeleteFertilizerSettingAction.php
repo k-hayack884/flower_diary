@@ -27,7 +27,6 @@ class DeleteFertilizerSettingAction
     /**
      * @param DeleteFertilizerSettingRequest $deleteFertilizerSettingRequest
      * @return void
-     * @throws Exception
      */
 
     public function __invoke(
@@ -38,8 +37,7 @@ class DeleteFertilizerSettingAction
 
         try {
             $fertilizerSettingId=$deleteFertilizerSettingRequest->getId();
-            $fertilizerSetting=$this->fertilizerSettingRepository->findById(new FertilizerSettingId($fertilizerSettingId));
-            $this->fertilizerSettingRepository->delete($fertilizerSetting->getFertilizerSettingId());
+            $this->fertilizerSettingRepository->delete(new FertilizerSettingId($fertilizerSettingId));
         } catch (\DomainException $e) {
             Log::error(__METHOD__, ['エラー']);
             abort(400,$e);

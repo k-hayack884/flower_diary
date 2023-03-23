@@ -8,7 +8,7 @@ interface FertilizerRepositoryInterface
 
     public function findById(FertilizerSettingId $fertilizerSettingId):MonthsFertilizerSetting;
 
-    public function save(FertilizerSettingCollection $fertilizerSetting):void;
+    public function save(FertilizerSettingCollection $fertilizerSetting,string $checkSeatId):void;
 
     public function delete(FertilizerSettingId $fertilizerSettingId):void;
 }

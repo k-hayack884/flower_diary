@@ -8,7 +8,7 @@ interface WaterSettingRepositoryInterface
 
     public function findById(WaterSettingId $waterSettingId):MonthsWaterSetting;
 
-    public function save(WaterSettingCollection $waterSettingCollection):void;
+    public function save(WaterSettingCollection $waterSetting,string $checkSeatId):void;
 
     public function delete(WaterSettingId $waterSettingId):void;
 }

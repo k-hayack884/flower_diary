@@ -22,6 +22,7 @@ class DiaryRepository implements DiaryRepositoryInterface
     public function findById(DiaryId $diaryId): Diary
     {
         $diary = \App\Models\Diary::where('diary_id', $diaryId->getId())->first();
+        //$diaryIdコメントを取得するをつかって
         if ($diary === null) {
             throw new NotFoundException('指定した日記IDを見つけることができませんでした');
         }
@@ -29,6 +30,7 @@ class DiaryRepository implements DiaryRepositoryInterface
             new DiaryId($diary->diary_id),
             new DiaryContent($diary->diary_content),
             json_decode($diary->comments),
+            //取得したコメントを配列として持つ
             new Carbon($diary->create_date),
         );
     }

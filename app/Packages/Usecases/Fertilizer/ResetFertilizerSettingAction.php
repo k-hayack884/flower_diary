@@ -39,6 +39,8 @@ class ResetFertilizerSettingAction
         Log::info(__METHOD__, ['開始']);
 
         $fertilizerSettingId=$resetFertilizerSettingRequest->getId();
+        $checkSeatId=$resetFertilizerSettingRequest->getCheckSeatId();
+
         $fertilizerSetting = $this->fertilizerSettingRepository->findById(new FertilizerSettingId($fertilizerSettingId));
         $resetMonths = MonthsfertilizerSetting::RESET;
         $resetNote = $fertilizerSetting->getFertilizerNote()->update();
@@ -55,7 +57,8 @@ class ResetFertilizerSettingAction
                     $resetFertilizerName,
                 );
             $fertilizerSettingCollection = new FertilizerSettingCollection();
-            $this->fertilizerSettingRepository->save($fertilizerSettingCollection);
+            $fertilizerSettingCollection->addSetting($resetFertilizerSetting);
+            $this->fertilizerSettingRepository->save($fertilizerSettingCollection,$checkSeatId);
         } catch (\DomainException $e) {
             Log::error(__METHOD__, ['エラー']);
             abort(400,$e);

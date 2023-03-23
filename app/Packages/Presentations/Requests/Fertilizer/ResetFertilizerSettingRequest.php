@@ -9,8 +9,20 @@ class ResetFertilizerSettingRequest extends \App\Http\Requests\BaseRequest
      */
     public function rules(): array
     {
-        return [];
+        return [
+            'checkSeatId' => [
+                'required'
+            ],
+        ];
     }
+    /**
+     * @return string
+     */
+    public function getCheckSeatId():string
+    {
+        return $this->input('checkSeatId');
+    }
+
     /**
      * @return string
      */

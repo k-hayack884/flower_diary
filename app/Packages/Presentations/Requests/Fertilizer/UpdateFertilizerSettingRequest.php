@@ -12,6 +12,9 @@ class UpdateFertilizerSettingRequest extends BaseRequest
     public function rules(): array
     {
         return [
+            'checkSeatId' => [
+                'required'
+            ],
             'fertilizerSettingMonths' => [
                 'required',
                 'array'
@@ -38,6 +41,13 @@ class UpdateFertilizerSettingRequest extends BaseRequest
     public function getId():string
     {
         return $this->input('fertilizerSettingId');
+    }
+    /**
+     * @return string
+     */
+    public function getCheckSeatId():string
+    {
+        return $this->input('checkSeatId');
     }
     /**
      * @return array

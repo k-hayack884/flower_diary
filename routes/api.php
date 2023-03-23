@@ -93,6 +93,10 @@ Route::get(
     'checkSeat/{checkSeatId}',
     [CheckSeatController::class,'show']
 );
+Route::put(
+    'checkSeat/{checkSeatId}/reset',
+    [CheckSeatController::class,'reset']
+);
 
 //日記
 Route::get(

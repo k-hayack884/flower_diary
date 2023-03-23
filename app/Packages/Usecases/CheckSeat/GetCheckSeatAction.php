@@ -32,8 +32,7 @@ class GetCheckSeatAction
         Log::info(__METHOD__, ['開始']);
 
         $checkSeatId=$getCheckSeatRequest->getId();
-        $checkSeatArray = $this->checkSeatRepository->findById(new CheckSeatId($checkSeatId));
-        $checkSeat=new CheckSeat(new CheckSeatId($checkSeatId),$checkSeatArray['water_ids'],$checkSeatArray['fertilizer_ids']);
+        $checkSeat = $this->checkSeatRepository->findById(new CheckSeatId($checkSeatId));
         Log::info(__METHOD__, ['終了']);
 
         return CheckSeatDtoFactory::create($checkSeat);

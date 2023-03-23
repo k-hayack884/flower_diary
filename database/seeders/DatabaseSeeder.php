@@ -19,6 +19,9 @@ class DatabaseSeeder extends Seeder
         $this->call(PlantUnitSeeder::class);
         $this->call(CommentSeeder::class);
         $this->call(DiarySeeder::class);
+        $this->call(CheckSeatSeeder::class);
+        $this->call(WaterSettingSeeder::class);
+        $this->call(FertilizerSettingSeeder::class);
         // \App\Models\User::factory(10)->create();
 
         // \App\Models\User::factory()->create([
