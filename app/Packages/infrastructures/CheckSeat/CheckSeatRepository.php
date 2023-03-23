@@ -42,11 +42,19 @@ class CheckSeatRepository implements \App\Packages\Domains\CheckSeat\CheckSeatRe
 
     public function save(CheckSeat $checkSeat): void
     {
-        // TODO: Implement save() method.
+        $waterSettings=WaterSetting::where('check_seat_id', $checkSeat->getCheckSeatId()->getId())->get();
+        $fertilizerSettings=FertilizerSetting::where('check_seat_id', $checkSeat->getCheckSeatId()->getId())->get();
+
+        foreach ($waterSettings as $waterSetting){
+            $waterSetting->delete();
+        }
+        foreach ($fertilizerSettings as $fertilizerSetting){
+            $fertilizerSetting->delete();
+        }
     }
 
     public function delete(CheckSeatId $checkSeatId): void
     {
-        // TODO: Implement delete() method.
+
     }
 }
