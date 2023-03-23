@@ -25,14 +25,14 @@ class CheckSeat extends Authenticatable
      */
     protected $fillable = [
         'check_seat_id',
-        'water_setting_ids',
-        'fertilizer_setting_ids',
+        'plant_unit_id'
     ];
 
     public function fertilizerSetting()
     {
         return $this->hasMany(FertilizerSetting::class);
     }
+
     public function waterSetting()
     {
         return $this->hasMany(WaterSetting::class);

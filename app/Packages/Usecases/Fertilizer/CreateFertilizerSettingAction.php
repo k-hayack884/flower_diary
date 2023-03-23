@@ -42,6 +42,7 @@ class CreateFertilizerSettingAction
         $fertilizerSettingNote = $createFertilizerSettingRequest->getNote();
         $fertilizerSettingAmount = $createFertilizerSettingRequest->getAmount();
         $fertilizerSettingName = $createFertilizerSettingRequest->getName();
+        $checkSeatId=$createFertilizerSettingRequest->getCheckSeatId();
 
         try {
             $fertilizerSetting = new MonthsFertilizerSetting(
@@ -52,8 +53,10 @@ class CreateFertilizerSettingAction
                 new fertilizerName($fertilizerSettingName),
             );
             $fertilizerSettingCollection = new FertilizerSettingCollection();
+
             $fertilizerSettingCollection->addSetting($fertilizerSetting);
-            $this->fertilizerSettingRepository->save($fertilizerSettingCollection);
+
+            $this->fertilizerSettingRepository->save($fertilizerSettingCollection,$checkSeatId);
         } catch (\DomainException $e) {
             Log::error(__METHOD__, ['エラー']);
             abort(400,$e);

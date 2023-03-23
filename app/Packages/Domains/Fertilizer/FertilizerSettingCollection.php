@@ -65,6 +65,14 @@ class FertilizerSettingCollection
     }
 
     /**
+     * @param $value
+     * @return void
+     */
+    public function push($value): void
+    {
+        $this->fertilizerSettings->push(["checkSeatId"=>$value]);
+    }
+    /**
      * @return FertilizerSettingCollection
      */
     public function duplicationDisplay(): FertilizerSettingCollection

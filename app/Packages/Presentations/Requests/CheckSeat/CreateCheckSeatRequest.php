@@ -12,28 +12,17 @@ class CreateCheckSeatRequest extends BaseRequest
     public function rules(): array
     {
         return [
-            'checkSeatWaterIds' => [
-                'array'
-            ],
-            'checkSeatFertilizerIds' => [
-                'array',
+            'checkSeatId' => [
+                'required'
             ],
         ];
     }
 
     /**
-     * @return array
+     * @return string
      */
-    public function getWaterIds():array
+    public function getCheckSeatId():string
     {
-        return $this->input('checkSeatWaterIds');
-    }
-
-    /**
-     * @return array
-     */
-    public function getFertilizerIds():array
-    {
-        return $this->input('checkSeatFertilizerIds');
+        return $this->input('checkSeatId');
     }
 }

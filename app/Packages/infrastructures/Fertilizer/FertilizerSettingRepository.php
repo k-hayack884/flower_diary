@@ -20,6 +20,7 @@ class FertilizerSettingRepository implements \App\Packages\Domains\Fertilizer\Fe
 
     public function findById(FertilizerSettingId $fertilizerSettingId): MonthsFertilizerSetting
     {
+
         $fertilizerSetting = \App\Models\FertilizerSetting::where('fertilizer_setting_id', $fertilizerSettingId->getId())->first();
         if ($fertilizerSetting === null) {
             throw new NotFoundException('指定した肥料設定IDを見つけることができませんでした');
@@ -33,13 +34,13 @@ class FertilizerSettingRepository implements \App\Packages\Domains\Fertilizer\Fe
         );
     }
 
-    public function save(FertilizerSettingCollection $fertilizerSetting): void
+    public function save(FertilizerSettingCollection $fertilizerSetting,string $checkSeatId): void
     {
         $collectionArray = $fertilizerSetting->toArray();
-
         foreach ($collectionArray as $fertilizerSetting) {
             \App\Models\FertilizerSetting::updateOrCreate(['fertilizer_setting_id' => $fertilizerSetting->getFertilizerSettingId()->getId()],
                 ['fertilizer_setting_id' => $fertilizerSetting->getFertilizerSettingId()->getId(),
+                    'check_seat_id'=>$checkSeatId,
                     'months' => json_encode($fertilizerSetting->getMonths()),
                     'fertilizer_note' => $fertilizerSetting->getFertilizerNote()->getvalue(),
                     'fertilizer_amount' => $fertilizerSetting->getFertilizerAmount()->getValue(),

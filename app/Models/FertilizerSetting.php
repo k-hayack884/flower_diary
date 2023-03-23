@@ -18,6 +18,10 @@ class FertilizerSetting extends Authenticatable
     use Notifiable;
     use TwoFactorAuthenticatable;
 
+
+    protected $primaryKey = 'fertilizer_setting_id';
+    protected $keyType = 'string'; // 主キーの型を文字列に設定
+    public $incrementing = false;
     /**
      * The attributes that are mass assignable.
      *
@@ -25,6 +29,7 @@ class FertilizerSetting extends Authenticatable
      */
     protected $fillable = [
         'fertilizer_setting_id',
+        'check_seat_id',
         'months',
         'fertilizer_note',
         'fertilizer_amount',
