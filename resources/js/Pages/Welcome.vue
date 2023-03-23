@@ -33,7 +33,7 @@ defineProps({
     <div class="container text-center p-3 mb-2">
         <!-- タイトル行 -->
         <div class="row my-3">
-            <div class="col-sm-6 mx-auto"><h1>植物判定アプリ</h1></div>
+            <div class="col-sm-6 mx-auto blue"><h1>植物判定アプリ</h1></div>
         </div>
 
         <div class="info">

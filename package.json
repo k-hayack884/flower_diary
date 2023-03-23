@@ -1,7 +1,7 @@
 {
     "private": true,
     "scripts": {
-        "dev": "vite  --port 8000 --host 0.0.0.0",
+        "dev": "vite  --port 51112",
         "build": "vite build",
         "watch": "cross-env NODE_ENV=development webpack --watch --progress --hide-modules",
         "hot": "cross-env NODE_ENV=development webpack-dev-server --inline --hot",
