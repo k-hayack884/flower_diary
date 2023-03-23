@@ -18,6 +18,9 @@ class CheckSeat extends Authenticatable
     use Notifiable;
     use TwoFactorAuthenticatable;
 
+    protected $primaryKey = 'check_seat_id';
+    protected $keyType = 'string'; // 主キーの型を文字列に設定
+    public $incrementing = false;
     /**
      * The attributes that are mass assignable.
      *

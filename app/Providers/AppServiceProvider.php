@@ -9,6 +9,7 @@ use App\Packages\Domains\Fertilizer\FertilizerRepositoryInterface;
 use App\Packages\Domains\Plant\PlantRepositoryInterface;
 use App\Packages\Domains\PlantUnit\PlantUnitRepositoryInterface;
 use App\Packages\Domains\Water\WaterSettingRepositoryInterface;
+use App\Packages\infrastructures\CheckSeat\CheckSeatRepository;
 use App\Packages\infrastructures\CheckSeat\MockCheckSeatRepository;
 use App\Packages\infrastructures\Comment\CommentRepository;
 use App\Packages\infrastructures\Comment\MockCommentRepository;
@@ -47,7 +48,8 @@ class AppServiceProvider extends ServiceProvider
         );
         $this->app->bind(
             CheckSeatRepositoryInterface::class,
-            MockCheckSeatRepository::class
+            CheckSeatRepository::class,
+//            MockCheckSeatRepository::class
         );
         $this->app->bind(
             DiaryRepositoryInterface::class,
