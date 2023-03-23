@@ -38,11 +38,13 @@ class UpdateFertilizerSettingAction
         Log::info(__METHOD__, ['開始']);
 
         $fertilizerSettingId=$updateFertilizerSettingRequest->getId();
+        $checkSeatId=$updateFertilizerSettingRequest->getCheckSeatId();
+
         $fertilizerSettingMonths = $updateFertilizerSettingRequest->getMonths();
         $fertilizerSettingNote = $updateFertilizerSettingRequest->getNote();
         $fertilizerSettingAmount = $updateFertilizerSettingRequest->getAmount();
         $fertilizerSettingName = $updateFertilizerSettingRequest->getName();
-        $checkSeatId=$updateFertilizerSettingRequest->getCheckSeatId();
+
 
         $fertilizerSetting = $this->fertilizerSettingRepository->findById(new FertilizerSettingId($fertilizerSettingId));
         $updateNote = $fertilizerSetting->getFertilizerNote()->update($fertilizerSettingNote);

@@ -46,8 +46,9 @@ class CreateWaterSettingAction
         $waterSettingAmount = $createWaterSettingRequest->getAmount();
         $waterSettingTimes = $createWaterSettingRequest->getWateringTimes();
         $waterSettingInterval = $createWaterSettingRequest->getWateringInterval();
+        $checkSeatId=$createWaterSettingRequest->getCheckSeatId();
         try {
-            $waterSettings = new MonthsWaterSetting(
+            $waterSetting = new MonthsWaterSetting(
                 new WaterSettingId(),
                 $waterSettingMonths,
                 new WaterNote($waterSettingNote),
@@ -56,7 +57,8 @@ class CreateWaterSettingAction
                 new WateringInterval($waterSettingInterval)
             );
             $waterSettingCollection = new WaterSettingCollection();
-            $this->waterSettingRepository->save($waterSettingCollection);
+            $waterSettingCollection->addSetting($waterSetting);
+            $this->waterSettingRepository->save($waterSettingCollection,$checkSeatId);
         } catch (\DomainException $e) {
             Log::error(__METHOD__, ['エラー']);
             abort(400,$e);
@@ -64,6 +66,6 @@ class CreateWaterSettingAction
             Log::info(__METHOD__, ['終了']);
         }
 
-        return WaterSettingsDtoFactory::create($waterSettings);
+        return WaterSettingsDtoFactory::create($waterSetting);
     }
 }

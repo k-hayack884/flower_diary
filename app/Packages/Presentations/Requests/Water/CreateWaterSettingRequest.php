@@ -12,6 +12,9 @@ class CreateWaterSettingRequest extends BaseRequest
     public function rules(): array
     {
         return [
+            'checkSeatId' => [
+                'required',
+            ],
             'waterSettingMonths' => [
                 'required',
                 'array'
@@ -37,6 +40,10 @@ class CreateWaterSettingRequest extends BaseRequest
         ];
     }
 
+    public function getCheckSeatId():string
+    {
+        return $this->input('checkSeatId');
+    }
     /**
      * @return array
      */

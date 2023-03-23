@@ -27,7 +27,6 @@ class DeleteFertilizerSettingAction
     /**
      * @param DeleteFertilizerSettingRequest $deleteFertilizerSettingRequest
      * @return void
-     * @throws Exception
      */
 
     public function __invoke(

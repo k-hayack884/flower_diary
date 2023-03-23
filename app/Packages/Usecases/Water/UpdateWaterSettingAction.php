@@ -26,23 +26,24 @@ class UpdateWaterSettingAction
     }
 
     /**
-     * @param UpdateWaterSettingRequest $createWaterSettingRequest
+     * @param UpdateWaterSettingRequest $updateWaterSettingRequest
      * @return WaterSettingWrapDto
-     * @throws Exception
      */
     public function __invoke(
-        UpdateWaterSettingRequest $createWaterSettingRequest,
+        UpdateWaterSettingRequest $updateWaterSettingRequest,
     ): WaterSettingWrapDto
     {
         Log::info(__METHOD__, ['開始']);
 
-        $waterSettingId = $createWaterSettingRequest->getId();
-        $waterSettingMonths = $createWaterSettingRequest->getMonths();
-        $waterSettingNote = $createWaterSettingRequest->getNote();
-        $waterSettingAmount = $createWaterSettingRequest->getAmount();
-        $waterSettingTimes = $createWaterSettingRequest->getWateringTimes();
-        $waterSettingInterval = $createWaterSettingRequest->getWateringInterval();
-        $waterSettingAlertTimes = $createWaterSettingRequest->getAlertTimes();
+        $waterSettingId = $updateWaterSettingRequest->getId();
+        $checkSeatId=$updateWaterSettingRequest->getCheckSeatId();
+
+        $waterSettingMonths = $updateWaterSettingRequest->getMonths();
+        $waterSettingNote = $updateWaterSettingRequest->getNote();
+        $waterSettingAmount = $updateWaterSettingRequest->getAmount();
+        $waterSettingTimes = $updateWaterSettingRequest->getWateringTimes();
+        $waterSettingInterval = $updateWaterSettingRequest->getWateringInterval();
+        $waterSettingAlertTimes = $updateWaterSettingRequest->getAlertTimes();
 
         $waterSetting = $this->waterSettingRepository->findById(new WaterSettingId($waterSettingId));
         $updateNote = $waterSetting->getWaterNote()->update($waterSettingNote);
@@ -58,7 +59,8 @@ class UpdateWaterSettingAction
                 $waterSettingAlertTimes
             );
             $waterSettingCollection = new WaterSettingCollection();
-            $this->waterSettingRepository->save($waterSettingCollection);
+            $waterSettingCollection->addSetting($updateWaterSetting);
+            $this->waterSettingRepository->save($waterSettingCollection,$checkSeatId);
         } catch (\DomainException $e) {
             Log::error(__METHOD__, ['エラー']);
             abort(400,$e);

@@ -36,12 +36,14 @@ class ResetWaterSettingAction
      * @throws Exception
      */
     public function __invoke(
-        ResetWaterSettingRequest $deleteWaterSettingRequest,
+        ResetWaterSettingRequest $resetWaterSettingRequest,
     ): WaterSettingWrapDto
     {
         Log::info(__METHOD__, ['開始']);
 
-        $waterSettingId = $deleteWaterSettingRequest->getId();
+        $waterSettingId = $resetWaterSettingRequest->getId();
+        $checkSeatId=$resetWaterSettingRequest->getCheckSeatId();
+
 
         $waterSetting=$this->waterSettingRepository->findById(new WaterSettingId($waterSettingId));
         $resetMonths = MonthsWaterSetting::RESET;
@@ -60,7 +62,8 @@ class ResetWaterSettingAction
                 $resetWateringInterval,
             );
             $waterSettingCollection=new WaterSettingCollection();
-            $this->waterSettingRepository->save($waterSettingCollection);
+            $waterSettingCollection->addSetting($resetWaterSetting);
+            $this->waterSettingRepository->save($waterSettingCollection,$checkSeatId);
         } catch (\DomainException $e) {
             Log::error(__METHOD__, ['エラー']);
             abort(400,$e);

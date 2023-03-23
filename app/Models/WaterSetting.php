@@ -18,6 +18,9 @@ class WaterSetting extends Authenticatable
     use Notifiable;
     use TwoFactorAuthenticatable;
 
+    protected $primaryKey = 'water_setting_id';
+    protected $keyType = 'string'; // 主キーの型を文字列に設定
+    public $incrementing = false;
     /**
      * The attributes that are mass assignable.
      *
@@ -25,6 +28,7 @@ class WaterSetting extends Authenticatable
      */
     protected $fillable = [
         'water_setting_id',
+        'check_seat_id',
         'months',
         'water_note',
         'water_amount',

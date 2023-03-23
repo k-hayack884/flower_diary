@@ -23,6 +23,7 @@ use App\Packages\infrastructures\Shared\Transaction;
 use App\Packages\infrastructures\Shared\TransactionInterface;
 use App\Packages\infrastructures\Water\MockWaterRepository;
 
+use App\Packages\infrastructures\Water\WaterSettingRepository;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -36,7 +37,8 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->bind(
             WaterSettingRepositoryInterface::class,
-            MockWaterRepository::class
+            WaterSettingRepository::class,
+//            MockWaterRepository::class
         );
         $this->app->bind(
             FertilizerRepositoryInterface::class,

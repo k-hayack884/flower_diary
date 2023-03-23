@@ -11,7 +11,11 @@ class ResetWaterSettingRequest extends BaseRequest
      */
     public function rules(): array
     {
-        return [];
+        return [
+            'checkSeatId' => [
+                'required'
+            ],
+        ];
     }
 
     /**
@@ -20,5 +24,12 @@ class ResetWaterSettingRequest extends BaseRequest
     public function getId():string
     {
         return $this->input('waterSettingId');
+    }
+    /**
+     * @return string
+     */
+    public function getCheckSeatId():string
+    {
+        return $this->input('checkSeatId');
     }
 }
