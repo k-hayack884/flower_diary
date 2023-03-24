@@ -17,6 +17,9 @@ class PlantUnit extends Authenticatable
     use Notifiable;
     use TwoFactorAuthenticatable;
 
+    protected $primaryKey = 'plant_unit_id';
+    protected $keyType = 'string'; // 主キーの型を文字列に設定
+    public $incrementing = false;
     /**
      * The attributes that are mass assignable.
      *

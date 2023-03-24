@@ -3,6 +3,7 @@
 namespace App\Packages\infrastructures\Plant;
 
 use App\Packages\Domains\Plant\PlantData;
+use App\Packages\Domains\Plant\PlantId;
 use App\Packages\Domains\Plant\PlantRepositoryInterface;
 use App\Models\Plant;
 class PlantRepository implements PlantRepositoryInterface
@@ -13,11 +14,15 @@ class PlantRepository implements PlantRepositoryInterface
         return Plant::all();
     }
 
+    public function findPlantNameById(PlantId $plantId)
+    {
+        $hitPlantName= Plant::where('id',$plantId)->first('name');
+        return $hitPlantName->name;
+
+    }
     public function findByName(string $name): PlantData
     {
       $plant= Plant::where('name',$name)->first();
-      //TODO::fertilizerMonthsは後回し
-        $fertilizerMonths[]= $plant->fertilizerMonths;
       return new PlantData(
           $plant->id,
           $plant->name,
@@ -32,9 +37,8 @@ class PlantRepository implements PlantRepositoryInterface
           $plant->recommendWinterWaterInterval,
           $plant->recommendWinterWaterTimes,
           $plant->fertilizerName,
-          $fertilizerMonths
+          json_decode($plant->fertilizerMonths)
       );
-
     }
 
     public function save(PlantData $plant): void

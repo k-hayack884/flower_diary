@@ -66,7 +66,6 @@ class DeletePlantUnitAction
         Log::info(__METHOD__, ['開始']);
 
         $requestId = $deletePlantUnitRequest->getId();
-
         try {
             $this->transaction->begin();
             $hitPlantUnit = $this->plantUnitRepository->findById(new PlantUnitId($requestId));
@@ -85,13 +84,13 @@ class DeletePlantUnitAction
             //チェックシートの削除
             $checkSeat = $this->checkSeatRepository->findById($hitPlantUnit->getCheckSeatId());
 
-            foreach ($checkSeat["water_ids"] as $waterSettingId) {
+            foreach ($checkSeat->getWaterSettingIds() as $waterSettingId) {
                 $this->waterSettingRepository->delete(new WaterSettingId($waterSettingId));
             }
-            foreach ($checkSeat["fertilizer_ids"] as $fertilizerSettingId) {
+            foreach ($checkSeat->getFertilizerSettingIds() as $fertilizerSettingId) {
                 $this->fertilizerSettingRepository->delete(new FertilizerSettingId($fertilizerSettingId));
             }
-            $this->checkSeatRepository->delete(new CheckSeatId($checkSeat["check_seat_id"]));
+            $this->checkSeatRepository->delete(new CheckSeatId($checkSeat->getCheckSeatId()->getId()));
 
             //植物ユニットの削除
             $this->plantUnitRepository->delete($hitPlantUnit->getPlantUnitId());
