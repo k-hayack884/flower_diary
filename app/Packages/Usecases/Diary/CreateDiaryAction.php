@@ -39,6 +39,7 @@ class CreateDiaryAction
     {
         Log::info(__METHOD__, ['開始']);
 
+        $plantUnitId=$createDiaryRequest->getPlantUnitId();
         $diaryContent = $createDiaryRequest->getDiaryContent();
 
         try {
@@ -50,7 +51,7 @@ class CreateDiaryAction
             );
             $diaryCollection = new DiaryCollection();
             $diaryCollection->addDiary($diary);
-            $this->diaryRepository->save($diaryCollection);
+            $this->diaryRepository->save($diaryCollection,$plantUnitId);
         } catch (\DomainException $e) {
             Log::error(__METHOD__, ['エラー']);
             abort(400,$e);

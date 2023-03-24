@@ -22,6 +22,10 @@ CreatePlantUnitRequest extends BaseRequest
         ];
     }
 
+    /**
+     * @return string
+     */
+
     public function getPlantId():string
     {
         return $this->input('plantId');
