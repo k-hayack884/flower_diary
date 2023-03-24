@@ -10,9 +10,9 @@ interface CommentRepositoryInterface
 
     public function findByCommentId(CommentId $commentId):Comment;
 
-    public function findByUserId(UserId $userId):array;
+    public function diffUserCheck(UserId $userId,CommentId $commentId):void;
 
-    public function save(CommentCollection $comment):void;
+    public function save(CommentCollection $comment,string $diaryId):void;
 
     public function delete(CommentId $commentId):void;
 }

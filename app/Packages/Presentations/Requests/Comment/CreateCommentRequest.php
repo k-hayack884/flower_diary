@@ -12,6 +12,9 @@ class CreateCommentRequest extends BaseRequest
     public function rules(): array
     {
         return [
+            'diaryId' => [
+                'required',
+            ],
             'commentUserId' => [
                 'required',
             ],
@@ -22,12 +25,21 @@ class CreateCommentRequest extends BaseRequest
             ]
         ];
     }
+    /**
+     * @return string
+     */
+
+    public function getDiaryId(): string
+    {
+        return $this->input('diaryId');
+
+    }
 
     /**
      * @return string
      */
 
-    public function getUserId():string
+    public function getUserId(): string
     {
         return $this->input('commentUserId');
 
@@ -36,7 +48,7 @@ class CreateCommentRequest extends BaseRequest
     /**
      * @return string
      */
-    public function getCommentContent():string
+    public function getCommentContent(): string
     {
         return $this->input('commentContent');
     }
