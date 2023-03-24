@@ -8,7 +8,7 @@ interface DiaryRepositoryInterface
 
     public function findById(DiaryId $diaryId):Diary;
 
-    public function save(DiaryCollection $diary):void;
+    public function save(DiaryCollection $diary,string $plantUnitId):void;
 
     public function delete(DiaryId $diaryId):void;
 }

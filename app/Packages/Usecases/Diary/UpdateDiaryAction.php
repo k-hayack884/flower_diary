@@ -37,6 +37,8 @@ class UpdateDiaryAction
         Log::info(__METHOD__, ['開始']);
 
         $diaryId = $updateDiaryRequest->getId();
+        $plantUnitId=$updateDiaryRequest->getPlantUnitId();
+
         $diary = $this->diaryRepository->findById(new DiaryId($diaryId));
         $updateContent = $diary->getDiaryContent()->update($updateDiaryRequest->getDiaryContent());
 
@@ -49,7 +51,7 @@ class UpdateDiaryAction
             );
             $diaryCollection = new DiaryCollection();
             $diaryCollection->addDiary($updateDiary);
-            $this->diaryRepository->save($diaryCollection);
+            $this->diaryRepository->save($diaryCollection,$plantUnitId);
         } catch (\DomainException $e) {
            abort(400,$e);
             Log::error(__METHOD__, ['開始']);

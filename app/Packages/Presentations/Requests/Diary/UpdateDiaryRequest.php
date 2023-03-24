@@ -12,6 +12,9 @@ class UpdateDiaryRequest extends BaseRequest
     public function rules(): array
     {
         return [
+            'plantUnitId'=>[
+                'required'
+            ],
             'diaryContent' => [
                 'required',
                 'string',
@@ -26,6 +29,13 @@ class UpdateDiaryRequest extends BaseRequest
     public function getId():string
     {
         return $this->input('diaryId');
+    }
+    /**
+     * @return string
+     */
+    public function getPlantUnitId():string
+    {
+        return $this->input('plantUnitId');
     }
 
     /**

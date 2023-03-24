@@ -40,11 +40,11 @@ class DeleteCommentAction
         $userId=$deleteCommentRequest->getUserId();
 
         try {
+            $this->commentRepository->diffUserCheck(new UserId($userId),new CommentId($commentId));
             $deleteCommentId=new CommentId($commentId);
-            $deleteUserId=new UserId($userId);
-
-            $this->commentRepository->findByUserId($deleteUserId);
             $this->commentRepository->delete($deleteCommentId);
+
+
         } catch (\DomainException $e) {
             Log::error(__METHOD__, ['エラー']);
             abort(400,$e);

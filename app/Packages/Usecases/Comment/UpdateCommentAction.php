@@ -2,6 +2,7 @@
 
 namespace App\Packages\Usecases\Comment;
 
+use App\Exceptions\ForbiddenException;
 use App\Packages\Domains\Comment\Comment;
 use App\Packages\Domains\Comment\CommentCollection;
 use App\Packages\Domains\Comment\CommentId;
@@ -41,14 +42,16 @@ class UpdateCommentAction
 
 
         $commentId = $updateCommentRequest->getId();
+        $diaryId = $updateCommentRequest->getDiaryId();
         $userId = $updateCommentRequest->getUserId();
         $content = $updateCommentRequest->getCommentContent();
-        $this->commentRepository->findByUserId(new UserId($userId));
         $comment = $this->commentRepository->findByCommentId(new CommentId($commentId));
-        dd($comment);
         $updateContent = $comment->getCommentContent()->update($content);
 
+
+
         try {
+            $this->commentRepository->diffUserCheck(new UserId($userId),new CommentId($commentId));
             $updateComment = new Comment(
                 new CommentId($commentId),
                 new UserId($userId),
@@ -57,10 +60,13 @@ class UpdateCommentAction
             );
             $commentCollection = new CommentCollection();
             $commentCollection->addComment($updateComment);
-            $this->commentRepository->save($commentCollection);
+            $this->commentRepository->save($commentCollection,$diaryId);
         } catch (\DomainException $e) {
             Log::error(__METHOD__, ['エラー']);
             abort(400, $e);
+        }catch (ForbiddenException $e) {
+            Log::error(__METHOD__, ['エラー']);
+            abort(403, $e);
         } finally {
             Log::info(__METHOD__, ['終了']);
         }
