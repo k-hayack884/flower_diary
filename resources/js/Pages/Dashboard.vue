@@ -179,8 +179,8 @@ export default {
         },
         async registerPlant(userId) {
             axios.post('http://localhost:51111/api/plantUnit', {
-                plantUnitUserId:userId,
-                plantUnitPlantId: this.plantId
+                userId:userId,
+                plantId: this.plantId
             }).then(res => {
                 this.plant = res.data;
                 this.getPlant = true

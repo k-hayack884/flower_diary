@@ -10,6 +10,7 @@ use App\Packages\Domains\PlantUnit\PlantUnitCollection;
 use App\Packages\Domains\PlantUnit\PlantUnitId;
 use App\Packages\Domains\PlantUnit\PlantUnitRepositoryInterface;
 use App\Packages\Domains\User\UserId;
+use App\Packages\infrastructures\Plant\PlantRepository;
 use App\Packages\Presentations\Requests\PlantUnit\CreatePlantUnitRequest;
 use App\Packages\Usecases\Dto\PlantUnit\PlantUnitWrapDto;
 use Exception;
@@ -21,13 +22,15 @@ class CreatePlantUnitAction
      * @var PlantUnitRepositoryInterface
      */
     private PlantUnitRepositoryInterface $plantUnitRepository;
+    private PlantRepository $plantRepository;
 
     /**
      * @param PlantUnitRepositoryInterface $plantUnitRepository
      */
-    public function __construct(PlantUnitRepositoryInterface $plantUnitRepository)
+    public function __construct(PlantUnitRepositoryInterface $plantUnitRepository,PlantRepository $plantRepository)
     {
         $this->plantUnitRepository = $plantUnitRepository;
+        $this->plantRepository=$plantRepository;
     }
 
     /**
@@ -45,10 +48,10 @@ class CreatePlantUnitAction
             $plantId = new PlantId($createPlantUnitRequest->getPlantUnitPlantId());
             $userId = new UserId($createPlantUnitRequest->getPlantUnitUserId());
             $plantUnitCheckSeatId = new CheckSeatId();
+            $plantName=$this->plantRepository->findPlantNameById($plantId);
             //Todo PlantRepositoryを作ったら植物ユニットIDから名前を取得するように改良
-            $plantName = new PlantName('');
+            $plantName = new PlantName($plantName);
             $plantDiaries = [];
-
             $plantUnit = new PlantUnit(
                 $plantUnitId,
                 $plantId,

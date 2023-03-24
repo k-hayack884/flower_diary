@@ -13,10 +13,10 @@ CreatePlantUnitRequest extends BaseRequest
     public function rules(): array
     {
         return [
-            'plantUnitUserId' => [
+            'userId' => [
                 'required'
             ],
-            'plantUnitPlantId' => [
+            'plantId' => [
                 'required'
             ],
         ];
@@ -36,7 +36,7 @@ CreatePlantUnitRequest extends BaseRequest
      */
     public function getPlantUnitPlantId():string
     {
-        return $this->input('plantUnitPlantId');
+        return $this->input('plantId');
     }
 
     /**
@@ -44,7 +44,7 @@ CreatePlantUnitRequest extends BaseRequest
      */
     public function getPlantUnitUserId():string
     {
-        return $this->input('plantUnitUserId');
+        return $this->input('userId');
     }
 
 }

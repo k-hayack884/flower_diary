@@ -2,6 +2,8 @@
 
 namespace App\Packages\infrastructures\PlantUnit;
 
+use App\Exceptions\NotFoundException;
+use App\Models\Diary;
 use App\Models\Plant;
 use App\Packages\Domains\CheckSeat\CheckSeatId;
 use App\Packages\Domains\Plant\PlantId;
@@ -24,20 +26,27 @@ class PlantUnitRepository implements PlantUnitRepositoryInterface
 
     public function findById(PlantUnitId $plantUnitId): PlantUnit
     {
-        $plantUnit= \App\Models\PlantUnit::where('plant_unit_id',$plantUnitId->getId())->first();
-
-        $diaries=json_decode($plantUnit->diaries);
+        $diaryIds = [];
+        $plantUnit = \App\Models\PlantUnit::where('plant_unit_id', $plantUnitId->getId())->first();
+        if ($plantUnit === null) {
+            throw new NotFoundException('指定した植物ユニットIDを見つけることができませんでした');
+        }
+        $diaries = \App\Models\Diary::where('plant_unit_id', $plantUnitId->getId())->get();
+        foreach ($diaries as $diary) {
+            $diaryIds[] = $diary->diary_id;
+        }
         return new PlantUnit(
             new PlantUnitId($plantUnit->plant_unit_id),
             new PlantId($plantUnit->plant_id),
             new UserId($plantUnit->user_Id),
-            new CheckSeatId( $plantUnit->check_seat_id),
-           new plantName( $plantUnit->plant_name),
-            $diaries,
+            new CheckSeatId($plantUnit->check_seat_id),
+            new plantName($plantUnit->plant_name),
+            $diaryIds,
             new Carbon($plantUnit->create_date),
             new Carbon($plantUnit->update_date),
         );
     }
+
     public function findByUser(UserId $userId): array
     {
         // TODO: Implement findByUser() method.
@@ -48,15 +57,14 @@ class PlantUnitRepository implements PlantUnitRepositoryInterface
     public function save(PlantUnitCollection $plantUnit): void
     {
         $collectionArray = $plantUnit->toArray();
+
         foreach ($collectionArray as $plant) {
-            $diaryJson = json_encode($plant->getDiaries());
             \App\Models\PlantUnit::create([
                 'plant_unit_id' => $plant->getPlantUnitId()->getId(),
                 'user_id' => $plant->getUserId()->getId(),
                 'plant_id' => $plant->getPlantId()->getId(),
                 'check_seat_id' => $plant->getCheckSeatId()->getId(),
                 'plant_name' => $plant->getPlantName()->getValue(),
-                'diaries' => $diaryJson,
                 'create_date' => $plant->getCreateDate()->format('Y/m/d'),
                 'update_date' => $plant->getUpdateDate()->format('Y/m/d'),
             ]);
