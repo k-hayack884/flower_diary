@@ -20,10 +20,28 @@ class PlantUnitRepository implements PlantUnitRepositoryInterface
 
     public function find(): array
     {
-        // TODO: Implement find() method.
-        return \App\Models\PlantUnit::all();
-    }
+        $plantUnits = [];
+        $allPlantUnits = \App\Models\PlantUnit::all();
+        foreach ($allPlantUnits as $plantUnit) {
+            $diaries = \App\Models\Diary::where('plant_unit_id', $plantUnit->plant_unit_id)->get();
+            $diaryIds = [];
+            foreach ($diaries as $diary) {
+                $diaryIds[] = $diary->diary_id;
+            }
+            $plantUnits[] = new PlantUnit(
+                new PlantUnitId($plantUnit->plant_unit_id),
+                new PlantId($plantUnit->plant_id),
+                new UserId($plantUnit->user_Id),
+                new CheckSeatId($plantUnit->check_seat_id),
+                new plantName($plantUnit->plant_name),
+                $diaryIds,
+                new Carbon($plantUnit->create_date),
+                new Carbon($plantUnit->update_date),
+            );
 
+        }
+        return $plantUnits;
+    }
     public function findById(PlantUnitId $plantUnitId): PlantUnit
     {
         $diaryIds = [];
