@@ -23,6 +23,9 @@ class User extends Authenticatable
      *
      * @var string[]
      */
+    protected $primaryKey = 'user_id';
+    protected $keyType = 'string'; // 主キーの型を文字列に設定
+    public $incrementing = false;
     protected $fillable = [
         'user_id',
         'name',
