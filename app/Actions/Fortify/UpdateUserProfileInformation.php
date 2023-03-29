@@ -21,15 +21,15 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
      */
     public function update($user, array $input)
     {
-        dd($user);
+//        dd($user);
 
         $userRepository=new UserRepository();
-//        Validator::make($input, [
-//            'name' => ['required', 'string', 'max:255'],
-//            'email' => ['required', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
-//            'photo' => ['nullable', 'mimes:jpg,jpeg,png', 'max:1024'],
-//        ])->validateWithBag('updateProfileInformation');
-        dd($user);
+        Validator::make($input, [
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
+            'photo' => ['nullable', 'mimes:jpg,jpeg,png', 'max:1024'],
+        ])->validateWithBag('updateProfileInformation');
+
 
         if (isset($input['photo'])) {
             $user->updateProfilePhoto($input['photo']);
@@ -41,9 +41,7 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
             $user instanceof MustVerifyEmail) {
             $this->updateVerifiedUser($user, $input);
         } else {
-            dd($user->user_id,$input['name'],$input['email'],$user->password,$user->role);
-            $updateUser=new User(new UserId($user->user_id),$input['name'],$input['email'],$user->password,$user->role);
-            dd($updateUser);
+            $updateUser=new User(new UserId($user->user_id),$input['name'],$input['email'],$user->role);
 
             $userRepository->save($updateUser);
 

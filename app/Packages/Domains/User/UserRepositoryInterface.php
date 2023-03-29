@@ -8,7 +8,7 @@ interface UserRepositoryInterface
 
     public function findById(UserId $userId):User;
 
-    public function save(User $user);
+    public function save(User $user, ?UserPassword $password);
 
     public function delete(UserId $userId):void;
 }

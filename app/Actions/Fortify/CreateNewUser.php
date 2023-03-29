@@ -4,6 +4,7 @@ namespace App\Actions\Fortify;
 
 use App\Models\User;
 use App\Packages\Domains\User\UserId;
+use App\Packages\Domains\User\UserPassWord;
 use App\Packages\infrastructures\User\UserRepository;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -31,8 +32,9 @@ class CreateNewUser implements CreatesNewUsers
         ])->validate();
         $userRepository = new UserRepository();
         $userId = new UserId();
+        $password=new UserPassWord($input['password']);
 
-        $user = new \App\Packages\Domains\User\User($userId, $input['name'], $input['email'], Hash::make($input['password']), 9);
-        return $userRepository->save($user);
+        $user = new \App\Packages\Domains\User\User($userId, $input['name'], $input['email'], 9);
+        return $userRepository->save($user,$password);
     }
 }
