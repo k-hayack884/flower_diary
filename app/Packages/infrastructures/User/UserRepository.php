@@ -20,7 +20,6 @@ class UserRepository implements \App\Packages\Domains\User\UserRepositoryInterfa
 
     public function save(User $user)
     {
-        dd($user);
 
         return \App\Models\User::updateOrCreate(['user_id' =>(string)$user->getUserId()->getId()],
             ['user_id' =>  (string)$user->getUserId()->getId(),

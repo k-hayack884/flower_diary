@@ -2,15 +2,14 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable
+class Comment extends Model
 {
     use HasApiTokens;
     use HasFactory;
@@ -18,32 +17,26 @@ class User extends Authenticatable
     use Notifiable;
     use TwoFactorAuthenticatable;
 
-    protected $primaryKey = 'user_id'; // 主キー名を変更
+    protected $primaryKey = 'comment_id';
     protected $keyType = 'string'; // 主キーの型を文字列に設定
-    public $incrementing = false; // 自動増分IDを無効にする
-
+    public $incrementing = false;
     /**
      * The attributes that are mass assignable.
      *
      * @var string[]
      */
     protected $fillable = [
+        'comment_id',
+        'diary_id',
         'user_id',
-        'name',
-        'email',
-        'password',
-        'role'
+        'comment_content',
+        'create_date',
     ];
 
-    protected static function boot()
+    public function diary()
     {
-        parent::boot();
-
-        static::creating(function ($model) {
-            $model->{$model->getKeyName()} = (string) \Illuminate\Support\Str::uuid(); // UUIDを手動で設定
-        });
+        return $this->belongsTo(Diary::class);
     }
-
     /**
      * The attributes that should be hidden for serialization.
      *

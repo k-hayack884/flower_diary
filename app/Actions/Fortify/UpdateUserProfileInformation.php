@@ -41,7 +41,7 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
             $user instanceof MustVerifyEmail) {
             $this->updateVerifiedUser($user, $input);
         } else {
-//            dd($user->user_id,$input['name'],$input['email'],$user->password,$user->role);
+            dd($user->user_id,$input['name'],$input['email'],$user->password,$user->role);
             $updateUser=new User(new UserId($user->user_id),$input['name'],$input['email'],$user->password,$user->role);
             dd($updateUser);
 
