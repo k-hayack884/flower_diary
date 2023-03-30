@@ -151,7 +151,7 @@ Route::post(
     'plantUnit',
     [PlantUnitController::class,'create']
 );
-Route::get(
+Route::middleware('auth:sanctum')->get(
     'plantUnit/{plantUnitId}',
     [PlantUnitController::class,'show']
 );

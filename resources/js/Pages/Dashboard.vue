@@ -1,4 +1,5 @@
 <script setup>
+import {Head, Link} from '@inertiajs/inertia-vue3';
 import AppLayout from '@/Layouts/AppLayout.vue';
 import Welcome from '@/Components/Welcome.vue';
 </script>
