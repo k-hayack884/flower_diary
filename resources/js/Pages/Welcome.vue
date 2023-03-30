@@ -15,8 +15,8 @@ defineProps({
     <Head title="Welcome"/>
 
     <div
-        class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center sm:pt-0">
-        <div v-if="canLogin" class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
+        class="relative flex items-top justify-center bg-gray-100 dark:bg-gray-900 sm:items-center sm:pt-0">
+        <div v-if="canLogin" class="fixed top-0 right-0 px-6 py-4 sm:block">
             <Link v-if="$page.props.user" :href="route('dashboard')"
                   class="text-sm text-gray-700 dark:text-gray-500 underline">Dashboard
             </Link>
@@ -40,6 +40,7 @@ defineProps({
             <p>
                 育て方を知りたい植物を<br>カメラに写して数秒待ってください<br>
             </p>
+            <button class="inline-block cursor-pointer rounded-md bg-gray-800 px-4 py-3  bg-gradient-to-r from-green-500 via-blue-500 to-pink-500　text-center text-sm font-semibold uppercase text-white transition duration-200 ease-in-out hover:bg-gray-900">Button</button>
         </div>
 
         <!--今日を含め3日間の天気を表示 -->
