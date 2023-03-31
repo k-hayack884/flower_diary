@@ -22,6 +22,7 @@ const app=new Vue({
         },
         onImageChange (e) {
             const images = e.target.files || e.dataTransfer.files
+            console.log('aaaaa')
             this.getBase64(images[0])
                 .then(image => this.avatar = image)
                 .catch(error => this.setError(error, '画像のアップロードに失敗しました。'))

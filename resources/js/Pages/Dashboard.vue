@@ -13,7 +13,7 @@ import Welcome from '@/Components/Welcome.vue';
 
         <div class="container text-center p-3 mb-2">
             <!-- タイトル行 -->
-            {{$page.props.user}}
+            {{ $page.props.user }}
 
             <div class="row my-3">
                 <div class="col-sm-6 mx-auto"><h1>植物判定アプリ</h1></div>
@@ -64,7 +64,8 @@ import Welcome from '@/Components/Welcome.vue';
                 <div v-if="getPlant">
                     <p>{{ message }}</p>
                     名前：{{ plantName }} id：{{ plantId }}
-                    <button @click="registerPlant($page.props.user.user_id)" class="btn btn-outline-success" type="button" id="button-addon2">
+                    <button @click="registerPlant($page.props.user.user_id)" class="btn btn-outline-success"
+                            type="button" id="button-addon2">
                         {{ registerButton }}
                     </button>
                 </div>
@@ -74,6 +75,8 @@ import Welcome from '@/Components/Welcome.vue';
 </template>
 
 <script>
+
+import are from "@/Components/Are.vue";
 
 export default {
     props: {
@@ -116,9 +119,9 @@ export default {
             num: 3
         }
     },
-    created: async function () {
-        this.getWeather();
-    },
+    // created: async function () {
+    //     this.getWeather();
+    // },
     // メインの関数（ここでは定義しているだけでボタンクリックされたら実行）
     // awaitを使うとき（非同期）はasync
     methods: {
@@ -179,7 +182,7 @@ export default {
         },
         async registerPlant(userId) {
             axios.post('http://localhost:51111/api/plantUnit', {
-                userId:userId,
+                userId: userId,
                 plantId: this.plantId
             }).then(res => {
                 this.plant = res.data;
@@ -207,7 +210,22 @@ export default {
 
                 // setTimeout(this.loop(classifier), 1000);
             })
-        }
+        },
+        getBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader()
+                reader.readAsDataURL(file)
+                reader.onload = () => resolve(reader.result)
+                reader.onerror = error => reject(error)
+            })
+        },
+        onImageChange(e) {
+            const images = e.target.files || e.dataTransfer.files
+            console.log('aaaaa')
+            this.getBase64(images[0])
+                .then(image => this.avatar = image)
+                .catch(error => this.setError(error, '画像のアップロードに失敗しました。'))
+        },
     },
 
     loop: function (classifier) {
@@ -243,19 +261,6 @@ export default {
             console.error(error);
         }
     },
-    getBase64(file) {
-        return new Promise((resolve, reject) => {
-            const reader = new FileReader()
-            reader.readAsDataURL(file)
-            reader.onload = () => resolve(reader.result)
-            reader.onerror = error => reject(error)
-        })
-    },
-    onImageChange(e) {
-        const images = e.target.files || e.dataTransfer.files
-        this.getBase64(images[0])
-            .then(image => this.avatar = image)
-            .catch(error => this.setError(error, '画像のアップロードに失敗しました。'))
-    },
+
 };
 </script>

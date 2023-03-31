@@ -40,7 +40,7 @@ defineProps({
             <p>
                 育て方を知りたい植物を<br>カメラに写して数秒待ってください<br>
             </p>
-            <button class="inline-block cursor-pointer rounded-md bg-gray-800 px-4 py-3  bg-gradient-to-r from-green-500 via-blue-500 to-pink-500　text-center text-sm font-semibold uppercase text-white transition duration-200 ease-in-out hover:bg-gray-900">Button</button>
+<!--            <button class="inline-block cursor-pointer rounded-md bg-gray-800 px-4 py-3  bg-gradient-to-r from-green-500 via-blue-500 to-pink-500　text-center text-sm font-semibold uppercase text-white transition duration-200 ease-in-out hover:bg-gray-900">Button</button>-->
         </div>
 
         <!--今日を含め3日間の天気を表示 -->
@@ -134,9 +134,9 @@ export default {
             num: 3
         }
     },
-    created: async function () {
-        this.getWeather();
-    },
+    // created: async function () {
+    //     this.getWeather();
+    // },
     // メインの関数（ここでは定義しているだけでボタンクリックされたら実行）
     // awaitを使うとき（非同期）はasync
     methods: {
@@ -170,6 +170,7 @@ export default {
             });
         },
         async startImage() {
+            console.log(this.avatar);
             if (this.avatar) {
                 /* postで画像を送る処理をここに書く */
                 this.message = 'アップロードしました'
@@ -214,7 +215,21 @@ export default {
 
                 // setTimeout(this.loop(classifier), 1000);
             })
-        }
+        },
+        getBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader()
+                reader.readAsDataURL(file)
+                reader.onload = () => resolve(reader.result)
+                reader.onerror = error => reject(error)
+            })
+        },
+        onImageChange(e) {
+            const images = e.target.files || e.dataTransfer.files
+            this.getBase64(images[0])
+                .then(image => this.avatar = image)
+                .catch(error => this.setError(error, '画像のアップロードに失敗しました。'))
+        },
     },
 
 
@@ -262,19 +277,17 @@ export default {
             console.error(error);
         }
     },
-    getBase64(file) {
-        return new Promise((resolve, reject) => {
-            const reader = new FileReader()
-            reader.readAsDataURL(file)
-            reader.onload = () => resolve(reader.result)
-            reader.onerror = error => reject(error)
-        })
-    },
-    onImageChange(e) {
-        const images = e.target.files || e.dataTransfer.files
-        this.getBase64(images[0])
-            .then(image => this.avatar = image)
-            .catch(error => this.setError(error, '画像のアップロードに失敗しました。'))
-    },
+
 };
 </script>
+
+<style>
+#plant-info {
+    width: 100%;
+    text-align: left;
+}
+
+video {
+    border: 3px solid green;
+}
+</style>
