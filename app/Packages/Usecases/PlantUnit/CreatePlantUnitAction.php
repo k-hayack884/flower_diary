@@ -13,6 +13,8 @@ use App\Packages\Domains\User\UserId;
 use App\Packages\infrastructures\Plant\PlantRepository;
 use App\Packages\Presentations\Requests\PlantUnit\CreatePlantUnitRequest;
 use App\Packages\Usecases\Dto\PlantUnit\PlantUnitWrapDto;
+use App\http\Services\ImageService;
+use Illuminate\Support\Facades\Storage;
 use Exception;
 use Illuminate\Support\Facades\Log;
 
@@ -42,6 +44,15 @@ class CreatePlantUnitAction
         CreatePlantUnitRequest $createPlantUnitRequest
     ): PlantUnitWrapDto
     {
+
+        //画像の処理
+        $imageFile = $createPlantUnitRequest->file('image');
+
+        if (!is_null($imageFile) && $imageFile->isValid()) {
+            // Storage::putFile('public/profiles', $imageFile);//リサイズなし
+            $fileNameToStore = ImageService::upload($imageFile, 'plantUnitImages');
+            dd($fileNameToStore);
+        }
         Log::info(__METHOD__, ['開始']);
         try {
             $plantUnitId = new PlantUnitId();

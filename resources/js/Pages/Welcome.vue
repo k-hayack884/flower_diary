@@ -81,6 +81,7 @@ defineProps({
             <button @click="startImage()">アップロード</button>
             <div v-if="getPlant">
                 <p>{{ message }}</p>
+                <p>{{avatar}}</p>
                 名前：{{ plantName }} id：{{ plantId }}
                 <button @click="registerPlant" class="btn btn-outline-success" type="button" id="button-addon2">
                     {{ registerButton }}
