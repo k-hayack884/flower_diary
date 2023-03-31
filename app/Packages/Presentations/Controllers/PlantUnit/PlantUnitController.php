@@ -12,6 +12,7 @@ use App\Packages\Usecases\PlantUnit\CreatePlantUnitAction;
 use App\Packages\Usecases\PlantUnit\DeletePlantUnitAction;
 use App\Packages\Usecases\PlantUnit\GetPlantUnitAction;
 use App\Packages\Usecases\PlantUnit\GetPlantUnitsAction;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 
 class PlantUnitController extends Controller
@@ -37,6 +38,8 @@ class PlantUnitController extends Controller
         string $plantUnitId
     ):array
     {
+        $user = Auth::user();
+dd($request->user());
         $request->merge(['plantUnitId' => $plantUnitId]);
         return (array)$action($request);
     }
