@@ -7,8 +7,10 @@ use App\Packages\Presentations\Controllers\PlantUnit\PlantUnitController;
 use App\Packages\Presentations\Controllers\Water\WaterSettingController;
 use App\Packages\Presentations\Controllers\Fertilizer\FertilizerSettingController;
 use App\Packages\Presentations\Controllers\CheckSeat\CheckSeatController;
+use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
 
 
 /*
@@ -22,10 +24,28 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
+Route::get('/', function () {
+    return Inertia::render('Welcome', [
+        'canLogin' => Route::has('login'),
+        'canRegister' => Route::has('register'),
+        'laravelVersion' => Application::VERSION,
+        'phpVersion' => PHP_VERSION,
+    ]);
+});
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+    dd($request);
     return $request->user();
 });
 
+
+Route::middleware('auth:sanctum')->get('/hoge', function (Request $request) {
+    return response()->json([
+        'message' => $request->user()->tokenCan('dorube')
+            ? 'You are Superman!!'
+            : 'You are NOT Superman.',
+    ]);
+});
 //植物のスキャン
 Route::post(
     'scanPlant',
@@ -143,7 +163,7 @@ Route::delete(
 );
 
 //植物ユニット
-Route::get(
+Route::middleware('auth:sanctum')->get(
     'plantUnit',
     [PlantUnitController::class,'index']
 );

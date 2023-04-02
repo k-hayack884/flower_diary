@@ -23,6 +23,9 @@ class PlantUnitController extends Controller
         GetPlantUnitsAction $action,
     ):array
     {
+        $user = Auth::user();
+        $token = $user->currentAccessToken();
+        dd($user,$token);
         return (array)$action($request);
     }
     public function create(

@@ -25,6 +25,9 @@ return new class extends Migration
             $table->string('profile_photo_path', 2048)->nullable();
             $table->timestamps();
         });
+        Schema::table('personal_access_tokens', function (Blueprint $table) {
+            $table->uuid('tokenable_id')->change();
+        });
     }
 
     /**
