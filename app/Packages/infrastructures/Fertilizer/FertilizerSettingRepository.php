@@ -15,7 +15,18 @@ class FertilizerSettingRepository implements \App\Packages\Domains\Fertilizer\Fe
 
     public function find(): array
     {
-        return \App\Models\FertilizerSetting::all();
+        $fertilizerSettings = [];
+        $allFertilizerSettings= \App\Models\FertilizerSetting::all();
+        foreach ($allFertilizerSettings as $fertilizerSetting) {
+            $fertilizerSettings[]= new MonthsFertilizerSetting(
+                new FertilizerSettingId($fertilizerSetting->fertilizer_setting_id),
+                json_decode($fertilizerSetting->months),
+                new FertilizerNote($fertilizerSetting->fertilizer_note),
+                new FertilizerAmount($fertilizerSetting->fertilizer_amount),
+                new fertilizerName($fertilizerSetting->fertilizer_name),
+            );
+        }
+        return $fertilizerSettings;
     }
 
     public function findById(FertilizerSettingId $fertilizerSettingId): MonthsFertilizerSetting

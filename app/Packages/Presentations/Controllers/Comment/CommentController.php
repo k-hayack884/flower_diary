@@ -55,6 +55,7 @@ class CommentController extends Controller
     ): array
     {
         $request->merge(['commentId' => $commentId]);
+        //ログインユーザーのIDを追加
         return (array)$action($request);
     }
     public function delete(

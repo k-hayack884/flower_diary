@@ -2,6 +2,7 @@
 
 namespace App\Packages\Usecases\PlantUnit;
 
+use App\Packages\Domains\PlantUnit\PlantUnitCollection;
 use App\Packages\Domains\PlantUnit\PlantUnitRepositoryInterface;
 use App\Packages\Presentations\Requests\PlantUnit\GetPlantUnitsRequest;
 use App\Packages\Usecases\Dto\PlantUnit\PlantUnitDto;
@@ -32,10 +33,11 @@ class GetPlantUnitsAction
     {
         Log::info(__METHOD__, ['開始']);
 
-        $plantUnitCollection = $this->plantUnitRepository->find();
+        $plantUnits = $this->plantUnitRepository->find();
+        $plantUnitCollection=new PlantUnitCollection($plantUnits);
         $plantUnitDtos = [];
 
-        foreach ($plantUnitCollection as $plantUnit) {
+        foreach ($plantUnitCollection->toArray() as $plantUnit) {
             $plantUnitDtos[] =
                 new PlantUnitDto(
                     $plantUnit->getPlantUnitId()->getId(),
