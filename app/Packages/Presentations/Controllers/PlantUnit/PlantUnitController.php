@@ -42,8 +42,6 @@ class PlantUnitController extends Controller
         string $plantUnitId
     ):array
     {
-        $user = Auth::user();
-dd($user);
         $request->merge(['plantUnitId' => $plantUnitId]);
         return (array)$action($request);
     }
