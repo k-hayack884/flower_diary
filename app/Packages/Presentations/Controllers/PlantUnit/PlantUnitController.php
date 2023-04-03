@@ -24,14 +24,15 @@ class PlantUnitController extends Controller
     ):array
     {
         $user = Auth::user();
-        $token = $user->currentAccessToken();
-        dd($user,$token);
+
         return (array)$action($request);
     }
     public function create(
         CreatePlantUnitRequest $request,
         CreatePlantUnitAction $action,
     ):array{
+        $user=Auth::user();
+        dd($user);
         return (array)$action($request);
     }
 
