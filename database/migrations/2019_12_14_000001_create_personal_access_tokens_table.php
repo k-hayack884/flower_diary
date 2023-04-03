@@ -23,6 +23,10 @@ return new class extends Migration
             $table->timestamp('expires_at')->nullable();
             $table->timestamps();
         });
+        // Change the data type of tokenable_id to UUID
+        Schema::table('personal_access_tokens', function (Blueprint $table) {
+            $table->uuid('tokenable_id')->change();
+        });
     }
 
     /**
