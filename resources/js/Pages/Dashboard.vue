@@ -50,7 +50,7 @@ import Welcome from '@/Components/Welcome.vue';
                 <p id="error" v-show="error">{{ error }}</p>
                 <label>
                     <p>クリックで画像を変更できます。</p>
-                    <img :src="avatar" alt="Avatar" class="image" id="are">
+                    <img :src="avatar" alt="Avatar" class="image" id="plant_image">
                     <div>
                         <input
                             type="file"
@@ -64,7 +64,7 @@ import Welcome from '@/Components/Welcome.vue';
                 <div v-if="getPlant">
                     <p>{{ message }}</p>
                     名前：{{ plantName }} id：{{ plantId }}
-                    <button @click="registerPlant($page.props.user.user_id)" class="btn btn-outline-success"
+                    <button @click="registerPlant($page.props.user.user_id,avatar)" class="btn btn-outline-success"
                             type="button" id="button-addon2">
                         {{ registerButton }}
                     </button>
@@ -75,8 +75,6 @@ import Welcome from '@/Components/Welcome.vue';
 </template>
 
 <script>
-
-import are from "@/Components/Are.vue";
 
 export default {
     props: {
@@ -162,8 +160,8 @@ export default {
             } else {
                 this.error = '画像がありません'
             }
-            console.log(this.avatar);
-            const are = document.getElementById('are');
+            const image_pass=this.avatar
+            const plant_image = document.getElementById('plant_image');
 
             // Googleのサーバーにアップロードした自作モデルを読み込みにいきます
             this.myPlant.imageModelURL = 'https://teachablemachine.withgoogle.com/models/9P6f9Msvu/';
@@ -175,24 +173,16 @@ export default {
                 // this.loop(classifier);
                 console.log('loop処理1回目');
                 console.log(this.myPlant)
+                console.log(this.avatar)
+
                 this.scan(classifier)
 
             });
 
         },
-        async registerPlant(userId) {
-            axios.post('http://localhost:51111/api/plantUnit', {
-                userId: userId,
-                plantId: this.plantId
-            }).then(res => {
-                this.plant = res.data;
-                this.getPlant = true
-            }).catch(error => {
-                console.log(error);
-            });
-        },
+
         scan: function (classifier) {
-            classifier.classify(are, async (err, results) => {
+            classifier.classify(plant_image, async (err, results) => {
 
                 axios.post('http://localhost:51111/api/scanPlant', {
                     plantLabel: results[0].label
@@ -211,6 +201,18 @@ export default {
                 // setTimeout(this.loop(classifier), 1000);
             })
         },
+        async registerPlant(userId,avatar) {
+            axios.post('http://localhost:51111/api/plantUnit', {
+                userId: userId,
+                plantId: this.plantId,
+                plantImage: avatar
+            }).then(res => {
+                this.plant = res.data;
+                this.getPlant = true
+            }).catch(error => {
+                console.log(error);
+            });
+        },
         getBase64(file) {
             return new Promise((resolve, reject) => {
                 const reader = new FileReader()
@@ -221,7 +223,6 @@ export default {
         },
         onImageChange(e) {
             const images = e.target.files || e.dataTransfer.files
-            console.log('aaaaa')
             this.getBase64(images[0])
                 .then(image => this.avatar = image)
                 .catch(error => this.setError(error, '画像のアップロードに失敗しました。'))

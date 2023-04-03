@@ -19,6 +19,10 @@ CreatePlantUnitRequest extends BaseRequest
             'plantId' => [
                 'required'
             ],
+            'plantImage' => [
+
+            ]
+
         ];
     }
 

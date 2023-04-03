@@ -68,7 +68,7 @@ defineProps({
             <p id="error" v-show="error">{{ error }}</p>
             <label>
                 <p>クリックで画像を変更できます。</p>
-                <img :src="avatar" alt="Avatar" class="image" id="are">
+                <img :src="avatar" alt="Avatar" class="image" id="plant_image">
                 <div>
                     <input
                         type="file"
@@ -179,7 +179,7 @@ export default {
                 this.error = '画像がありません'
             }
             console.log(this.avatar);
-            const are = document.getElementById('are');
+            const plant_image = document.getElementById('plant_image');
 
             // Googleのサーバーにアップロードした自作モデルを読み込みにいきます
             this.myPlant.imageModelURL = 'https://teachablemachine.withgoogle.com/models/9P6f9Msvu/';
@@ -197,7 +197,7 @@ export default {
 
         },
         scan: function (classifier) {
-            classifier.classify(are, async (err, results) => {
+            classifier.classify(plant_image, async (err, results) => {
 
                 axios.post('http://localhost:51111/api/scanPlant', {
                     plantLabel: results[0].label
@@ -277,7 +277,6 @@ export default {
             console.error(error);
         }
     },
-
 };
 </script>
 
