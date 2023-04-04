@@ -2,15 +2,15 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable
+class Diary extends Authenticatable
 {
     use HasApiTokens;
     use HasFactory;
@@ -18,30 +18,25 @@ class User extends Authenticatable
     use Notifiable;
     use TwoFactorAuthenticatable;
 
+    protected $primaryKey = 'diary_id';
+    protected $keyType = 'string'; // 主キーの型を文字列に設定
+    public $incrementing = false;
     /**
      * The attributes that are mass assignable.
      *
      * @var string[]
      */
-    protected $primaryKey = 'user_id';
-    protected $keyType = 'string'; // 主キーの型を文字列に設定
-    public $incrementing = false;
     protected $fillable = [
-        'user_id',
-        'name',
-        'email',
-        'image',
-        'password',
-        'role'
+        'diary_id',
+        'plant_unit_id',
+        'diary_content',
+        'comments',
+        'create_date',
     ];
 
-    protected static function boot()
+    public function comment()
     {
-        parent::boot();
-
-        static::creating(function ($model) {
-            $model->{$model->getKeyName()} = (string) \Illuminate\Support\Str::uuid(); // UUIDを手動で設定
-        });
+        return $this->hasMany(Comment::class);
     }
 
     /**
@@ -73,13 +68,4 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
-    /**
-     * Get the name of the unique identifier for the user.
-     *
-     * @return string
-     */
-    public function getAuthIdentifierName()
-    {
-        return 'user_id';
-    }
 }

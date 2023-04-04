@@ -31,6 +31,7 @@ class GetWaterSettingsAction
         Log::info(__METHOD__, ['開始']);
 
         $waterSettingCollection = $this->waterSettingRepository->find();
+
         $waterSettingDtos = [];
 
         foreach ($waterSettingCollection as $waterSetting) {

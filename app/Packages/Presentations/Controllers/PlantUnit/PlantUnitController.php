@@ -23,12 +23,16 @@ class PlantUnitController extends Controller
         GetPlantUnitsAction $action,
     ):array
     {
+        $user = Auth::user();
+
         return (array)$action($request);
     }
     public function create(
         CreatePlantUnitRequest $request,
         CreatePlantUnitAction $action,
     ):array{
+        $user=Auth::user();
+        dd($user);
         return (array)$action($request);
     }
 
@@ -38,8 +42,6 @@ class PlantUnitController extends Controller
         string $plantUnitId
     ):array
     {
-        $user = Auth::user();
-dd($request->user());
         $request->merge(['plantUnitId' => $plantUnitId]);
         return (array)$action($request);
     }

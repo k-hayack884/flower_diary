@@ -16,7 +16,21 @@ class WaterSettingRepository implements \App\Packages\Domains\Water\WaterSetting
 
     public function find(): array
     {
-        return \App\Models\WaterSetting::all();
+        $waterSettings = [];
+        $allWaterSettings = \App\Models\WaterSetting::all();
+        foreach ($allWaterSettings as $waterSetting) {
+            $waterSettings[] = new MonthsWaterSetting(
+                new WaterSettingId($waterSetting->water_setting_id),
+                json_decode($waterSetting->months),
+                new WaterNote($waterSetting->water_note),
+                new WaterAmount($waterSetting->water_amount),
+                new WateringTimes($waterSetting->watering_times),
+                new WateringInterval($waterSetting->watering_interval),
+                json_decode($waterSetting->alert_times),
+            );
+        }
+        return $waterSettings;
+
     }
 
     public function findById(WaterSettingId $waterSettingId): MonthsWaterSetting

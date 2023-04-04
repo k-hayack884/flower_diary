@@ -16,8 +16,22 @@ class DiaryRepository implements DiaryRepositoryInterface
 
     public function find(): array
     {
-        // TODO: Implement find() method.
-        return \App\Models\Diary::all();
+        $diaries=[];
+        $allDiaries= \App\Models\Diary::all();
+        foreach ($allDiaries as $diary) {
+            $comments=Comment::where('diary_id', $diary->diary_id)->get();
+            $commentIds=[];
+            foreach ($comments as $comment){
+                $commentIds[]=$comment->comment_id;
+            }
+            $diaries[]=new Diary(
+                new DiaryId($diary->diary_id),
+                new DiaryContent($diary->diary_content),
+                $commentIds,
+                new Carbon($diary->create_date),
+            );
+        }
+        return $diaries;
     }
 
     public function findById(DiaryId $diaryId): Diary

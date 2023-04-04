@@ -2,18 +2,21 @@
 
 namespace App\Packages\Domains\PlantUnit;
 
-use Illuminate\Database\Eloquent\Collection;
+use App\Exceptions\NotFoundException;
+use Illuminate\Support\Collection;
 
-class PlantUnitCollection extends Collection
+class PlantUnitCollection
 {
     /**
      * @param PlantUnit[] $plantUnits
      */
     public function __construct(array $plantUnits = [])
     {
+        $this->plantUnits=(new Collection)->collect([]);
         foreach ($plantUnits as $plantUnit) {
             $this->addUnit($plantUnit);
         }
+        $this->sortUpDate();
     }
 
     /**
@@ -22,16 +25,24 @@ class PlantUnitCollection extends Collection
      */
     public function addUnit(PlantUnit $plantUnit): void
     {
-        $this->put($plantUnit->getPlantUnitId()->getId(), $plantUnit);
+        $this->plantUnits->put($plantUnit->getPlantUnitId()->getId(), $plantUnit);
+        $this->sortUpDate();
     }
 
+    public function sortUpDate(): void
+    {
+        $sorted=$this->plantUnits->sortByDesc(function ($product, $key) {
+            return $product->getUpdateDate();
+        });
+        $this->plantUnits=$sorted;
+    }
     /**
      * @param PlantUnitId $plantUnitId
      * @return PlantUnit
      */
     public function findById(PlantUnitId $plantUnitId): PlantUnit
     {
-        $plantUnit = $this->get($plantUnitId->getId());
+        $plantUnit = $this->plantUnits->get($plantUnitId->getId());
         if (is_null($plantUnit)) {
             throw new NotFoundException('指定した植物ユニットIDが見つかりませんでした (id:' . $plantUnit->getId() . ')');
         }
@@ -47,7 +58,7 @@ class PlantUnitCollection extends Collection
      */
     public function getValue(int $value): ?Closure
     {
-        return $this->get($value);
+        return $this->plantUnits->get($value);
     }
 
     /**
@@ -56,7 +67,7 @@ class PlantUnitCollection extends Collection
      */
     public function delete(PlantUnit $plantUnit): void
     {
-        $this->forget($plantUnit->getPlantUnitSettingId()->getId());
+        $this->plantUnits->forget($plantUnit->getPlantUnitSettingId()->getId());
     }
 
     /**
@@ -64,6 +75,6 @@ class PlantUnitCollection extends Collection
      */
     public function toArray(): array
     {
-        return parent::toArray();
+        return $this->plantUnits->toArray();
     }
 }
