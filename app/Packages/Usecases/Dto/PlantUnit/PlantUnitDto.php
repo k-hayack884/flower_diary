@@ -20,6 +20,7 @@ class PlantUnitDto
         public string $plantId,
         public string $checkSeatId,
         public string $plantName,
+        public string $plantImage,
         public array $diaries,
         public string $createDate,
         public string $updateDate,

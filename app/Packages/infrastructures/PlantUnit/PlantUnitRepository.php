@@ -11,6 +11,7 @@ use App\Packages\Domains\PlantUnit\plantName;
 use App\Packages\Domains\PlantUnit\PlantUnit;
 use App\Packages\Domains\PlantUnit\PlantUnitCollection;
 use App\Packages\Domains\PlantUnit\PlantUnitId;
+use App\Packages\Domains\PlantUnit\PlantUnitImage;
 use App\Packages\Domains\PlantUnit\PlantUnitRepositoryInterface;
 use App\Packages\Domains\User\UserId;
 use Carbon\Carbon;
@@ -59,6 +60,7 @@ class PlantUnitRepository implements PlantUnitRepositoryInterface
             new UserId($plantUnit->user_Id),
             new CheckSeatId($plantUnit->check_seat_id),
             new plantName($plantUnit->plant_name),
+            new PlantUnitImage($plantUnit->plant_image),
             $diaryIds,
             new Carbon($plantUnit->create_date),
             new Carbon($plantUnit->update_date),
@@ -76,6 +78,7 @@ class PlantUnitRepository implements PlantUnitRepositoryInterface
     {
         $collectionArray = $plantUnit->toArray();
 
+
         foreach ($collectionArray as $plant) {
             \App\Models\PlantUnit::create([
                 'plant_unit_id' => $plant->getPlantUnitId()->getId(),
@@ -83,6 +86,7 @@ class PlantUnitRepository implements PlantUnitRepositoryInterface
                 'plant_id' => $plant->getPlantId()->getId(),
                 'check_seat_id' => $plant->getCheckSeatId()->getId(),
                 'plant_name' => $plant->getPlantName()->getValue(),
+                'plant_image'=>$plant->getPlantImage()->getValue(),
                 'create_date' => $plant->getCreateDate()->format('Y/m/d'),
                 'update_date' => $plant->getUpdateDate()->format('Y/m/d'),
             ]);

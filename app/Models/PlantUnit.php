@@ -31,6 +31,7 @@ class PlantUnit extends Authenticatable
         'plant_id',
         'check_seat_id',
         'plant_name',
+        'plant_image',
         'diaries',
         'create_date',
         'update_date',

@@ -16,6 +16,9 @@ class CreateUserRequest extends \App\Http\Requests\BaseRequest
             ],
             'user.email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => $this->passwordRules(),
+            'userImage' => [
+                'file_base64' => 'required_without:file|string'
+            ]
             //terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['accepted', 'required'] : '',
 
         ];

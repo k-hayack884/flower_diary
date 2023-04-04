@@ -14,7 +14,7 @@ import Welcome from '@/Components/Welcome.vue';
 
         <div class="container text-center p-3 mb-2">
             <!-- タイトル行 -->
-            {{$page.props.user}}
+            {{ $page.props.user }}
 
             <div class="row my-3">
                 <div class="col-sm-6 mx-auto"><h1>植物判定アプリ</h1></div>
@@ -51,7 +51,7 @@ import Welcome from '@/Components/Welcome.vue';
                 <p id="error" v-show="error">{{ error }}</p>
                 <label>
                     <p>クリックで画像を変更できます。</p>
-                    <img :src="avatar" alt="Avatar" class="image" id="are">
+                    <img :src="avatar" alt="Avatar" class="image" id="plant_image">
                     <div>
                         <input
                             type="file"
@@ -65,7 +65,8 @@ import Welcome from '@/Components/Welcome.vue';
                 <div v-if="getPlant">
                     <p>{{ message }}</p>
                     名前：{{ plantName }} id：{{ plantId }}
-                    <button @click="registerPlant($page.props.user.user_id)" class="btn btn-outline-success" type="button" id="button-addon2">
+                    <button @click="registerPlant($page.props.user.user_id,avatar)" class="btn btn-outline-success"
+                            type="button" id="button-addon2">
                         {{ registerButton }}
                     </button>
                 </div>
@@ -117,9 +118,9 @@ export default {
             num: 3
         }
     },
-    created: async function () {
-        this.getWeather();
-    },
+    // created: async function () {
+    //     this.getWeather();
+    // },
     // メインの関数（ここでは定義しているだけでボタンクリックされたら実行）
     // awaitを使うとき（非同期）はasync
     methods: {
@@ -160,8 +161,8 @@ export default {
             } else {
                 this.error = '画像がありません'
             }
-            console.log(this.avatar);
-            const are = document.getElementById('are');
+            const image_pass=this.avatar
+            const plant_image = document.getElementById('plant_image');
 
             // Googleのサーバーにアップロードした自作モデルを読み込みにいきます
             this.myPlant.imageModelURL = 'https://teachablemachine.withgoogle.com/models/9P6f9Msvu/';
@@ -173,24 +174,16 @@ export default {
                 // this.loop(classifier);
                 console.log('loop処理1回目');
                 console.log(this.myPlant)
+                console.log(this.avatar)
+
                 this.scan(classifier)
 
             });
 
         },
-        async registerPlant(userId) {
-            axios.post('http://localhost:51111/api/plantUnit', {
-                userId:userId,
-                plantId: this.plantId
-            }).then(res => {
-                this.plant = res.data;
-                this.getPlant = true
-            }).catch(error => {
-                console.log(error);
-            });
-        },
+
         scan: function (classifier) {
-            classifier.classify(are, async (err, results) => {
+            classifier.classify(plant_image, async (err, results) => {
 
                 axios.post('http://localhost:51111/api/scanPlant', {
                     plantLabel: results[0].label
@@ -208,8 +201,78 @@ export default {
 
                 // setTimeout(this.loop(classifier), 1000);
             })
-        }
+        },
+        async registerPlant(userId,avatar) {
+            axios.post('http://localhost:51111/api/plantUnit', {
+                userId: userId,
+                plantId: this.plantId,
+                plantImage: avatar
+            }).then(res => {
+                this.plant = res.data;
+                this.getPlant = true
+            }).catch(error => {
+                console.log(error);
+            });
+        },
+        getBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader()
+                reader.readAsDataURL(file)
+                reader.onload = () => resolve(reader.result)
+                reader.onerror = error => reject(error)
+            })
+        },
+        onImageChange(e) {
+            const images = e.target.files || e.dataTransfer.files
+            this.getBase64(images[0])
+                .then(image => {
+                    const originalImg=new Image()
+                    originalImg.src=image
+                    originalImg.onload=()=>{
+                        const resizedCanvas = this.createResizedCanvasElement(originalImg)
+                        const resizedBase64 = resizedCanvas.toDataURL(images[0].type)
+                        this.avatar = resizedBase64
+                    }
+                    // this.avatar = image
+                })
+                .catch(error => this.setError(error, '画像のアップロードに失敗しました。'))
+        },
+        createResizedCanvasElement(originalImg){
+            const originalImgWidth = originalImg.width
+            const originalImgHeight = originalImg.height
+
+            // resizeWidthAndHeight関数については下記参照
+            const [resizedWidth, resizedHeight] = this.resizeWidthAndHeight(originalImgWidth, originalImgHeight)
+            const canvas = document.createElement('canvas')
+            const ctx = canvas.getContext('2d')
+            canvas.width = resizedWidth
+            canvas.height = resizedHeight
+            // drawImage関数の仕様はcanvasAPIのドキュメントを参照下さい
+            ctx.drawImage(originalImg, 0, 0, resizedWidth, resizedHeight)
+            return canvas
+        },
+        resizeWidthAndHeight (width, height) {
+
+            // 今回は400x400のサイズにしましたが、ここはプロジェクトによって柔軟に変更してよいと思います
+            const MAX_WIDTH = 400
+            const MAX_HEIGHT = 400
+
+            // 縦と横の比率を保つ
+            if (width > height) {
+                if (width > MAX_WIDTH) {
+                    height *= MAX_WIDTH / width
+                    width = MAX_WIDTH
+                }
+            } else {
+                if (height > MAX_HEIGHT) {
+                    width *= MAX_HEIGHT / height
+                    height = MAX_HEIGHT
+                }
+            }
+            return [width, height]
+        },
     },
+
 
     loop: function (classifier) {
         console.log('loop　function');
@@ -244,19 +307,6 @@ export default {
             console.error(error);
         }
     },
-    getBase64(file) {
-        return new Promise((resolve, reject) => {
-            const reader = new FileReader()
-            reader.readAsDataURL(file)
-            reader.onload = () => resolve(reader.result)
-            reader.onerror = error => reject(error)
-        })
-    },
-    onImageChange(e) {
-        const images = e.target.files || e.dataTransfer.files
-        this.getBase64(images[0])
-            .then(image => this.avatar = image)
-            .catch(error => this.setError(error, '画像のアップロードに失敗しました。'))
-    },
+
 };
 </script>

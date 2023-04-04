@@ -27,6 +27,7 @@ class PlantUnit
     private PlantId $plantId;
     private CheckSeatId $checkSeatId;
     private PlantName $plantName;
+    private PlantUnitImage $plantUnitImage;
     private array $diaries = [];
     private Carbon $createDate;
     private Carbon $updateDate;
@@ -47,6 +48,7 @@ class PlantUnit
         UserId      $userId,
         CheckSeatId $checkSeatId,
         PlantName   $plantName,
+        PlantUnitImage $plantUnitImage,
         array       $diaries,
         Carbon  $createDate=null,
         Carbon  $updateDate=null,
@@ -57,6 +59,7 @@ class PlantUnit
         $this->userId = $userId;
         $this->checkSeatId = $checkSeatId;
         $this->plantName = $plantName;
+        $this->plantUnitImage=$plantUnitImage;
         $this->diaries = $diaries;
         if($createDate===null){
             $this->createDate = Carbon::now();;
@@ -113,6 +116,12 @@ class PlantUnit
     {
         return $this->plantName;
     }
+    public function getPlantImage():PlantUnitImage
+    {
+        return $this->plantUnitImage;
+
+    }
+
 
     /**
      * @return DiaryId[]
