@@ -32,6 +32,7 @@ class Diary extends Authenticatable
         'diary_content',
         'comments',
         'create_date',
+        'image'
     ];
 
     public function comment()

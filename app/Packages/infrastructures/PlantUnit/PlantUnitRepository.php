@@ -35,6 +35,7 @@ class PlantUnitRepository implements PlantUnitRepositoryInterface
                 new UserId($plantUnit->user_Id),
                 new CheckSeatId($plantUnit->check_seat_id),
                 new plantName($plantUnit->plant_name),
+                new PlantUnitImage($plantUnit->plant_image),
                 $diaryIds,
                 new Carbon($plantUnit->create_date),
                 new Carbon($plantUnit->update_date),
@@ -95,6 +96,10 @@ class PlantUnitRepository implements PlantUnitRepositoryInterface
 
     public function delete(PlantUnitId $plantUnitId): void
     {
-        // TODO: Implement delete() method.
-    }
+        $plantUnit = \App\Models\Diary::where('plant_unit_id', $plantUnitId->getId())->first();
+
+        if ($plantUnit === null) {
+            throw new NotFoundException('指定した植物ユニットIDを見つけることができませんでした');
+        }
+        $diary->delete();    }
 }
