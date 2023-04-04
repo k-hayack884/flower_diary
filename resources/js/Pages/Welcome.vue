@@ -1,5 +1,6 @@
 <script setup>
 import {Head, Link} from '@inertiajs/inertia-vue3';
+import Banner from "@/Components/Banner.vue";
 
 defineProps({
     canLogin: Boolean,
@@ -16,19 +17,7 @@ defineProps({
 
     <div
         class="relative flex items-top justify-center bg-gray-100 dark:bg-gray-900 sm:items-center sm:pt-0">
-        <div v-if="canLogin" class="fixed top-0 right-0 px-6 py-4 sm:block">
-            <Link v-if="$page.props.user" :href="route('dashboard')"
-                  class="text-sm text-gray-700 dark:text-gray-500 underline">Dashboard
-            </Link>
 
-            <template v-else>
-                <Link :href="route('login')" class="text-sm text-gray-700 dark:text-gray-500 underline">Log in</Link>
-
-                <Link v-if="canRegister" :href="route('register')"
-                      class="ml-4 text-sm text-gray-700 dark:text-gray-500 underline">Register
-                </Link>
-            </template>
-        </div>
     </div>
     <div class="container text-center p-3 mb-2">
         <!-- タイトル行 -->
@@ -40,7 +29,7 @@ defineProps({
             <p>
                 育て方を知りたい植物を<br>カメラに写して数秒待ってください<br>
             </p>
-<!--            <button class="inline-block cursor-pointer rounded-md bg-gray-800 px-4 py-3  bg-gradient-to-r from-green-500 via-blue-500 to-pink-500　text-center text-sm font-semibold uppercase text-white transition duration-200 ease-in-out hover:bg-gray-900">Button</button>-->
+            <!--            <button class="inline-block cursor-pointer rounded-md bg-gray-800 px-4 py-3  bg-gradient-to-r from-green-500 via-blue-500 to-pink-500　text-center text-sm font-semibold uppercase text-white transition duration-200 ease-in-out hover:bg-gray-900">Button</button>-->
         </div>
 
         <!--今日を含め3日間の天気を表示 -->
@@ -61,14 +50,13 @@ defineProps({
             </div>
         </div>
         <br>
-        <div>
+        <div class="flex justify-center items-center">
             <video id="webcam" width="160" height="160" muted autoplay playsinline></video>
         </div>
         <div>
             <p id="error" v-show="error">{{ error }}</p>
-            <label>
-                <p>クリックで画像を変更できます。</p>
-                <img :src="avatar" alt="Avatar" class="image" id="plant_image">
+            <label class="btn btn-success px-5 my-4">
+                <p>画像をアップロードする</p>
                 <div>
                     <input
                         type="file"
@@ -78,10 +66,30 @@ defineProps({
                     />
                 </div>
             </label>
-            <button @click="startImage()">アップロード</button>
+            <img :src="avatar" alt="" class="image flex justify-center items-center" id="plant_image">
+            <button class="btn btn-outline-success px-12 my-4" @click="startImage()">診断する！</button>
+
+            <div v-if="canLogin" class="">
+                <Link v-if="$page.props.user" :href="route('dashboard')"
+                      class="text-sm text-gray-700 dark:text-gray-500 underline">Dashboard
+                </Link>
+                <template v-else>
+                    <div class="flex flex-col">
+                        <button class="btn btn-outline-success my-4">
+                            <Link :href="route('login')" class="text-sm text-white-700 dark:text-gray-500">Log in
+                            </Link>
+                        </button>
+                        <button class="btn btn-outline-success  my-4">
+                            <Link v-if="canRegister" :href="route('register')"
+                                  class="ml-4 text-sm text-white-700 dark:text-white-500">Register
+                            </Link>
+                        </button>
+                    </div>
+                </template>
+            </div>
             <div v-if="getPlant">
                 <p>{{ message }}</p>
-                <p>{{avatar}}</p>
+                <p>{{ avatar }}</p>
                 名前：{{ plantName }} id：{{ plantId }}
                 <button @click="registerPlant" class="btn btn-outline-success" type="button" id="button-addon2">
                     {{ registerButton }}
@@ -90,7 +98,14 @@ defineProps({
         </div>
     </div>
 </template>
+<style>
+@media screen {
+    #avatar_name {
+        display: none;
+    }
+}
 
+</style>
 <script>
 
 export default {
@@ -107,11 +122,11 @@ export default {
             plantName: '',
             scientific: '',
             information: '',
-            avatar: '',
+            avatar: null,
             message: '',
             getPlant: false,
             error: '',
-            recogButton: 'スタート！',
+            recogButton: 'カメラで診断する！',
             registerButton: 'My植物に加える',
             // 植物
             // 作成したモデルのURL
@@ -227,12 +242,53 @@ export default {
         onImageChange(e) {
             const images = e.target.files || e.dataTransfer.files
             this.getBase64(images[0])
-                .then(image => this.avatar = image)
+                .then(image => {
+                    const originalImg = new Image()
+                    originalImg.src = image
+                    originalImg.onload = () => {
+                        const resizedCanvas = this.createResizedCanvasElement(originalImg)
+                        const resizedBase64 = resizedCanvas.toDataURL(images[0].type)
+                        this.avatar = resizedBase64
+                    }
+                    // this.avatar = image
+                })
                 .catch(error => this.setError(error, '画像のアップロードに失敗しました。'))
         },
+        createResizedCanvasElement(originalImg) {
+            const originalImgWidth = originalImg.width
+            const originalImgHeight = originalImg.height
+
+            // resizeWidthAndHeight関数については下記参照
+            const [resizedWidth, resizedHeight] = this.resizeWidthAndHeight(originalImgWidth, originalImgHeight)
+            const canvas = document.createElement('canvas')
+            const ctx = canvas.getContext('2d')
+            canvas.width = resizedWidth
+            canvas.height = resizedHeight
+            // drawImage関数の仕様はcanvasAPIのドキュメントを参照下さい
+            ctx.drawImage(originalImg, 0, 0, resizedWidth, resizedHeight)
+            return canvas
+        },
+        resizeWidthAndHeight(width, height) {
+
+            // 今回は400x400のサイズにしましたが、ここはプロジェクトによって柔軟に変更してよいと思います
+            const MAX_WIDTH = 400
+            const MAX_HEIGHT = 400
+
+            // 縦と横の比率を保つ
+            if (width > height) {
+                if (width > MAX_WIDTH) {
+                    height *= MAX_WIDTH / width
+                    width = MAX_WIDTH
+                }
+            } else {
+                if (height > MAX_HEIGHT) {
+                    width *= MAX_HEIGHT / height
+                    height = MAX_HEIGHT
+                }
+            }
+            return [width, height]
+        },
     },
-
-
     async registerPlant() {
         axios.post('http://localhost:51111/api/plantUnit', {
             plantId: this.plantId,
