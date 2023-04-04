@@ -20,7 +20,7 @@ CreatePlantUnitRequest extends BaseRequest
                 'required'
             ],
             'plantImage' => [
-
+                'file_base64' => 'required_without:file|string'
             ]
 
         ];
@@ -49,6 +49,13 @@ CreatePlantUnitRequest extends BaseRequest
     public function getPlantUnitUserId():string
     {
         return $this->input('userId');
+    }
+    /**
+     * @return string
+     */
+    public function getPlantImage():string
+    {
+        return $this->input('plantImage');
     }
 
 }

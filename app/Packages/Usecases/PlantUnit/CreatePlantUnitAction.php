@@ -2,12 +2,14 @@
 
 namespace App\Packages\Usecases\PlantUnit;
 
+use App\Http\Services\Base64Service;
 use App\Packages\Domains\CheckSeat\CheckSeatId;
 use App\Packages\Domains\Plant\PlantId;
 use App\Packages\Domains\PlantUnit\plantName;
 use App\Packages\Domains\PlantUnit\PlantUnit;
 use App\Packages\Domains\PlantUnit\PlantUnitCollection;
 use App\Packages\Domains\PlantUnit\PlantUnitId;
+use App\Packages\Domains\PlantUnit\PlantUnitImage;
 use App\Packages\Domains\PlantUnit\PlantUnitRepositoryInterface;
 use App\Packages\Domains\User\UserId;
 use App\Packages\infrastructures\Plant\PlantRepository;
@@ -17,6 +19,7 @@ use App\http\Services\ImageService;
 use Illuminate\Support\Facades\Storage;
 use Exception;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 class CreatePlantUnitAction
 {
@@ -29,10 +32,10 @@ class CreatePlantUnitAction
     /**
      * @param PlantUnitRepositoryInterface $plantUnitRepository
      */
-    public function __construct(PlantUnitRepositoryInterface $plantUnitRepository,PlantRepository $plantRepository)
+    public function __construct(PlantUnitRepositoryInterface $plantUnitRepository, PlantRepository $plantRepository)
     {
         $this->plantUnitRepository = $plantUnitRepository;
-        $this->plantRepository=$plantRepository;
+        $this->plantRepository = $plantRepository;
     }
 
     /**
@@ -48,20 +51,18 @@ class CreatePlantUnitAction
         //画像の処理
         $imageFile = $createPlantUnitRequest->file('image');
 
-        if (!is_null($imageFile) && $imageFile->isValid()) {
-            // Storage::putFile('public/profiles', $imageFile);//リサイズなし
-            $fileNameToStore = ImageService::upload($imageFile, 'plantUnitImages');
-            dd($fileNameToStore);
-        }
+
         Log::info(__METHOD__, ['開始']);
         try {
             $plantUnitId = new PlantUnitId();
             $plantId = new PlantId($createPlantUnitRequest->getPlantUnitPlantId());
             $userId = new UserId($createPlantUnitRequest->getPlantUnitUserId());
             $plantUnitCheckSeatId = new CheckSeatId();
-            $plantName=$this->plantRepository->findPlantNameById($plantId);
-            //Todo PlantRepositoryを作ったら植物ユニットIDから名前を取得するように改良
+            $plantName = $this->plantRepository->findPlantNameById($plantId);
             $plantName = new PlantName($plantName);
+            $plantImageData = $createPlantUnitRequest->getPlantImage();
+            $plantImageFileName = Base64Service::base64FileDecode($plantImageData, 'plantUnitImage');
+            $plantImage = new PlantUnitImage($plantImageFileName);
             $plantDiaries = [];
             $plantUnit = new PlantUnit(
                 $plantUnitId,
@@ -69,6 +70,7 @@ class CreatePlantUnitAction
                 $userId,
                 $plantUnitCheckSeatId,
                 $plantName,
+                $plantImage,
                 $plantDiaries
             );
             $plantUnitCollection = new PlantUnitCollection();

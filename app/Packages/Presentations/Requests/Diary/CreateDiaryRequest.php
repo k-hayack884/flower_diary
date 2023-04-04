@@ -19,6 +19,9 @@ class CreateDiaryRequest extends BaseRequest
                 'required',
                 'string',
                 'max:200'
+            ],
+            'plantImage' => [
+                'file_base64' => 'required_without:file|string'
             ]
         ];
     }
@@ -36,5 +39,10 @@ class CreateDiaryRequest extends BaseRequest
     {
         return $this->input('diaryContent');
     }
+    public function getPlantImage():string
+    {
+        return $this->input('plantImage');
+    }
+
 
 }

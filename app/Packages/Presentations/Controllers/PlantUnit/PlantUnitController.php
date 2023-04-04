@@ -29,7 +29,6 @@ class PlantUnitController extends Controller
         CreatePlantUnitRequest $request,
         CreatePlantUnitAction $action,
     ):array{
-        dump($request);
         return (array)$action($request);
     }
 
