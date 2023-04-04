@@ -2,10 +2,12 @@
 
 namespace App\Packages\Usecases\Diary;
 
+use App\Http\Services\Base64Service;
 use App\Packages\Domains\Diary\Diary;
 use App\Packages\Domains\Diary\DiaryCollection;
 use App\Packages\Domains\Diary\DiaryContent;
 use App\Packages\Domains\Diary\DiaryId;
+use App\Packages\Domains\Diary\DiaryImage;
 use App\Packages\Domains\Diary\DiaryRepositoryInterface;
 use App\Packages\Presentations\Requests\Diary\CreateDiaryRequest;
 use App\Packages\Usecases\Dto\Diary\DiaryDto;
@@ -45,9 +47,13 @@ class CreateDiaryAction
         try {
             $diaryId = new DiaryId();
             $diaryContent = new DiaryContent($diaryContent);
+            $plantImageData = $createDiaryRequest->getPlantImage();
+            $plantImageFileName = Base64Service::base64FileDecode($plantImageData, 'diaryImage');
+            $plantImage = new DiaryImage($plantImageFileName);
             $diary = new Diary(
                 $diaryId,
-                $diaryContent
+                $diaryContent,
+                $plantImage
             );
             $diaryCollection = new DiaryCollection();
             $diaryCollection->addDiary($diary);

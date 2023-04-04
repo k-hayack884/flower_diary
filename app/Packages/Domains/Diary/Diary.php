@@ -17,6 +17,7 @@ class Diary
     private DiaryContent $diaryContent;
     private array $comments = [];
     private Carbon $createDate;
+    private DiaryImage $diaryImage;
 
     /**
      * @param DiaryId $diaryId
@@ -24,10 +25,11 @@ class Diary
      * @param CommentId[]|null $comments
      * @param Carbon|null $createDate
      */
-    public function __construct(DiaryId $diaryId, DiaryContent $diaryContent,array $comments=null,Carbon $createDate=null)
+    public function __construct(DiaryId $diaryId, DiaryContent $diaryContent,DiaryImage $diaryImage,array $comments=null,Carbon $createDate=null,)
     {
         $this->diaryId = $diaryId;
         $this->diaryContent = $diaryContent;
+        $this->diaryImage=$diaryImage;
         if($comments===null){
             $this->comments=[];
         }else{
@@ -49,6 +51,10 @@ class Diary
     {
         $diaryContent=$this->diaryContent->update($content);
         $this->diaryContent=$diaryContent;
+    }
+    public function getDiaryImage(): DiaryImage
+    {
+        return $this->diaryImage;
     }
     public function addCommentId(string $commentId):void
     {
@@ -86,5 +92,10 @@ class Diary
     {
         return $this->createDate;
     }
+
+    /**
+     * @return DiaryImage
+     */
+
 }
 
