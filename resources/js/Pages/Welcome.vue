@@ -2,6 +2,7 @@
 import {Head, Link} from '@inertiajs/inertia-vue3';
 import Banner from "@/Components/Banner.vue";
 import Load from "@/Components/Load.vue";
+import RegisterModal from "@/Components/RegisterModal.vue";
 
 defineProps({
     canLogin: Boolean,
@@ -112,12 +113,14 @@ defineProps({
             <div class="bg-gray-900 text-white py-4">
                 <div class="container mx-auto flex justify-center items-center">
 
-                    <button v-if="$page.props.user"
+                    <button
                         @click="registerPlant"
                             class="btn btn-outline-success bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded"
                             type="button" id="button-addon2">
                         {{ registerButton }}
                     </button>
+
+                    <RegisterModal />
                 </div>
             </div>
         </div>
@@ -136,6 +139,7 @@ defineProps({
 export default {
     components: {
         Load,
+        RegisterModal
     },
     props: {
         userId: null,
@@ -211,7 +215,7 @@ export default {
                 // 読み込みが完了次第ここが実行されます
                 console.log('モデルの読み込みが完了しました');
                 this.myPlant.shift();
-                this.loop(classifier);
+                this.scanCamera(classifier);
                 console.log('loop処理1回目');
             });
         },
@@ -238,12 +242,12 @@ export default {
                 // this.loop(classifier);
                 console.log('loop処理1回目');
                 console.log(this.myPlant)
-                this.loop(classifier)
+                this.scanImage(classifier)
 
             });
 
         },
-        scan: function (classifier) {
+        scanImage: function (classifier) {
             classifier.classify(plant_image, async (err, results) => {
                 axios.post('http://localhost:51111/api/scanPlant', {
                     plantLabel: results[0].label
@@ -258,6 +262,29 @@ export default {
                 }).catch(error => {
                     console.log(error);
                 });
+                console.log(results[0].label)
+
+                // setTimeout(this.loop(classifier), 1000);
+            })
+        },
+        scanCamera: function (classifier) {
+            console.log('loop　function');
+            // 推論を実行し、エラーがあればerrに、結果をresultsに格納して、
+            // 推論が完了次第 { } の中身を実行します
+            classifier.classify( async (err, results) => {
+                axios.post('http://localhost:51111/api/scanPlant', {
+                    plantLabel: results[0].label
+                }).then(res => {
+                    this.plantId = res.data.plant.plantId;
+                    this.plantName = res.data.plant.name;
+                    this.information = res.data.plant.information;
+                    this.scientific = res.data.plant.scientific;
+                    this.getPlant = true;
+                    this.isLoading = false
+
+                }).catch(error => {
+                    console.log(error);
+                }).finally(this.recogButton = '撮影完了');
                 console.log(results[0].label)
 
                 // setTimeout(this.loop(classifier), 1000);
@@ -332,18 +359,7 @@ export default {
             console.log(error);
         });
     },
-    loop: function (classifier) {
-        console.log('loop　function');
-        // 推論を実行し、エラーがあればerrに、結果をresultsに格納して、
-        // 推論が完了次第 { } の中身を実行します
-        classifier.classify(async (err, results) => {
 
-            // console.log(this.myPlant.name[0])
-            this.recogButton = '撮影完了';
-            // 推論終了1秒後に自分の関数を実行（ループになる）
-            // setTimeout(this.loop(classifier), 1000);
-        });
-    },
 
     getWeather: async function () {
         console.log('getWeatherが呼び出されました');
