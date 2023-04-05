@@ -1,6 +1,7 @@
 <script setup>
 import {Head, Link} from '@inertiajs/inertia-vue3';
 import Banner from "@/Components/Banner.vue";
+import Load from "@/Components/Load.vue";
 
 defineProps({
     canLogin: Boolean,
@@ -24,6 +25,7 @@ defineProps({
         <div class="row my-3">
             <div class="col-sm-6 mx-auto blue"><h1>植物判定アプリ</h1></div>
         </div>
+        {{ $page.props.user }}
 
         <div class="info">
             <p>
@@ -44,15 +46,19 @@ defineProps({
         <!--   植物判定 -->
         <div class="col-sm-6 mx-auto" id="judge">
             <div class="input-group-append">
-                <button @click="startCamera" class="btn btn-outline-success" type="button" id="button-addon2">
+                <button @click="startCamera"
+                        class="btn btn-outline-success bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded  px-8"
+                        type="button" id="button-addon2">
                     {{ recogButton }}
                 </button>
             </div>
         </div>
         <br>
         <div class="flex justify-center items-center">
-            <video id="webcam" width="160" height="160" muted autoplay playsinline></video>
+            <video id="webcam" width="180" height="240" muted autoplay playsinline></video>
         </div>
+
+
         <div>
             <p id="error" v-show="error">{{ error }}</p>
             <label class="btn btn-success px-5 my-4">
@@ -66,22 +72,28 @@ defineProps({
                     />
                 </div>
             </label>
-            <img :src="avatar" alt="" class="image flex justify-center items-center" id="plant_image">
-            <button class="btn btn-outline-success px-12 my-4" @click="startImage()">診断する！</button>
+            <img :src="avatar" alt="" class="image mx-auto" id="plant_image">
+            <button  v-if="avatar"
+                class="btn btn-outline-success bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded px-12 my-4"
+                @click="startImage()">診断する！
+            </button>
 
-            <div v-if="canLogin" class="">
+            <div v-if="canLogin" class="flex justify-center items-center ">
                 <Link v-if="$page.props.user" :href="route('dashboard')"
                       class="text-sm text-gray-700 dark:text-gray-500 underline">Dashboard
                 </Link>
                 <template v-else>
                     <div class="flex flex-col">
-                        <button class="btn btn-outline-success my-4">
+                        <button
+                            class="btn btn-success bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded px-10 my-4">
                             <Link :href="route('login')" class="text-sm text-white-700 dark:text-gray-500">Log in
                             </Link>
                         </button>
-                        <button class="btn btn-outline-success  my-4">
+                        <button
+                            class="btn btn-success bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded px-10 my-4">
                             <Link v-if="canRegister" :href="route('register')"
-                                  class="ml-4 text-sm text-white-700 dark:text-white-500">Register
+                                  class="
+                                  ml-4 text-sm text-white-700 dark:text-white-500">Register
                             </Link>
                         </button>
                     </div>
@@ -89,11 +101,24 @@ defineProps({
             </div>
             <div v-if="getPlant">
                 <p>{{ message }}</p>
-                <p>{{ avatar }}</p>
                 名前：{{ plantName }} id：{{ plantId }}
-                <button @click="registerPlant" class="btn btn-outline-success" type="button" id="button-addon2">
-                    {{ registerButton }}
-                </button>
+            </div>
+        </div>
+        <Load :show="isLoading" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></Load>
+
+        <!--        <p v-html="text" v-show="load" id="load"></p>-->
+
+        <div v-if="getPlant">
+            <div class="bg-gray-900 text-white py-4">
+                <div class="container mx-auto flex justify-center items-center">
+
+                    <button v-if="$page.props.user"
+                        @click="registerPlant"
+                            class="btn btn-outline-success bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded"
+                            type="button" id="button-addon2">
+                        {{ registerButton }}
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -109,6 +134,9 @@ defineProps({
 <script>
 
 export default {
+    components: {
+        Load,
+    },
     props: {
         userId: null,
         value: {
@@ -118,6 +146,7 @@ export default {
     },
     data() {
         return {
+
             plantId: '',
             plantName: '',
             scientific: '',
@@ -128,6 +157,8 @@ export default {
             error: '',
             recogButton: 'カメラで診断する！',
             registerButton: 'My植物に加える',
+            isLoading: false,
+            // text: '<img src="../../icon/loading.gif">',
             // 植物
             // 作成したモデルのURL
             myPlant: [{
@@ -162,7 +193,7 @@ export default {
             this.recogButton = '撮影準備中…';
             const stream = await navigator.mediaDevices.getUserMedia({
                 audio: false,
-                video: {width: 160, height: 160, facingMode: 'environment'},
+                video: {width: 200, height: 200, facingMode: 'environment'},
                 // フロントカメラ優先 { facingMode: "user" }
                 // リアカメラ優先 { facingMode: "environment" }
             });
@@ -185,6 +216,7 @@ export default {
             });
         },
         async startImage() {
+            this.isLoading = true;
             console.log(this.avatar);
             if (this.avatar) {
                 /* postで画像を送る処理をここに書く */
@@ -206,14 +238,13 @@ export default {
                 // this.loop(classifier);
                 console.log('loop処理1回目');
                 console.log(this.myPlant)
-                this.scan(classifier)
+                this.loop(classifier)
 
             });
 
         },
         scan: function (classifier) {
             classifier.classify(plant_image, async (err, results) => {
-
                 axios.post('http://localhost:51111/api/scanPlant', {
                     plantLabel: results[0].label
                 }).then(res => {
@@ -221,7 +252,8 @@ export default {
                     this.plantName = res.data.plant.name;
                     this.information = res.data.plant.information;
                     this.scientific = res.data.plant.scientific;
-                    this.getPlant = true
+                    this.getPlant = true;
+                    this.isLoading = false
 
                 }).catch(error => {
                     console.log(error);
@@ -271,8 +303,8 @@ export default {
         resizeWidthAndHeight(width, height) {
 
             // 今回は400x400のサイズにしましたが、ここはプロジェクトによって柔軟に変更してよいと思います
-            const MAX_WIDTH = 400
-            const MAX_HEIGHT = 400
+            const MAX_WIDTH = 200
+            const MAX_HEIGHT = 200
 
             // 縦と横の比率を保つ
             if (width > height) {
