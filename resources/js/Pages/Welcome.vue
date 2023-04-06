@@ -120,7 +120,8 @@ defineProps({
                         {{ registerButton }}
                     </button>
 
-                    <RegisterModal />
+                    <RegisterModal :open-modal="isModalOpen" />
+
                 </div>
             </div>
         </div>
@@ -162,6 +163,7 @@ export default {
             recogButton: 'カメラで診断する！',
             registerButton: 'My植物に加える',
             isLoading: false,
+            isModalOpen: false,
             // text: '<img src="../../icon/loading.gif">',
             // 植物
             // 作成したモデルのURL
@@ -347,18 +349,31 @@ export default {
             }
             return [width, height]
         },
+        async registerPlant() {
+            if (!this.$page.props.user) {
+                this.openModal();
+                console.log('はい？')
+                return;
+            }
+            axios.post('http://localhost:51111/api/plantUnit', {
+                plantId: this.plantId,
+                plantUnitUserId: '1'
+            }).then(res => {
+                this.plant = res.data;
+                this.getPlant = true
+            }).catch(error => {
+                console.log(error);
+            });
+        },
+        openModal() {
+            this.isModalOpen = true;
+        },
+        closeModal() {
+            this.isModalOpen = false;
+        },
     },
-    async registerPlant() {
-        axios.post('http://localhost:51111/api/plantUnit', {
-            plantId: this.plantId,
-            plantUnitUserId: '1'
-        }).then(res => {
-            this.plant = res.data;
-            this.getPlant = true
-        }).catch(error => {
-            console.log(error);
-        });
-    },
+
+
 
 
     getWeather: async function () {
