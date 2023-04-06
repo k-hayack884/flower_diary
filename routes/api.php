@@ -47,12 +47,12 @@ Route::middleware('auth:sanctum')->get('/hoge', function (Request $request) {
     ]);
 });
 
-
+Route::post(
+    'scanPlant',
+    [ScanPlantController::class,'scan']
+);
 Route::middleware('auth:sanctum')->group(function () {
-    Route::post(
-        'scanPlant',
-        [ScanPlantController::class,'scan']
-    );
+
     Route::get(
         'waterSetting',
         [WaterSettingController::class,'index']

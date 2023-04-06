@@ -1,5 +1,8 @@
 <script setup>
 import {Head, Link} from '@inertiajs/inertia-vue3';
+import Banner from "@/Components/Banner.vue";
+import Load from "@/Components/Load.vue";
+import RegisterModal from "@/Components/RegisterModal.vue";
 
 defineProps({
     canLogin: Boolean,
@@ -16,31 +19,20 @@ defineProps({
 
     <div
         class="relative flex items-top justify-center bg-gray-100 dark:bg-gray-900 sm:items-center sm:pt-0">
-        <div v-if="canLogin" class="fixed top-0 right-0 px-6 py-4 sm:block">
-            <Link v-if="$page.props.user" :href="route('dashboard')"
-                  class="text-sm text-gray-700 dark:text-gray-500 underline">Dashboard
-            </Link>
 
-            <template v-else>
-                <Link :href="route('login')" class="text-sm text-gray-700 dark:text-gray-500 underline">Log in</Link>
-
-                <Link v-if="canRegister" :href="route('register')"
-                      class="ml-4 text-sm text-gray-700 dark:text-gray-500 underline">Register
-                </Link>
-            </template>
-        </div>
     </div>
     <div class="container text-center p-3 mb-2">
         <!-- タイトル行 -->
         <div class="row my-3">
             <div class="col-sm-6 mx-auto blue"><h1>植物判定アプリ</h1></div>
         </div>
+        {{ $page.props.user }}
 
         <div class="info">
             <p>
                 育て方を知りたい植物を<br>カメラに写して数秒待ってください<br>
             </p>
-<!--            <button class="inline-block cursor-pointer rounded-md bg-gray-800 px-4 py-3  bg-gradient-to-r from-green-500 via-blue-500 to-pink-500　text-center text-sm font-semibold uppercase text-white transition duration-200 ease-in-out hover:bg-gray-900">Button</button>-->
+            <!--            <button class="inline-block cursor-pointer rounded-md bg-gray-800 px-4 py-3  bg-gradient-to-r from-green-500 via-blue-500 to-pink-500　text-center text-sm font-semibold uppercase text-white transition duration-200 ease-in-out hover:bg-gray-900">Button</button>-->
         </div>
 
         <!--今日を含め3日間の天気を表示 -->
@@ -55,20 +47,23 @@ defineProps({
         <!--   植物判定 -->
         <div class="col-sm-6 mx-auto" id="judge">
             <div class="input-group-append">
-                <button @click="startCamera" class="btn btn-outline-success" type="button" id="button-addon2">
+                <button @click="startCamera"
+                        class="btn btn-outline-success bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded  px-8"
+                        type="button" id="button-addon2">
                     {{ recogButton }}
                 </button>
             </div>
         </div>
         <br>
-        <div>
-            <video id="webcam" width="160" height="160" muted autoplay playsinline></video>
+        <div class="flex justify-center items-center">
+            <video id="webcam" width="180" height="240" muted autoplay playsinline></video>
         </div>
+
+
         <div>
             <p id="error" v-show="error">{{ error }}</p>
-            <label>
-                <p>クリックで画像を変更できます。</p>
-                <img :src="avatar" alt="Avatar" class="image" id="plant_image">
+            <label class="btn btn-success px-5 my-4">
+                <p>画像をアップロードする</p>
                 <div>
                     <input
                         type="file"
@@ -78,22 +73,75 @@ defineProps({
                     />
                 </div>
             </label>
-            <button @click="startImage()">アップロード</button>
+            <img :src="avatar" alt="" class="image mx-auto" id="plant_image">
+            <button  v-if="avatar"
+                class="btn btn-outline-success bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded px-12 my-4"
+                @click="startImage()">診断する！
+            </button>
+
+            <div v-if="canLogin" class="flex justify-center items-center ">
+                <Link v-if="$page.props.user" :href="route('dashboard')"
+                      class="text-sm text-gray-700 dark:text-gray-500 underline">Dashboard
+                </Link>
+                <template v-else>
+                    <div class="flex flex-col">
+                        <button
+                            class="btn btn-success bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded px-10 my-4">
+                            <Link :href="route('login')" class="text-sm text-white-700 dark:text-gray-500">Log in
+                            </Link>
+                        </button>
+                        <button
+                            class="btn btn-success bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded px-10 my-4">
+                            <Link v-if="canRegister" :href="route('register')"
+                                  class="
+                                  ml-4 text-sm text-white-700 dark:text-white-500">Register
+                            </Link>
+                        </button>
+                    </div>
+                </template>
+            </div>
             <div v-if="getPlant">
                 <p>{{ message }}</p>
-                <p>{{avatar}}</p>
                 名前：{{ plantName }} id：{{ plantId }}
-                <button @click="registerPlant" class="btn btn-outline-success" type="button" id="button-addon2">
-                    {{ registerButton }}
-                </button>
+            </div>
+        </div>
+        <Load :show="isLoading" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></Load>
+
+        <!--        <p v-html="text" v-show="load" id="load"></p>-->
+
+        <div v-if="getPlant">
+            <div class="bg-gray-900 text-white py-4">
+                <div class="container mx-auto flex justify-center items-center">
+
+                    <button
+                        @click="registerPlant"
+                            class="btn btn-outline-success bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded"
+                            type="button" id="button-addon2">
+                        {{ registerButton }}
+                    </button>
+
+                    <RegisterModal :open-modal="isModalOpen" />
+
+                </div>
             </div>
         </div>
     </div>
 </template>
+<style>
+@media screen {
+    #avatar_name {
+        display: none;
+    }
+}
 
+</style>
 <script>
 
 export default {
+    components: {
+        Load,
+        RegisterModal
+    },
     props: {
         userId: null,
         value: {
@@ -103,16 +151,20 @@ export default {
     },
     data() {
         return {
+
             plantId: '',
             plantName: '',
             scientific: '',
             information: '',
-            avatar: '',
+            avatar: null,
             message: '',
             getPlant: false,
             error: '',
-            recogButton: 'スタート！',
+            recogButton: 'カメラで診断する！',
             registerButton: 'My植物に加える',
+            isLoading: false,
+            isModalOpen: false,
+            // text: '<img src="../../icon/loading.gif">',
             // 植物
             // 作成したモデルのURL
             myPlant: [{
@@ -147,7 +199,7 @@ export default {
             this.recogButton = '撮影準備中…';
             const stream = await navigator.mediaDevices.getUserMedia({
                 audio: false,
-                video: {width: 160, height: 160, facingMode: 'environment'},
+                video: {width: 200, height: 200, facingMode: 'environment'},
                 // フロントカメラ優先 { facingMode: "user" }
                 // リアカメラ優先 { facingMode: "environment" }
             });
@@ -165,11 +217,12 @@ export default {
                 // 読み込みが完了次第ここが実行されます
                 console.log('モデルの読み込みが完了しました');
                 this.myPlant.shift();
-                this.loop(classifier);
+                this.scanCamera(classifier);
                 console.log('loop処理1回目');
             });
         },
         async startImage() {
+            this.isLoading = true;
             console.log(this.avatar);
             if (this.avatar) {
                 /* postで画像を送る処理をここに書く */
@@ -191,14 +244,13 @@ export default {
                 // this.loop(classifier);
                 console.log('loop処理1回目');
                 console.log(this.myPlant)
-                this.scan(classifier)
+                this.scanImage(classifier)
 
             });
 
         },
-        scan: function (classifier) {
+        scanImage: function (classifier) {
             classifier.classify(plant_image, async (err, results) => {
-
                 axios.post('http://localhost:51111/api/scanPlant', {
                     plantLabel: results[0].label
                 }).then(res => {
@@ -206,11 +258,35 @@ export default {
                     this.plantName = res.data.plant.name;
                     this.information = res.data.plant.information;
                     this.scientific = res.data.plant.scientific;
-                    this.getPlant = true
+                    this.getPlant = true;
+                    this.isLoading = false
 
                 }).catch(error => {
                     console.log(error);
                 });
+                console.log(results[0].label)
+
+                // setTimeout(this.loop(classifier), 1000);
+            })
+        },
+        scanCamera: function (classifier) {
+            console.log('loop　function');
+            // 推論を実行し、エラーがあればerrに、結果をresultsに格納して、
+            // 推論が完了次第 { } の中身を実行します
+            classifier.classify( async (err, results) => {
+                axios.post('http://localhost:51111/api/scanPlant', {
+                    plantLabel: results[0].label
+                }).then(res => {
+                    this.plantId = res.data.plant.plantId;
+                    this.plantName = res.data.plant.name;
+                    this.information = res.data.plant.information;
+                    this.scientific = res.data.plant.scientific;
+                    this.getPlant = true;
+                    this.isLoading = false
+
+                }).catch(error => {
+                    console.log(error);
+                }).finally(this.recogButton = '撮影完了');
                 console.log(results[0].label)
 
                 // setTimeout(this.loop(classifier), 1000);
@@ -227,35 +303,78 @@ export default {
         onImageChange(e) {
             const images = e.target.files || e.dataTransfer.files
             this.getBase64(images[0])
-                .then(image => this.avatar = image)
+                .then(image => {
+                    const originalImg = new Image()
+                    originalImg.src = image
+                    originalImg.onload = () => {
+                        const resizedCanvas = this.createResizedCanvasElement(originalImg)
+                        const resizedBase64 = resizedCanvas.toDataURL(images[0].type)
+                        this.avatar = resizedBase64
+                    }
+                    // this.avatar = image
+                })
                 .catch(error => this.setError(error, '画像のアップロードに失敗しました。'))
+        },
+        createResizedCanvasElement(originalImg) {
+            const originalImgWidth = originalImg.width
+            const originalImgHeight = originalImg.height
+
+            // resizeWidthAndHeight関数については下記参照
+            const [resizedWidth, resizedHeight] = this.resizeWidthAndHeight(originalImgWidth, originalImgHeight)
+            const canvas = document.createElement('canvas')
+            const ctx = canvas.getContext('2d')
+            canvas.width = resizedWidth
+            canvas.height = resizedHeight
+            // drawImage関数の仕様はcanvasAPIのドキュメントを参照下さい
+            ctx.drawImage(originalImg, 0, 0, resizedWidth, resizedHeight)
+            return canvas
+        },
+        resizeWidthAndHeight(width, height) {
+
+            // 今回は400x400のサイズにしましたが、ここはプロジェクトによって柔軟に変更してよいと思います
+            const MAX_WIDTH = 200
+            const MAX_HEIGHT = 200
+
+            // 縦と横の比率を保つ
+            if (width > height) {
+                if (width > MAX_WIDTH) {
+                    height *= MAX_WIDTH / width
+                    width = MAX_WIDTH
+                }
+            } else {
+                if (height > MAX_HEIGHT) {
+                    width *= MAX_HEIGHT / height
+                    height = MAX_HEIGHT
+                }
+            }
+            return [width, height]
+        },
+        async registerPlant() {
+            if (!this.$page.props.user) {
+                this.openModal();
+                console.log('はい？')
+                return;
+            }
+            axios.post('http://localhost:51111/api/plantUnit', {
+                plantId: this.plantId,
+                plantUnitUserId: '1'
+            }).then(res => {
+                this.plant = res.data;
+                this.getPlant = true
+            }).catch(error => {
+                console.log(error);
+            });
+        },
+        openModal() {
+            this.isModalOpen = true;
+        },
+        closeModal() {
+            this.isModalOpen = false;
         },
     },
 
 
-    async registerPlant() {
-        axios.post('http://localhost:51111/api/plantUnit', {
-            plantId: this.plantId,
-            plantUnitUserId: '1'
-        }).then(res => {
-            this.plant = res.data;
-            this.getPlant = true
-        }).catch(error => {
-            console.log(error);
-        });
-    },
-    loop: function (classifier) {
-        console.log('loop　function');
-        // 推論を実行し、エラーがあればerrに、結果をresultsに格納して、
-        // 推論が完了次第 { } の中身を実行します
-        classifier.classify(async (err, results) => {
 
-            // console.log(this.myPlant.name[0])
-            this.recogButton = '撮影完了';
-            // 推論終了1秒後に自分の関数を実行（ループになる）
-            // setTimeout(this.loop(classifier), 1000);
-        });
-    },
 
     getWeather: async function () {
         console.log('getWeatherが呼び出されました');
