@@ -45,6 +45,7 @@ class GetPlantUnitsAction
                     $plantUnit->getPlantId()->getId(),
                     $plantUnit->getCheckSeatId()->getId(),
                     $plantUnit->getPlantName()->getValue(),
+                    $plantUnit->getPlantImage()->getValue(),
                     $plantUnit->getDiaries(),
                     $plantUnit->getCreateDate()->format('Y/m/d'),
                     $plantUnit->getUpdateDate()->format('Y/m/d'),

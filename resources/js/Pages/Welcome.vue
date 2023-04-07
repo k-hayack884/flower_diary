@@ -254,6 +254,7 @@ export default {
                 axios.post('http://localhost:51111/api/scanPlant', {
                     plantLabel: results[0].label
                 }).then(res => {
+                    console.log(res.data)
                     this.plantId = res.data.plant.plantId;
                     this.plantName = res.data.plant.name;
                     this.information = res.data.plant.information;
