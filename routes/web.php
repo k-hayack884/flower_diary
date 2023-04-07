@@ -41,6 +41,13 @@ Route::middleware([
             'phpVersion' => PHP_VERSION,
         ]);
     })->name('welcome');
+    Route::get('/plantUnit', function () {
+        return Inertia::render('PlantUnit', );
+    })->name('plantUnit');
+
+    Route::get('/todayCare', function () {
+        return Inertia::render('TodayCare', );
+    })->name('todayCare');
     Route::get('/adminComment', function () {
         return Inertia::render('Comment', [
         ]);

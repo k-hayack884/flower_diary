@@ -35,7 +35,7 @@ import Welcome from '@/Components/Welcome.vue';
                         </Link>
                     </div>
 
-                    <Link :href="route('welcome')" class="block">
+                    <Link :href="route('plantUnit')" class="block">
                     <div class="flex justify-center p-4  max-w-md w-full">
                         <div class="px-4 py-6 rounded-lg text-center">
                             <img src="../../icon/チューリップ.png" style="width: 128px;height: 128px"/>
@@ -45,7 +45,7 @@ import Welcome from '@/Components/Welcome.vue';
                         </div>
                     </div>
                     </Link>
-                    <Link :href="route('welcome')" class="block">
+                    <Link :href="route('todayCare')" class="block">
                     <div class="flex justify-center  max-w-md p-4 w-full">
                         <div class="px-4 py-6 rounded-lg text-center">
                             <img src="../../icon/じょうろ.png" style="width: 128px;height: 128px"/>
