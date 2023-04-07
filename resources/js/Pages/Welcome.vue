@@ -62,7 +62,7 @@ defineProps({
 
         <div>
             <p id="error" v-show="error">{{ error }}</p>
-            <label class="btn btn-success px-5 my-4">
+            <label class="btn btn-success px-6 my-4">
                 <p>画像をアップロードする</p>
                 <div>
                     <input
@@ -81,7 +81,7 @@ defineProps({
 
             <div v-if="canLogin" class="flex justify-center items-center ">
                 <Link v-if="$page.props.user" :href="route('dashboard')"
-                      class="text-sm text-gray-700 dark:text-gray-500 underline">Dashboard
+                      class="btn btn-success bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded px-10 my-4">マイページに戻る
                 </Link>
                 <template v-else>
                     <div class="flex flex-col">
