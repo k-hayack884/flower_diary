@@ -1,18 +1,19 @@
 <template>
     <div class="flex flex-col">
 
-    <div v-for="plantUnit in plantUnits">
-        <div class="card card-side bg-base-100 shadow-xl">
-            <figure><img src="../../icon/wings.webp" alt="Movie"/></figure>
-            <div class="card-body">
-                <h2 class="card-title">New movie is released!</h2>
-                <p>Click the button to watch on Jetflix app.</p>
-                <div class="card-actions justify-end">
-                    <button class="btn btn-primary">Watch</button>
+        <div v-for="plantUnit in plantUnits" class="w-3/4">
+            <div class="card card-side bg-base-100 shadow-xl">
+                <figure><img src="../../icon/wings.webp"/></figure>
+                <div class="card-body">
+                    <h2 class="card-title">{{ plantUnit.plantName }}</h2><a href="">名前変更</a>
+                    {{ plantUnit.plantData.scientific }}
+                    <p>日記更新日: {{ plantUnit.createDate }}</p>
+                    <div class="card-actions justify-end">
+                        <button class="btn btn-primary">詳細</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
     </div>
 
 </template>
@@ -32,27 +33,45 @@ export default {
                 diaries: [],
                 createDate: '',
                 updateDate: '',
-            }]
+                plantData: [{
+                    scientific: '',
+                }]
+            }],
+            plantData: [{
+                scientific: ''
+            }],
         }
     },
     created() {
         axios.get('/api/plantUnit')
             .then(res => {
-                const plantUnit = [];
-                res.data.plantUnits.forEach((plant) => {
-                    plantUnit.push({
-                        plantUnitId: plant.plantUnitId,
-                        UserId: plant.UserId,
-                        plantId: plant.plantId,
-                        checkSeatId: plant.checkSeatId,
-                        plantName: plant.plantName,
-                        plantImage: plant.plantImage,
-                        diaries: plant.diaries,
-                        createDate: plant.createDate,
-                        updateDate: plant.updateDate,
+                const plantUnits = res.data.plantUnits.map(plant => ({
+                    plantUnitId: plant.plantUnitId,
+                    UserId: plant.UserId,
+                    plantId: plant.plantId,
+                    checkSeatId: plant.checkSeatId,
+                    plantName: plant.plantName,
+                    plantImage: plant.plantImage,
+                    diaries: plant.diaries,
+                    createDate: plant.createDate,
+                    updateDate: plant.updateDate,
+                    plantData: []
+                }));
+                this.plantUnits = plantUnits;
+                console.log(this.plantUnits[0]);
+
+                // `this.plantUnits`が更新された後に実行
+                axios.get(`/api/plant/${this.plantUnits[0].plantId}`, {})
+                    .then(res => {
+                        const plantData = {
+                            scientific: res.data.plant[0].scientific
+                        };
+                        this.$set(this.plantUnits[0], 'plantData', plantData);
+                    })
+                    .catch(error => {
+                        // APIリクエストが失敗した場合の処理
+                        console.log(error);
                     });
-                });
-                this.plantUnits = plantUnit;
             })
             .catch(error => {
                 // APIリクエストが失敗した場合の処理
