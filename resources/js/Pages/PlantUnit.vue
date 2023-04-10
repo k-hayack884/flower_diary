@@ -1,12 +1,13 @@
 <template>
-    <div class="flex flex-col">
+    <div class="flex justify-center">
+    <div class="flex flex-col w-3/4">
 
-        <div v-for="plantUnit in plantUnits" class="w-3/4">
-            <div class="card card-side bg-base-100 shadow-xl">
-                <figure><img src="../../icon/wings.webp"/></figure>
+        <div v-for="plantUnit in plantUnits" class="">
+            <div class="card card-side bg-base-100 shadow-lg rounded-lg overflow-hidden m4transform hover:scale-105 transition duration-300 my-4">
+                <figure><img :src="plantUnit.plantImage" /></figure>
                 <div class="card-body">
                     <h2 clasoss="card-title">{{ plantUnit.plantName }}</h2><a href="">名前変更</a>
-                    {{plantUnit.plantData.scientific}}
+                    {{ plantUnit.plantData.scientific }}
                     <p>日記更新日: {{ plantUnit.createDate }}</p>
                     <div class="card-actions justify-end">
                         <button class="btn btn-primary">詳細</button>
@@ -15,7 +16,7 @@
             </div>
         </div>
     </div>
-
+    </div>
 </template>
 
 <script>
@@ -57,7 +58,7 @@ export default {
                     }
                 }));
                 this.plantUnits = plantUnits;
-                console.log(this.plantUnits[0]);
+                console.log(this.plantUnits[3].plantImage);
 
                 // `this.plantUnits`が更新された後に実行
                 this.$nextTick(() => {
@@ -68,6 +69,7 @@ export default {
                                 Vue.set(this.plantUnits[index], 'plantData', {
                                     scientific: res.data.plant.scientific
                                 });
+
                             })
                             .catch(error => {
                                 // APIリクエストが失敗した場合の処理
