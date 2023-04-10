@@ -5,8 +5,8 @@
             <div class="card card-side bg-base-100 shadow-xl">
                 <figure><img src="../../icon/wings.webp"/></figure>
                 <div class="card-body">
-                    <h2 class="card-title">{{ plantUnit.plantName }}</h2><a href="">名前変更</a>
-                    {{ plantUnit.plantData.scientific }}
+                    <h2 clasoss="card-title">{{ plantUnit.plantName }}</h2><a href="">名前変更</a>
+                    {{plantUnit.plantData.scientific}}
                     <p>日記更新日: {{ plantUnit.createDate }}</p>
                     <div class="card-actions justify-end">
                         <button class="btn btn-primary">詳細</button>
@@ -33,12 +33,9 @@ export default {
                 diaries: [],
                 createDate: '',
                 updateDate: '',
-                plantData: [{
+                plantData: {
                     scientific: '',
-                }]
-            }],
-            plantData: [{
-                scientific: ''
+                }
             }],
         }
     },
@@ -55,23 +52,29 @@ export default {
                     diaries: plant.diaries,
                     createDate: plant.createDate,
                     updateDate: plant.updateDate,
-                    plantData: []
+                    plantData: {
+                        scientific: '',
+                    }
                 }));
                 this.plantUnits = plantUnits;
                 console.log(this.plantUnits[0]);
 
                 // `this.plantUnits`が更新された後に実行
-                axios.get(`/api/plant/${this.plantUnits[0].plantId}`, {})
-                    .then(res => {
-                        const plantData = {
-                            scientific: res.data.plant[0].scientific
-                        };
-                        this.$set(this.plantUnits[0], 'plantData', plantData);
-                    })
-                    .catch(error => {
-                        // APIリクエストが失敗した場合の処理
-                        console.log(error);
+                this.$nextTick(() => {
+                    this.plantUnits.forEach((plantUnit, index) => {
+                        axios.get(`/api/plant/${plantUnit.plantId}`, {})
+                            .then(res => {
+                                console.log(res.data.plant.scientific)
+                                Vue.set(this.plantUnits[index], 'plantData', {
+                                    scientific: res.data.plant.scientific
+                                });
+                            })
+                            .catch(error => {
+                                // APIリクエストが失敗した場合の処理
+                                console.log(error);
+                            });
                     });
+                });
             })
             .catch(error => {
                 // APIリクエストが失敗した場合の処理
