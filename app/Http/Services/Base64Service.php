@@ -10,6 +10,7 @@ class Base64Service
     static public function base64FileDecode($data,$folderName)
     {
         $filename = Str::random(40);
+
         // base64データをデコードする
         $filedata = base64_decode($data);
 
@@ -30,6 +31,7 @@ static public function base64FileEncode($data,$folderName){
 
 // Base64エンコードする
     $base64_data = base64_encode($file_data);
+
     return $base64_data;
 
 }

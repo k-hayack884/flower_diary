@@ -1,21 +1,27 @@
 <template>
     <div class="flex justify-center">
-    <div class="flex flex-col w-3/4">
+        <div class="flex flex-col w-3/4">
 
-        <div v-for="plantUnit in plantUnits" class="">
-            <div class="card card-side bg-base-100 shadow-lg rounded-lg overflow-hidden m4transform hover:scale-105 transition duration-300 my-4">
-                <figure><img :src="plantUnit.plantImage" /></figure>
-                <div class="card-body">
-                    <h2 clasoss="card-title">{{ plantUnit.plantName }}</h2><a href="">名前変更</a>
-                    {{ plantUnit.plantData.scientific }}
-                    <p>日記更新日: {{ plantUnit.createDate }}</p>
-                    <div class="card-actions justify-end">
-                        <button class="btn btn-primary">詳細</button>
+            <div v-for="plantUnit in plantUnits" class="">
+                <div
+                    class="card card-side bg-base-100 shadow-lg rounded-lg overflow-hidden m4transform hover:scale-105 transition duration-300 my-4">
+                    <figure><img :src="plantUnit.plantImage"/></figure>
+                    <div class="card-body">
+                        <h2 clasoss="card-title">{{ plantUnit.plantName }}</h2><a href="">名前変更</a>
+                        {{ plantUnit.plantData.scientific }}
+                        <p>日記更新日: {{ plantUnit.createDate }}</p>
+
+                        <div class="card-actions justify-end">
+                            <a :href="route('plantUnitDetail', { plantUnitId: plantUnit.plantUnitId })"
+                                  class="block">
+                                <button class="btn btn-primary">詳細</button>
+                            </a>
+                        </div>
+
                     </div>
                 </div>
             </div>
         </div>
-    </div>
     </div>
 </template>
 

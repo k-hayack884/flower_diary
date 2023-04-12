@@ -42,7 +42,6 @@ class GetPlantUnitAction
 
         $plantUnitId = $getPlantUnitRequest->getId();
         $hitPlantUnit = $this->plantUnitRepository->findById(new PlantUnitId($plantUnitId));
-
         $diaries = $this->diaryRepository->find();
         $diaryCollection = new DiaryCollection($diaries);
         $newDate = $diaryCollection->getFirstDate();
