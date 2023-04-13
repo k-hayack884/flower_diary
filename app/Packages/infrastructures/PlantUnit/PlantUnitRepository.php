@@ -58,7 +58,7 @@ class PlantUnitRepository implements PlantUnitRepositoryInterface
         return new PlantUnit(
             new PlantUnitId($plantUnit->plant_unit_id),
             new PlantId($plantUnit->plant_id),
-            new UserId($plantUnit->user_Id),
+            new UserId($plantUnit->user_id),
             new CheckSeatId($plantUnit->check_seat_id),
             new plantName($plantUnit->plant_name),
             new PlantUnitImage($plantUnit->plant_image),
@@ -101,5 +101,5 @@ class PlantUnitRepository implements PlantUnitRepositoryInterface
         if ($plantUnit === null) {
             throw new NotFoundException('指定した植物ユニットIDを見つけることができませんでした');
         }
-        $diary->delete();    }
+        $plantUnit->delete();    }
 }

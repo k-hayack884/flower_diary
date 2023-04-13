@@ -127,6 +127,7 @@ Route::middleware('auth:sanctum')->group(function () {
         'diary',
         [DiaryController::class,'index']
     );
+
     Route::post(
         'diary',
         [DiaryController::class,'create']
@@ -182,6 +183,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete(
         'plantUnit/{plantUnitId}',
         [PlantUnitController::class,'delete']
+    );
+    Route::get(
+        'plantUnit/{plantUnit}/diary',
+        [DiaryController::class,'index']
     );
 });
 //植物のスキャン

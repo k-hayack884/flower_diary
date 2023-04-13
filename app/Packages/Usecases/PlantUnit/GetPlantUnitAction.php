@@ -42,11 +42,11 @@ class GetPlantUnitAction
 
         $plantUnitId = $getPlantUnitRequest->getId();
         $hitPlantUnit = $this->plantUnitRepository->findById(new PlantUnitId($plantUnitId));
+
         $diaries = $this->diaryRepository->find();
         $diaryCollection = new DiaryCollection($diaries);
         $newDate = $diaryCollection->getFirstDate();
         $hitPlantUnit->getNewDate(new Carbon($newDate));
-
 
         Log::info(__METHOD__, ['終了']);
 

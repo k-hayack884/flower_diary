@@ -16,8 +16,8 @@ class PlantUnitDto
      */
     public function __construct(
         public string $plantUnitId,
-        public string $userId,
         public string $plantId,
+        public string $userId,
         public string $checkSeatId,
         public string $plantName,
         public string $plantImage,
