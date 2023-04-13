@@ -62,6 +62,8 @@ export default {
                     createDate: '',
                 }
             }],
+            waterSettingIds:[],
+            fertilizerSettingIds:[],
             isActive: '1'
         }
     },
@@ -112,8 +114,7 @@ export default {
         fetchDiaryData() {
             console.log(this.diaries);
             this.diaries.forEach((diary, index) => {
-                axios
-                    .get(`/api/diary/${diary}`, {})
+                axios.get(`/api/diary/${diary}`, {})
                     .then((res) => {
                         const diaryData = {
                             diaryId: res.data.diary.diaryId,
@@ -130,7 +131,34 @@ export default {
             });
         },
         fetchCheckSeatData(){
+            axios.get(`/api/checkSeat/${this.checkSeatId}`, {})
+                .then(res => {
+                    this.waterSettingIds = res.data.waterSettingIds;
+                    this.fertilizerSettingIds = res.data.fertilizerSettingIds;
+                    console.log(this.waterSettingIds, this.fertilizerSettingIds);
 
+                    console.log(`/api/waterSettingId/${this.waterSettingIds[0]}`);
+                    return Promise.all([
+                        ...this.waterSettingIds.map(waterSettingId => axios.get(`/api/waterSettingId/${waterSettingId}`, {})),
+                        ...this.fertilizerSettingIds.map(fertilizerSettingId => axios.get(`/api/fertilizerSettingId/${fertilizerSettingId}`, {}))
+                    ]);
+                })
+               .then(res => {
+                   console.log(`/api/waterSettingId/${this.waterSettingIds[0]}`);
+                   console.log(res);
+                   const waterSettingResponses = res.slice(0, this.waterSettingIds.length);
+                   const fertilizerSettingResponses = res.slice(this.waterSettingIds.length);
+
+                   // 各レスポンスから必要な情報を取り出す
+                   const waterSettings = waterSettingResponses.map(res => res.data);
+                   const fertilizerSettings = fertilizerSettingResponses.map(res => res.data);
+
+                   console.log(waterSettings);
+                   console.log(fertilizerSettings);
+
+                   // データの加工やその他の処理を行う
+                   // ...
+               })
         }
 
     }
