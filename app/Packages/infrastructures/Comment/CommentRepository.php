@@ -19,11 +19,16 @@ class CommentRepository implements CommentRepositoryInterface
     {
         $comments = [];
 
-        $allComments = \App\Models\Comment::all();
+        $allComments = \App\Models\Comment::with('user:user_id,name,image')
+            ->select('comment_id', 'user_id', 'comment_content', 'create_date')
+            ->get();
+
         foreach ($allComments as $comment) {
             $comments[] = new Comment(
                 new CommentId($comment->comemnt_id),
                 new UserId($comment->user_id),
+                $comment->user->name,
+                $comment->user->image,
                 new CommentContent($comment->comment_content),
                 new Carbon($comment->create_date),
             );
@@ -33,7 +38,10 @@ class CommentRepository implements CommentRepositoryInterface
 
     public function findByCommentId(CommentId $commentId): Comment
     {
-        $comment = \App\Models\Comment::where('comment_id', $commentId->getId())->first();
+        $comment = \App\Models\Comment::with('user:user_id,name,image')
+            ->select('comment_id', 'user_id', 'comment_content', 'create_date')
+            ->where('comment_id', $commentId->getId())
+            ->first();
 
         if ($comment === null) {
             throw new NotFoundException('指定したコメントIDを見つけることができませんでした');
@@ -41,6 +49,8 @@ class CommentRepository implements CommentRepositoryInterface
         return new Comment(
             new CommentId($comment->comemnt_id),
             new UserId($comment->user_id),
+            $comment->user->name,
+            $comment->user->image,
             new CommentContent($comment->comment_content),
             new Carbon($comment->create_date),
         );

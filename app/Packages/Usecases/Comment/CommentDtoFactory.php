@@ -18,6 +18,8 @@ class CommentDtoFactory
             new CommentDto(
                 $comment->getCommentId()->getId(),
                 $comment->getUserId()->getId(),
+                $comment->getUserName(),
+                $comment->getUserImage(),
                 $comment->getCommentContent()->getValue(),
                 $comment->getCreateDate()->format('Y/m/d'),
             )

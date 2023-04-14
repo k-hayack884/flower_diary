@@ -32,7 +32,10 @@ class Comment extends Model
         'comment_content',
         'create_date',
     ];
-
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id')->select('user_id', 'name','image');
+    }
     public function diary()
     {
         return $this->belongsTo(Diary::class);
@@ -66,4 +69,5 @@ class Comment extends Model
     protected $appends = [
         'profile_photo_url',
     ];
+
 }

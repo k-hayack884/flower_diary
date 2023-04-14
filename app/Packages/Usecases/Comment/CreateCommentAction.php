@@ -8,6 +8,7 @@ use App\Packages\Domains\Comment\CommentContent;
 use App\Packages\Domains\Comment\CommentId;
 use App\Packages\Domains\Comment\CommentRepositoryInterface;
 use App\Packages\Domains\User\UserId;
+use App\Packages\Domains\User\UserRepositoryInterface;
 use App\Packages\Presentations\Requests\Comment\CreateCommentRequest;
 use App\Packages\Usecases\Dto\Comment\CommentWrapDto;
 use Illuminate\Support\Facades\Log;
@@ -19,9 +20,10 @@ class CreateCommentAction
     /**
      * @param CommentRepositoryInterface $commentRepository
      */
-    public function __construct(CommentRepositoryInterface $commentRepository)
+    public function __construct(CommentRepositoryInterface $commentRepository,UserRepositoryInterface $userRepository)
     {
         $this->commentRepository = $commentRepository;
+        $this->userRepository=$userRepository;
     }
 
     /**
@@ -36,15 +38,21 @@ class CreateCommentAction
 
         $diaryId=$createCommentRequest->getDiaryId();
         $userId = $createCommentRequest->getUserId();
+        $userName=$this->userRepository->findById(new UserId($userId))->getName();
+        $userImage=$this->userRepository->findById(new UserId($userId))->getImage();
+
         $commentContent = $createCommentRequest->getCommentContent();
 
         try {
             $commentId = new CommentId();
             $userId = new UserId($userId);
+
             $commentContent = new CommentContent($commentContent);
             $comment = new Comment(
                 $commentId,
                 $userId,
+                $userName,
+                $userImage,
                 $commentContent
             );
             $commentCollection = new CommentCollection();

@@ -73,6 +73,11 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+    public function comment()
+    {
+        return $this->hasMany(Comment::class);
+    }
     /**
      * Get the name of the unique identifier for the user.
      *
