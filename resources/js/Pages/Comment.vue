@@ -6,6 +6,7 @@ import AppLayout from '@/Layouts/AppLayout.vue';
 
     <h1 class="red">コメント操作をする</h1>
     <div class="flex justify-between">
+        <button @click="index()">Index</button>
         <button @click="create()">Create</button>
         <button @click="read()">Read</button>
         <button @click="update()">Update</button>
@@ -17,6 +18,14 @@ export default {
     name: "Comment.vue",
 
     methods: {
+        async index() {
+            axios.get('http://localhost:51111/api/comment', {
+            }).then(res => {
+                console.log('とうろくせいこう')
+            }).catch(error => {
+                console.log(error);
+            });
+        },
         async create() {
             axios.post('http://localhost:51111/api/comment', {
 
@@ -30,7 +39,7 @@ export default {
             });
         },
         async read() {
-            axios.get('http://localhost:51111/api/comment/98b517b2-ba89-4b35-9dd1-ffb71b6d240b', {}).then(res => {
+            axios.get('http://localhost:51111/api/comment/665c1092-7a0d-40b0-af6e-30bff5975e31', {}).then(res => {
                 console.log('とうろくせいこう')
             }).catch(error => {
                 console.log(error);

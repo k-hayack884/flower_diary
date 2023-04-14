@@ -16,6 +16,7 @@ class Comment
      */
     private CommentId $commentId;
     private UserId $userId;
+    private string $userName;
     private CommentContent $commentContent;
     private Carbon $createDate;
 
@@ -25,10 +26,12 @@ class Comment
      * @param CommentContent $commentContent
      * @param Carbon|null $createDate
      */
-    public function __construct(CommentId $commentId, UserId $userId, CommentContent $commentContent, Carbon $createDate = null)
+    public function __construct(CommentId $commentId, UserId $userId,string $userName,string $userImage, CommentContent $commentContent, Carbon $createDate = null)
     {
         $this->commentId = $commentId;
         $this->userId = $userId;
+        $this->userName=$userName;
+        $this->userImage=$userImage;
         $this->commentContent = $commentContent;
         if ($createDate === null) {
             $this->createDate = Carbon::now();;
@@ -67,6 +70,17 @@ class Comment
         return $this->userId;
     }
 
+    public function getUserName():string
+    {
+        return $this->userName;
+
+    }
+
+    public function getUserImage():string
+    {
+        return $this->userImage;
+
+    }
     /**
      * @return CommentContent
      */
