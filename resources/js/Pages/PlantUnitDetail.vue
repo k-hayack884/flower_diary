@@ -22,9 +22,9 @@
                             <h2 clasoss="card-title">{{ diary.diaryContent }}</h2><a href="">編集</a>
                             <p>日記更新日: {{ diary.createDate }}</p>
                             <div v-if="diary.comments && diary.comments.length > 0">
-                            <button @click="commentToggle">コメント {{ diary.comments.length }}</button>
+                            <button @click="commentToggle(diary)">コメント {{ diary.comments.length }}</button>
                                 <div :class="{'hidden': !showComment}">
-                                    <!-- スライドダウンする要素をここに配置する -->
+
                                 </div>
                             </div>
                         </div>
@@ -176,8 +176,26 @@ export default {
                     console.log(error);
                 });
         },
-        commentToggle() {
+        commentToggle(diary) {
             this.showComment = !this.showComment;
+            console.log(diary.comments)
+            diary.comments.forEach((comment, index) => {
+                axios.get(`/api/comment/${comment}`, {})
+                    .then((res) => {
+                        const commentData = {
+                            commentId: res.data.comment.commentId,
+                            userId: res.data.comment.userId,
+                            userImage: res.data.comment.userImage,
+                            content: res.data.comment.content,
+                            createDate: res.data.comment.createDate,
+                        };
+                        Vue.set(diary.comments, index, commentData);
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
+            });
+
 
         },
         showCommentsLength() {
