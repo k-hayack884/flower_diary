@@ -4,8 +4,12 @@
 
     <div id="tab" class="w-full max-w-500 mx-auto">
         <ul class="flex tabMenu">
-            <li class="w-auto px-4 py-2 text-white border-r border-white bg-blue-700 cursor-pointer" @click="isSelect('1')">日記</li>
-            <li class="w-auto px-4 py-2 text-white border-r border-white bg-blue-700 cursor-pointer" @click="isSelect('2')">お世話</li>
+            <li class="w-auto px-4 py-2 text-white border-r border-white bg-blue-700 cursor-pointer"
+                @click="isSelect('1')">日記
+            </li>
+            <li class="w-auto px-4 py-2 text-white border-r border-white bg-blue-700 cursor-pointer"
+                @click="isSelect('2')">お世話
+            </li>
             <li class="w-auto px-4 py-2 text-white bg-blue-700 cursor-pointer" @click="isSelect('3')">情報</li>
         </ul>
         <div class="w-full p-4 border border-blue-700 tabContents w-3/4">
@@ -62,22 +66,23 @@ export default {
                     createDate: '',
                 }
             }],
-            waterSettingIds:[],
-            fertilizerSettingIds:[],
+            waterSettingIds: [],
+            fertilizerSettingIds: [],
+            currentMonth: 5,
             isActive: '1'
         }
     },
     created() {
         this.fetchPlantUnitData();
+        const date = new Date();
+        const month = date.getMonth() + 1; // 0-11の月の値を1-12に変換するために+1する
+        this.currentMonth = 5;
     },
     methods: {
         isSelect: function (num) {
             this.isActive = num;
         },
         fetchPlantUnitData() {
-            console.log('fetchPlantUnitData called'); // 追加
-
-            console.log(this.plantUnitId);
 
             axios.get(`/api/plantUnit/${this.plantUnitId}`)
                 .then(res => {
@@ -121,7 +126,7 @@ export default {
                             diaryContent: res.data.diary.content,
                             diaryImage: res.data.diary.diaryImage,
                             createDate: res.data.diary.createDate,
-                            comments:res.data.diary.comments,
+                            comments: res.data.diary.comments,
                         };
                         Vue.set(this.diariesData, index, diaryData);
                     })
@@ -130,38 +135,41 @@ export default {
                     });
             });
         },
-        fetchCheckSeatData(){
+        fetchCheckSeatData() {
             axios.get(`/api/checkSeat/${this.checkSeatId}`, {})
                 .then(res => {
                     this.waterSettingIds = res.data.waterSettingIds;
                     this.fertilizerSettingIds = res.data.fertilizerSettingIds;
-                    console.log(this.waterSettingIds, this.fertilizerSettingIds);
-
-                    console.log(`/api/waterSettingId/${this.waterSettingIds[0]}`);
                     return Promise.all([
-                        ...this.waterSettingIds.map(waterSettingId => axios.get(`/api/waterSettingId/${waterSettingId}`, {})),
-                        ...this.fertilizerSettingIds.map(fertilizerSettingId => axios.get(`/api/fertilizerSettingId/${fertilizerSettingId}`, {}))
+                        ...this.waterSettingIds.map(waterSettingId => axios.get(`/api/waterSetting/${waterSettingId}`, {})),
+                        ...this.fertilizerSettingIds.map(fertilizerSettingId => axios.get(`/api/fertilizerSetting/${fertilizerSettingId}`, {}))
                     ]);
                 })
-               .then(res => {
-                   console.log(`/api/waterSettingId/${this.waterSettingIds[0]}`);
-                   console.log(res);
-                   const waterSettingResponses = res.slice(0, this.waterSettingIds.length);
-                   const fertilizerSettingResponses = res.slice(this.waterSettingIds.length);
 
-                   // 各レスポンスから必要な情報を取り出す
-                   const waterSettings = waterSettingResponses.map(res => res.data);
-                   const fertilizerSettings = fertilizerSettingResponses.map(res => res.data);
+                .then(res => {
+                    const waterSettingResponses = res.slice(0, this.waterSettingIds.length);
+                    const fertilizerSettingResponses = res.slice(this.waterSettingIds.length);
+                    // 各レスポンスから必要な情報を取り出す
+                    const waterSettings = waterSettingResponses.map(res => res.data);
+                    const fertilizerSettings = fertilizerSettingResponses.map(res => res.data);
 
-                   console.log(waterSettings);
-                   console.log(fertilizerSettings);
+                    // let currentMonthSetting;
+                    // for (const setting of waterSettings) {
+                    //     if (setting.months.includes(this.currentMonth)) {
+                    //         currentMonthSetting = setting;
+                    //         break;
+                    //     }
+                    // }
+                    console.log(currentMonthSetting)
 
-                   // データの加工やその他の処理を行う
-                   // ...
-               })
-        }
-
-    }
+                    // データの加工やその他の処理を行う
+                    // ...
+                })
+                .catch(error => {
+                console.log(error);
+            });
+        },
+    },
 }
 </script>
 
