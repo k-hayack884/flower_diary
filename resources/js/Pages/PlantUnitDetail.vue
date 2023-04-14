@@ -21,6 +21,12 @@
                         <div class="card-body">
                             <h2 clasoss="card-title">{{ diary.diaryContent }}</h2><a href="">編集</a>
                             <p>日記更新日: {{ diary.createDate }}</p>
+                            <div v-if="diary.comments && diary.comments.length > 0">
+                            <button @click="commentToggle">コメント {{ diary.comments.length }}</button>
+                                <div :class="{'hidden': !showComment}">
+                                    <!-- スライドダウンする要素をここに配置する -->
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -54,22 +60,20 @@ export default {
                 information: '',
             },
             diaries: [],
-            diariesData: [{
-                diaryId: '',
-                diaryContent: '',
-                diaryImage: '',
-                createDate: '',
-                comments: {
-                    commentId: '',
-                    userId: '',
-                    commentContent: '',
+            diariesData: [
+                {
+                    diaryId: '',
+                    diaryContent: '',
+                    diaryImage: '',
                     createDate: '',
+                    comments: []
                 }
-            }],
+            ],
             waterSettingIds: [],
             fertilizerSettingIds: [],
             currentMonth: 5,
-            isActive: '1'
+            isActive: '1',
+            showComment: false
         }
     },
     created() {
@@ -129,6 +133,9 @@ export default {
                             comments: res.data.diary.comments,
                         };
                         Vue.set(this.diariesData, index, diaryData);
+                        if (index === this.diaries.length - 1) {
+                            this.showCommentsLength();
+                        }
                     })
                     .catch((error) => {
                         console.log(error);
@@ -160,19 +167,43 @@ export default {
                     //         break;
                     //     }
                     // }
-                    console.log(currentMonthSetting)
+                    // console.log(currentMonthSetting)
 
                     // データの加工やその他の処理を行う
                     // ...
                 })
                 .catch(error => {
-                console.log(error);
-            });
+                    console.log(error);
+                });
         },
-    },
+        commentToggle() {
+            this.showComment = !this.showComment;
+
+        },
+        showCommentsLength() {
+            // 日記データにコメントデータが全て含まれるのを待つために、setTimeoutを使う
+            setTimeout(() => {
+                console.log(this.diariesData.map(diary => diary.comments.length));
+            }, 500);
+        },
+    }
 }
 </script>
 
 <style scoped>
 
+.hidden {
+    display: none;
+}
+
+.slide-down-enter-active,
+.slide-down-leave-active {
+    transition: all .5s;
+}
+
+.slide-down-enter,
+.slide-down-leave-to {
+    transform: translateY(-100%);
+    opacity: 0;
+}
 </style>
