@@ -24,7 +24,7 @@
                             <div v-if="diary.comments && diary.comments.length > 0">
                             <button @click="commentToggle(diary)">コメント {{ diary.comments.length }}</button>
                                 <div :class="{'hidden': !showComment}">
-
+ほげ
                                 </div>
                             </div>
                         </div>
@@ -120,11 +120,13 @@ export default {
                 })
 
         },
-        fetchDiaryData() {
+        // api/plantunit/{plantunitId}/image
+        async fetchDiaryData() {
             console.log(this.diaries);
-            this.diaries.forEach((diary, index) => {
-                axios.get(`/api/diary/${diary}`, {})
-                    .then((res) => {
+            for (const diary of this.diaries) {
+                const index = this.diaries.indexOf(diary);
+                const res=await axios.get(`/api/diary/${diary}`, {})
+                    // .then((res) => {
                         const diaryData = {
                             diaryId: res.data.diary.diaryId,
                             diaryContent: res.data.diary.content,
@@ -136,11 +138,11 @@ export default {
                         if (index === this.diaries.length - 1) {
                             this.showCommentsLength();
                         }
-                    })
-                    .catch((error) => {
-                        console.log(error);
-                    });
-            });
+                    // })
+                    // .catch((error) => {
+                    //     console.log(error);
+                    // });
+            }
         },
         fetchCheckSeatData() {
             axios.get(`/api/checkSeat/${this.checkSeatId}`, {})
