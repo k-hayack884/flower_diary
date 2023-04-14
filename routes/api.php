@@ -2,7 +2,7 @@
 
 use App\Packages\Presentations\Controllers\Comment\CommentController;
 use App\Packages\Presentations\Controllers\Diary\DiaryController;
-use App\Packages\Presentations\Controllers\Plant\ScanPlantController;
+use App\Packages\Presentations\Controllers\Plant\PlantController;
 use App\Packages\Presentations\Controllers\PlantUnit\PlantUnitController;
 use App\Packages\Presentations\Controllers\Water\WaterSettingController;
 use App\Packages\Presentations\Controllers\Fertilizer\FertilizerSettingController;
@@ -49,7 +49,11 @@ Route::middleware('auth:sanctum')->get('/hoge', function (Request $request) {
 
 Route::post(
     'scanPlant',
-    [ScanPlantController::class,'scan']
+    [PlantController::class,'scan']
+);
+Route::get(
+    'plant/{plantId}',
+    [PlantController::class,'show']
 );
 Route::middleware('auth:sanctum')->group(function () {
 
@@ -123,6 +127,7 @@ Route::middleware('auth:sanctum')->group(function () {
         'diary',
         [DiaryController::class,'index']
     );
+
     Route::post(
         'diary',
         [DiaryController::class,'create']
@@ -178,6 +183,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete(
         'plantUnit/{plantUnitId}',
         [PlantUnitController::class,'delete']
+    );
+    Route::get(
+        'plantUnit/{plantUnit}/diary',
+        [DiaryController::class,'index']
     );
 });
 //植物のスキャン

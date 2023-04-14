@@ -45,6 +45,13 @@ Route::middleware([
         return Inertia::render('PlantUnit', );
     })->name('plantUnit');
 
+    Route::get('/plantUnit/{plantUnitId}', function ($plantUnitId) {
+        return Inertia::render('PlantUnitDetail', [
+            'plantUnitId' => $plantUnitId
+        ]);
+
+    })->name('plantUnitDetail');
+
     Route::get('/todayCare', function () {
         return Inertia::render('TodayCare', );
     })->name('todayCare');

@@ -43,6 +43,7 @@ class GetDiariesAction
                 new DiaryDto(
                     $diary->getDiaryId()->getId(),
                     $diary->getDiaryContent()->getValue(),
+                    $diary->getDiaryImage()->getValue(),
                     $diary->getcomments(),
                     $diary->getCreateDate()->format('Y/m/d'),
             );

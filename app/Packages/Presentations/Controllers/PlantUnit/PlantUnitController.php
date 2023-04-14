@@ -23,16 +23,12 @@ class PlantUnitController extends Controller
         GetPlantUnitsAction $action,
     ):array
     {
-        $user = Auth::user();
-
         return (array)$action($request);
     }
     public function create(
         CreatePlantUnitRequest $request,
         CreatePlantUnitAction $action,
     ):array{
-        $user=Auth::user();
-        dd($user);
         return (array)$action($request);
     }
 

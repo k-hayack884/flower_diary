@@ -48,7 +48,6 @@ class GetPlantUnitAction
         $newDate = $diaryCollection->getFirstDate();
         $hitPlantUnit->getNewDate(new Carbon($newDate));
 
-
         Log::info(__METHOD__, ['終了']);
 
         return PlantUnitDtoFactory::create($hitPlantUnit);

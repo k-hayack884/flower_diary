@@ -26,7 +26,7 @@ defineProps({
         <div class="row my-3">
             <div class="col-sm-6 mx-auto blue"><h1>植物判定アプリ</h1></div>
         </div>
-        {{ $page.props.user }}
+        {{ $page.props.user.user_id }}
 
         <div class="info">
             <p>
@@ -114,7 +114,7 @@ defineProps({
                 <div class="container mx-auto flex justify-center items-center">
 
                     <button
-                        @click="registerPlant"
+                        @click="registerPlant($page.props.user.user_id)"
                             class="btn btn-outline-success bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded"
                             type="button" id="button-addon2">
                         {{ registerButton }}
@@ -254,6 +254,7 @@ export default {
                 axios.post('http://localhost:51111/api/scanPlant', {
                     plantLabel: results[0].label
                 }).then(res => {
+                    console.log(res.data)
                     this.plantId = res.data.plant.plantId;
                     this.plantName = res.data.plant.name;
                     this.information = res.data.plant.information;
@@ -349,7 +350,7 @@ export default {
             }
             return [width, height]
         },
-        async registerPlant() {
+        async registerPlant(userId) {
             if (!this.$page.props.user) {
                 this.openModal();
                 console.log('はい？')
@@ -357,7 +358,8 @@ export default {
             }
             axios.post('http://localhost:51111/api/plantUnit', {
                 plantId: this.plantId,
-                plantUnitUserId: '1'
+                userId:userId,
+                plantImage:this.avatar,
             }).then(res => {
                 this.plant = res.data;
                 this.getPlant = true
