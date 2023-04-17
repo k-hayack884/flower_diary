@@ -73,7 +73,7 @@ class CreatePlantUnitAction
                 $plantImage,
                 $plantDiaries
             );
-            $plantUnitCollection = new PlantUnitCollection();
+           $plantUnitCollection = new PlantUnitCollection();
             $plantUnitCollection->addUnit($plantUnit);
             $this->plantUnitRepository->save($plantUnitCollection);
         } catch (\DomainException $e) {

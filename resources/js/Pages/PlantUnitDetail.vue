@@ -1,7 +1,7 @@
 <template>
     <h1>ああああああああ</h1>
     <p>plantUnitId: {{ plantUnitId }}</p>
-
+    <figure><img :src="'data:image/png;base64,'+plantImage" /> </figure>
     <div id="tab" class="w-full max-w-500 mx-auto">
         <ul class="flex tabMenu">
             <li class="w-auto px-4 py-2 text-white border-r border-white bg-blue-700 cursor-pointer"
@@ -47,7 +47,7 @@ export default {
     props: ['plantUnitId'],
     data() {
         return {
-            UserId: '',
+            userId: '',
             plantId: '',
             checkSeatId: '',
             plantName: null,
@@ -87,13 +87,12 @@ export default {
             this.isActive = num;
         },
         fetchPlantUnitData() {
-
             axios.get(`/api/plantUnit/${this.plantUnitId}`)
                 .then(res => {
-                    this.UserId = res.data.plantUnit.UserId;
+                    this.userId = res.data.plantUnit.userId;
                     this.plantId = res.data.plantUnit.plantId;
                     this.checkSeatId = res.data.plantUnit.checkSeatId;
-                    this.plantName = res.data.plantUnit.name;
+                    this.plantName = res.data.plantUnit.plantName;
                     this.diaries = res.data.plantUnit.diaries;
                     this.plantImage = res.data.plantUnit.plantImage;
                     this.createDate = res.data.plantUnit.createDate;
@@ -115,7 +114,7 @@ export default {
                         information: res.data.plant.information,
                     })
                     this.fetchDiaryData();
-                    this.fetchCheckSeatData();
+                    // this.fetchCheckSeatData();
 
                 })
 
@@ -123,9 +122,9 @@ export default {
         // api/plantunit/{plantunitId}/image
         async fetchDiaryData() {
             console.log(this.diaries);
-            for (const diary of this.diaries) {
-                const index = this.diaries.indexOf(diary);
-                const res=await axios.get(`/api/diary/${diary}`, {})
+            // for (const diary of this.diaries) {
+            //     const index = this.diaries.indexOf(diary);
+                const res=await axios.get(`/api/plantUnit/${this.plantUnitId}/diary?plantUnitId=${this.plantUnitId}`, {})
                     // .then((res) => {
                         const diaryData = {
                             diaryId: res.data.diary.diaryId,
@@ -142,42 +141,42 @@ export default {
                     // .catch((error) => {
                     //     console.log(error);
                     // });
-            }
+            // }
         },
-        fetchCheckSeatData() {
-            axios.get(`/api/checkSeat/${this.checkSeatId}`, {})
-                .then(res => {
-                    this.waterSettingIds = res.data.waterSettingIds;
-                    this.fertilizerSettingIds = res.data.fertilizerSettingIds;
-                    return Promise.all([
-                        ...this.waterSettingIds.map(waterSettingId => axios.get(`/api/waterSetting/${waterSettingId}`, {})),
-                        ...this.fertilizerSettingIds.map(fertilizerSettingId => axios.get(`/api/fertilizerSetting/${fertilizerSettingId}`, {}))
-                    ]);
-                })
-
-                .then(res => {
-                    const waterSettingResponses = res.slice(0, this.waterSettingIds.length);
-                    const fertilizerSettingResponses = res.slice(this.waterSettingIds.length);
-                    // 各レスポンスから必要な情報を取り出す
-                    const waterSettings = waterSettingResponses.map(res => res.data);
-                    const fertilizerSettings = fertilizerSettingResponses.map(res => res.data);
-
-                    // let currentMonthSetting;
-                    // for (const setting of waterSettings) {
-                    //     if (setting.months.includes(this.currentMonth)) {
-                    //         currentMonthSetting = setting;
-                    //         break;
-                    //     }
-                    // }
-                    // console.log(currentMonthSetting)
-
-                    // データの加工やその他の処理を行う
-                    // ...
-                })
-                .catch(error => {
-                    console.log(error);
-                });
-        },
+        // fetchCheckSeatData() {
+        //     axios.get(`/api/checkSeat/${this.checkSeatId}`, {})
+        //         .then(res => {
+        //             this.waterSettingIds = res.data.waterSettingIds;
+        //             this.fertilizerSettingIds = res.data.fertilizerSettingIds;
+        //             return Promise.all([
+        //                 ...this.waterSettingIds.map(waterSettingId => axios.get(`/api/waterSetting/${waterSettingId}`, {})),
+        //                 ...this.fertilizerSettingIds.map(fertilizerSettingId => axios.get(`/api/fertilizerSetting/${fertilizerSettingId}`, {}))
+        //             ]);
+        //         })
+        //
+        //         .then(res => {
+        //             const waterSettingResponses = res.slice(0, this.waterSettingIds.length);
+        //             const fertilizerSettingResponses = res.slice(this.waterSettingIds.length);
+        //             // 各レスポンスから必要な情報を取り出す
+        //             const waterSettings = waterSettingResponses.map(res => res.data);
+        //             const fertilizerSettings = fertilizerSettingResponses.map(res => res.data);
+        //
+        //             // let currentMonthSetting;
+        //             // for (const setting of waterSettings) {
+        //             //     if (setting.months.includes(this.currentMonth)) {
+        //             //         currentMonthSetting = setting;
+        //             //         break;
+        //             //     }
+        //             // }
+        //             // console.log(currentMonthSetting)
+        //
+        //             // データの加工やその他の処理を行う
+        //             // ...
+        //         })
+        //         .catch(error => {
+        //             console.log(error);
+        //         });
+        // },
         commentToggle(diary) {
             this.showComment = !this.showComment;
             console.log(diary.comments)

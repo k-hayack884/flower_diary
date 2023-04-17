@@ -69,22 +69,22 @@ export default {
                 console.log(this.plantUnits[3].plantImage);
 
                 // `this.plantUnits`が更新された後に実行
-                // this.$nextTick(() => {
-                //     this.plantUnits.forEach((plantUnit, index) => {
-                //         axios.get(`/api/plant/${plantUnit.plantId}`, {})
-                //             .then(res => {
-                //                 console.log(res.data.plant.scientific)
-                //                 Vue.set(this.plantUnits[index], 'plantData', {
-                //                     scientific: res.data.plant.scientific
-                //                 });
-                //
-                //             })
-                //             .catch(error => {
-                //                 // APIリクエストが失敗した場合の処理
-                //                 console.log(error);
-                //             });
-                //     });
-                // });
+                this.$nextTick(() => {
+                    this.plantUnits.forEach((plantUnit, index) => {
+                        axios.get(`/api/plant/${plantUnit.plantId}`, {})
+                            .then(res => {
+                                console.log(res.data.plant.scientific)
+                                Vue.set(this.plantUnits[index], 'plantData', {
+                                    scientific: res.data.plant.scientific
+                                });
+
+                            })
+                            .catch(error => {
+                                // APIリクエストが失敗した場合の処理
+                                console.log(error);
+                            });
+                    });
+                });
             })
             .catch(error => {
                 // APIリクエストが失敗した場合の処理

@@ -55,6 +55,7 @@ class PlantUnitRepository implements PlantUnitRepositoryInterface
         foreach ($diaries as $diary) {
             $diaryIds[] = $diary->diary_id;
         }
+
         return new PlantUnit(
             new PlantUnitId($plantUnit->plant_unit_id),
             new PlantId($plantUnit->plant_id),

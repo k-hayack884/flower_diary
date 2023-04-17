@@ -4,6 +4,7 @@ namespace App\Packages\Usecases\Diary;
 
 use App\Packages\Domains\Diary\DiaryCollection;
 use App\Packages\Domains\Diary\DiaryRepositoryInterface;
+use App\Packages\Domains\PlantUnit\PlantUnitId;
 use App\Packages\Presentations\Requests\Diary\GetDiariesRequest;
 use App\Packages\Usecases\Dto\Diary\DiariesWrapDto;
 use App\Packages\Usecases\Dto\Diary\DiaryDto;
@@ -32,9 +33,9 @@ class GetDiariesAction
     ): DiariesWrapDto
     {
         Log::info(__METHOD__, ['開始']);
-
-        $diaries= $this->DiaryRepository->find();
-        $diaryCollection=new DiaryCollection($diaries);
+        $plantUnitId = new PlantUnitId($getDiaryRequest->getPlantUnitId());
+        $diaries = $this->DiaryRepository->findByPlantUnitId($plantUnitId);
+        $diaryCollection = new DiaryCollection($diaries);
 
         $diaryDtos = [];
 
@@ -46,7 +47,7 @@ class GetDiariesAction
                     $diary->getDiaryImage()->getValue(),
                     $diary->getcomments(),
                     $diary->getCreateDate()->format('Y/m/d'),
-            );
+                );
         }
         Log::info(__METHOD__, ['終了']);
 

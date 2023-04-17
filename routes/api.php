@@ -127,6 +127,10 @@ Route::middleware('auth:sanctum')->group(function () {
         'diary',
         [DiaryController::class,'index']
     );
+    Route::get(
+        'plantUnit/{plantUnitId}/diary',
+        [DiaryController::class,'index']
+    );
 
     Route::post(
         'diary',
