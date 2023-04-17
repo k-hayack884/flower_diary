@@ -5,7 +5,7 @@
             <div v-for="plantUnit in plantUnits" class="">
                 <div
                     class="card card-side bg-base-100 shadow-lg rounded-lg overflow-hidden m4transform hover:scale-105 transition duration-300 my-4">
-                    <figure><img :src="plantUnit.plantImage"/></figure>
+                    <figure><img :src="'data:image/png;base64,'+plantUnit.plantImage" /> </figure>
                     <div class="card-body">
                         <h2 clasoss="card-title">{{ plantUnit.plantName }}</h2><a href="">名前変更</a>
                         {{ plantUnit.plantData.scientific }}
@@ -28,6 +28,7 @@
 <script>
 export default {
     name: "PlantUnit",
+    props: ['user'],
     data() {
         return {
             plantUnits: [{
@@ -47,11 +48,12 @@ export default {
         }
     },
     created() {
-        axios.get('/api/plantUnit')
+        console.log(this.user.user_id)
+        axios.get(`/api/${this.user.user_id}/plantUnit`)
             .then(res => {
                 const plantUnits = res.data.plantUnits.map(plant => ({
                     plantUnitId: plant.plantUnitId,
-                    UserId: plant.UserId,
+                    userId: plant.userId,
                     plantId: plant.plantId,
                     checkSeatId: plant.checkSeatId,
                     plantName: plant.plantName,
@@ -67,22 +69,22 @@ export default {
                 console.log(this.plantUnits[3].plantImage);
 
                 // `this.plantUnits`が更新された後に実行
-                this.$nextTick(() => {
-                    this.plantUnits.forEach((plantUnit, index) => {
-                        axios.get(`/api/plant/${plantUnit.plantId}`, {})
-                            .then(res => {
-                                console.log(res.data.plant.scientific)
-                                Vue.set(this.plantUnits[index], 'plantData', {
-                                    scientific: res.data.plant.scientific
-                                });
-
-                            })
-                            .catch(error => {
-                                // APIリクエストが失敗した場合の処理
-                                console.log(error);
-                            });
-                    });
-                });
+                // this.$nextTick(() => {
+                //     this.plantUnits.forEach((plantUnit, index) => {
+                //         axios.get(`/api/plant/${plantUnit.plantId}`, {})
+                //             .then(res => {
+                //                 console.log(res.data.plant.scientific)
+                //                 Vue.set(this.plantUnits[index], 'plantData', {
+                //                     scientific: res.data.plant.scientific
+                //                 });
+                //
+                //             })
+                //             .catch(error => {
+                //                 // APIリクエストが失敗した場合の処理
+                //                 console.log(error);
+                //             });
+                //     });
+                // });
             })
             .catch(error => {
                 // APIリクエストが失敗した場合の処理

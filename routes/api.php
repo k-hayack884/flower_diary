@@ -168,15 +168,19 @@ Route::middleware('auth:sanctum')->group(function () {
     );
 
 //植物ユニット
-    Route::middleware('auth:sanctum')->get(
+    Route::get(
         'plantUnit',
+        [PlantUnitController::class,'index']
+    );
+    Route::get(
+        '{userId}/plantUnit',
         [PlantUnitController::class,'index']
     );
     Route::post(
         'plantUnit',
         [PlantUnitController::class,'create']
     );
-    Route::middleware('auth:sanctum')->get(
+    Route::get(
         'plantUnit/{plantUnitId}',
         [PlantUnitController::class,'show']
     );

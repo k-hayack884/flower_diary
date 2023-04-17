@@ -9,11 +9,11 @@ class Base64Service
 {
     static public function base64FileDecode($data, $folderName)
     {
+        $data64=explode(',',$data);
         $filename = Str::random(40);
 
         // base64データをデコードする
-        $filedata = base64_decode($data);
-
+        $filedata = base64_decode($data64[1]);
 // storage/appにファイルを保存する
         Storage::put($folderName . '/' . $filename, $filedata);
 
