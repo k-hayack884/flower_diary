@@ -25,6 +25,8 @@ class CommentController extends Controller
         GetCommentsAction  $action
     ): array
     {
+        $diaryId = $request->input('diaryId');
+        $request->merge(['diaryId' => $diaryId]);
         return (array)$action($request);
     }
 

@@ -11,7 +11,9 @@ class GetCommentRequest extends BaseRequest
      */
     public function rules(): array
     {
-        return [];
+        return [
+            'diaryId' => 'nullable',
+        ];
     }
 
     /**
@@ -21,5 +23,6 @@ class GetCommentRequest extends BaseRequest
     {
         return $this->input('commentId');
     }
+
 
 }

@@ -154,6 +154,10 @@ Route::middleware('auth:sanctum')->group(function () {
         'comment',
         [CommentController::class,'index']
     );
+    Route::get(
+        'diary/{diaryId}/comment',
+        [CommentController::class,'index']
+    );
     Route::post(
         'comment',
         [CommentController::class,'create']

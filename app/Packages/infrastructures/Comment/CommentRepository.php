@@ -9,6 +9,7 @@ use App\Packages\Domains\Comment\CommentCollection;
 use App\Packages\Domains\Comment\CommentContent;
 use App\Packages\Domains\Comment\CommentId;
 use App\Packages\Domains\Comment\CommentRepositoryInterface;
+use App\Packages\Domains\Diary\DiaryId;
 use App\Packages\Domains\User\UserId;
 use Carbon\Carbon;
 
@@ -23,6 +24,24 @@ class CommentRepository implements CommentRepositoryInterface
             ->select('comment_id', 'user_id', 'comment_content', 'create_date')
             ->get();
 
+        foreach ($allComments as $comment) {
+            $comments[] = new Comment(
+                new CommentId($comment->comemnt_id),
+                new UserId($comment->user_id),
+                $comment->user->name,
+                $comment->user->image,
+                new CommentContent($comment->comment_content),
+                new Carbon($comment->create_date),
+            );
+        }
+        return $comments;
+    }
+
+
+    public function findByDiaryId(DiaryId $diaryId): array
+    {
+        $comments = [];
+        $allComments = \App\Models\Comment::where('diary_id', $diaryId->getId())->get();
         foreach ($allComments as $comment) {
             $comments[] = new Comment(
                 new CommentId($comment->comemnt_id),

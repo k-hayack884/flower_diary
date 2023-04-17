@@ -4,6 +4,7 @@ namespace App\Packages\Usecases\Comment;
 
 use App\Packages\Domains\Comment\CommentCollection;
 use App\Packages\Domains\Comment\CommentRepositoryInterface;
+use App\Packages\Domains\Diary\DiaryId;
 use App\Packages\Presentations\Requests\Comment\GetCommentsRequest;
 use App\Packages\Usecases\Dto\Comment\CommentDto;
 use App\Packages\Usecases\Dto\Comment\CommentsWrapDto;
@@ -28,12 +29,13 @@ class GetCommentsAction
      * @param GetCommentsRequest $getCommentRequest
      * @return CommentsWrapDto
      */
-    public function __invoke(GetCommentsRequest $getCommentRequest
+    public function __invoke(GetCommentsRequest $getCommentsRequest
     ): CommentsWrapDto
     {
         Log::info(__METHOD__, ['開始']);
 
-        $comments = $this->commentRepository->find();
+        $diaryId=new DiaryId($getCommentsRequest->getDiaryId());
+        $comments = $this->commentRepository->findByDiaryId($diaryId);
         $commentCollection=new CommentCollection($comments);
         $commentDtos = [];
 

@@ -11,6 +11,16 @@ class GetCommentsRequest extends BaseRequest
      */
     public function rules():array
     {
-        return [];
+        return [
+            'diaryId' => 'nullable',
+        ];
     }
+    /**
+     * @return string|null
+     */
+    public function getDiaryId():string|null
+    {
+        return $this->input('diaryId');
+    }
+
 }
