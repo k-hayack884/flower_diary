@@ -2,6 +2,7 @@
 
 namespace App\Packages\Usecases\Fertilizer;
 
+use App\Packages\Domains\CheckSeat\CheckSeatId;
 use App\Packages\Domains\Fertilizer\FertilizerRepositoryInterface;
 use App\Packages\Presentations\Requests\Fertilizer\GetFertilizerSettingsRequest;
 use App\Packages\Usecases\Dto\Fertilizer\FertilizerSettingDto;
@@ -32,7 +33,8 @@ class GetFertilizerSettingsAction
     {
         Log::info(__METHOD__, ['開始']);
 
-        $fertilizerSettingCollection = $this->fertilizerSettingRepository->find();
+        $checkSeatId=new CheckSeatId($getFertilizerSettingRequest->getCheckSeatId());
+        $fertilizerSettingCollection = $this->fertilizerSettingRepository->findByCheckSeatId($checkSeatId);
         $fertilizerSettingDtos = [];
 
         foreach ($fertilizerSettingCollection as $fertilizerSetting) {

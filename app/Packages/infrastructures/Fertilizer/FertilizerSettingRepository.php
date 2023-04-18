@@ -3,6 +3,7 @@
 namespace App\Packages\infrastructures\Fertilizer;
 
 use App\Exceptions\NotFoundException;
+use App\Packages\Domains\CheckSeat\CheckSeatId;
 use App\Packages\Domains\Fertilizer\FertilizerAmount;
 use App\Packages\Domains\Fertilizer\fertilizerName;
 use App\Packages\Domains\Fertilizer\FertilizerNote;
@@ -17,6 +18,21 @@ class FertilizerSettingRepository implements \App\Packages\Domains\Fertilizer\Fe
     {
         $fertilizerSettings = [];
         $allFertilizerSettings= \App\Models\FertilizerSetting::all();
+        foreach ($allFertilizerSettings as $fertilizerSetting) {
+            $fertilizerSettings[]= new MonthsFertilizerSetting(
+                new FertilizerSettingId($fertilizerSetting->fertilizer_setting_id),
+                json_decode($fertilizerSetting->months),
+                new FertilizerNote($fertilizerSetting->fertilizer_note),
+                new FertilizerAmount($fertilizerSetting->fertilizer_amount),
+                new fertilizerName($fertilizerSetting->fertilizer_name),
+            );
+        }
+        return $fertilizerSettings;
+    }
+    public function findByCheckSeatId(CheckSeatId $checkSeatId): array
+    {
+        $fertilizerSettings = [];
+        $allFertilizerSettings = \App\Models\FertilizerSetting::where('check_seat_id', $checkSeatId->getId())->get();
         foreach ($allFertilizerSettings as $fertilizerSetting) {
             $fertilizerSettings[]= new MonthsFertilizerSetting(
                 new FertilizerSettingId($fertilizerSetting->fertilizer_setting_id),

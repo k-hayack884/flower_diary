@@ -25,6 +25,8 @@ class FertilizerSettingController extends Controller
         GetFertilizerSettingsAction $action,
     ):array
     {
+        $checkSeatId = $request->input('checkSeatId');
+        $request->merge(['checkSeatId' => $checkSeatId]);
         return (array)$action($request);
     }
     public function create(

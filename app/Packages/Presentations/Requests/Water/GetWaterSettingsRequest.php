@@ -11,6 +11,14 @@ class GetWaterSettingsRequest extends BaseRequest
      */
     public function rules(): array
     {
-        return [];
+        return [
+            'checkSeatId' => 'nullable',
+        ];
+
+    }
+
+    public function getCheckSeatId(): string|null
+    {
+        return $this->input('checkSeatId');
     }
 }

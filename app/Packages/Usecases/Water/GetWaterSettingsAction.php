@@ -2,6 +2,7 @@
 
 namespace App\Packages\Usecases\Water;
 
+use App\Packages\Domains\CheckSeat\CheckSeatId;
 use App\Packages\Domains\Water\WaterSettingRepositoryInterface;
 use App\Packages\Presentations\Requests\Water\GetWaterSettingRequest;
 use App\Packages\Presentations\Requests\Water\GetWaterSettingsRequest;
@@ -30,7 +31,8 @@ class GetWaterSettingsAction
     {
         Log::info(__METHOD__, ['開始']);
 
-        $waterSettingCollection = $this->waterSettingRepository->find();
+        $checkSeatId=new CheckSeatId($getWaterSettingRequest->getCheckSeatId());
+        $waterSettingCollection = $this->waterSettingRepository->findByCheckSeatId($checkSeatId);
 
         $waterSettingDtos = [];
 

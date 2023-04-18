@@ -1,14 +1,14 @@
 <template>
     <h1>ああああああああ</h1>
     <p>plantUnitId: {{ plantUnitId }}</p>
-    <figure><img :src="'data:image/png;base64,'+plantImage" /> </figure>
+    <figure><img :src="'data:image/png;base64,'+plantImage"/></figure>
     <div id="tab" class="w-full max-w-500 mx-auto">
         <ul class="flex tabMenu">
             <li class="w-auto px-4 py-2 text-white border-r border-white bg-blue-700 cursor-pointer"
                 @click="isSelect('1')">日記
             </li>
             <li class="w-auto px-4 py-2 text-white border-r border-white bg-blue-700 cursor-pointer"
-                @click="isSelect('2')">お世話
+                @click="isSelect('2');showCheckSeat()">お世話
             </li>
             <li class="w-auto px-4 py-2 text-white bg-blue-700 cursor-pointer" @click="isSelect('3')">情報</li>
         </ul>
@@ -22,23 +22,26 @@
                             <h2 clasoss="card-title">{{ diary.diaryContent }}</h2><a href="">編集</a>
                             <p>日記更新日: {{ diary.createDate }}</p>
                             <div v-if="diary.comments && diary.comments.length > 0">
-                            <button @click="commentToggle(diary.diaryId,index)">コメント {{ diary.comments.length }}</button>
+                                <button @click="commentToggle(diary.diaryId,index)">コメント {{
+                                        diary.comments.length
+                                    }}
+                                </button>
                                 <div :class="{'hidden': !diary.showComment}">
 
                                     <div v-for="comment in diary.comments" class="">
 
-                                    <div class="chat chat-start">
-                                        <div class="chat-image avatar">
-                                            <div class="w-10 rounded-full">
-                                                <img :src="'data:image/png;base64,'+comment.userImage" />
+                                        <div class="chat chat-start">
+                                            <div class="chat-image avatar">
+                                                <div class="w-10 rounded-full">
+                                                    <img :src="'data:image/png;base64,'+comment.userImage"/>
+                                                </div>
                                             </div>
+                                            <div class="chat-header">
+                                                {{ comment.userName }}
+                                                <time class="text-xs opacity-50"> {{ comment.createDate }}</time>
+                                            </div>
+                                            <div class="chat-bubble">{{ comment.content }}</div>
                                         </div>
-                                        <div class="chat-header">
-                                            {{ comment.userName }}
-                                            <time class="text-xs opacity-50"> {{ comment.createDate }}</time>
-                                        </div>
-                                        <div class="chat-bubble">{{ comment.content }}</div>
-                                    </div>
                                     </div>
                                 </div>
                             </div>
@@ -47,7 +50,16 @@
                 </div>
             </div>
             <div v-else-if="isActive === '2'">
-                <h2 class="mb-4 text-2xl font-bold">Tab News</h2>
+                <h2 class="mb-4 text-2xl font-bold">今月のお世話設定</h2>
+                <div class="flex flex-col">
+                    <div class="w-auto px-4 py-2 text-white border-r border-white bg-blue-700">
+                        水やり
+
+                    </div>
+                    <div class="w-auto px-4 py-2 text-white border-r border-white bg-blue-700">
+                        肥料
+                    </div>
+                </div>
             </div>
             <div v-else-if="isActive === '3'">
                 <h2 class="mb-4 text-2xl font-bold">Tab Event</h2>
@@ -79,17 +91,8 @@ export default {
                     showComment: false,
                 }
             ],
-            // diariesData: [
-            //     {
-            //         diaryId: '',
-            //         diaryContent: '',
-            //         diaryImage: '',
-            //         createDate: '',
-            //         comments: []
-            //     }
-            // ],
-            waterSettingIds: [],
-            fertilizerSettingIds: [],
+            waterSettings: [],
+            fertilizerSettings: [],
             currentMonth: 5,
             isActive: '1',
             showComment: false
@@ -143,51 +146,93 @@ export default {
 
             // for (const diary of this.diaries) {
             //     const index = this.diaries.indexOf(diary);
-                const res=await axios.get(`/api/plantUnit/${this.plantUnitId}/diary?plantUnitId=${this.plantUnitId}`, {})
-                    .then((res) => {
+            const res = await axios.get(`/api/plantUnit/${this.plantUnitId}/diary?plantUnitId=${this.plantUnitId}`, {})
+                .then((res) => {
 
-                        const diaryData =res.data.diaries.map(diary => ({
-                            diaryId:diary.diaryId,
-                            diaryContent:diary.content,
-                            diaryImage:diary.diaryImage,
-                            createDate:diary.createDate,
-                            comments:diary.comments,
-                        }));
-console.log(diaryData);
-                        Vue.set(this.diariesData, diaryData);
-                        // if (index === this.diaries.length - 1) {
-                        //     this.showCommentsLength();
-                        // }
-                        this.diaries=diaryData;
-                    })
-                    .catch((error) => {
-                        console.log(error);
-                    });
+                    const diaryData = res.data.diaries.map(diary => ({
+                        diaryId: diary.diaryId,
+                        diaryContent: diary.content,
+                        diaryImage: diary.diaryImage,
+                        createDate: diary.createDate,
+                        comments: diary.comments,
+                    }));
+                    console.log(diaryData);
+                    Vue.set(this.diariesData, diaryData);
+                    // if (index === this.diaries.length - 1) {
+                    //     this.showCommentsLength();
+                    // }
+                    this.diaries = diaryData;
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
             // }
         },
-        commentToggle(diaryId,index) {
+        commentToggle(diaryId, index) {
             this.diaries[index].showComment = !this.diaries[index].showComment;
             console.log(diaryId)
             // diary.comments.forEach((comment, index) => {
-                axios.get(`/api/diary/${diaryId}/comment?diaryId=${diaryId}`, {})
-                    .then((res) => {
-                        const commentData =res.data.comments.map(comment => ({
-                            commentId: comment.commentId,
-                            userId: comment.userId,
-                            userName:comment.userName,
-                            userImage: comment.userImage,
-                            content: comment.content,
-                            createDate: comment.createDate,
-                        }));
-                        // Vue.set(diary.comments, index, commentData);
-                        // this.diaries.comments[index]=commentData;
-                        this.diaries[index].comments = commentData;
-                    })
-                    .catch((error) => {
-                        console.log(error);
-                    });
+            axios.get(`/api/diary/${diaryId}/comment?diaryId=${diaryId}`, {})
+                .then((res) => {
+                    const commentData = res.data.comments.map(comment => ({
+                        commentId: comment.commentId,
+                        userId: comment.userId,
+                        userName: comment.userName,
+                        userImage: comment.userImage,
+                        content: comment.content,
+                        createDate: comment.createDate,
+                    }));
+                    // Vue.set(diary.comments, index, commentData);
+                    // this.diaries.comments[index]=commentData;
+                    this.diaries[index].comments = commentData;
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
             // });
         },
+        showCheckSeat() {
+            axios.get(`/api/checkSeat/${this.checkSeatId}/waterSetting?checkSeatId=${this.checkSeatId}`, {})
+                .then((res) => {
+                    const waterSettingData = res.data.waterSettings.map(waterSetting => ({
+                        waterSettingId: waterSetting.waterSettingId,
+                        months: waterSetting.months,
+                        waterNote: waterSetting.waterNote,
+                        waterAmount: waterSetting.waterAmount,
+                        wateringTimes: waterSetting.wateringTimes,
+                        wateringInterval: waterSetting.wateringInterval,
+                        alertTimes: waterSetting.wateringInterval,
+                    }));
+                    // Vue.set(diary.comments, index, commentData);
+                    // this.diaries.comments[index]=commentData;
+                    const currentWaterSettings = waterSettingData.filter(setting => setting.months.includes(this.currentMonth));
+                    this.waterSettings = currentWaterSettings;
+
+                    console.log(currentWaterSettings); // 検索結果の数値が出力される
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+            axios.get(`/api/checkSeat/${this.checkSeatId}/fertilizerSetting?checkSeatId=${this.checkSeatId}`, {})
+                .then((res) => {
+                    const fertilizerSettingData = res.data.fertilizerSettings.map(fertilizerSetting => ({
+                        fertilizerSettingId: fertilizerSetting.fertilizerSettingId,
+                        months: fertilizerSetting.months,
+                        note: fertilizerSetting.note,
+                        fertilizerAmount: fertilizerSetting.fertilizerAmount,
+                        fertilizerName: fertilizerSetting.fertilizerName,
+                    }));
+                    // Vue.set(diary.comments, index, commentData);
+                    // this.diaries.comments[index]=commentData;
+                    this.fertilizerSettings = fertilizerSettingData;
+                    const currentFertilizerSettings = fertilizerSettingData.filter(setting => setting.months.includes(this.currentMonth));
+                    this.fertilizerSettings = currentFertilizerSettings;
+
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        }
         // fetchCheckSeatData() {
         //     axios.get(`/api/checkSeat/${this.checkSeatId}`, {})
         //         .then(res => {

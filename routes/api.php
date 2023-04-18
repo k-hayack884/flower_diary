@@ -61,6 +61,10 @@ Route::middleware('auth:sanctum')->group(function () {
         'waterSetting',
         [WaterSettingController::class,'index']
     );
+    Route::get(
+        'checkSeat/{checkSeatId}/waterSetting',
+        [WaterSettingController::class,'index']
+    );
     Route::post(
         'waterSetting',
         [WaterSettingController::class,'create']
@@ -86,6 +90,12 @@ Route::middleware('auth:sanctum')->group(function () {
         'fertilizerSetting',
         [FertilizerSettingController::class,'index']
     );
+    Route::get(
+        'checkSeat/{checkSeatId}/fertilizerSetting',
+        [FertilizerSettingController::class,'index']
+    );
+
+
     Route::post(
         'fertilizerSetting',
         [FertilizerSettingController::class,'create']
