@@ -40,8 +40,8 @@ class GetWaterSettingsAction
             $waterSettingDtos[] = new WaterSettingDto(
                 $waterSetting->getWaterSettingId()->getId(),
                 $waterSetting->getMonths(),
-                $waterSetting->getWaterAmount()->getValue(),
                 $waterSetting->getWaterNote()->getValue(),
+                $waterSetting->getWaterAmount()->getValue(),
                 $waterSetting->getWateringTimes()->getValue(),
                 $waterSetting->getWateringInterval()->getValue(),
                 $waterSetting->getAlertTimes()

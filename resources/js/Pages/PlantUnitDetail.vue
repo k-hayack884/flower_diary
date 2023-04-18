@@ -53,12 +53,46 @@
                 <h2 class="mb-4 text-2xl font-bold">今月のお世話設定</h2>
                 <div class="flex flex-col">
                     <div class="w-auto px-4 py-2 text-white border-r border-white bg-blue-700">
-                        水やり
+                        <div class="card w-96 bg-base-100 shadow-xl text-black">
+                            <div class="card-body">
+                                <h2 class="card-title">水やり設定</h2>
+
+                                <p>
+                                    水やり回数:{{ waterSettings[0].wateringInterval }}日に{{ waterSettings[0].wateringTimes }}回</p>
+                                <div v-if="waterSettings[0].waterAmount === 'a_lot'">
+                                    <p>水やり量:たっぷり</p>
+                                </div>
+                                <div v-else-if="waterSettings[0].waterAmount === 'moderate_amount'">
+                                    <p>水やり量:適量</p>
+                                </div>
+                                <div v-else-if="waterSettings[0].waterAmount === 'sparingly'">
+                                    <p>水やり量:ひかえめ</p>
+                                </div>
+                                <p>備考:{{ waterSettings[0].note }}</p>
+                            </div>
+
+
+                        </div>
 
                     </div>
                     <div class="w-auto px-4 py-2 text-white border-r border-white bg-blue-700">
-                        肥料
+                        <div class="card w-96 bg-base-100 shadow-xl text-black">
+                            <div class="card-body">
+                                <h2 class="card-title">肥料設定</h2>
+                                <ul v-for="fertilizerSetting in fertilizerSettings" class="">
+                                    <li>
+                                        <p>肥料名:{{ fertilizerSetting.fertilizerName }}</p>
+                                        <p>肥料量:{{ fertilizerSetting.fertilizerAmount }}g</p>
+                                        <p>備考:{{ fertilizerSetting.note }}</p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
+                    <!--                            <a :href="route('careSetting', { checkSeatId: checkSeatId })"-->
+                    <!--                               class="block">-->
+                    <button class="btn btn-primary">お世話設定</button>
+                    <!--                            </a>-->
                 </div>
             </div>
             <div v-else-if="isActive === '3'">
@@ -197,7 +231,7 @@ export default {
                     const waterSettingData = res.data.waterSettings.map(waterSetting => ({
                         waterSettingId: waterSetting.waterSettingId,
                         months: waterSetting.months,
-                        waterNote: waterSetting.waterNote,
+                        note: waterSetting.note,
                         waterAmount: waterSetting.waterAmount,
                         wateringTimes: waterSetting.wateringTimes,
                         wateringInterval: waterSetting.wateringInterval,
