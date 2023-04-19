@@ -2,6 +2,8 @@ Comment.vue
 <script setup>
 import {Head, Link} from '@inertiajs/inertia-vue3';
 import AppLayout from '@/Layouts/AppLayout.vue';
+import FertilizerSettingModal from "@/Components/FertilizerSettingModal.vue";
+import WaterSettingModal from "@/Components/WaterSettingModal.vue";
 </script>
 <template>
     <section class="text-gray-600 body-font">
@@ -51,13 +53,15 @@ import AppLayout from '@/Layouts/AppLayout.vue';
                                     通知時間:{{ waterSetting.alertTimes }}
                                 </li>
                             </ul>
-                            <button
+                            <button @click="openWaterModal(); getIndex(index)"
                                 class="flex mx-auto mt-16 text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
                                 設定
                             </button>
                         </div>
                     </div>
                 </div>
+                <WaterSettingModal :open-modal="isWaterModalOpen"  @closeModal="closeWaterModal" :waterSetting="waterSettings[arrayIndex]" />
+
             </div>
             <h1 class="relative py-1">
                 <span
@@ -65,7 +69,6 @@ import AppLayout from '@/Layouts/AppLayout.vue';
                 <span class="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-green-600 to-transparent"></span>
             </h1>
             <div class="flex flex-wrap m-4">
-
                 <div v-for="(fertilizerSetting,index) in fertilizerSettings" class="w-full sm:w-1/2 lg:w-1/3 p-4">
                     <div class="p-4 h-104 w-auto">
                         <div class="border border-gray-200 p-6 rounded-lg text-center">
@@ -91,25 +94,39 @@ import AppLayout from '@/Layouts/AppLayout.vue';
                                     備考:{{ fertilizerSetting.note }}
                                 </li>
                             </ul>
-                            <button
-                                class="flex mx-auto mt-16 text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
+                            <button @click="openFertilizerModal(); getIndex(index)"
+                                    class="flex mx-auto mt-16 text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
                                 設定
                             </button>
                         </div>
                     </div>
                 </div>
+                <FertilizerSettingModal :open-modal="isFertilizerModalOpen"  @closeModal="closeFertilizerModal"  :fertilizerSetting="fertilizerSettings[arrayIndex]"/>
             </div>
         </div>
     </section>
+
+
 </template>
 <script>
+
+
+
+
 export default {
+    components: {
+        WaterSettingModal,
+        FertilizerSettingModal
+    },
     name: "CheckSeat.vue",
     props: ['checkSeatId'],
     data() {
         return {
+            isWaterModalOpen: false,
+            isFertilizerModalOpen: false,
             waterSettings: [],
             fertilizerSettings: [],
+            arrayIndex:null
         }
     },
     created() {
@@ -147,6 +164,9 @@ export default {
 
     },
     methods: {
+        getIndex(index){
+          this.arrayIndex=index
+        },
         async create() {
             axios.post('http://localhost:51111/api/comment', {
 
@@ -198,6 +218,18 @@ export default {
             }).catch(error => {
                 console.log(error);
             });
+        },
+        openWaterModal() {
+            this.isWaterModalOpen = true;
+        },
+        closeWaterModal() {
+            this.isWaterModalOpen = false;
+        },
+        openFertilizerModal() {
+            this.isFertilizerModalOpen = true;
+        },
+        closeFertilizerModal() {
+            this.isFertilizerModalOpen = false;
         },
     }
 }
