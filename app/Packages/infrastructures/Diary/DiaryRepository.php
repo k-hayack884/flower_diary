@@ -10,6 +10,8 @@ use App\Packages\Domains\Diary\DiaryContent;
 use App\Packages\Domains\Diary\DiaryId;
 use App\Packages\Domains\Diary\DiaryImage;
 use App\Packages\Domains\Diary\DiaryRepositoryInterface;
+use App\Packages\Domains\PlantUnit\PlantUnit;
+use App\Packages\Domains\PlantUnit\PlantUnitId;
 use Carbon\Carbon;
 
 class DiaryRepository implements DiaryRepositoryInterface
@@ -19,6 +21,29 @@ class DiaryRepository implements DiaryRepositoryInterface
     {
         $diaries = [];
         $allDiaries = \App\Models\Diary::all();
+        foreach ($allDiaries as $diary) {
+            $comments = Comment::where('diary_id', $diary->diary_id)->get();
+            $commentIds = [];
+            foreach ($comments as $comment) {
+                $commentIds[] = $comment->comment_id;
+            }
+            $diaries[] = new Diary(
+                new DiaryId($diary->diary_id),
+                new DiaryContent($diary->diary_content),
+                new DiaryImage($diary->image),
+                $commentIds,
+                new Carbon($diary->create_date),
+
+            );
+        }
+        return $diaries;
+    }
+
+    public function findByPlantUnitId(PlantUnitId $plantUnitId): array
+    {
+        $diaries = [];
+        $allDiaries = \App\Models\Diary::where('plant_unit_id', $plantUnitId->getId())->get();
+
         foreach ($allDiaries as $diary) {
             $comments = Comment::where('diary_id', $diary->diary_id)->get();
             $commentIds = [];

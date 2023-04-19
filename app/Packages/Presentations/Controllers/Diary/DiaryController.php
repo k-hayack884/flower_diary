@@ -15,15 +15,18 @@ use App\Packages\Usecases\Diary\GetDiariesAction;
 use App\Packages\Usecases\Diary\GetDiaryAction;
 use App\Packages\Usecases\Diary\UpdateDiaryAction;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Route;
 
 class DiaryController extends Controller
 {
     public function index(
         GetDiariesRequest $request,
-        GetDiariesAction  $action
+        GetDiariesAction  $action,
     ): array
     {
-        return (array)$action($request);
+        $plantUnitId = $request->input('plantUnitId');
+        $request->merge(['plantUnitId' => $plantUnitId]);
+        return (array) $action($request);
     }
 
 

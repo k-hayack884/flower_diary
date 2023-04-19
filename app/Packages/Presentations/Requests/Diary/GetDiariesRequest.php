@@ -11,6 +11,13 @@ class GetDiariesRequest extends BaseRequest
      */
     public function rules():array
     {
-        return [];
+        return [
+            'plantUnitId' => 'nullable',
+            ];
     }
+    public function getPlantUnitId():string|null
+    {
+        return $this->input('plantUnitId');
+    }
+
 }

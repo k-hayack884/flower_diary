@@ -1,35 +1,148 @@
 <template>
     <h1>ああああああああ</h1>
     <p>plantUnitId: {{ plantUnitId }}</p>
-
+    <figure><img :src="'data:image/png;base64,'+plantImage"/></figure>
     <div id="tab" class="w-full max-w-500 mx-auto">
         <ul class="flex tabMenu">
             <li class="w-auto px-4 py-2 text-white border-r border-white bg-blue-700 cursor-pointer"
                 @click="isSelect('1')">日記
             </li>
             <li class="w-auto px-4 py-2 text-white border-r border-white bg-blue-700 cursor-pointer"
-                @click="isSelect('2')">お世話
+                @click="isSelect('2');showCheckSeat()">お世話
             </li>
-            <li class="w-auto px-4 py-2 text-white bg-blue-700 cursor-pointer" @click="isSelect('3')">情報</li>
+            <li class="w-auto px-4 py-2 text-white bg-blue-700 cursor-pointer" @click="isSelect('3');getPlantData()">
+                情報
+            </li>
         </ul>
         <div class="w-full p-4 border border-blue-700 tabContents w-3/4">
             <div v-if="isActive === '1'">
-                <div v-for="diary in diariesData" class="">
+                <div v-for="(diary, index) in diaries" class="">
                     <div
                         class="card card-side bg-base-100 shadow-lg rounded-lg overflow-hidden m4transform hover:scale-105 transition duration-300 my-4">
                         <figure><img :src="diary.diaryImage"/></figure>
                         <div class="card-body">
                             <h2 clasoss="card-title">{{ diary.diaryContent }}</h2><a href="">編集</a>
                             <p>日記更新日: {{ diary.createDate }}</p>
+                            <div v-if="diary.comments && diary.comments.length > 0">
+                                <button @click="commentToggle(diary.diaryId,index)">コメント {{
+                                        diary.comments.length
+                                    }}
+                                </button>
+                                <div :class="{'hidden': !diary.showComment}">
+
+                                    <div v-for="comment in diary.comments" class="">
+
+                                        <div class="chat chat-start">
+                                            <div class="chat-image avatar">
+                                                <div class="w-10 rounded-full">
+                                                    <img :src="'data:image/png;base64,'+comment.userImage"/>
+                                                </div>
+                                            </div>
+                                            <div class="chat-header">
+                                                {{ comment.userName }}
+                                                <time class="text-xs opacity-50"> {{ comment.createDate }}</time>
+                                            </div>
+                                            <div class="chat-bubble">{{ comment.content }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div v-else-if="isActive === '2'">
-                <h2 class="mb-4 text-2xl font-bold">Tab News</h2>
+                <h2 class="mb-4 text-2xl font-bold">今月のお世話設定</h2>
+                <div class="flex flex-col">
+                    <div class="w-auto px-4 py-2 text-white border-r border-white bg-blue-700">
+                        <div class="card w-96 bg-base-100 shadow-xl text-black">
+                            <div class="card-body">
+                                <h2 class="card-title">水やり設定</h2>
+
+                                <p>
+                                    水やり回数:{{ waterSettings[0].wateringInterval }}日に{{
+                                        waterSettings[0].wateringTimes
+                                    }}回</p>
+                                <div v-if="waterSettings[0].waterAmount === 'a_lot'">
+                                    <p>水やり量:たっぷり</p>
+                                </div>
+                                <div v-else-if="waterSettings[0].waterAmount === 'moderate_amount'">
+                                    <p>水やり量:適量</p>
+                                </div>
+                                <div v-else-if="waterSettings[0].waterAmount === 'sparingly'">
+                                    <p>水やり量:ひかえめ</p>
+                                </div>
+                                <p>備考:{{ waterSettings[0].note }}</p>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+                    <div class="w-auto px-4 py-2 text-white border-r border-white bg-blue-700">
+                        <div class="card w-96 bg-base-100 shadow-xl text-black">
+                            <div class="card-body">
+                                <h2 class="card-title">肥料設定</h2>
+                                <ul v-for="fertilizerSetting in fertilizerSettings" class="">
+                                    <li>
+                                        <p>肥料名:{{ fertilizerSetting.fertilizerName }}</p>
+                                        <p>肥料量:{{ fertilizerSetting.fertilizerAmount }}g</p>
+                                        <p>備考:{{ fertilizerSetting.note }}</p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <!--                            <a :href="route('careSetting', { checkSeatId: checkSeatId })"-->
+                    <!--                               class="block">-->
+                    <button class="btn btn-primary">お世話設定</button>
+                    <!--                            </a>-->
+                </div>
             </div>
             <div v-else-if="isActive === '3'">
-                <h2 class="mb-4 text-2xl font-bold">Tab Event</h2>
+                <div class="card w-96 bg-base-100 shadow-xl">
+                    <div class="card-body">
+                        <h2 class="card-title">
+                            {{plantData.plantName}}
+                        </h2>
+                        <p>学名:{{plantData.scientific}}</p>
+                        <p>If a dog chews shoes whose shoes does he choose?</p>
+                        <div class="card-actions justify-end">
+                        </div>
+                    </div>
+                </div>
+                <div class="card w-96 bg-base-100 shadow-xl">
+                    <div class="card-body">
+                        <h2 class="card-title">
+                            説明
+                        </h2>
+                        <p>{{plantData.information}}</p>
+                        <div class="card-actions justify-end">
+                        </div>
+                    </div>
+                </div>
+                <div class="card w-96 bg-base-100 shadow-xl">
+                    <div class="card-body">
+                        <h2 class="card-title">
+                           おすすめのお世話設定
+                        </h2>
+                        <p>春:</p>
+                        <p>夏:</p>
+                        <p>秋:</p>
+                        <p>冬:</p>
+                        <div class="card-actions justify-end">
+                        </div>
+                    </div>
+                </div>
+                <div class="card w-96 bg-base-100 shadow-xl">
+                    <div class="card-body">
+                        <h2 class="card-title">
+                            {{plantData.plantName}}の画像
+                        </h2>
+                        <div class="card-actions justify-end">
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -41,7 +154,7 @@ export default {
     props: ['plantUnitId'],
     data() {
         return {
-            UserId: '',
+            userId: '',
             plantId: '',
             checkSeatId: '',
             plantName: null,
@@ -53,23 +166,16 @@ export default {
                 scientific: '',
                 information: '',
             },
-            diaries: [],
-            diariesData: [{
-                diaryId: '',
-                diaryContent: '',
-                diaryImage: '',
-                createDate: '',
-                comments: {
-                    commentId: '',
-                    userId: '',
-                    commentContent: '',
-                    createDate: '',
+            diaries: [
+                {
+                    showComment: false,
                 }
-            }],
-            waterSettingIds: [],
-            fertilizerSettingIds: [],
+            ],
+            waterSettings: [],
+            fertilizerSettings: [],
             currentMonth: 5,
-            isActive: '1'
+            isActive: '1',
+            showComment: false
         }
     },
     created() {
@@ -83,13 +189,12 @@ export default {
             this.isActive = num;
         },
         fetchPlantUnitData() {
-
             axios.get(`/api/plantUnit/${this.plantUnitId}`)
                 .then(res => {
-                    this.UserId = res.data.plantUnit.UserId;
+                    this.userId = res.data.plantUnit.userId;
                     this.plantId = res.data.plantUnit.plantId;
                     this.checkSeatId = res.data.plantUnit.checkSeatId;
-                    this.plantName = res.data.plantUnit.name;
+                    this.plantName = res.data.plantUnit.plantName;
                     this.diaries = res.data.plantUnit.diaries;
                     this.plantImage = res.data.plantUnit.plantImage;
                     this.createDate = res.data.plantUnit.createDate;
@@ -100,79 +205,140 @@ export default {
                         information: '',
                     };
                     this.diariesData = [];
-                    return axios.get(`/api/plant/${this.plantId}`, {});
+                    this.fetchDiaryData();
+                    // return axios.get(`/api/plant/${this.plantId}`, {});
 
                 })
+                .catch((error) => {
+                    console.log(error);
+                });
+
+
+        },
+        // api/plantunit/{plantunitId}/image
+        async fetchDiaryData() {
+
+            // for (const diary of this.diaries) {
+            //     const index = this.diaries.indexOf(diary);
+            const res = await axios.get(`/api/plantUnit/${this.plantUnitId}/diary?plantUnitId=${this.plantUnitId}`, {})
+                .then((res) => {
+
+                    const diaryData = res.data.diaries.map(diary => ({
+                        diaryId: diary.diaryId,
+                        diaryContent: diary.content,
+                        diaryImage: diary.diaryImage,
+                        createDate: diary.createDate,
+                        comments: diary.comments,
+                    }));
+                    console.log(diaryData);
+                    Vue.set(this.diariesData, diaryData);
+                    // if (index === this.diaries.length - 1) {
+                    //     this.showCommentsLength();
+                    // }
+                    this.diaries = diaryData;
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+            // }
+        },
+        commentToggle(diaryId, index) {
+            this.diaries[index].showComment = !this.diaries[index].showComment;
+            console.log(diaryId)
+            // diary.comments.forEach((comment, index) => {
+            axios.get(`/api/diary/${diaryId}/comment?diaryId=${diaryId}`, {})
+                .then((res) => {
+                    const commentData = res.data.comments.map(comment => ({
+                        commentId: comment.commentId,
+                        userId: comment.userId,
+                        userName: comment.userName,
+                        userImage: comment.userImage,
+                        content: comment.content,
+                        createDate: comment.createDate,
+                    }));
+                    // Vue.set(diary.comments, index, commentData);
+                    // this.diaries.comments[index]=commentData;
+                    this.diaries[index].comments = commentData;
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+            // });
+        },
+        showCheckSeat() {
+            axios.get(`/api/checkSeat/${this.checkSeatId}/waterSetting?checkSeatId=${this.checkSeatId}`, {})
+                .then((res) => {
+                    const waterSettingData = res.data.waterSettings.map(waterSetting => ({
+                        waterSettingId: waterSetting.waterSettingId,
+                        months: waterSetting.months,
+                        note: waterSetting.note,
+                        waterAmount: waterSetting.waterAmount,
+                        wateringTimes: waterSetting.wateringTimes,
+                        wateringInterval: waterSetting.wateringInterval,
+                        alertTimes: waterSetting.wateringInterval,
+                    }));
+                    // Vue.set(diary.comments, index, commentData);
+                    // this.diaries.comments[index]=commentData;
+                    const currentWaterSettings = waterSettingData.filter(setting => setting.months.includes(this.currentMonth));
+                    this.waterSettings = currentWaterSettings;
+
+                    console.log(currentWaterSettings); // 検索結果の数値が出力される
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+            axios.get(`/api/checkSeat/${this.checkSeatId}/fertilizerSetting?checkSeatId=${this.checkSeatId}`, {})
+                .then((res) => {
+                    const fertilizerSettingData = res.data.fertilizerSettings.map(fertilizerSetting => ({
+                        fertilizerSettingId: fertilizerSetting.fertilizerSettingId,
+                        months: fertilizerSetting.months,
+                        note: fertilizerSetting.note,
+                        fertilizerAmount: fertilizerSetting.fertilizerAmount,
+                        fertilizerName: fertilizerSetting.fertilizerName,
+                    }));
+                    // Vue.set(diary.comments, index, commentData);
+                    // this.diaries.comments[index]=commentData;
+                    this.fertilizerSettings = fertilizerSettingData;
+                    const currentFertilizerSettings = fertilizerSettingData.filter(setting => setting.months.includes(this.currentMonth));
+                    this.fertilizerSettings = currentFertilizerSettings;
+
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        },
+        getPlantData() {
+            axios.get(`/api/plant/${this.plantId}`, {})
                 .then(res => {
                     console.log(res.data.plant.scientific)
                     Vue.set(this, 'plantData', {
-                        plantName: res.data.plant.plantName,
+                        plantName: res.data.plant.name,
                         scientific: res.data.plant.scientific,
                         information: res.data.plant.information,
                     })
-                    this.fetchDiaryData();
-                    this.fetchCheckSeatData();
+
+                    // this.fetchCheckSeatData();
 
                 })
-
-        },
-        fetchDiaryData() {
-            console.log(this.diaries);
-            this.diaries.forEach((diary, index) => {
-                axios.get(`/api/diary/${diary}`, {})
-                    .then((res) => {
-                        const diaryData = {
-                            diaryId: res.data.diary.diaryId,
-                            diaryContent: res.data.diary.content,
-                            diaryImage: res.data.diary.diaryImage,
-                            createDate: res.data.diary.createDate,
-                            comments: res.data.diary.comments,
-                        };
-                        Vue.set(this.diariesData, index, diaryData);
-                    })
-                    .catch((error) => {
-                        console.log(error);
-                    });
-            });
-        },
-        fetchCheckSeatData() {
-            axios.get(`/api/checkSeat/${this.checkSeatId}`, {})
-                .then(res => {
-                    this.waterSettingIds = res.data.waterSettingIds;
-                    this.fertilizerSettingIds = res.data.fertilizerSettingIds;
-                    return Promise.all([
-                        ...this.waterSettingIds.map(waterSettingId => axios.get(`/api/waterSetting/${waterSettingId}`, {})),
-                        ...this.fertilizerSettingIds.map(fertilizerSettingId => axios.get(`/api/fertilizerSetting/${fertilizerSettingId}`, {}))
-                    ]);
-                })
-
-                .then(res => {
-                    const waterSettingResponses = res.slice(0, this.waterSettingIds.length);
-                    const fertilizerSettingResponses = res.slice(this.waterSettingIds.length);
-                    // 各レスポンスから必要な情報を取り出す
-                    const waterSettings = waterSettingResponses.map(res => res.data);
-                    const fertilizerSettings = fertilizerSettingResponses.map(res => res.data);
-
-                    // let currentMonthSetting;
-                    // for (const setting of waterSettings) {
-                    //     if (setting.months.includes(this.currentMonth)) {
-                    //         currentMonthSetting = setting;
-                    //         break;
-                    //     }
-                    // }
-                    console.log(currentMonthSetting)
-
-                    // データの加工やその他の処理を行う
-                    // ...
-                })
-                .catch(error => {
-                console.log(error);
-            });
-        },
-    },
+        }
+    }
 }
 </script>
 
 <style scoped>
 
+.hidden {
+    display: none;
+}
+
+.slide-down-enter-active,
+.slide-down-leave-active {
+    transition: all .5s;
+}
+
+.slide-down-enter,
+.slide-down-leave-to {
+    transform: translateY(-100%);
+    opacity: 0;
+}
 </style>

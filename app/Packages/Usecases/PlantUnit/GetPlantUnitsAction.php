@@ -46,8 +46,8 @@ class GetPlantUnitsAction
             $plantUnitDtos[] =
                 new PlantUnitDto(
                     $plantUnit->getPlantUnitId()->getId(),
-                    $plantUnit->getUserId()->getId(),
                     $plantUnit->getPlantId()->getId(),
+                    $plantUnit->getUserId()->getId(),
                     $plantUnit->getCheckSeatId()->getId(),
                     $plantUnit->getPlantName()->getValue(),
                     $plantImage,

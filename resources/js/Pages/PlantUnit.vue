@@ -5,7 +5,7 @@
             <div v-for="plantUnit in plantUnits" class="">
                 <div
                     class="card card-side bg-base-100 shadow-lg rounded-lg overflow-hidden m4transform hover:scale-105 transition duration-300 my-4">
-                    <figure><img :src="plantUnit.plantImage"/></figure>
+                    <figure><img :src="'data:image/png;base64,'+plantUnit.plantImage" /> </figure>
                     <div class="card-body">
                         <h2 clasoss="card-title">{{ plantUnit.plantName }}</h2><a href="">名前変更</a>
                         {{ plantUnit.plantData.scientific }}
@@ -28,6 +28,7 @@
 <script>
 export default {
     name: "PlantUnit",
+    props: ['user'],
     data() {
         return {
             plantUnits: [{
@@ -47,11 +48,12 @@ export default {
         }
     },
     created() {
-        axios.get('/api/plantUnit')
+        console.log(this.user.user_id)
+        axios.get(`/api/${this.user.user_id}/plantUnit`)
             .then(res => {
                 const plantUnits = res.data.plantUnits.map(plant => ({
                     plantUnitId: plant.plantUnitId,
-                    UserId: plant.UserId,
+                    userId: plant.userId,
                     plantId: plant.plantId,
                     checkSeatId: plant.checkSeatId,
                     plantName: plant.plantName,

@@ -61,6 +61,10 @@ Route::middleware('auth:sanctum')->group(function () {
         'waterSetting',
         [WaterSettingController::class,'index']
     );
+    Route::get(
+        'checkSeat/{checkSeatId}/waterSetting',
+        [WaterSettingController::class,'index']
+    );
     Route::post(
         'waterSetting',
         [WaterSettingController::class,'create']
@@ -86,6 +90,12 @@ Route::middleware('auth:sanctum')->group(function () {
         'fertilizerSetting',
         [FertilizerSettingController::class,'index']
     );
+    Route::get(
+        'checkSeat/{checkSeatId}/fertilizerSetting',
+        [FertilizerSettingController::class,'index']
+    );
+
+
     Route::post(
         'fertilizerSetting',
         [FertilizerSettingController::class,'create']
@@ -127,6 +137,10 @@ Route::middleware('auth:sanctum')->group(function () {
         'diary',
         [DiaryController::class,'index']
     );
+    Route::get(
+        'plantUnit/{plantUnitId}/diary',
+        [DiaryController::class,'index']
+    );
 
     Route::post(
         'diary',
@@ -150,6 +164,10 @@ Route::middleware('auth:sanctum')->group(function () {
         'comment',
         [CommentController::class,'index']
     );
+    Route::get(
+        'diary/{diaryId}/comment',
+        [CommentController::class,'index']
+    );
     Route::post(
         'comment',
         [CommentController::class,'create']
@@ -168,15 +186,19 @@ Route::middleware('auth:sanctum')->group(function () {
     );
 
 //植物ユニット
-    Route::middleware('auth:sanctum')->get(
+    Route::get(
         'plantUnit',
+        [PlantUnitController::class,'index']
+    );
+    Route::get(
+        '{userId}/plantUnit',
         [PlantUnitController::class,'index']
     );
     Route::post(
         'plantUnit',
         [PlantUnitController::class,'create']
     );
-    Route::middleware('auth:sanctum')->get(
+    Route::get(
         'plantUnit/{plantUnitId}',
         [PlantUnitController::class,'show']
     );

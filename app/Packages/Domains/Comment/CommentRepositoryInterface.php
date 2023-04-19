@@ -2,11 +2,13 @@
 
 namespace App\Packages\Domains\Comment;
 
+use App\Packages\Domains\Diary\DiaryId;
 use App\Packages\Domains\User\UserId;
 
 interface CommentRepositoryInterface
 {
     public function find():array;
+    public function findByDiaryId(DiaryId $diaryId):array;
 
     public function findByCommentId(CommentId $commentId):Comment;
 
