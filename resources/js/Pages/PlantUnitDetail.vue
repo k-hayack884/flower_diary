@@ -10,7 +10,9 @@
             <li class="w-auto px-4 py-2 text-white border-r border-white bg-blue-700 cursor-pointer"
                 @click="isSelect('2');showCheckSeat()">お世話
             </li>
-            <li class="w-auto px-4 py-2 text-white bg-blue-700 cursor-pointer" @click="isSelect('3')">情報</li>
+            <li class="w-auto px-4 py-2 text-white bg-blue-700 cursor-pointer" @click="isSelect('3');getPlantData()">
+                情報
+            </li>
         </ul>
         <div class="w-full p-4 border border-blue-700 tabContents w-3/4">
             <div v-if="isActive === '1'">
@@ -58,7 +60,9 @@
                                 <h2 class="card-title">水やり設定</h2>
 
                                 <p>
-                                    水やり回数:{{ waterSettings[0].wateringInterval }}日に{{ waterSettings[0].wateringTimes }}回</p>
+                                    水やり回数:{{ waterSettings[0].wateringInterval }}日に{{
+                                        waterSettings[0].wateringTimes
+                                    }}回</p>
                                 <div v-if="waterSettings[0].waterAmount === 'a_lot'">
                                     <p>水やり量:たっぷり</p>
                                 </div>
@@ -96,7 +100,49 @@
                 </div>
             </div>
             <div v-else-if="isActive === '3'">
-                <h2 class="mb-4 text-2xl font-bold">Tab Event</h2>
+                <div class="card w-96 bg-base-100 shadow-xl">
+                    <div class="card-body">
+                        <h2 class="card-title">
+                            {{plantData.plantName}}
+                        </h2>
+                        <p>学名:{{plantData.scientific}}</p>
+                        <p>If a dog chews shoes whose shoes does he choose?</p>
+                        <div class="card-actions justify-end">
+                        </div>
+                    </div>
+                </div>
+                <div class="card w-96 bg-base-100 shadow-xl">
+                    <div class="card-body">
+                        <h2 class="card-title">
+                            説明
+                        </h2>
+                        <p>{{plantData.information}}</p>
+                        <div class="card-actions justify-end">
+                        </div>
+                    </div>
+                </div>
+                <div class="card w-96 bg-base-100 shadow-xl">
+                    <div class="card-body">
+                        <h2 class="card-title">
+                           おすすめのお世話設定
+                        </h2>
+                        <p>春:</p>
+                        <p>夏:</p>
+                        <p>秋:</p>
+                        <p>冬:</p>
+                        <div class="card-actions justify-end">
+                        </div>
+                    </div>
+                </div>
+                <div class="card w-96 bg-base-100 shadow-xl">
+                    <div class="card-body">
+                        <h2 class="card-title">
+                            {{plantData.plantName}}の画像
+                        </h2>
+                        <div class="card-actions justify-end">
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -159,20 +205,14 @@ export default {
                         information: '',
                     };
                     this.diariesData = [];
-                    return axios.get(`/api/plant/${this.plantId}`, {});
-
-                })
-                .then(res => {
-                    console.log(res.data.plant.scientific)
-                    Vue.set(this, 'plantData', {
-                        plantName: res.data.plant.plantName,
-                        scientific: res.data.plant.scientific,
-                        information: res.data.plant.information,
-                    })
                     this.fetchDiaryData();
-                    // this.fetchCheckSeatData();
+                    // return axios.get(`/api/plant/${this.plantId}`, {});
 
                 })
+                .catch((error) => {
+                    console.log(error);
+                });
+
 
         },
         // api/plantunit/{plantunitId}/image
@@ -266,48 +306,21 @@ export default {
                 .catch((error) => {
                     console.log(error);
                 });
-        }
-        // fetchCheckSeatData() {
-        //     axios.get(`/api/checkSeat/${this.checkSeatId}`, {})
-        //         .then(res => {
-        //             this.waterSettingIds = res.data.waterSettingIds;
-        //             this.fertilizerSettingIds = res.data.fertilizerSettingIds;
-        //             return Promise.all([
-        //                 ...this.waterSettingIds.map(waterSettingId => axios.get(`/api/waterSetting/${waterSettingId}`, {})),
-        //                 ...this.fertilizerSettingIds.map(fertilizerSettingId => axios.get(`/api/fertilizerSetting/${fertilizerSettingId}`, {}))
-        //             ]);
-        //         })
-        //
-        //         .then(res => {
-        //             const waterSettingResponses = res.slice(0, this.waterSettingIds.length);
-        //             const fertilizerSettingResponses = res.slice(this.waterSettingIds.length);
-        //             // 各レスポンスから必要な情報を取り出す
-        //             const waterSettings = waterSettingResponses.map(res => res.data);
-        //             const fertilizerSettings = fertilizerSettingResponses.map(res => res.data);
-        //
-        //             // let currentMonthSetting;
-        //             // for (const setting of waterSettings) {
-        //             //     if (setting.months.includes(this.currentMonth)) {
-        //             //         currentMonthSetting = setting;
-        //             //         break;
-        //             //     }
-        //             // }
-        //             // console.log(currentMonthSetting)
-        //
-        //             // データの加工やその他の処理を行う
-        //             // ...
-        //         })
-        //         .catch(error => {
-        //             console.log(error);
-        //         });
-        // },
+        },
+        getPlantData() {
+            axios.get(`/api/plant/${this.plantId}`, {})
+                .then(res => {
+                    console.log(res.data.plant.scientific)
+                    Vue.set(this, 'plantData', {
+                        plantName: res.data.plant.name,
+                        scientific: res.data.plant.scientific,
+                        information: res.data.plant.information,
+                    })
 
-        // showCommentsLength() {
-        //     // 日記データにコメントデータが全て含まれるのを待つために、setTimeoutを使う
-        //     setTimeout(() => {
-        //         console.log(this.diariesData.map(diary => diary.comments.length));
-        //     }, 500);
-        // },
+                    // this.fetchCheckSeatData();
+
+                })
+        }
     }
 }
 </script>
