@@ -93,19 +93,19 @@
                             </div>
                         </div>
                     </div>
-                    <!--                            <a :href="route('careSetting', { checkSeatId: checkSeatId })"-->
-                    <!--                               class="block">-->
-                    <button class="btn btn-primary">お世話設定</button>
-                    <!--                            </a>-->
+                    <a :href="route('checkSeat', { checkSeatId: checkSeatId })"
+                       class="block">
+                        <button class="btn btn-primary">お世話設定</button>
+                    </a>
                 </div>
             </div>
             <div v-else-if="isActive === '3'">
                 <div class="card w-96 bg-base-100 shadow-xl">
                     <div class="card-body">
                         <h2 class="card-title">
-                            {{plantData.plantName}}
+                            {{ plantData.plantName }}
                         </h2>
-                        <p>学名:{{plantData.scientific}}</p>
+                        <p>学名:{{ plantData.scientific }}</p>
                         <p>If a dog chews shoes whose shoes does he choose?</p>
                         <div class="card-actions justify-end">
                         </div>
@@ -116,7 +116,7 @@
                         <h2 class="card-title">
                             説明
                         </h2>
-                        <p>{{plantData.information}}</p>
+                        <p>{{ plantData.information }}</p>
                         <div class="card-actions justify-end">
                         </div>
                     </div>
@@ -124,7 +124,7 @@
                 <div class="card w-96 bg-base-100 shadow-xl">
                     <div class="card-body">
                         <h2 class="card-title">
-                           おすすめのお世話設定
+                            おすすめのお世話設定
                         </h2>
                         <p>春:</p>
                         <p>夏:</p>
@@ -137,7 +137,7 @@
                 <div class="card w-96 bg-base-100 shadow-xl">
                     <div class="card-body">
                         <h2 class="card-title">
-                            {{plantData.plantName}}の画像
+                            {{ plantData.plantName }}の画像
                         </h2>
                         <div class="card-actions justify-end">
                         </div>
