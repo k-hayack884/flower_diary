@@ -33,6 +33,7 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');
     })->name('dashboard');
+
     Route::get('/', function () {
         return Inertia::render('Welcome', [
             'canLogin' => Route::has('login'),
@@ -41,6 +42,7 @@ Route::middleware([
             'phpVersion' => PHP_VERSION,
         ]);
     })->name('welcome');
+
     Route::get('/plantUnit', function () {
         return Inertia::render('PlantUnit', );
     })->name('plantUnit');

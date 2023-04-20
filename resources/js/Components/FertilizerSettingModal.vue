@@ -1,6 +1,4 @@
 CheckSeatModal.vue<template>
-
-    <p>{{ fertilizerSetting }}</p>
     <div id="overlay" @click="closeModal" v-show="isOpen" class="z-20 flex justify-center">
             <div
                 class=" p-8 bg-white w-3/4 lg:py-32 lg:px-16 lg:pl-10 lg:w-1/2 tails-selected-element"

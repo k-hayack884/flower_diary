@@ -1,10 +1,10 @@
 CheckSeatModal.vue<template>
 
-    <div id="overlay" @click="closeModal" v-show="isOpen" class="z-20 flex justify-center">
+    <div id="overlay" @click="closeModal()" v-show="isOpen" class="z-20 flex justify-center">
 
             <div
                 class=" p-8 bg-white w-3/4 lg:py-32 lg:px-16 lg:pl-10 lg:w-1/2 tails-selected-element"
-                contenteditable="true">
+                contenteditable="true" @click.stop="">
                 <div class="flex flex-col items-start w-full lg:max-w-lg mx-auto"> <!-- mx-autoを追加 -->
                     <p class="inline-block px-2 py-1 mb-5 font-medium tracking-wider text-gray-900 uppercase bg-gray-200 rounded-full text-xxs">
                         {{waterSetting}}
