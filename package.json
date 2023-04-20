@@ -25,6 +25,8 @@
     },
     "dependencies": {
         "browser-image-compression": "^2.0.2",
-        "daisyui": "^2.51.5"
+        "daisyui": "^2.51.5",
+        "smart-tagz": "^0.4.1",
+        "vue-tag-selector": "^0.2.6"
     }
 }
