@@ -11,13 +11,14 @@ CheckSeatModal.vue
             <div class="flex flex-col items-start w-full lg:max-w-lg mx-auto"> <!-- mx-autoを追加 -->
                 <div class="grid grid-cols-4 gap-4">
                     <button v-for="(month, index) in 12" :key="month"
-                            v-if="waterSetting.months"
-                            :class="{'bg-blue-900': waterSetting.months.includes(index+1)}"
-                            class="bg-blue-500  text-white font-bold py-2 px-4 rounded-full"
-                            @click="selectMonth(index)">
+                            :class="{'bg-blue-900': waterSetting.months && waterSetting.months.includes(index+1),
+                             'bg-blue-500': !waterSetting.months || !waterSetting.months.includes(index+1)}"
+                            class="text-white font-bold py-2 px-4 rounded-full"
+                    @click="selectMonth(index)">
                         {{ month }}月
                     </button>
                 </div>
+
                 <div class="grid grid-cols-3 w-full lg:max-w-lg mx-auto">
                     <div class="btn-group flex justify-center">
                         <label class="btn px-16" :class="{ 'bg-blue-500': waterSetting.waterAmount === 'a_lot' }">
@@ -45,7 +46,7 @@ CheckSeatModal.vue
                     </label>
                     <label class="input-group">
                         <input type="text" placeholder="" class="input input-bordered"/>
-                        <span>現在の水やり間隔:{{waterSetting.wateringInterval}}</span>
+                        <span>現在の水やり間隔:{{ waterSetting.wateringInterval }}</span>
                     </label>
                 </div>
                 <div class="form-control">
@@ -54,7 +55,7 @@ CheckSeatModal.vue
                     </label>
                     <label class="input-group">
                         <input type="text" placeholder="" class="input input-bordered"/>
-                        <span>現在の水やり回数:{{waterSetting.wateringTimes}}</span>
+                        <span>現在の水やり回数:{{ waterSetting.wateringTimes }}</span>
                     </label>
                 </div>
                 <div class="form-control">
@@ -67,13 +68,14 @@ CheckSeatModal.vue
                     v-if="waterSetting.alertTimes"
                     autosuggest
                     editable
-                    inputPlaceholder="Select Countries ..."
+                    inputPlaceholder="通知時間を選んでください(最大10個まで)"
                     :sources="sources"
                     :allowPaste="{delimiter: ','}"
                     :allowDuplicates="false"
                     :maxTags="20"
-                    v-model="alertTimes"
-                    :defaultTags="alertTimes"
+                    v-model="waterSetting.alertTimes"
+                    :defaultTags="waterSetting.alertTimes"
+                    @handleAddTag="handleTagAdded"
                 />
             </div>
         </div>
@@ -98,10 +100,10 @@ CheckSeatModal.vue
 }
 </style>
 <script>
-import { SmartTagz } from "smart-tagz";
+import {SmartTagz} from "smart-tagz";
 import "smart-tagz/dist/smart-tagz.css";
 
-import { defineComponent } from "vue";
+import {defineComponent} from "vue";
 
 export default defineComponent({
     name: "WaterSettingModal",
@@ -115,7 +117,7 @@ export default defineComponent({
         },
         waterSetting: {
             type: Object,
-            default: () => []
+            default: () => ({months: []})
         },
 
     },
@@ -126,12 +128,6 @@ export default defineComponent({
         };
     },
     watch: {
-        waterSetting: {
-            immediate: true,
-            handler(newVal) {
-                this.alertTimes = newVal.alertTimes;
-            },
-        },
         openModal(newVal) {
             this.isOpen = newVal;
         },
@@ -158,6 +154,10 @@ export default defineComponent({
             } else if (amount === 'sparingly') {
                 this.waterSetting.waterAmount = 'sparingly'
             }
+        },
+        handleTagAdded(newTags) {
+            console.log(newTags)
+            this.$set(this.waterSetting, 'alertTimes', newTags);
         }
     }
 });
