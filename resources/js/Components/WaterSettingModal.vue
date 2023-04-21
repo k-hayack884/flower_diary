@@ -63,18 +63,21 @@ CheckSeatModal.vue
                     </label>
                     <textarea class="textarea textarea-success" :placeholder="waterSetting.note"></textarea>
                 </div>
+                <smart-tagz
+                    v-if="waterSetting.alertTimes"
+                    autosuggest
+                    editable
+                    inputPlaceholder="Select Countries ..."
+                    :sources="sources"
+                    :allowPaste="{delimiter: ','}"
+                    :allowDuplicates="false"
+                    :maxTags="20"
+                    v-model="alertTimes"
+                    :defaultTags="alertTimes"
+                />
             </div>
         </div>
-        <smart-tagz
-            autosuggest
-            editable
-            inputPlaceholder="Select Countries ..."
-            :sources="sources"
-            :allowPaste="{delimiter: ','}"
-            :allowDuplicates="false"
-            :maxTags="20"
-            :defaultTags="['United Kingdom', 'Uruguay', 'Uzbekistan']"
-        />
+
     </div>
 </template>
 
@@ -100,7 +103,7 @@ import "smart-tagz/dist/smart-tagz.css";
 
 import { defineComponent } from "vue";
 
-export default {
+export default defineComponent({
     name: "WaterSettingModal",
     components: {
         SmartTagz,
@@ -114,14 +117,21 @@ export default {
             type: Object,
             default: () => []
         },
-        tags: ['ほげえ']
+
     },
     data() {
         return {
             isOpen: false,
+            alertTimes: []
         };
     },
     watch: {
+        waterSetting: {
+            immediate: true,
+            handler(newVal) {
+                this.alertTimes = newVal.alertTimes;
+            },
+        },
         openModal(newVal) {
             this.isOpen = newVal;
         },
@@ -150,7 +160,7 @@ export default {
             }
         }
     }
-}
+});
 </script>
 
 <style scoped>
