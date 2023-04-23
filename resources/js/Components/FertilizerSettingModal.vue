@@ -20,8 +20,9 @@ CheckSeatModal.vue
                         <span class="label-text">肥料名</span>
                     </label>
                     <label class="input-group">
-                        <input type="text" placeholder="" class="input input-bordered"/>
-                        <span>現在の肥料名:{{ fertilizerSetting.fertilizerName }}</span>
+                        <input type="text" placeholder="" class="input input-bordered"
+                               v-model="fertilizerSetting.fertilizerName"/>
+                        <span>現在の肥料名:{{ currentFertilizerName }}</span>
                     </label>
                 </div>
                 <div class="form-control">
@@ -29,17 +30,27 @@ CheckSeatModal.vue
                         <span class="label-text">肥料量</span>
                     </label>
                     <label class="input-group">
-                        <input type="text" placeholder="" class="input input-bordered"/>
-                        <span>現在の肥料量:{{ fertilizerSetting.fertilizerAmount }}g</span>
+                        <input type="text" placeholder="" class="input input-bordered"
+                               v-model="fertilizerSetting.fertilizerAmount"/>
+                        <span>現在の肥料量:{{ currentFertilizerAmount }}g</span>
                     </label>
                 </div>
                 <div class="form-control">
                     <label class="label">
                         <span class="label-text">備考欄</span>
                     </label>
-                    <textarea class="textarea textarea-success" :placeholder="fertilizerSetting.note"></textarea>
+                    <textarea class="textarea textarea-success" :placeholder="fertilizerSetting.note" v-model="fertilizerSetting.note" ></textarea>
                 </div>
             </div>
+
+            <button v-if="fertilizerSetting.isCreate" @click="create()"
+                    class="flex mx-auto mt-16 text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
+                作成する
+            </button>
+            <button v-else @click="update()"
+                    class="flex mx-auto mt-16 text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
+                編集する
+            </button>
         </div>
 
     </div>
@@ -84,9 +95,14 @@ export default {
     data() {
         return {
             isOpen: false,
-
+            currentFertilizerAmount: null,
+            currentFertilizerName: null
         };
 
+    },
+    created() {
+        this.currentFertilizerAmount = this.fertilizerSetting.fertilizerAmount;
+        this.currentFertilizerName = this.fertilizerSetting.fertilizerName;
     },
     watch: {
         openModal(newVal) {
@@ -111,6 +127,20 @@ export default {
                 this.fertilizerSetting.months.splice(indexInMonths, 1);
             }
         },
+        create(){
+            axios.post('http://localhost:51111/api/fertilizerSetting', {
+                checkSeatId:this.fertilizerSetting.checkSeatId,
+                fertilizerSettingMonths: this.fertilizerSetting.months,
+                fertilizerSettingNote: this.fertilizerSetting.note,
+                fertilizerSettingAmount:this.fertilizerSetting.fertilizerAmount,
+                fertilizerSettingName:this.fertilizerSetting.fertilizerName,
+            }).then(res => {
+                console.log('とうろくせいこう')
+                window.location.href = 'http://localhost:51111/checkSeat/'+this.checkSeatId;
+            }).catch(error => {
+                console.log(error);
+            });
+        }
     },
 
 }

@@ -115,6 +115,7 @@ import {reactive} from "vue";
                 <FertilizerSettingModal :open-modal="isFertilizerModalOpen" @closeModal="closeFertilizerModal"
                                         v-else
                                         :fertilizerSetting="reactive({
+                                        checkSeatId:checkSeatId,
         fertilizerSettingId: '',
         months: [],
         note: '',
