@@ -1,32 +1,48 @@
-CheckSeatModal.vue<template>
+CheckSeatModal.vue
+<template>
     <div id="overlay" @click="closeModal" v-show="isOpen" class="z-20 flex justify-center">
-            <div
-                class=" p-8 bg-white w-3/4 lg:py-32 lg:px-16 lg:pl-10 lg:w-1/2 tails-selected-element"
-                contenteditable="true" @click.stop="">
-                <div class="flex flex-col items-start w-full lg:max-w-lg mx-auto"> <!-- mx-autoを追加 -->
-                    <p class="inline-block px-2 py-1 mb-5 font-medium tracking-wider text-gray-900 uppercase bg-gray-200 rounded-full text-xxs">
-                        {{fertilizerSetting}}
-                    </p>
-                    <p class="py-5 mb-5 text-gray-600 lg:text-xl">
-                        <span class="font-bold">Our Platform</span> will help you craft and build your next idea.
-                        Utilize our
-                        drag and drop components to build the application of your dreams.
-                    </p>
-                    <div class="flex w-full">
-                        <button type="submit"
-                                class="btn btn-success bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded px-10 my-4 flex-1"
-                                data-rounded="rounded-lg" data-primary="gray-900" @click="redirectToRegister">
-                            新規登録
-                        </button>
-                        <button type="submit"
-                                class="btn btn-success bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded px-10 my-4 flex-1 "
-                                data-rounded="rounded-lg" data-primary="gray-900" @click="redirectToLogin">
-                            ログイン
-                        </button>
-                    </div>
+        <div class="p-8 bg-white w-3/4 lg:py-32 lg:px-16 lg:pl-10 lg:w-1/2 tails-selected-element"
+             contenteditable="true" @click.stop="" style="max-height: 120vh; overflow-y: auto;">
+            {{ fertilizerSetting }}
+            <div class="flex flex-col items-start w-full lg:max-w-lg mx-auto"> <!-- mx-autoを追加 -->
+                <div class="grid grid-cols-4 gap-4">
+                    <button v-for="(month, index) in 12" :key="month"
+                            :class="{'bg-blue-900': fertilizerSetting.months && fertilizerSetting.months.includes(index+1),
+                             'bg-blue-500': !fertilizerSetting.months || !fertilizerSetting.months.includes(index+1)}"
+                            class="text-white font-bold py-2 px-4 rounded-full"
+                            @click="selectMonth(index)">
+                        {{ month }}月
+                    </button>
+                </div>
+
+                <div class="form-control">
+                    <label class="label">
+                        <span class="label-text">肥料名</span>
+                    </label>
+                    <label class="input-group">
+                        <input type="text" placeholder="" class="input input-bordered"/>
+                        <span>現在の肥料名:{{ fertilizerSetting.fertilizerName }}</span>
+                    </label>
+                </div>
+                <div class="form-control">
+                    <label class="label">
+                        <span class="label-text">肥料量</span>
+                    </label>
+                    <label class="input-group">
+                        <input type="text" placeholder="" class="input input-bordered"/>
+                        <span>現在の肥料量:{{ fertilizerSetting.fertilizerAmount }}g</span>
+                    </label>
+                </div>
+                <div class="form-control">
+                    <label class="label">
+                        <span class="label-text">備考欄</span>
+                    </label>
+                    <textarea class="textarea textarea-success" :placeholder="fertilizerSetting.note"></textarea>
                 </div>
             </div>
         </div>
+
+    </div>
 
 </template>
 
@@ -56,13 +72,21 @@ export default {
         },
         fertilizerSetting: {
             type: Object,
-            default: () => []
+            default: () => ({
+                fertilizerSettingId: '',
+                months: [],
+                note: '',
+                fertilizerAmount: 0,
+                fertilizerName: '',
+            })
         }
     },
     data() {
         return {
             isOpen: false,
+
         };
+
     },
     watch: {
         openModal(newVal) {
@@ -74,7 +98,21 @@ export default {
             this.isOpen = false;
             this.$emit("closeModal");
         },
-    }
+        selectMonth(index) {
+            console.log('動く')
+            const month = index + 1;
+            if (!this.fertilizerSetting.months) {
+                this.fertilizerSetting.months = [];
+            }
+            const indexInMonths = this.fertilizerSetting.months.indexOf(month);
+            if (indexInMonths === -1) {
+                this.fertilizerSetting.months.push(month);
+            } else {
+                this.fertilizerSetting.months.splice(indexInMonths, 1);
+            }
+        },
+    },
+
 }
 </script>
 

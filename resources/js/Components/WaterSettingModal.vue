@@ -75,7 +75,7 @@ CheckSeatModal.vue
                     :maxTags="20"
                     v-model="waterSetting.alertTimes"
                     :defaultTags="waterSetting.alertTimes"
-                    @handleAddTag="handleTagAdded"
+                    :on-changed="handleTagAdded"
                 />
             </div>
         </div>
@@ -157,8 +157,9 @@ export default defineComponent({
         },
         handleTagAdded(newTags) {
             console.log(newTags)
-            this.$set(this.waterSetting, 'alertTimes', newTags);
-        }
+            this.waterSetting.alertTimes=newTags
+        },
+
     }
 });
 </script>

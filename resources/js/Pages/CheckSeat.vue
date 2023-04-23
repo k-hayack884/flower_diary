@@ -4,6 +4,7 @@ import {Head, Link} from '@inertiajs/inertia-vue3';
 import AppLayout from '@/Layouts/AppLayout.vue';
 import FertilizerSettingModal from "@/Components/FertilizerSettingModal.vue";
 import WaterSettingModal from "@/Components/WaterSettingModal.vue";
+import {reactive} from "vue";
 </script>
 <template>
     <section class="text-gray-600 body-font">
@@ -55,13 +56,16 @@ import WaterSettingModal from "@/Components/WaterSettingModal.vue";
                             </ul>
 
                             <button @click="openWaterModal(); getIndex(index)"
-                                class="flex mx-auto mt-16 text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
+                                    class="flex mx-auto mt-16 text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
                                 設定
                             </button>
                         </div>
                     </div>
                 </div>
-                <WaterSettingModal :open-modal="isWaterModalOpen"  @closeModal="closeWaterModal" :waterSetting="waterSettings[arrayIndex]"/>
+
+                <WaterSettingModal :open-modal="isWaterModalOpen" @closeModal="closeWaterModal"
+                                   v-if="waterSettings[arrayIndex]"
+                                   :waterSetting="waterSettings[arrayIndex]"/>
             </div>
             <h1 class="relative py-1">
                 <span
@@ -101,7 +105,25 @@ import WaterSettingModal from "@/Components/WaterSettingModal.vue";
                         </div>
                     </div>
                 </div>
-                <FertilizerSettingModal :open-modal="isFertilizerModalOpen"  @closeModal="closeFertilizerModal"  :fertilizerSetting="fertilizerSettings[arrayIndex]"/>
+                <button @click="openFertilizerModal(),getIndex(null)"
+                        class="flex mx-auto mt-16 text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
+                    設定
+                </button>
+                <FertilizerSettingModal :open-modal="isFertilizerModalOpen" @closeModal="closeFertilizerModal"
+                                        v-if="arrayIndex !== null"
+                                        :fertilizerSetting="fertilizerSettings[arrayIndex]"/>
+                <FertilizerSettingModal :open-modal="isFertilizerModalOpen" @closeModal="closeFertilizerModal"
+                                        v-else
+                                        :fertilizerSetting="reactive({
+        fertilizerSettingId: '',
+        months: [],
+        note: '',
+        fertilizerAmount: 0,
+        fertilizerName: '',
+        isCreate:true
+    })
+                "/>
+
             </div>
         </div>
     </section>
@@ -109,8 +131,6 @@ import WaterSettingModal from "@/Components/WaterSettingModal.vue";
 
 </template>
 <script>
-
-
 
 
 export default {
@@ -126,7 +146,8 @@ export default {
             isFertilizerModalOpen: false,
             waterSettings: [],
             fertilizerSettings: [],
-            arrayIndex:null
+            arrayIndex: null,
+            rertilizerSetting: {}
         }
     },
     created() {
@@ -164,8 +185,8 @@ export default {
 
     },
     methods: {
-        getIndex(index){
-          this.arrayIndex=index
+        getIndex(index) {
+            this.arrayIndex = index
         },
         async create() {
             axios.post('http://localhost:51111/api/comment', {
@@ -226,7 +247,9 @@ export default {
             this.isWaterModalOpen = false;
         },
         openFertilizerModal() {
-            this.isFertilizerModalOpen = true;
+            setTimeout(() => {
+                this.isFertilizerModalOpen = true;
+            }, 100);
         },
         closeFertilizerModal() {
             this.isFertilizerModalOpen = false;
