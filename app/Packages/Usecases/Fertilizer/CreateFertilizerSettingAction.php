@@ -12,6 +12,7 @@ use App\Packages\Domains\Fertilizer\MonthsFertilizerSetting;
 use App\Packages\Presentations\Requests\Fertilizer\CreateFertilizerSettingRequest;
 use App\Packages\Usecases\Dto\Fertilizer\FertilizerSettingWrapDto;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
 
 class CreateFertilizerSettingAction
 {
@@ -57,6 +58,8 @@ class CreateFertilizerSettingAction
             $fertilizerSettingCollection->addSetting($fertilizerSetting);
 
             $this->fertilizerSettingRepository->save($fertilizerSettingCollection,$checkSeatId);
+            Session::flash('success', '登録に成功しました');
+
         } catch (\DomainException $e) {
             Log::error(__METHOD__, ['エラー']);
             abort(400,$e);

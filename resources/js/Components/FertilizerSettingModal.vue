@@ -136,7 +136,8 @@ export default {
                 fertilizerSettingName:this.fertilizerSetting.fertilizerName,
             }).then(res => {
                 console.log('とうろくせいこう')
-                window.location.href = 'http://localhost:51111/checkSeat/'+this.checkSeatId;
+                console.log(this.fertilizerSetting.checkSeatId)
+                window.location.href = 'http://localhost:51111/checkSeat/'+this.fertilizerSetting.checkSeatId;
             }).catch(error => {
                 console.log(error);
             });
