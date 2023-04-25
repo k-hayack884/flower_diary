@@ -138,7 +138,8 @@ import {reactive} from "vue";
 export default {
     components: {
         WaterSettingModal,
-        FertilizerSettingModal
+        FertilizerSettingModal,
+
     },
     name: "CheckSeat.vue",
     props: ['checkSeatId'],
@@ -149,7 +150,8 @@ export default {
             waterSettings: [],
             fertilizerSettings: [],
             arrayIndex: null,
-            rertilizerSetting: {}
+            successMessage: null,
+            errorMessage: null,
         }
     },
     created() {
@@ -185,6 +187,9 @@ export default {
             });
 
 
+    },
+    mounted() {
+        this.successMessage = "{{ session('success') }}";
     },
     methods: {
         getIndex(index) {
