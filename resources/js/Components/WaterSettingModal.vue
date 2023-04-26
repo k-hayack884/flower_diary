@@ -250,8 +250,6 @@ export default defineComponent({
                 }).then(res => {
 
                 console.log('とうろくせいこう')
-                console.log(this.fertilizerSetting.checkSeatId)
-
 
                 window.location.href = 'http://localhost:51111/checkSeat/' + this.waterSetting.checkSeatId;
                 this.isLoading=false
@@ -269,6 +267,24 @@ export default defineComponent({
                 }
             });
         },
+        deleteSeat() {
+            this.isLoading=true
+            axios.post('/api/waterSetting/' + this.waterSetting.waterSettingId, {
+                },
+                {
+                    headers: {
+                        'content-type': 'multipart/form-data',
+                        'X-HTTP-Method-Override': 'DELETE',
+                    }
+                }).then(res => {
+                window.location.href = 'http://localhost:51111/checkSeat/' + this.waterSetting.checkSeatId;
+                this.isLoading=false
+            }).catch(error => {
+                console.log(error);
+                this.isLoading=false
+
+            });
+        }
 
     }
 });

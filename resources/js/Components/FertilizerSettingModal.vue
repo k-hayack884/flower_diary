@@ -225,11 +225,6 @@ export default {
         deleteSeat() {
             this.isLoading=true
             axios.post('http://localhost:51111/api/fertilizerSetting/' + this.fertilizerSetting.fertilizerSettingId, {
-                    checkSeatId: this.fertilizerSetting.checkSeatId,
-                    fertilizerSettingMonths: this.fertilizerSetting.months,
-                    fertilizerSettingNote: this.fertilizerSetting.note,
-                    fertilizerSettingAmount: this.fertilizerSetting.fertilizerAmount,
-                    fertilizerSettingName: this.fertilizerSetting.fertilizerName,
                 },
                 {
                     headers: {
