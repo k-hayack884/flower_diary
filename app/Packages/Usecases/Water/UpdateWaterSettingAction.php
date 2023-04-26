@@ -14,6 +14,7 @@ use App\Packages\Presentations\Requests\Water\CreateWaterSettingRequest;
 use App\Packages\Presentations\Requests\Water\UpdateWaterSettingRequest;
 use App\Packages\Usecases\Dto\Water\WaterSettingWrapDto;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
 use PHPUnit\Exception;
 
 class UpdateWaterSettingAction
@@ -61,8 +62,12 @@ class UpdateWaterSettingAction
             $waterSettingCollection = new WaterSettingCollection();
             $waterSettingCollection->addSetting($updateWaterSetting);
             $this->waterSettingRepository->save($waterSettingCollection,$checkSeatId);
+            Session::flash('successMessage', '編集に成功しました');
+
         } catch (\DomainException $e) {
             Log::error(__METHOD__, ['エラー']);
+            Session::flash('failMessage', '編集に失敗しました');
+
             abort(400,$e);
         } finally {
             Log::info(__METHOD__, ['終了']);

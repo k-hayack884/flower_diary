@@ -3,11 +3,17 @@ CheckSeatModal.vue
 
 <template>
 
+    <div class="relative">
+        <LoadWait :show="isLoading" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50"></LoadWait>
     <div id="overlay" @click="closeModal()" v-show="isOpen" class="z-20 flex justify-center">
 
         <div class="p-8 bg-white w-3/4 lg:py-32 lg:px-16 lg:pl-10 lg:w-1/2 tails-selected-element"
              contenteditable="true" @click.stop="" style="max-height: 120vh; overflow-y: auto;">
             {{ waterSetting }}
+            <span v-show="errors" class="text-red-500">
+                <p v-for="error in errors">
+                    {{ error }}
+                </p></span>
             <div class="flex flex-col items-start w-full lg:max-w-lg mx-auto"> <!-- mx-autoを追加 -->
                 <div class="grid grid-cols-4 gap-4">
                     <button v-for="(month, index) in 12" :key="month"
@@ -45,8 +51,9 @@ CheckSeatModal.vue
                         <span class="label-text">水やり間隔</span>
                     </label>
                     <label class="input-group">
-                        <input type="text" placeholder="" class="input input-bordered"/>
-                        <span>現在の水やり間隔:{{ waterSetting.wateringInterval }}</span>
+                        <input type="text" placeholder="" class="input input-bordered"
+                               v-model="waterSetting.wateringInterval"/>
+                        <span>現在の水やり間隔:{{ currentWateringInterval }}</span>
                     </label>
                 </div>
                 <div class="form-control">
@@ -54,15 +61,17 @@ CheckSeatModal.vue
                         <span class="label-text">水やり回数</span>
                     </label>
                     <label class="input-group">
-                        <input type="text" placeholder="" class="input input-bordered"/>
-                        <span>現在の水やり回数:{{ waterSetting.wateringTimes }}</span>
+                        <input type="text" placeholder="" class="input input-bordered"
+                               v-model="waterSetting.wateringTimes"/>
+                        <span>現在の水やり回数:{{ currentWateringTimes }}</span>
                     </label>
                 </div>
                 <div class="form-control">
                     <label class="label">
                         <span class="label-text">備考欄</span>
                     </label>
-                    <textarea class="textarea textarea-success" :placeholder="waterSetting.note"></textarea>
+                    <textarea class="textarea textarea-success" :placeholder="waterSetting.note"
+                              v-model="waterSetting.note"></textarea>
                 </div>
                 <smart-tagz
                     v-if="waterSetting.alertTimes"
@@ -72,14 +81,30 @@ CheckSeatModal.vue
                     :sources="sources"
                     :allowPaste="{delimiter: ','}"
                     :allowDuplicates="false"
-                    :maxTags="20"
+                    :maxTags="10"
                     v-model="waterSetting.alertTimes"
                     :defaultTags="waterSetting.alertTimes"
                     :on-changed="handleTagAdded"
+                    class="w-full"
                 />
+            </div>
+            <button v-if="waterSetting.isCreate" @click="create()"
+                    class="flex mx-auto mt-16 text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
+                作成する
+            </button>
+            <div v-else>
+                <button  @click="update()"
+                         class="flex mx-auto mt-16 text-white bg-green-600 border-0 py-2 px-8 focus:outline-none hover:bg-green-800 rounded text-lg">
+                    編集する
+                </button>
+                <button  @click="deleteSeat()"
+                         class="flex mx-auto mt-16 text-white bg-red-500 border-0 py-2 px-8 focus:outline-none hover:bg-red-800 rounded text-lg">
+                    削除する
+                </button>
             </div>
         </div>
 
+    </div>
     </div>
 </template>
 
@@ -102,13 +127,15 @@ CheckSeatModal.vue
 <script>
 import {SmartTagz} from "smart-tagz";
 import "smart-tagz/dist/smart-tagz.css";
-
 import {defineComponent} from "vue";
+import LoadWait from "@/Components/LoadWait.vue";
+
 
 export default defineComponent({
     name: "WaterSettingModal",
     components: {
         SmartTagz,
+        LoadWait
     },
     props: {
         openModal: {
@@ -117,15 +144,30 @@ export default defineComponent({
         },
         waterSetting: {
             type: Object,
-            default: () => ({months: []})
+            default: () => ({
+                waterSettingId: '',
+                months: [],
+                note: '',
+                waterSettingAmount: 'moderate_amount',
+                wateringTimes: 0,
+                wateringInterval: 0,
+                alertTimes:[],})
         },
 
     },
     data() {
         return {
             isOpen: false,
-            alertTimes: []
+            alertTimes: [],
+            currentWateringTimes: null,
+            currentWateringInterval: null,
+            errors: [],
+            isLoading:false
         };
+    },
+    created() {
+        this.currentWateringTimes = this.waterSetting.currentWateringTimes;
+        this.currentWateringInterval = this.waterSetting.currentWateringInterval;
     },
     watch: {
         openModal(newVal) {
@@ -158,6 +200,74 @@ export default defineComponent({
         handleTagAdded(newTags) {
             console.log(newTags)
             this.waterSetting.alertTimes=newTags
+        },
+        create() {
+            this.isLoading=true
+            axios.post('/api/waterSetting', {
+                checkSeatId: this.waterSetting.checkSeatId,
+                waterSettingMonths: this.waterSetting.months,
+                waterSettingNote: this.waterSetting.note,
+                waterSettingAmount: this.waterSetting.waterAmount,
+                waterSettingTimes: this.waterSetting.wateringTimes,
+                waterSettingInterval: this.waterSetting.wateringInterval,
+                waterSettingAlertTimes:this.waterSetting.alertTimes,
+            }).then(res => {
+
+                console.log('とうろくせいこう')
+                console.log(this.waterSetting.checkSeatId)
+
+                window.location.href = 'http://localhost:51111/checkSeat/' + this.waterSetting.checkSeatId;
+                this.isLoading=false
+            }).catch(error => {
+                if (error.response.status === 422) {
+                    console.log(error.response.data.errors);
+                    this.errors = error.response.data.errors;
+                    this.isLoading=false
+                } else {
+                    console.log(error);
+                    this.isLoading=false
+
+                }
+            });
+
+        },
+        update() {
+            this.isLoading=true
+            axios.post('/api/waterSetting/' + this.waterSetting.waterSettingId, {
+                    checkSeatId: this.waterSetting.checkSeatId,
+                    waterSettingMonths: this.waterSetting.months,
+                    waterSettingNote: this.waterSetting.note,
+                    waterSettingAmount: this.waterSetting.waterAmount,
+                    waterSettingTimes: this.waterSetting.wateringTimes,
+                    waterSettingInterval: this.waterSetting.wateringInterval,
+                    waterSettingAlertTimes:this.waterSetting.alertTimes,
+                },
+                {
+                    headers: {
+                        'content-type': 'multipart/form-data',
+                        'X-HTTP-Method-Override': 'PUT',
+                    }
+                }).then(res => {
+
+                console.log('とうろくせいこう')
+                console.log(this.fertilizerSetting.checkSeatId)
+
+
+                window.location.href = 'http://localhost:51111/checkSeat/' + this.waterSetting.checkSeatId;
+                this.isLoading=false
+
+            }).catch(error => {
+                if (error.response.status === 422) {
+                    console.log(error.response.data.errors);
+                    this.errors = error.response.data.errors;
+                    this.isLoading=false
+
+                } else {
+                    console.log(error);
+                    this.isLoading=false
+
+                }
+            });
         },
 
     }

@@ -64,9 +64,29 @@ import {reactive} from "vue";
                     </div>
                 </div>
 
+                <button @click="openWaterModal(),getIndex(null)"
+                        class="flex mx-auto mt-16 text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
+                    設定
+                </button>
                 <WaterSettingModal :open-modal="isWaterModalOpen" @closeModal="closeWaterModal"
                                    v-if="waterSettings[arrayIndex]"
                                    :waterSetting="waterSettings[arrayIndex]"/>
+
+                <WaterSettingModal :open-modal="isWaterModalOpen" @closeModal="closeWaterModal"
+                                        v-else
+                                        :waterSetting="reactive({
+                                        checkSeatId:checkSeatId,
+        waterSettingId: '',
+        months: [],
+        note: '',
+        waterAmount: 'moderate_amount',
+        wateringTimes: 0,
+        wateringInterval: 0,
+        alertTimes:[],
+        isCreate:true
+    })
+       "/>
+
             </div>
             <h1 class="relative py-1">
                 <span
@@ -250,7 +270,9 @@ export default {
             });
         },
         openWaterModal() {
-            this.isWaterModalOpen = true;
+            setTimeout(() => {
+                this.isWaterModalOpen = true;
+            }, 100);
         },
         closeWaterModal() {
             this.isWaterModalOpen = false;

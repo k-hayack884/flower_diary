@@ -13,6 +13,7 @@ use App\Packages\Domains\Water\WaterSettingRepositoryInterface;
 use App\Packages\Presentations\Requests\Water\CreateWaterSettingRequest;
 use App\Packages\Usecases\Dto\Water\WaterSettingWrapDto;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
 use PHPUnit\Exception;
 
 class CreateWaterSettingAction
@@ -46,7 +47,9 @@ class CreateWaterSettingAction
         $waterSettingAmount = $createWaterSettingRequest->getAmount();
         $waterSettingTimes = $createWaterSettingRequest->getWateringTimes();
         $waterSettingInterval = $createWaterSettingRequest->getWateringInterval();
+        $alertTimes=$createWaterSettingRequest->getAlertTimes();
         $checkSeatId=$createWaterSettingRequest->getCheckSeatId();
+
         try {
             $waterSetting = new MonthsWaterSetting(
                 new WaterSettingId(),
@@ -54,13 +57,18 @@ class CreateWaterSettingAction
                 new WaterNote($waterSettingNote),
                 new WaterAmount($waterSettingAmount),
                 new WateringTimes($waterSettingTimes),
-                new WateringInterval($waterSettingInterval)
+                new WateringInterval($waterSettingInterval),
+                $alertTimes
             );
             $waterSettingCollection = new WaterSettingCollection();
             $waterSettingCollection->addSetting($waterSetting);
             $this->waterSettingRepository->save($waterSettingCollection,$checkSeatId);
+            Session::flash('successMessage', '登録に成功しました');
+
         } catch (\DomainException $e) {
             Log::error(__METHOD__, ['エラー']);
+            Session::flash('failMessage', '登録に失敗しました');
+
             abort(400,$e);
         } finally {
             Log::info(__METHOD__, ['終了']);
