@@ -11,6 +11,7 @@ use App\Packages\Domains\Fertilizer\MonthsFertilizerSetting;
 use App\Packages\Presentations\Requests\Fertilizer\UpdateFertilizerSettingRequest;
 use App\Packages\Usecases\Dto\Fertilizer\FertilizerSettingWrapDto;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
 
 class UpdateFertilizerSettingAction
 {
@@ -45,7 +46,6 @@ class UpdateFertilizerSettingAction
         $fertilizerSettingAmount = $updateFertilizerSettingRequest->getAmount();
         $fertilizerSettingName = $updateFertilizerSettingRequest->getName();
 
-
         $fertilizerSetting = $this->fertilizerSettingRepository->findById(new FertilizerSettingId($fertilizerSettingId));
         $updateNote = $fertilizerSetting->getFertilizerNote()->update($fertilizerSettingNote);
         try {
@@ -59,9 +59,10 @@ class UpdateFertilizerSettingAction
             $fertilizerSettingCollection = new FertilizerSettingCollection();
             $fertilizerSettingCollection->addSetting($updateFertilizerSetting);
             $this->fertilizerSettingRepository->save($fertilizerSettingCollection,$checkSeatId);
+            Session::flash('successMessage', '編集に成功しました');
         } catch (\DomainException $e) {
             Log::error(__METHOD__, ['エラー']);
-
+            Session::flash('failMessage', '編集に失敗しました');
             abort(400,$e);
         } finally {
             Log::info(__METHOD__, ['終了']);

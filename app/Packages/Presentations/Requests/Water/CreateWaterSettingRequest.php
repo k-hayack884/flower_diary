@@ -20,7 +20,6 @@ class CreateWaterSettingRequest extends BaseRequest
                 'array'
             ],
             'waterSettingNote' => [
-                'string',
                 'max:20'
             ],
             'waterSettingAmount' => [
@@ -36,6 +35,9 @@ class CreateWaterSettingRequest extends BaseRequest
                 'required',
                 'int',
                 'digits_between:1,365'
+            ],
+            'waterSettingAlertTimes' => [
+                'array'
             ],
         ];
     }
@@ -82,5 +84,13 @@ class CreateWaterSettingRequest extends BaseRequest
     public function getWateringInterval():int
     {
         return $this->input('waterSettingInterval');
+    }
+
+    /**
+     * @return array
+     */
+    public function getAlertTimes():array
+    {
+        return $this->input('waterSettingAlertTimes');
     }
 }

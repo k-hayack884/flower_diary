@@ -26,8 +26,6 @@ defineProps({
         <div class="row my-3">
             <div class="col-sm-6 mx-auto blue"><h1>植物判定アプリ</h1></div>
         </div>
-        {{ $page.props.user.user_id }}
-
         <div class="info">
             <p>
                 育て方を知りたい植物を<br>カメラに写して数秒待ってください<br>
@@ -74,14 +72,15 @@ defineProps({
                 </div>
             </label>
             <img :src="avatar" alt="" class="image mx-auto" id="plant_image">
-            <button  v-if="avatar"
-                class="btn btn-outline-success bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded px-12 my-4"
-                @click="startImage()">診断する！
+            <button v-if="avatar"
+                    class="btn btn-outline-success bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded px-12 my-4"
+                    @click="startImage()">診断する！
             </button>
 
             <div v-if="canLogin" class="flex justify-center items-center ">
                 <Link v-if="$page.props.user" :href="route('dashboard')"
-                      class="btn btn-success bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded px-10 my-4">マイページに戻る
+                      class="btn btn-success bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded px-10 my-4">
+                    マイページに戻る
                 </Link>
                 <template v-else>
                     <div class="flex flex-col">
@@ -114,13 +113,13 @@ defineProps({
                 <div class="container mx-auto flex justify-center items-center">
 
                     <button
-                        @click="registerPlant($page.props.user.user_id)"
-                            class="btn btn-outline-success bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded"
-                            type="button" id="button-addon2">
+                        @click="registerPlant(userId)"
+                        class="btn btn-outline-success bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded"
+                        type="button" id="button-addon2">
                         {{ registerButton }}
                     </button>
 
-                    <RegisterModal :open-modal="isModalOpen" />
+                    <RegisterModal :open-modal="isModalOpen"/>
 
                 </div>
             </div>
@@ -151,7 +150,6 @@ export default {
     },
     data() {
         return {
-
             plantId: '',
             plantName: '',
             scientific: '',
@@ -274,7 +272,7 @@ export default {
             console.log('loop　function');
             // 推論を実行し、エラーがあればerrに、結果をresultsに格納して、
             // 推論が完了次第 { } の中身を実行します
-            classifier.classify( async (err, results) => {
+            classifier.classify(async (err, results) => {
                 axios.post('http://localhost:51111/api/scanPlant', {
                     plantLabel: results[0].label
                 }).then(res => {
@@ -358,8 +356,8 @@ export default {
             }
             axios.post('http://localhost:51111/api/plantUnit', {
                 plantId: this.plantId,
-                userId:userId,
-                plantImage:this.avatar,
+                userId: userId,
+                plantImage: this.avatar,
             }).then(res => {
                 this.plant = res.data;
                 this.getPlant = true
@@ -374,8 +372,6 @@ export default {
             this.isModalOpen = false;
         },
     },
-
-
 
 
     getWeather: async function () {

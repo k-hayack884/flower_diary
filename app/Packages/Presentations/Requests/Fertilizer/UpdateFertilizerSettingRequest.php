@@ -54,7 +54,8 @@ class UpdateFertilizerSettingRequest extends BaseRequest
      */
     public function getMonths():array
     {
-        return $this->input('fertilizerSettingMonths');
+        $months= $this->input('fertilizerSettingMonths');
+        return array_map('intval', $months);
     }
 
     /**

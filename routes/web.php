@@ -33,6 +33,7 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');
     })->name('dashboard');
+
     Route::get('/', function () {
         return Inertia::render('Welcome', [
             'canLogin' => Route::has('login'),
@@ -41,6 +42,7 @@ Route::middleware([
             'phpVersion' => PHP_VERSION,
         ]);
     })->name('welcome');
+
     Route::get('/plantUnit', function () {
         return Inertia::render('PlantUnit', );
     })->name('plantUnit');
@@ -52,6 +54,11 @@ Route::middleware([
 
     })->name('plantUnitDetail');
 
+    Route::get('/checkSeat/{checkSeatId}', function ($checkSeatId) {
+        return Inertia::render('CheckSeat', [
+            'checkSeatId' => $checkSeatId
+        ]);
+    })->name('checkSeat');
     Route::get('/todayCare', function () {
         return Inertia::render('TodayCare', );
     })->name('todayCare');
@@ -63,10 +70,10 @@ Route::middleware([
         return Inertia::render('Diary', [
         ]);
     });
-    Route::get('/adminCheckSeat', function () {
-        return Inertia::render('CheckSeat', [
-        ]);
-    });
+//    Route::get('/adminCheckSeat', function () {
+//        return Inertia::render('CheckSeat', [
+//        ]);
+//    });
     Route::get('/adminWaterSetting', function () {
         return Inertia::render('WaterSetting', [
         ]);

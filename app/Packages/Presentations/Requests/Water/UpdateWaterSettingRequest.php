@@ -56,7 +56,9 @@ class UpdateWaterSettingRequest extends BaseRequest
      */
     public function getMonths():array
     {
-        return $this->input('waterSettingMonths');
+
+        $months= $this->input('waterSettingMonths');
+        return array_map('intval', $months);
     }
 
     /**
