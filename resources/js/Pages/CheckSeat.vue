@@ -159,6 +159,7 @@ export default {
             .then((res) => {
                 const waterSettingData = res.data.waterSettings.map(waterSetting => ({
                     waterSettingId: waterSetting.waterSettingId,
+                    checkSeatId:this.checkSeatId,
                     months: waterSetting.months,
                     note: waterSetting.note,
                     waterAmount: waterSetting.waterAmount,
@@ -175,6 +176,7 @@ export default {
             .then((res) => {
                 const fertilizerSettingData = res.data.fertilizerSettings.map(fertilizerSetting => ({
                     fertilizerSettingId: fertilizerSetting.fertilizerSettingId,
+                    checkSeatId:this.checkSeatId,
                     months: fertilizerSetting.months,
                     note: fertilizerSetting.note,
                     fertilizerAmount: fertilizerSetting.fertilizerAmount,

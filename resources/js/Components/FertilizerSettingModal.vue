@@ -1,9 +1,15 @@
 CheckSeatModal.vue
 <template>
     <div id="overlay" @click="closeModal" v-show="isOpen" class="z-20 flex justify-center">
+
         <div class="p-8 bg-white w-3/4 lg:py-32 lg:px-16 lg:pl-10 lg:w-1/2 tails-selected-element"
              contenteditable="true" @click.stop="" style="max-height: 120vh; overflow-y: auto;">
             {{ fertilizerSetting }}
+
+            <span v-show="errors" class="text-red-500">
+                <p v-for="error in errors">
+                    {{ error }}
+                </p></span>
             <div class="flex flex-col items-start w-full lg:max-w-lg mx-auto"> <!-- mx-autoを追加 -->
                 <div class="grid grid-cols-4 gap-4">
                     <button v-for="(month, index) in 12" :key="month"
@@ -39,7 +45,8 @@ CheckSeatModal.vue
                     <label class="label">
                         <span class="label-text">備考欄</span>
                     </label>
-                    <textarea class="textarea textarea-success" :placeholder="fertilizerSetting.note" v-model="fertilizerSetting.note" ></textarea>
+                    <textarea class="textarea textarea-success" :placeholder="fertilizerSetting.note"
+                              v-model="fertilizerSetting.note"></textarea>
                 </div>
             </div>
 
@@ -47,10 +54,17 @@ CheckSeatModal.vue
                     class="flex mx-auto mt-16 text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
                 作成する
             </button>
-            <button v-else @click="update()"
-                    class="flex mx-auto mt-16 text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
+            <div v-else>
+            <button  @click="update()"
+                    class="flex mx-auto mt-16 text-white bg-green-600 border-0 py-2 px-8 focus:outline-none hover:bg-green-800 rounded text-lg">
                 編集する
             </button>
+                <button  @click="deleteSeat()"
+                         class="flex mx-auto mt-16 text-white bg-red-500 border-0 py-2 px-8 focus:outline-none hover:bg-red-800 rounded text-lg">
+                    削除する
+                </button>
+            </div>
+
         </div>
 
     </div>
@@ -96,7 +110,8 @@ export default {
         return {
             isOpen: false,
             currentFertilizerAmount: null,
-            currentFertilizerName: null
+            currentFertilizerName: null,
+            errors: [],
         };
 
     },
@@ -127,21 +142,73 @@ export default {
                 this.fertilizerSetting.months.splice(indexInMonths, 1);
             }
         },
-        create(){
+        create() {
             axios.post('http://localhost:51111/api/fertilizerSetting', {
-                checkSeatId:this.fertilizerSetting.checkSeatId,
+                checkSeatId: this.fertilizerSetting.checkSeatId,
                 fertilizerSettingMonths: this.fertilizerSetting.months,
                 fertilizerSettingNote: this.fertilizerSetting.note,
-                fertilizerSettingAmount:this.fertilizerSetting.fertilizerAmount,
-                fertilizerSettingName:this.fertilizerSetting.fertilizerName,
+                fertilizerSettingAmount: this.fertilizerSetting.fertilizerAmount,
+                fertilizerSettingName: this.fertilizerSetting.fertilizerName,
             }).then(res => {
                 console.log('とうろくせいこう')
                 console.log(this.fertilizerSetting.checkSeatId)
-                window.location.href = 'http://localhost:51111/checkSeat/'+this.fertilizerSetting.checkSeatId;
+                window.location.href = 'http://localhost:51111/checkSeat/' + this.fertilizerSetting.checkSeatId;
+            }).catch(error => {
+                if (error.response.status === 422) {
+                    console.log(error.response.data.errors);
+                    this.errors = error.response.data.errors;
+                } else {
+                    console.log(error);
+                }
+            });
+
+        },
+        update() {
+            axios.post('http://localhost:51111/api/fertilizerSetting/' + this.fertilizerSetting.fertilizerSettingId, {
+                    checkSeatId: this.fertilizerSetting.checkSeatId,
+                    fertilizerSettingMonths: this.fertilizerSetting.months,
+                    fertilizerSettingNote: this.fertilizerSetting.note,
+                    fertilizerSettingAmount: this.fertilizerSetting.fertilizerAmount,
+                    fertilizerSettingName: this.fertilizerSetting.fertilizerName,
+                },
+                {
+                    headers: {
+                        'content-type': 'multipart/form-data',
+                        'X-HTTP-Method-Override': 'PUT',
+                    }
+                }).then(res => {
+                console.log('とうろくせいこう')
+                console.log(this.fertilizerSetting.checkSeatId)
+                window.location.href = 'http://localhost:51111/checkSeat/' + this.fertilizerSetting.checkSeatId;
+            }).catch(error => {
+                if (error.response.status === 422) {
+                    console.log(error.response.data.errors);
+                    this.errors = error.response.data.errors;
+                } else {
+                    console.log(error);
+                }
+            });
+        },
+        deleteSeat() {
+            axios.post('http://localhost:51111/api/fertilizerSetting/' + this.fertilizerSetting.fertilizerSettingId, {
+                    checkSeatId: this.fertilizerSetting.checkSeatId,
+                    fertilizerSettingMonths: this.fertilizerSetting.months,
+                    fertilizerSettingNote: this.fertilizerSetting.note,
+                    fertilizerSettingAmount: this.fertilizerSetting.fertilizerAmount,
+                    fertilizerSettingName: this.fertilizerSetting.fertilizerName,
+                },
+                {
+                    headers: {
+                        'content-type': 'multipart/form-data',
+                        'X-HTTP-Method-Override': 'DELETE',
+                    }
+                }).then(res => {
+                window.location.href = 'http://localhost:51111/checkSeat/' + this.fertilizerSetting.checkSeatId;
             }).catch(error => {
                 console.log(error);
             });
         }
+
     },
 
 }
