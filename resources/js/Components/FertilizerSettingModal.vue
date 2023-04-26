@@ -1,5 +1,8 @@
 CheckSeatModal.vue
 <template>
+    <div class="relative">
+
+    <LoadWait :show="isLoading" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50"></LoadWait>
     <div id="overlay" @click="closeModal" v-show="isOpen" class="z-20 flex justify-center">
 
         <div class="p-8 bg-white w-3/4 lg:py-32 lg:px-16 lg:pl-10 lg:w-1/2 tails-selected-element"
@@ -68,6 +71,7 @@ CheckSeatModal.vue
         </div>
 
     </div>
+    </div>
 
 </template>
 
@@ -86,10 +90,21 @@ CheckSeatModal.vue
     padding: 1em;
     background: #fff;
 }
+#load img {
+    position: fixed;
+    top: 45%;
+    left: 45%;
+    z-index:999;
+}
 </style>
 <script>
+import LoadWait from "@/Components/LoadWait.vue";
+
 export default {
     name: "FertilizerSettingModal",
+    components: {
+        LoadWait,
+    },
     props: {
         openModal: {
             type: Boolean,
@@ -104,7 +119,8 @@ export default {
                 fertilizerAmount: 0,
                 fertilizerName: '',
             })
-        }
+        },
+
     },
     data() {
         return {
@@ -112,6 +128,7 @@ export default {
             currentFertilizerAmount: null,
             currentFertilizerName: null,
             errors: [],
+            isLoading:false
         };
 
     },
@@ -143,6 +160,7 @@ export default {
             }
         },
         create() {
+            this.isLoading=true
             axios.post('http://localhost:51111/api/fertilizerSetting', {
                 checkSeatId: this.fertilizerSetting.checkSeatId,
                 fertilizerSettingMonths: this.fertilizerSetting.months,
@@ -150,20 +168,28 @@ export default {
                 fertilizerSettingAmount: this.fertilizerSetting.fertilizerAmount,
                 fertilizerSettingName: this.fertilizerSetting.fertilizerName,
             }).then(res => {
+
                 console.log('とうろくせいこう')
                 console.log(this.fertilizerSetting.checkSeatId)
+
                 window.location.href = 'http://localhost:51111/checkSeat/' + this.fertilizerSetting.checkSeatId;
+                this.isLoading=false
             }).catch(error => {
                 if (error.response.status === 422) {
                     console.log(error.response.data.errors);
                     this.errors = error.response.data.errors;
+                    this.isLoading=false
+
                 } else {
                     console.log(error);
+                    this.isLoading=false
+
                 }
             });
 
         },
         update() {
+            this.isLoading=true
             axios.post('http://localhost:51111/api/fertilizerSetting/' + this.fertilizerSetting.fertilizerSettingId, {
                     checkSeatId: this.fertilizerSetting.checkSeatId,
                     fertilizerSettingMonths: this.fertilizerSetting.months,
@@ -177,19 +203,27 @@ export default {
                         'X-HTTP-Method-Override': 'PUT',
                     }
                 }).then(res => {
+
                 console.log('とうろくせいこう')
                 console.log(this.fertilizerSetting.checkSeatId)
+
+
                 window.location.href = 'http://localhost:51111/checkSeat/' + this.fertilizerSetting.checkSeatId;
             }).catch(error => {
                 if (error.response.status === 422) {
                     console.log(error.response.data.errors);
                     this.errors = error.response.data.errors;
+                    this.isLoading=false
+
                 } else {
                     console.log(error);
+                    this.isLoading=false
+
                 }
             });
         },
         deleteSeat() {
+            this.isLoading=true
             axios.post('http://localhost:51111/api/fertilizerSetting/' + this.fertilizerSetting.fertilizerSettingId, {
                     checkSeatId: this.fertilizerSetting.checkSeatId,
                     fertilizerSettingMonths: this.fertilizerSetting.months,
@@ -204,8 +238,11 @@ export default {
                     }
                 }).then(res => {
                 window.location.href = 'http://localhost:51111/checkSeat/' + this.fertilizerSetting.checkSeatId;
+                this.isLoading=false
             }).catch(error => {
                 console.log(error);
+                this.isLoading=false
+
             });
         }
 
