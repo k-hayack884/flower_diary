@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
         $this->call(CheckSeatSeeder::class);
         $this->call(WaterSettingSeeder::class);
         $this->call(FertilizerSettingSeeder::class);
+        $this->call(WaterAlertTimeSeeder::class);
         // \App\Models\User::factory(10)->create();
 
         // \App\Models\User::factory()->create([
