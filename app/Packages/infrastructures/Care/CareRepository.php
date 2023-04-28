@@ -19,7 +19,7 @@ class CareRepository
         $alertTimes = [];
         foreach ($waterSettings as $waterSetting) {
             if (in_array($currentMonth, json_decode($waterSetting->months))) {
-                $alertTimes[] = WaterAlertTime::where('water_setting_id', $waterSetting->water_setting_id)
+                $alertTimes = WaterAlertTime::where('water_setting_id', $waterSetting->water_setting_id)
                     ->with('waterSetting:water_setting_id,months,water_note,water_amount,watering_times,watering_interval')
                     ->get();
             }
