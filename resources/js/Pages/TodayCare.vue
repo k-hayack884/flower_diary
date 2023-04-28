@@ -1,40 +1,43 @@
 <template>
-    <div class="overflow-x-auto">
-        <table class="table w-full">
-            <!-- head -->
-            <thead>
-            <tr>
-                <th></th>
-                <th>Name</th>
-                <th>Job</th>
-                <th>Favorite Color</th>
-            </tr>
-            </thead>
-            <tbody>
-            <!-- row 1 -->
-            <tr>
-                <th>1</th>
-                <td>Cy Ganderton</td>
-                <td>Quality Control Specialist</td>
-                <td>Blue</td>
-            </tr>
-            <!-- row 2 -->
-            <tr class="hover">
-                <th>2</th>
-                <td>Hart Hagerty</td>
-                <td>Desktop Support Technician</td>
-                <td>Purple</td>
-            </tr>
-            <!-- row 3 -->
-            <tr>
-                <th>3</th>
-                <td>Brice Swyre</td>
-                <td>Tax Accountant</td>
-                <td>Red</td>
-            </tr>
-            </tbody>
-        </table>
-    </div></template>
+    <div v-for="waterCareData in waterCareDatas">
+        <div class="stats stats-vertical lg:stats-horizontal shadow">
+            <div class="stat">
+                <div class="stat-title">植物名</div>
+                <div class="stat-value">{{waterCareData.plantName}}</div>
+            </div>
+
+            <div class="stat">
+                <div class="stat-title">通知時間</div>
+                <div class="stat-value">{{waterCareData.alertTime}}</div>
+            </div>
+            <div class="stat">
+                <div class="stat-title">水やり量</div>
+
+                <div class="stat-value">
+                    <p v-if ="waterCareData.waterAmount='a_lot'">
+たっぷり
+                    </p>
+                    <p v-else-if="waterCareData.waterAmount='moderate_amount'">
+                        適量
+                    </p>
+                    <p v-else-if ="waterCareData.waterAmount='sparingly'">
+                        ひかえめ
+                    </p>
+                </div>
+            </div>
+
+            <div class="stat">
+                <div class="stat-title">備考欄</div>
+                <div class="stat-desc">{{ waterCareData.waterNote }}</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">ボタン（予定）</div>
+            </div>
+
+        </div>
+
+    </div>
+</template>
 
 <script>
 export default {
@@ -44,21 +47,23 @@ export default {
         return {
             successMessage: null,
             errorMessage: null,
+            waterCareDatas:[]
         }
-    },created() {
+    }, created() {
         axios.get(`/api/user/${this.user.user_id}/care?userId=${this.user.user_id}`, {})
             .then((res) => {
-                const waterSettingData = res.data.waterSettings.map(waterSetting => ({
-                    waterSettingId: waterSetting.waterSettingId,
-                    checkSeatId: this.checkSeatId,
-                    months: waterSetting.months,
-                    note: waterSetting.note,
-                    waterAmount: waterSetting.waterAmount,
-                    wateringTimes: waterSetting.wateringTimes,
-                    wateringInterval: waterSetting.wateringInterval,
-                    alertTimes: waterSetting.alertTimes,
+                console.log(res.data[0]);
+                const waterCareDatas = res.data.map(waterSetting => ({
+                    alertTimeId: waterSetting.alert_time_id,
+                    plantName:waterSetting.plant_name,
+                    waterSettingId: waterSetting.water_setting_id,
+                    waterAmount: waterSetting.water_setting.water_amount,
+                    waterNote: waterSetting.water_setting.water_note,
+                    alertTime: waterSetting.alert_time,
                 }));
-                this.waterSettings = waterSettingData
+                console.log(waterCareDatas);
+
+                this.waterCareDatas = waterCareDatas
             })
             .catch((error) => {
                 console.log(error);
@@ -83,5 +88,8 @@ export default {
 </script>
 
 <style scoped>
-
+.stats {
+    display: flex;
+    justify-content: space-between;
+}
 </style>

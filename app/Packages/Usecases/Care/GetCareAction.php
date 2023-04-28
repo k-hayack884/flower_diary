@@ -38,18 +38,19 @@ class GetCareAction
     )
     {
         Log::info(__METHOD__, ['開始']);
-        $currentMonthCarePlantSettings=[];
         $userId = $getCareRequest->getUserId();
         $hitPlantUnits = $this->plantUnitRepository->findByUser(new UserId($userId));
+
         foreach ($hitPlantUnits as $plantUnit) {
-if(!empty($this->careRepository->find($plantUnit->getCheckSeatId()))){
-    $currentMonthCarePlantSettings= $this->careRepository->find($plantUnit->getCheckSeatId());
-    foreach ($currentMonthCarePlantSettings as $currentMonthCarePlantSetting){
-        $todayCare[]=$currentMonthCarePlantSetting;
-    }
+            if (!empty($this->careRepository->find($plantUnit->getCheckSeatId()))) {
+                $currentMonthCarePlantSettings = $this->careRepository->find($plantUnit->getCheckSeatId());
+                foreach ($currentMonthCarePlantSettings as $currentMonthCarePlantSetting) {
+                    $currentMonthCarePlantSetting->plant_name =$plantUnit->getPlantName()->getvalue() ;
+                    $todayCare[] = $currentMonthCarePlantSetting;
+                }
 
 
-}
+            }
         }
 
         Log::info(__METHOD__, ['終了']);

@@ -30,7 +30,8 @@ class WaterAlertTime extends Authenticatable
         'alert_time_id',
         'water_setting_id',
         'alert_time',
-        'resent_care_time'
+        'resent_care_time',
+        'plant_name',
     ];
 
 
