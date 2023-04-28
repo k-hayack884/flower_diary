@@ -71,8 +71,28 @@ class PlantUnitRepository implements PlantUnitRepositoryInterface
 
     public function findByUser(UserId $userId): array
     {
-        // TODO: Implement findByUser() method.
-        return \App\Models\PlantUnit::all();
+        $plantUnits = [];
+        $allPlantUnits = \App\Models\PlantUnit::where('user_id', $userId->getId())->get();
+        foreach ($allPlantUnits as $plantUnit) {
+            $diaries = \App\Models\Diary::where('plant_unit_id', $plantUnit->plant_unit_id)->get();
+            $diaryIds = [];
+            foreach ($diaries as $diary) {
+                $diaryIds[] = $diary->diary_id;
+            }
+            $plantUnits[] = new PlantUnit(
+                new PlantUnitId($plantUnit->plant_unit_id),
+                new PlantId($plantUnit->plant_id),
+                new UserId($plantUnit->user_Id),
+                new CheckSeatId($plantUnit->check_seat_id),
+                new plantName($plantUnit->plant_name),
+                new PlantUnitImage($plantUnit->plant_image),
+                $diaryIds,
+                new Carbon($plantUnit->create_date),
+                new Carbon($plantUnit->update_date),
+            );
+
+        }
+        return $plantUnits;
 
     }
 

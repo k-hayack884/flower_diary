@@ -9,9 +9,10 @@ import Welcome from '@/Components/Welcome.vue';
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 Dashboard
+                {{ $attrs.user.user_id}}
             </h2>
         </template>
-        {{ $page.props.users }}
+
         <section class="text-gray-600 body-font">
                 <div class="grid grid-cols-2 gap-4 justify-items-center">
                     <Link :href="route('welcome')" class="block">
@@ -68,14 +69,16 @@ object {
 
 export default {
     props: {
-        userId: null,
-        value: {
+        user_id: {
             type: String,
-            default: null
+            required: true,
+            default: ''
         }
     },
     data() {
-        return {}
+        return {
+            userId:this.$attrs.user.user_id
+        }
     },
     // created: async function () {
     //     this.getWeather();

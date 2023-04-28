@@ -1,5 +1,6 @@
 <?php
 
+use App\Packages\Presentations\Controllers\Care\CareController;
 use App\Packages\Presentations\Controllers\Comment\CommentController;
 use App\Packages\Presentations\Controllers\Diary\DiaryController;
 use App\Packages\Presentations\Controllers\Plant\PlantController;
@@ -24,6 +25,10 @@ use Inertia\Inertia;
 |
 */
 
+Route::get(
+    'plantUnit/{plantUnitId}/care',
+    [CareController::class,'index']
+);
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -210,6 +215,11 @@ Route::middleware('auth:sanctum')->group(function () {
         'plantUnit/{plantUnit}/diary',
         [DiaryController::class,'index']
     );
+    Route::get(
+        'user/{userId}/care',
+        [CareController::class,'index']
+    );
+
 });
 //植物のスキャン
 

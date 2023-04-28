@@ -62,6 +62,7 @@ Route::middleware([
     Route::get('/todayCare', function () {
         return Inertia::render('TodayCare', );
     })->name('todayCare');
+
     Route::get('/adminComment', function () {
         return Inertia::render('Comment', [
         ]);

@@ -10,7 +10,7 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
 
-class WaterSetting extends Authenticatable
+class WaterAlertTime extends Authenticatable
 {
     use HasApiTokens;
     use HasFactory;
@@ -18,7 +18,7 @@ class WaterSetting extends Authenticatable
     use Notifiable;
     use TwoFactorAuthenticatable;
 
-    protected $primaryKey = 'water_setting_id';
+    protected $primaryKey = 'alert_time_id';
     protected $keyType = 'string'; // 主キーの型を文字列に設定
     public $incrementing = false;
     /**
@@ -27,25 +27,18 @@ class WaterSetting extends Authenticatable
      * @var string[]
      */
     protected $fillable = [
+        'alert_time_id',
         'water_setting_id',
-        'check_seat_id',
-        'months',
-        'water_note',
-        'water_amount',
-        'watering_times',
-        'watering_interval',
-        'alert_times',
+        'alert_time',
+        'resent_care_time'
     ];
 
-    public function checkSeat()
+
+    public function waterSetting()
     {
-        return $this->belongsTo(CheckSeat::class);
+        return $this->belongsTo(WaterSetting::class,'water_setting_id')->select('water_setting_id,months,water_note,water_amount,watering_times,watering_interval');
     }
 
-    public function waterAlertTime()
-    {
-        return $this->hasMany(WaterAlertTime::class);
-    }
     /**
      * The attributes that should be hidden for serialization.
      *
