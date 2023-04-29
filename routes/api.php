@@ -219,6 +219,10 @@ Route::middleware('auth:sanctum')->group(function () {
         'user/{userId}/care',
         [CareController::class,'index']
     );
+    Route::post(
+        'care/{alertTimeId}',
+        [CareController::class,'push']
+    );
 
 });
 //植物のスキャン

@@ -34,7 +34,7 @@
 
             </div>
             <div class="stat">
-                <div class="stat-value">ボタン（予定）</div>
+                <button @click="doneCared(waterCareData)">世話を完了する</button>
             </div>
 
         </div>
@@ -105,15 +105,9 @@ export default {
                 return false
             }
         },
-        downCared(waterSetting){
-            axios.post('/api/care/' + waterSetting.alertTimeId, {
-                },
-                {
-                    headers: {
-                        'content-type': 'multipart/form-data',
-                        'X-HTTP-Method-Override': 'PUT',
-                    }
-                }).then(res => {
+        doneCared(waterSetting){
+            axios.post(`/api/care/${waterSetting.alertTimeId}?alertTimeId=${waterSetting.alertTimeId}`
+            ).then(res => {
 
             }).catch(error => {
                 if (error.response.status === 422) {
