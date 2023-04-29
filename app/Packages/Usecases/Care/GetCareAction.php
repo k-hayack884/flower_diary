@@ -45,14 +45,14 @@ class GetCareAction
             if (!empty($this->careRepository->find($plantUnit->getCheckSeatId()))) {
                 $currentMonthCarePlantSettings = $this->careRepository->find($plantUnit->getCheckSeatId());
                 foreach ($currentMonthCarePlantSettings as $currentMonthCarePlantSetting) {
-                    $currentMonthCarePlantSetting->plant_name =$plantUnit->getPlantName()->getvalue() ;
-                    $todayCare[] = $currentMonthCarePlantSetting;
+                    foreach ($currentMonthCarePlantSetting as $hoge){
+                        $hoge->plant_name =$plantUnit->getPlantName()->getvalue() ;
+                        $todayCare[] = $hoge;
+                    }
                 }
-
-
             }
         }
-
+//dd($todayCare);
         Log::info(__METHOD__, ['終了']);
         return $todayCare;
 //        return new CareWrapDto($currentMonthCarePlantSettings);

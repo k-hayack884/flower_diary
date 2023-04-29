@@ -198,6 +198,11 @@ class MonthsWaterSetting
      */
     public function getAlertTimes(): array
     {
-        return $this->alertTimes;
+        $formattedAlertTimes = [];
+        foreach ($this->alertTimes as $alertTime) {
+            $formattedTime = date('H:i', strtotime($alertTime));
+            $formattedAlertTimes[] = $formattedTime;
+        }
+        return $formattedAlertTimes;
     }
 }

@@ -10,6 +10,8 @@ use App\Packages\Domains\Water\WaterNote;
 use App\Packages\Domains\Water\WaterSettingCollection;
 use App\Packages\Domains\Water\WaterSettingId;
 use App\Packages\Domains\Water\WaterSettingRepositoryInterface;
+use App\Packages\infrastructures\Care\CareRepository;
+use App\Packages\infrastructures\Shared\TransactionInterface;
 use App\Packages\Presentations\Requests\Water\CreateWaterSettingRequest;
 use App\Packages\Usecases\Dto\Water\WaterSettingWrapDto;
 use Illuminate\Support\Facades\Log;
@@ -22,13 +24,18 @@ class CreateWaterSettingAction
      * @var WaterSettingRepositoryInterface
      */
     private WaterSettingRepositoryInterface $waterSettingRepository;
+    private CareRepository $careRepository;
+    private TransactionInterface $transaction;
+
 
     /**
      * @param WaterSettingRepositoryInterface $waterSettingRepository
      */
-    public function __construct(WaterSettingRepositoryInterface $waterSettingRepository)
+    public function __construct(WaterSettingRepositoryInterface $waterSettingRepository,CareRepository $careRepository,TransactionInterface $transaction)
     {
         $this->waterSettingRepository = $waterSettingRepository;
+        $this->careRepository=$careRepository;
+        $this->transaction=$transaction;
     }
 
     /**
@@ -51,6 +58,7 @@ class CreateWaterSettingAction
         $checkSeatId=$createWaterSettingRequest->getCheckSeatId();
 
         try {
+            $this->transaction->begin();
             $waterSetting = new MonthsWaterSetting(
                 new WaterSettingId(),
                 $waterSettingMonths,
@@ -63,9 +71,14 @@ class CreateWaterSettingAction
             $waterSettingCollection = new WaterSettingCollection();
             $waterSettingCollection->addSetting($waterSetting);
             $this->waterSettingRepository->save($waterSettingCollection,$checkSeatId);
+
+            $this->careRepository->save($waterSettingCollection);
+
+            $this->transaction->commit();
             Session::flash('successMessage', '登録に成功しました');
 
         } catch (\DomainException $e) {
+            $this->transaction->rollback();
             Log::error(__METHOD__, ['エラー']);
             Session::flash('failMessage', '登録に失敗しました');
 
