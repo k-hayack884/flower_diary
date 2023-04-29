@@ -1,26 +1,27 @@
 <template>
     <div v-for="waterCareData in waterCareDatas">
+        <div v-show="isShow(waterCareData)">
         <div class="stats stats-vertical lg:stats-horizontal shadow">
             <div class="stat">
                 <div class="stat-title">植物名</div>
-                <div class="stat-value">{{waterCareData.plantName}}</div>
+                <div class="stat-value">{{ waterCareData.plantName }}</div>
             </div>
 
             <div class="stat">
                 <div class="stat-title">通知時間</div>
-                <div class="stat-value">{{waterCareData.alertTime}}</div>
+                <div class="stat-value">{{ waterCareData.alertTime }}</div>
             </div>
             <div class="stat">
                 <div class="stat-title">水やり量</div>
 
                 <div class="stat-value">
-                    <p v-if ="waterCareData.waterAmount='a_lot'">
-たっぷり
+                    <p v-if="waterCareData.waterAmount='a_lot'">
+                        たっぷり
                     </p>
                     <p v-else-if="waterCareData.waterAmount='moderate_amount'">
                         適量
                     </p>
-                    <p v-else-if ="waterCareData.waterAmount='sparingly'">
+                    <p v-else-if="waterCareData.waterAmount='sparingly'">
                         ひかえめ
                     </p>
                 </div>
@@ -29,13 +30,15 @@
             <div class="stat">
                 <div class="stat-title">備考欄</div>
                 <div class="stat-desc">{{ waterCareData.waterNote }}</div>
+                <div class="stat-desc">{{ waterCareData.resentCareTime }}</div>
+
             </div>
             <div class="stat">
                 <div class="stat-value">ボタン（予定）</div>
             </div>
 
         </div>
-
+        </div>
     </div>
 </template>
 
@@ -47,7 +50,8 @@ export default {
         return {
             successMessage: null,
             errorMessage: null,
-            waterCareDatas:[]
+            waterCareDatas: [],
+            nowDate: new Date(),
         }
     }, created() {
         axios.get(`/api/user/${this.user.user_id}/care?userId=${this.user.user_id}`, {})
@@ -55,10 +59,12 @@ export default {
                 console.log(res.data[0]);
                 const waterCareDatas = res.data.map(waterSetting => ({
                     alertTimeId: waterSetting.alert_time_id,
-                    plantName:waterSetting.plant_name,
+                    plantName: waterSetting.plant_name,
                     waterSettingId: waterSetting.water_setting_id,
                     waterAmount: waterSetting.water_setting.water_amount,
                     waterNote: waterSetting.water_setting.water_note,
+                    wateringInterval: waterSetting.water_setting.watering_interval,
+                    resentCareTime: waterSetting.resent_care_time,
                     alertTime: waterSetting.alert_time,
                 }));
                 console.log(waterCareDatas);
@@ -83,6 +89,45 @@ export default {
         //     .catch((error) => {
         //         console.log(error);
         //     });
+    },
+    methods: {
+        isShow(waterSetting) {
+            let diff;
+            if (waterSetting.resentCareTime == null) {
+                diff = this.nowDate - new Date('0001-01-01 00:00:00');
+            } else {
+                diff = this.nowDate - new Date(waterSetting.resentCareTime);
+            }
+            console.log(diff)
+            if (diff >= (86400000 * waterSetting.wateringInterval)) {
+                return true
+            } else {
+                return false
+            }
+        },
+        downCared(waterSetting){
+            axios.post('/api/care/' + waterSetting.alertTimeId, {
+                },
+                {
+                    headers: {
+                        'content-type': 'multipart/form-data',
+                        'X-HTTP-Method-Override': 'PUT',
+                    }
+                }).then(res => {
+
+            }).catch(error => {
+                if (error.response.status === 422) {
+                    console.log(error.response.data.errors);
+                    this.errors = error.response.data.errors;
+                    this.isLoading=false
+
+                } else {
+                    console.log(error);
+                    this.isLoading=false
+
+                }
+            });
+        }
     }
 }
 </script>
