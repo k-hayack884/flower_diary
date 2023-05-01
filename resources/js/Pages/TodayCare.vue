@@ -68,7 +68,7 @@
 
             </div>
             <div class="stat">
-                <button @click="doneWaterCared(waterCareData)">世話を完了する</button>
+                <button @click="doneFertilizerCared(fertilizerCareData)">世話を完了する</button>
             </div>
 
         </div>
@@ -89,26 +89,26 @@ export default {
             nowDate: new Date(),
         }
     }, created() {
-        // axios.get(`/api/user/${this.user.user_id}/care/water?userId=${this.user.user_id}`, {})
-        //     .then((res) => {
-        //         console.log(res.data[0]);
-        //         const waterCareDatas = res.data.map(waterSetting => ({
-        //             alertTimeId: waterSetting.alert_time_id,
-        //             plantName: waterSetting.plant_name,
-        //             waterSettingId: waterSetting.water_setting_id,
-        //             waterAmount: waterSetting.water_setting.water_amount,
-        //             waterNote: waterSetting.water_setting.water_note,
-        //             wateringInterval: waterSetting.water_setting.watering_interval,
-        //             resentCareWaterTime: waterSetting.resent_care_time,
-        //             alertTime: waterSetting.alert_time,
-        //         }));
-        //         console.log(waterCareDatas);
-        //
-        //         this.waterCareDatas = waterCareDatas
-        //     })
-        //     .catch((error) => {
-        //         console.log(error);
-        //     });
+        axios.get(`/api/user/${this.user.user_id}/care/water?userId=${this.user.user_id}`, {})
+            .then((res) => {
+                console.log(res.data[0]);
+                const waterCareDatas = res.data.map(waterSetting => ({
+                    alertTimeId: waterSetting.alert_time_id,
+                    plantName: waterSetting.plant_name,
+                    waterSettingId: waterSetting.water_setting_id,
+                    waterAmount: waterSetting.water_setting.water_amount,
+                    waterNote: waterSetting.water_setting.water_note,
+                    wateringInterval: waterSetting.water_setting.watering_interval,
+                    resentCareWaterTime: waterSetting.resent_care_time,
+                    alertTime: waterSetting.alert_time,
+                }));
+                console.log(waterCareDatas);
+
+                this.waterCareDatas = waterCareDatas
+            })
+            .catch((error) => {
+                console.log(error);
+            });
         axios.get(`/api/user/${this.user.user_id}/care/fertilizer?userId=${this.user.user_id}`, {})
             .then((res) => {
                 console.log(res.data[0]);
@@ -145,17 +145,31 @@ export default {
         },
         isShowFertilizerSetting(fertilizerSetting) {
             if (fertilizerSetting.resentCareFertilizerTime == null||new Date(fertilizerSetting.resentCareFertilizerTime).getMonth() !=this.nowDate.getMonth()) {
-                console.log('つるー')
-
                 return true
             } else {
-                console.log('ふぉるす')
                 return false
 
             }
         },
         doneWaterCared(waterSetting) {
-            axios.post(`/api/care/${waterSetting.alertTimeId}?alertTimeId=${waterSetting.alertTimeId}`
+            axios.post(`/api/care/${waterSetting.alertTimeId}/water?alertTimeId=${waterSetting.alertTimeId}`
+            ).then(res => {
+
+            }).catch(error => {
+                if (error.response.status === 422) {
+                    console.log(error.response.data.errors);
+                    this.errors = error.response.data.errors;
+                    this.isLoading = false
+
+                } else {
+                    console.log(error);
+                    this.isLoading = false
+
+                }
+            });
+        },
+        doneFertilizerCared(fertilizerSetting) {
+            axios.post(`/api/care/${fertilizerSetting.alertTimeId}/fertilizer?alertTimeId=${fertilizerSetting.alertTimeId}`
             ).then(res => {
 
             }).catch(error => {
@@ -171,6 +185,7 @@ export default {
                 }
             });
         }
+
     }
 }
 </script>

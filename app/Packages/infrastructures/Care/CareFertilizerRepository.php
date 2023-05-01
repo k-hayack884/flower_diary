@@ -55,7 +55,7 @@ class CareFertilizerRepository
 
     public function push($alertTimeId)
     {
-        $alertTime  = WaterAlertTime::where('alert_time_id', $alertTimeId)
+        $alertTime  = FertilizerAlertTime::where('alert_time_id', $alertTimeId)
             ->first();
         $alertTime->resent_care_time=now();
         $alertTime->save();

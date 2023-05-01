@@ -224,8 +224,12 @@ Route::middleware('auth:sanctum')->group(function () {
         [CareController::class,'indexFertilizer']
     );
     Route::post(
-        'care/{alertTimeId}',
+        'care/{alertTimeId}/water',
         [CareController::class,'pushWater']
+    );
+    Route::post(
+        'care/{alertTimeId}/fertilizer',
+        [CareController::class,'pushFertilizer']
     );
 
 });
