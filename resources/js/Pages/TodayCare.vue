@@ -34,7 +34,7 @@
 
                 </div>
                 <div class="stat">
-                    <button @click="doneCared(waterCareData)">世話を完了する</button>
+                    <button @click="doneWaterCared(waterCareData)">世話を完了する</button>
                 </div>
 
             </div>

@@ -9,6 +9,9 @@ use App\Packages\Domains\Fertilizer\FertilizerRepositoryInterface;
 use App\Packages\Domains\Fertilizer\FertilizerSettingCollection;
 use App\Packages\Domains\Fertilizer\FertilizerSettingId;
 use App\Packages\Domains\Fertilizer\MonthsFertilizerSetting;
+use App\Packages\infrastructures\Care\CareFertilizerRepository;
+use App\Packages\infrastructures\Care\CareWaterRepository;
+use App\Packages\infrastructures\Shared\TransactionInterface;
 use App\Packages\Presentations\Requests\Fertilizer\CreateFertilizerSettingRequest;
 use App\Packages\Usecases\Dto\Fertilizer\FertilizerSettingWrapDto;
 use Illuminate\Support\Facades\Log;
@@ -20,13 +23,17 @@ class CreateFertilizerSettingAction
      * @var FertilizerRepositoryInterface
      */
     private FertilizerRepositoryInterface $fertilizerSettingRepository;
+    private CareFertilizerRepository $careRepository;
+    private TransactionInterface $transaction;
 
     /**
      * @param FertilizerRepositoryInterface $fertilizerSettingRepository
      */
-    public function __construct(FertilizerRepositoryInterface $fertilizerSettingRepository)
+    public function __construct(FertilizerRepositoryInterface $fertilizerSettingRepository,CareFertilizerRepository $careRepository, TransactionInterface $transaction)
     {
         $this->fertilizerSettingRepository = $fertilizerSettingRepository;
+        $this->careRepository=$careRepository;
+        $this->transaction=$transaction;
     }
 
     /**
@@ -46,6 +53,7 @@ class CreateFertilizerSettingAction
         $checkSeatId=$createFertilizerSettingRequest->getCheckSeatId();
 
         try {
+            $this->transaction->begin();
             $fertilizerSetting = new MonthsFertilizerSetting(
                 new FertilizerSettingId(),
                 $fertilizerSettingMonths,
@@ -58,9 +66,15 @@ class CreateFertilizerSettingAction
             $fertilizerSettingCollection->addSetting($fertilizerSetting);
 
             $this->fertilizerSettingRepository->save($fertilizerSettingCollection,$checkSeatId);
+
+            $this->careRepository->save($fertilizerSettingCollection);
+
+            $this->transaction->commit();
             Session::flash('successMessage', '登録に成功しました');
 
         } catch (\DomainException $e) {
+            $this->transaction->rollback();
+
             Log::error(__METHOD__, ['エラー']);
             Session::flash('failMessage', '登録に失敗しました');
             abort(400,$e);

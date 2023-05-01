@@ -8,6 +8,7 @@ use App\Models\WaterAlertTime;
 use App\Models\CheckSeat;
 use App\Models\WaterSetting;
 use App\Packages\Domains\CheckSeat\CheckSeatId;
+use App\Packages\Domains\Fertilizer\FertilizerSettingCollection;
 use App\Packages\Domains\PlantUnit\PlantUnitId;
 use App\Packages\Domains\Shared\Uuid;
 use App\Packages\Domains\Water\WaterSettingCollection;
@@ -33,20 +34,20 @@ class CareFertilizerRepository
         return $alertTimes;
     }
 
-    public function save(WaterSettingCollection $waterSetting)
+    public function save(FertilizerSettingCollection $fertilizerSetting)
     {
-        $collectionArray = $waterSetting->toArray();
-        foreach ($collectionArray as $waterSetting) {
-            foreach ($waterSetting->getAlertTimes() as $time) {
+        $collectionArray = $fertilizerSetting->toArray();
+        foreach ($collectionArray as $fertilizerSetting) {
+            foreach ($fertilizerSetting->getMonths() as $month) {
 
-                $existingRecord = WaterAlertTime::where([
-                    'water_setting_id' => $waterSetting->getWaterSettingId()->getId(),
-                    'alert_time' => $time,
+                $existingRecord = FertilizerAlertTime::where([
+                    'fertilizer_setting_id' => $fertilizerSetting->getFertilizerSettingId()->getId(),
+                    'alert_month' => $month,
                 ])->first();
                 if (!$existingRecord) {
-                    WaterAlertTime::create(["alert_time_id" => new Uuid(),
-                        "water_setting_id" => $waterSetting->getWaterSettingId()->getId(),
-                        "alert_time" => $time]);
+                    FertilizerAlertTime::create(["alert_time_id" => new Uuid(),
+                        "fertilizer_setting_id" => $fertilizerSetting->getFertilizerSettingId()->getId(),
+                        "alert_month" => $month]);
                 }
             }
 
