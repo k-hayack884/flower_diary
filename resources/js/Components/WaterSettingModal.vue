@@ -199,10 +199,12 @@ export default defineComponent({
         },
         handleTagAdded(newTags) {
             console.log(newTags)
+
             this.waterSetting.alertTimes=newTags
         },
         create() {
             this.isLoading=true
+
             axios.post('/api/waterSetting', {
                 checkSeatId: this.waterSetting.checkSeatId,
                 waterSettingMonths: this.waterSetting.months,

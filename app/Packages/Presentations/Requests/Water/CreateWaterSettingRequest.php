@@ -36,8 +36,8 @@ class CreateWaterSettingRequest extends BaseRequest
                 'int',
                 'digits_between:1,365'
             ],
-            'waterSettingAlertTimes' => [
-                'array'
+            'waterSettingAlertTimes.*' => [
+                'regex:/^([01]?[0-9]|2[0-3]):([0-5]?[0-9])$/',
             ],
         ];
     }
