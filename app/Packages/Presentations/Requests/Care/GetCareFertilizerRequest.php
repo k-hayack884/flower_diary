@@ -2,7 +2,7 @@
 
 namespace App\Packages\Presentations\Requests\Care;
 
-class GetCareRequest extends \App\Http\Requests\BaseRequest
+class GetCareFertilizerRequest extends \App\Http\Requests\BaseRequest
 {
     /**
      * @return array

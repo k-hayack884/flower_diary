@@ -10,7 +10,7 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
 
-class FertilizerSetting extends Authenticatable
+class FertilizerAlertTime extends Authenticatable
 {
     use HasApiTokens;
     use HasFactory;
@@ -18,8 +18,7 @@ class FertilizerSetting extends Authenticatable
     use Notifiable;
     use TwoFactorAuthenticatable;
 
-
-    protected $primaryKey = 'fertilizer_setting_id';
+    protected $primaryKey = 'alert_time_id';
     protected $keyType = 'string'; // 主キーの型を文字列に設定
     public $incrementing = false;
     /**
@@ -28,23 +27,19 @@ class FertilizerSetting extends Authenticatable
      * @var string[]
      */
     protected $fillable = [
+        'alert_time_id',
         'fertilizer_setting_id',
-        'check_seat_id',
-        'months',
-        'fertilizer_note',
-        'fertilizer_amount',
-        'fertilizer_name',
+        'alert_month',
+        'resent_care_time',
+        'plant_name',
     ];
 
-    public function checkSeat()
+
+    public function fertilizerSetting()
     {
-        return $this->belongsTo(CheckSeat::class);
+        return $this->belongsTo(FertilizerSetting::class,'fertilizer_setting_id')->select('fertilizer_setting_id,months,fertilizer_note,fertilizer_amount,fertilizer_name');
     }
 
-    public function fertilizerAlertTime()
-    {
-        return $this->hasMany(FertilizerAlertTime::class);
-    }
     /**
      * The attributes that should be hidden for serialization.
      *

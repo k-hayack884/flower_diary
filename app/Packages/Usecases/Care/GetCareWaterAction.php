@@ -6,22 +6,22 @@ use App\Packages\Domains\Comment\CommentRepositoryInterface;
 use App\Packages\Domains\PlantUnit\PlantUnitId;
 use App\Packages\Domains\PlantUnit\PlantUnitRepositoryInterface;
 use App\Packages\Domains\User\UserId;
-use App\Packages\infrastructures\Care\CareRepository;
-use App\Packages\Presentations\Requests\Care\GetCareRequest;
+use App\Packages\infrastructures\Care\CareWaterRepository;
+use App\Packages\Presentations\Requests\Care\GetCareWaterRequest;
 use App\Packages\Usecases\Dto\Care\CareWrapDto;
 use Illuminate\Support\Facades\Log;
 
-class GetCareAction
+class GetCareWaterAction
 {
     /**
      * @var CommentRepositoryInterface
      */
-    private CareRepository $careRepository;
+    private CareWaterRepository $careRepository;
 
     /**
-     * @param CareRepository $careRepository
+     * @param CareWaterRepository $careRepository
      */
-    public function __construct(CareRepository               $careRepository,
+    public function __construct(CareWaterRepository          $careRepository,
                                 PlantUnitRepositoryInterface $plantUnitRepository)
     {
         $this->careRepository = $careRepository;
@@ -34,7 +34,7 @@ class GetCareAction
      * @return CommentWrapDto
      */
     public function __invoke(
-        GetCareRequest $getCareRequest,
+        GetCareWaterRequest $getCareRequest,
     )
     {
         Log::info(__METHOD__, ['開始']);

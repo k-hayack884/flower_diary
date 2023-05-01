@@ -6,24 +6,24 @@ use App\Packages\Domains\Comment\CommentRepositoryInterface;
 use App\Packages\Domains\PlantUnit\PlantUnitId;
 use App\Packages\Domains\PlantUnit\PlantUnitRepositoryInterface;
 use App\Packages\Domains\User\UserId;
-use App\Packages\infrastructures\Care\CareRepository;
-use App\Packages\Presentations\Requests\Care\GetCareRequest;
-use App\Packages\Presentations\Requests\Care\PushCareRequest;
+use App\Packages\infrastructures\Care\CareWaterRepository;
+use App\Packages\Presentations\Requests\Care\GetCareWaterRequest;
+use App\Packages\Presentations\Requests\Care\PushCareWaterRequest;
 use App\Packages\Usecases\Dto\Care\CareWrapDto;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 
-class PushCareAction
+class PushCareWaterAction
 {
     /**
      * @var CommentRepositoryInterface
      */
-    private CareRepository $careRepository;
+    private CareWaterRepository $careRepository;
 
     /**
-     * @param CareRepository $careRepository
+     * @param CareWaterRepository $careRepository
      */
-    public function __construct(CareRepository               $careRepository,)
+    public function __construct(CareWaterRepository $careRepository,)
     {
         $this->careRepository = $careRepository;
 
@@ -34,7 +34,7 @@ class PushCareAction
      * @return CommentWrapDto
      */
     public function __invoke(
-        PushCareRequest $getCareRequest,
+        PushCareWaterRequest $getCareRequest,
     )
     {
         Log::info(__METHOD__, ['開始']);

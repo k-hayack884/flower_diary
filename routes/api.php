@@ -216,12 +216,16 @@ Route::middleware('auth:sanctum')->group(function () {
         [DiaryController::class,'index']
     );
     Route::get(
-        'user/{userId}/care',
-        [CareController::class,'index']
+        'user/{userId}/care/water',
+        [CareController::class,'indexWater']
+    );
+    Route::get(
+        'user/{userId}/care/fertilizer',
+        [CareController::class,'indexFertilizer']
     );
     Route::post(
         'care/{alertTimeId}',
-        [CareController::class,'push']
+        [CareController::class,'pushWater']
     );
 
 });

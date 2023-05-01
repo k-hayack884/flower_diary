@@ -2,6 +2,8 @@
 
 namespace App\Packages\infrastructures\Care;
 
+use App\Models\FertilizerAlertTime;
+use App\Models\FertilizerSetting;
 use App\Models\WaterAlertTime;
 use App\Models\CheckSeat;
 use App\Models\WaterSetting;
@@ -11,20 +13,20 @@ use App\Packages\Domains\Shared\Uuid;
 use App\Packages\Domains\Water\WaterSettingCollection;
 use Carbon\Carbon;
 
-class CareRepository
+class CareFertilizerRepository
 {
     public function find(CheckSeatId $checkSeatId)
     {
         $currentMonth = (int)Carbon::now()->format('m');
-        $waterSettings = WaterSetting::where('check_seat_id', $checkSeatId->getId())
+        $fertilizerSettings = FertilizerSetting::where('check_seat_id', $checkSeatId->getId())
             ->get();
 
         $alertTimes = [];
-        foreach ($waterSettings as $waterSetting) {
-            if (in_array($currentMonth, json_decode($waterSetting->months))) {
-                $alertTimes[] = WaterAlertTime::whereIn('alert_time', json_decode($waterSetting->alert_times))
-                    ->where('water_setting_id', $waterSetting->water_setting_id)
-                    ->with('waterSetting:water_setting_id,months,water_note,water_amount,watering_times,watering_interval')
+        foreach ($fertilizerSettings as $fertilizerSetting) {
+            if (in_array($currentMonth, json_decode($fertilizerSetting->months))) {
+                $alertTimes[] = FertilizerAlertTime::where('alert_month', $currentMonth)
+                    ->where('fertilizer_setting_id', $fertilizerSetting->fertilizer_setting_id)
+                    ->with('fertilizerSetting:fertilizer_setting_id,months,fertilizer_note,fertilizer_amount,fertilizer_name')
                     ->get();
             }
         }

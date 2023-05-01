@@ -10,7 +10,7 @@ use App\Packages\Domains\Water\WaterNote;
 use App\Packages\Domains\Water\WaterSettingCollection;
 use App\Packages\Domains\Water\WaterSettingId;
 use App\Packages\Domains\Water\WaterSettingRepositoryInterface;
-use App\Packages\infrastructures\Care\CareRepository;
+use App\Packages\infrastructures\Care\CareWaterRepository;
 use App\Packages\infrastructures\Shared\TransactionInterface;
 use App\Packages\Presentations\Requests\Water\CreateWaterSettingRequest;
 use App\Packages\Presentations\Requests\Water\UpdateWaterSettingRequest;
@@ -22,10 +22,10 @@ use PHPUnit\Exception;
 class UpdateWaterSettingAction
 {
     private WaterSettingRepositoryInterface $waterSettingRepository;
-    private CareRepository $careRepository;
+    private CareWaterRepository $careRepository;
     private TransactionInterface $transaction;
 
-    public function __construct(WaterSettingRepositoryInterface $waterSettingRepository,CareRepository $careRepository,TransactionInterface $transaction)
+    public function __construct(WaterSettingRepositoryInterface $waterSettingRepository, CareWaterRepository $careRepository, TransactionInterface $transaction)
     {
         $this->waterSettingRepository = $waterSettingRepository;
         $this->careRepository=$careRepository;
