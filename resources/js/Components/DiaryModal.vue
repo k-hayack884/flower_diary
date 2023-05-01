@@ -18,14 +18,22 @@ CheckSeatModal.vue
             <section class="text-gray-600 body-font overflow-hidden">
                 <div class="container px-5 py-24 mx-auto">
                     <div class="lg:w-full mx-auto flex flex-wrap">
-                        <img alt="ecommerce" class="lg:w-1/2 w-full lg:h-auto h-64 object-cover object-center rounded" src="https://dummyimage.com/400x400">
-                        <div class="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
+                        <div v-if="selectedImage">
+                            <img :src="selectedImage" alt="Selected image" style="width: 300px; height: 300px ;">
+                        </div>
+                        <div v-else>
+                            <img src="../../icon/noImag.png" style="width: 300px; height: 300px ;">
+                        </div>
+
+                        <div class="lg:w-1/2 w-full lg:pl-10  mt-6 lg:mt-0">
                             <div class="relative mb-4">
-                                <label for="message" class="leading-7 text-sm text-gray-600">Message</label>
-                                <textarea id="message" name="message" class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 h-32 text-base outline-none text-gray-700 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out"></textarea>
+                                <label for="message" class="leading-7 text-sm text-gray-600">投稿内容（投稿できるのは200字までです）</label>
+                                <textarea id="message" name="message" class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out" style="width: 300px; height: 200px;"></textarea>
                             </div>
                             <div>
-                                        <button v-if="diary.isCreate" @click="create()"
+                                <image-maker @image-selected="onImageSelected"></image-maker>
+
+                                <button v-if="diary.isCreate" @click="create()"
                                                 class="flex mx-auto mt-16 text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
                                             作成する
                                         </button>
@@ -74,12 +82,13 @@ import {SmartTagz} from "smart-tagz";
 import "smart-tagz/dist/smart-tagz.css";
 import {defineComponent} from "vue";
 import LoadWait from "@/Components/LoadWait.vue";
+import ImageMaker from "@/Components/ImageMaker.vue";
 
 
 export default defineComponent({
     name: "WaterSettingModal",
     components: {
-        SmartTagz,
+        ImageMaker,
         LoadWait
     },
     props: {
@@ -104,7 +113,9 @@ export default defineComponent({
             currentWateringTimes: null,
             currentWateringInterval: null,
             errors: [],
-            isLoading:false
+            isLoading:false,
+            selectedImage: null,
+
         };
     },
     created() {
@@ -119,28 +130,9 @@ export default defineComponent({
             this.isOpen = false;
             this.$emit("closeModal");
         },
-        selectMonth(index) {
-            const month = index + 1;
-            const indexInMonths = this.waterSetting.months.indexOf(month);
-            if (indexInMonths === -1) {
-                this.waterSetting.months.push(month);
-            } else {
-                this.waterSetting.months.splice(indexInMonths, 1);
-            }
-        },
-        selectAmount(amount) {
-            if (amount === 'a_lot') {
-                this.waterSetting.waterAmount = 'a_lot'
-            } else if (amount === 'moderate_amount') {
-                this.waterSetting.waterAmount = 'moderate_amount'
-            } else if (amount === 'sparingly') {
-                this.waterSetting.waterAmount = 'sparingly'
-            }
-        },
-        handleTagAdded(newTags) {
-            console.log(newTags)
-
-            this.waterSetting.alertTimes=newTags
+        onImageSelected(imageData) {
+            // ImageMakerコンポーネントから渡された画像データを処理する
+            this.selectedImage = imageData
         },
         create() {
             this.isLoading=true
@@ -233,5 +225,8 @@ export default defineComponent({
 </script>
 
 <style scoped>
-
+.selected-image {
+    width: 400px;
+    height: 400px;
+}
 </style>

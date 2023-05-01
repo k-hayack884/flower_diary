@@ -60,18 +60,22 @@ defineProps({
 
         <div>
             <p id="error" v-show="error">{{ error }}</p>
-            <label class="btn btn-success px-6 my-4">
-                <p>画像をアップロードする</p>
-                <div>
-                    <input
-                        type="file"
-                        id="avatar_name"
-                        accept="image/jpeg, image/png"
-                        @change="onImageChange"
-                    />
-                </div>
-            </label>
-            <img :src="avatar" alt="" class="image mx-auto" id="plant_image">
+            <image-maker @image-selected="onImageSelected"></image-maker>
+<!--            <label class="btn btn-success px-6 my-4">-->
+<!--                <p>画像をアップロードする</p>-->
+<!--                <div>-->
+<!--                    <input-->
+<!--                        type="file"-->
+<!--                        id="avatar_name"-->
+<!--                        accept="image/jpeg, image/png"-->
+<!--                        @change="onImageChange"-->
+<!--                    />-->
+<!--                </div>-->
+<!--            </label>-->
+<!--            <img :src="avatar" alt="" class="image mx-auto" id="plant_image">-->
+            <div v-if="selectedImage">
+                <img :src="selectedImage" alt="Selected image">
+            </div>
             <button v-if="avatar"
                     class="btn btn-outline-success bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded px-12 my-4"
                     @click="startImage()">診断する！
@@ -136,10 +140,13 @@ defineProps({
 </style>
 <script>
 
+import ImageMaker from "@/Components/ImageMaker.vue";
+
 export default {
     components: {
         Load,
-        RegisterModal
+        RegisterModal,
+        ImageMaker
     },
     props: {
         userId: null,
@@ -162,6 +169,7 @@ export default {
             registerButton: 'My植物に加える',
             isLoading: false,
             isModalOpen: false,
+            selectedImage: null,
             // text: '<img src="../../icon/loading.gif">',
             // 植物
             // 作成したモデルのURL
@@ -291,63 +299,67 @@ export default {
                 // setTimeout(this.loop(classifier), 1000);
             })
         },
-        getBase64(file) {
-            return new Promise((resolve, reject) => {
-                const reader = new FileReader()
-                reader.readAsDataURL(file)
-                reader.onload = () => resolve(reader.result)
-                reader.onerror = error => reject(error)
-            })
+        onImageSelected(imageData) {
+            // ImageMakerコンポーネントから渡された画像データを処理する
+            this.selectedImage = imageData
         },
-        onImageChange(e) {
-            const images = e.target.files || e.dataTransfer.files
-            this.getBase64(images[0])
-                .then(image => {
-                    const originalImg = new Image()
-                    originalImg.src = image
-                    originalImg.onload = () => {
-                        const resizedCanvas = this.createResizedCanvasElement(originalImg)
-                        const resizedBase64 = resizedCanvas.toDataURL(images[0].type)
-                        this.avatar = resizedBase64
-                    }
-                    // this.avatar = image
-                })
-                .catch(error => this.setError(error, '画像のアップロードに失敗しました。'))
-        },
-        createResizedCanvasElement(originalImg) {
-            const originalImgWidth = originalImg.width
-            const originalImgHeight = originalImg.height
-
-            // resizeWidthAndHeight関数については下記参照
-            const [resizedWidth, resizedHeight] = this.resizeWidthAndHeight(originalImgWidth, originalImgHeight)
-            const canvas = document.createElement('canvas')
-            const ctx = canvas.getContext('2d')
-            canvas.width = resizedWidth
-            canvas.height = resizedHeight
-            // drawImage関数の仕様はcanvasAPIのドキュメントを参照下さい
-            ctx.drawImage(originalImg, 0, 0, resizedWidth, resizedHeight)
-            return canvas
-        },
-        resizeWidthAndHeight(width, height) {
-
-            // 今回は400x400のサイズにしましたが、ここはプロジェクトによって柔軟に変更してよいと思います
-            const MAX_WIDTH = 200
-            const MAX_HEIGHT = 200
-
-            // 縦と横の比率を保つ
-            if (width > height) {
-                if (width > MAX_WIDTH) {
-                    height *= MAX_WIDTH / width
-                    width = MAX_WIDTH
-                }
-            } else {
-                if (height > MAX_HEIGHT) {
-                    width *= MAX_HEIGHT / height
-                    height = MAX_HEIGHT
-                }
-            }
-            return [width, height]
-        },
+        // getBase64(file) {
+        //     return new Promise((resolve, reject) => {
+        //         const reader = new FileReader()
+        //         reader.readAsDataURL(file)
+        //         reader.onload = () => resolve(reader.result)
+        //         reader.onerror = error => reject(error)
+        //     })
+        // },
+        // onImageChange(e) {
+        //     const images = e.target.files || e.dataTransfer.files
+        //     this.getBase64(images[0])
+        //         .then(image => {
+        //             const originalImg = new Image()
+        //             originalImg.src = image
+        //             originalImg.onload = () => {
+        //                 const resizedCanvas = this.createResizedCanvasElement(originalImg)
+        //                 const resizedBase64 = resizedCanvas.toDataURL(images[0].type)
+        //                 this.avatar = resizedBase64
+        //             }
+        //             // this.avatar = image
+        //         })
+        //         .catch(error => this.setError(error, '画像のアップロードに失敗しました。'))
+        // },
+        // createResizedCanvasElement(originalImg) {
+        //     const originalImgWidth = originalImg.width
+        //     const originalImgHeight = originalImg.height
+        //
+        //     // resizeWidthAndHeight関数については下記参照
+        //     const [resizedWidth, resizedHeight] = this.resizeWidthAndHeight(originalImgWidth, originalImgHeight)
+        //     const canvas = document.createElement('canvas')
+        //     const ctx = canvas.getContext('2d')
+        //     canvas.width = resizedWidth
+        //     canvas.height = resizedHeight
+        //     // drawImage関数の仕様はcanvasAPIのドキュメントを参照下さい
+        //     ctx.drawImage(originalImg, 0, 0, resizedWidth, resizedHeight)
+        //     return canvas
+        // },
+        // resizeWidthAndHeight(width, height) {
+        //
+        //     // 今回は400x400のサイズにしましたが、ここはプロジェクトによって柔軟に変更してよいと思います
+        //     const MAX_WIDTH = 200
+        //     const MAX_HEIGHT = 200
+        //
+        //     // 縦と横の比率を保つ
+        //     if (width > height) {
+        //         if (width > MAX_WIDTH) {
+        //             height *= MAX_WIDTH / width
+        //             width = MAX_WIDTH
+        //         }
+        //     } else {
+        //         if (height > MAX_HEIGHT) {
+        //             width *= MAX_HEIGHT / height
+        //             height = MAX_HEIGHT
+        //         }
+        //     }
+        //     return [width, height]
+        // },
         async registerPlant(userId) {
             if (!this.$page.props.user) {
                 this.openModal();
