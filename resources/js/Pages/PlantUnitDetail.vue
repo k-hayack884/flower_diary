@@ -1,5 +1,4 @@
 <template>
-    <h1>ああああああああ</h1>
     <p>plantUnitId: {{ plantUnitId }}</p>
     <figure><img :src="'data:image/png;base64,'+plantImage"/></figure>
     <div id="tab" class="w-full max-w-500 mx-auto">
@@ -16,12 +15,14 @@
         </ul>
         <div class="w-full p-4 border border-blue-700 tabContents w-3/4">
             <div v-if="isActive === '1'">
+                <button class="btn btn-success" @click="openDiaryModal(); getIndex(null)">日記を投稿する</button>
                 <div v-for="(diary, index) in diaries" class="">
                     <div
                         class="card card-side bg-base-100 shadow-lg rounded-lg overflow-hidden m4transform hover:scale-105 transition duration-300 my-4">
                         <figure><img :src="diary.diaryImage"/></figure>
                         <div class="card-body">
-                            <h2 clasoss="card-title">{{ diary.diaryContent }}</h2><a href="">編集</a>
+                            <h2 clasoss="card-title">{{ diary.diaryContent }}</h2>
+                            <button class="btn btn-success" @click="openDiaryModal(); getIndex(index)">日記を編集する</button>
                             <p>日記更新日: {{ diary.createDate }}</p>
                             <div v-if="diary.comments && diary.comments.length > 0">
                                 <button @click="commentToggle(diary.diaryId,index)">コメント {{
@@ -146,11 +147,30 @@
             </div>
         </div>
     </div>
+    <DiaryModal :open-modal="isDiaryModalOpen" @closeModal="closeDiaryModal"
+                v-if="arrayIndex !== null"
+                :diary="diaries[arrayIndex]"/>
+
+    <DiaryModal :open-modal="isDiaryModalOpen" @closeModal="closeDiaryModal"
+                v-else
+    :diary="reactive({
+        plantUnitId:plantUnitId,
+        diaryId: '',
+        diaryContent: '',
+        image: '',
+        createDate: '',
+        isCreate:true    })"/>
 </template>
 
 <script>
+import DiaryModal from "@/Components/DiaryModal.vue";
+import {reactive} from "vue";
+
 export default {
     name: "PlantUnitDetail",
+    components: {
+        DiaryModal,
+    },
     props: ['plantUnitId'],
     data() {
         return {
@@ -175,7 +195,11 @@ export default {
             fertilizerSettings: [],
             currentMonth: 5,
             isActive: '1',
-            showComment: false
+            showComment: false,
+            isDiaryModalOpen: false,
+            arrayIndex: null,
+
+
         }
     },
     created() {
@@ -185,8 +209,13 @@ export default {
         this.currentMonth = 5;
     },
     methods: {
+        reactive,
+
         isSelect: function (num) {
             this.isActive = num;
+        },
+        getIndex(index) {
+            this.arrayIndex = index
         },
         fetchPlantUnitData() {
             axios.get(`/api/plantUnit/${this.plantUnitId}`)
@@ -320,7 +349,15 @@ export default {
                     // this.fetchCheckSeatData();
 
                 })
-        }
+        },
+        openDiaryModal() {
+            setTimeout(() => {
+                this.isDiaryModalOpen = true;
+            }, 100);
+        },
+        closeDiaryModal() {
+            this.isDiaryModalOpen = false;
+        },
     }
 }
 </script>
