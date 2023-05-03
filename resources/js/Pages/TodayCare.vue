@@ -89,44 +89,44 @@ export default {
             nowDate: new Date(),
         }
     }, created() {
-        axios.get(`/api/user/${this.user.user_id}/care/water?userId=${this.user.user_id}`, {})
-            .then((res) => {
-                console.log(res.data[0]);
-                const waterCareDatas = res.data.map(waterSetting => ({
-                    alertTimeId: waterSetting.alert_time_id,
-                    plantName: waterSetting.plant_name,
-                    waterSettingId: waterSetting.water_setting_id,
-                    waterAmount: waterSetting.water_setting.water_amount,
-                    waterNote: waterSetting.water_setting.water_note,
-                    wateringInterval: waterSetting.water_setting.watering_interval,
-                    resentCareWaterTime: waterSetting.resent_care_time,
-                    alertTime: waterSetting.alert_time,
-                }));
-                console.log(waterCareDatas);
-
-                this.waterCareDatas = waterCareDatas
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-        // axios.get(`/api/user/${this.user.user_id}/care/fertilizer?userId=${this.user.user_id}`, {})
+        // axios.get(`/api/user/${this.user.user_id}/care/water?userId=${this.user.user_id}`, {})
         //     .then((res) => {
         //         console.log(res.data[0]);
-        //         const fertilizerSettingData = res.data.map(fertilizerSetting => ({
-        //             alertTimeId: fertilizerSetting.alert_time_id,
-        //             plantName: fertilizerSetting.plant_name,
-        //             fertilizerSettingId: fertilizerSetting.fertilizer_setting_id,
-        //             fertilizerNote: fertilizerSetting.fertilizer_setting.fertilizer_note,
-        //             fertilizerAmount: fertilizerSetting.fertilizer_setting.fertilizer_amount,
-        //             fertilizerName: fertilizerSetting.fertilizer_setting.fertilizer_name,
-        //             resentCareFertilizerTime: fertilizerSetting.resent_care_time,
-        //             alertMonth: fertilizerSetting.alert_month
+        //         const waterCareDatas = res.data.map(waterSetting => ({
+        //             alertTimeId: waterSetting.alert_time_id,
+        //             plantName: waterSetting.plant_name,
+        //             waterSettingId: waterSetting.water_setting_id,
+        //             waterAmount: waterSetting.water_setting.water_amount,
+        //             waterNote: waterSetting.water_setting.water_note,
+        //             wateringInterval: waterSetting.water_setting.watering_interval,
+        //             resentCareWaterTime: waterSetting.resent_care_time,
+        //             alertTime: waterSetting.alert_time,
         //         }));
-        //         this.fertilizerCareDatas = fertilizerSettingData
+        //         console.log(waterCareDatas);
+        //
+        //         this.waterCareDatas = waterCareDatas
         //     })
         //     .catch((error) => {
         //         console.log(error);
         //     });
+        axios.get(`/api/user/${this.user.user_id}/care/fertilizer?userId=${this.user.user_id}`, {})
+            .then((res) => {
+                console.log(res.data[0]);
+                const fertilizerSettingData = res.data.map(fertilizerSetting => ({
+                    alertTimeId: fertilizerSetting.alert_time_id,
+                    plantName: fertilizerSetting.plant_name,
+                    fertilizerSettingId: fertilizerSetting.fertilizer_setting_id,
+                    fertilizerNote: fertilizerSetting.fertilizer_setting.fertilizer_note,
+                    fertilizerAmount: fertilizerSetting.fertilizer_setting.fertilizer_amount,
+                    fertilizerName: fertilizerSetting.fertilizer_setting.fertilizer_name,
+                    resentCareFertilizerTime: fertilizerSetting.resent_care_time,
+                    alertMonth: fertilizerSetting.alert_month
+                }));
+                this.fertilizerCareDatas = fertilizerSettingData
+            })
+            .catch((error) => {
+                console.log(error);
+            });
     },
     methods: {
         isShowWaterSetting(waterSetting) {

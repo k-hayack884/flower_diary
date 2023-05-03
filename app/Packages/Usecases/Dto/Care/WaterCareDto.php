@@ -8,7 +8,7 @@ class WaterCareDto
         public string $alertTimeId,
         public string  $plantName,
         public string $waterAmount,
-        public string $note,
+        public string $waternote,
         public string    $alertTime,
     )
     {

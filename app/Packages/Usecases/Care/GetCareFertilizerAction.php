@@ -10,6 +10,8 @@ use App\Packages\infrastructures\Care\CareFertilizerRepository;
 use App\Packages\infrastructures\Care\CareWaterRepository;
 use App\Packages\Presentations\Requests\Care\GetCareFertilizerRequest;
 use App\Packages\Presentations\Requests\Care\GetCareWaterRequest;
+use App\Packages\Usecases\Dto\Care\FertilizerCareDto;
+use App\Packages\Usecases\Dto\Care\FertilizerCaresWrapDto;
 use App\Packages\Usecases\Dto\Care\WaterCaresWrapDto;
 use Illuminate\Support\Facades\Log;
 
@@ -33,27 +35,24 @@ class GetCareFertilizerAction
      */
     public function __invoke(
         GetCareFertilizerRequest $getCareRequest,
-    )
+    ):FertilizerCaresWrapDto
     {
         Log::info(__METHOD__, ['開始']);
         $userId = $getCareRequest->getUserId();
-        $hitPlantUnits=$this->careRepository->findCareByUser(new UserId($userId));
-//        $hitPlantUnits = $this->plantUnitRepository->findByUser(new UserId($userId));
-//
-//        foreach ($hitPlantUnits as $plantUnit) {
-//            if (!empty($this->careRepository->find($plantUnit->getCheckSeatId()))) {
-//                $currentMonthCarePlantSettings = $this->careRepository->find($plantUnit->getCheckSeatId());
-//                foreach ($currentMonthCarePlantSettings as $currentMonthCarePlantSetting) {
-//                    foreach ($currentMonthCarePlantSetting as $hoge){
-//                        $hoge->plant_name =$plantUnit->getPlantName()->getvalue() ;
-//                        $todayCare[] = $hoge;
-//                    }
-//                }
-//            }
-//        }
-//dd($todayCare);
+        $hitCares=$this->careRepository->findCareByUser(new UserId($userId));
+        $careDtos=[];
+        foreach ($hitCares as $hitCare) {
+            $careDtos[]=new FertilizerCareDto(
+                $hitCare->getAlertTimeId()->getId(),
+                $hitCare->getPlantName()->getvalue(),
+                $hitCare->getFertilizerAmount()->getvalue(),
+                $hitCare->getFertilizerNote()->getvalue(),
+                $hitCare->getFertilizerName()->getvalue(),
+                $hitCare->getAlertMonth(),
+            );
+        }
         Log::info(__METHOD__, ['終了']);
 //        return $todayCare;
-//        return new WaterCaresWrapDto($currentMonthCarePlantSettings);
+        return new FertilizerCaresWrapDto($careDtos);
     }
 }

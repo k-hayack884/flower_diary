@@ -41,9 +41,9 @@ class FertilizerSetting extends Authenticatable
         return $this->belongsTo(CheckSeat::class);
     }
 
-    public function fertilizerAlertTime()
+    public function fertilizerAlertTimes()
     {
-        return $this->hasMany(FertilizerAlertTime::class);
+        return $this->hasMany(FertilizerAlertTime::class,'fertilizer_setting_id');
     }
     /**
      * The attributes that should be hidden for serialization.
