@@ -2,6 +2,8 @@
 
 namespace App\Packages\Domains\Diary;
 
+use DomainException;
+
 class DiaryContent
 {
     public const RESET = '';
@@ -39,7 +41,7 @@ class DiaryContent
      */
     public function update(string|null $content=null):DiaryContent
     {
-        if (mb_strlen($content) > 20) {
+        if (mb_strlen($content) > 200) {
             throw new DomainException('日記の内容にに入力できる文字数は200字までです');
         }
         if ($content === null) {

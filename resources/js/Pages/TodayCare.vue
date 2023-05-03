@@ -148,7 +148,6 @@ export default {
                 return true
             } else {
                 return false
-
             }
         },
         doneWaterCared(waterSetting) {
@@ -181,7 +180,6 @@ export default {
                 } else {
                     console.log(error);
                     this.isLoading = false
-
                 }
             });
         }

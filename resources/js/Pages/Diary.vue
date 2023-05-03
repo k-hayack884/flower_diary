@@ -15,7 +15,7 @@ import AppLayout from '@/Layouts/AppLayout.vue';
 <script>
 export default {
     name: "Diary.vue",
-
+    props: ['plantUnitId'],
     methods: {
         async create() {
             axios.post('http://localhost:51111/api/diary', {

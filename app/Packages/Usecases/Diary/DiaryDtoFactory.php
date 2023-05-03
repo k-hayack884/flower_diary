@@ -16,7 +16,7 @@ class DiaryDtoFactory
     public static function create(Diary $diary): DiaryWrapDto
     {
         $diaryImageData = $diary->getDiaryImage()->getValue();
-        $diaryImage = Base64Service::base64FileEncode($diaryImageData, 'plantUnitImage');
+        $diaryImage = Base64Service::base64FileEncode($diaryImageData, 'DiaryImage');
         return new DiaryWrapDto(
             new DiaryDto(
                 $diary->getDiaryId()->getId(),

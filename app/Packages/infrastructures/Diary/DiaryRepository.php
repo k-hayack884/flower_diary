@@ -33,7 +33,6 @@ class DiaryRepository implements DiaryRepositoryInterface
                 new DiaryImage($diary->image),
                 $commentIds,
                 new Carbon($diary->create_date),
-
             );
         }
         return $diaries;
