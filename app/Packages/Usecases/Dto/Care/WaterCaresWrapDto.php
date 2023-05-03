@@ -2,10 +2,10 @@
 
 namespace App\Packages\Usecases\Dto\Care;
 
-class CareWrapDto
+class WaterCaresWrapDto
 {
     public function __construct(
-        public array $currentCare
+        public array $waterCares
     )
     {
     }

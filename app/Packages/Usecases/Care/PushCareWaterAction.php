@@ -9,7 +9,7 @@ use App\Packages\Domains\User\UserId;
 use App\Packages\infrastructures\Care\CareWaterRepository;
 use App\Packages\Presentations\Requests\Care\GetCareWaterRequest;
 use App\Packages\Presentations\Requests\Care\PushCareWaterRequest;
-use App\Packages\Usecases\Dto\Care\CareWrapDto;
+use App\Packages\Usecases\Dto\Care\WaterCaresWrapDto;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 
@@ -45,6 +45,6 @@ $this->careRepository->push($alertTimeId);
         Log::info(__METHOD__, ['終了']);
         Session::flash('successMessage', 'お世話ができました');
 
-//        return new CareWrapDto($currentMonthCarePlantSettings);
+//        return new WaterCaresWrapDto($currentMonthCarePlantSettings);
     }
 }

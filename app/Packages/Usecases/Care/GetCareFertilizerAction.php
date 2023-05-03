@@ -10,7 +10,7 @@ use App\Packages\infrastructures\Care\CareFertilizerRepository;
 use App\Packages\infrastructures\Care\CareWaterRepository;
 use App\Packages\Presentations\Requests\Care\GetCareFertilizerRequest;
 use App\Packages\Presentations\Requests\Care\GetCareWaterRequest;
-use App\Packages\Usecases\Dto\Care\CareWrapDto;
+use App\Packages\Usecases\Dto\Care\WaterCaresWrapDto;
 use Illuminate\Support\Facades\Log;
 
 class GetCareFertilizerAction
@@ -54,6 +54,6 @@ class GetCareFertilizerAction
 //dd($todayCare);
         Log::info(__METHOD__, ['終了']);
 //        return $todayCare;
-//        return new CareWrapDto($currentMonthCarePlantSettings);
+//        return new WaterCaresWrapDto($currentMonthCarePlantSettings);
     }
 }

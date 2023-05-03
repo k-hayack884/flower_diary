@@ -10,16 +10,16 @@ class WaterCare
 {
     private WaterAlertTimeId $alertTimeId;
     private PlantName $plantName;
-    private WaterAmount $amount;
-    private WaterNote $note;
+    private WaterAmount $waterAmount;
+    private WaterNote $waterNote;
     private string $alertTime;
 
-    public function __construct(WaterAlertTimeId $alertTimeId, PlantName $plantName, WaterAmount $amount, WaterNote $note, string $alertTime)
+    public function __construct(WaterAlertTimeId $alertTimeId, PlantName $plantName, WaterAmount $waterAmount, WaterNote $waterNote, string $alertTime)
     {
         $this->alertTimeId = $alertTimeId;
         $this->plantName = $plantName;
-        $this->amount = $amount;
-        $this->note = $note;
+        $this->waterAmount = $waterAmount;
+        $this->waterNote = $waterNote;
         $this->alertTime = $alertTime;
     }
 
@@ -42,17 +42,17 @@ class WaterCare
     /**
      * @return WaterAmount
      */
-    public function getAmount(): WaterAmount
+    public function getWaterAmount(): WaterAmount
     {
-        return $this->amount;
+        return $this->waterAmount;
     }
 
     /**
      * @return WaterNote
      */
-    public function getNote(): WaterNote
+    public function getWaterNote(): WaterNote
     {
-        return $this->note;
+        return $this->waterNote;
     }
 
     /**
