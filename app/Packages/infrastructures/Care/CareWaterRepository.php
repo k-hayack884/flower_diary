@@ -2,33 +2,72 @@
 
 namespace App\Packages\infrastructures\Care;
 
+use App\Models\PlantUnit;
+use App\Models\User;
 use App\Models\WaterAlertTime;
 use App\Models\CheckSeat;
 use App\Models\WaterSetting;
+use App\Packages\Domains\Care\WaterAlertTimeId;
+use App\Packages\Domains\Care\WaterCare;
 use App\Packages\Domains\CheckSeat\CheckSeatId;
+use App\Packages\Domains\PlantUnit\plantName;
 use App\Packages\Domains\PlantUnit\PlantUnitId;
 use App\Packages\Domains\Shared\Uuid;
+use App\Packages\Domains\User\UserId;
+use App\Packages\Domains\Water\WaterAmount;
+use App\Packages\Domains\Water\WaterNote;
 use App\Packages\Domains\Water\WaterSettingCollection;
 use Carbon\Carbon;
+use DateTime;
 
 class CareWaterRepository
 {
-    public function find(CheckSeatId $checkSeatId)
+    public function findCareByUser(UserId $userId): array
     {
         $currentMonth = (int)Carbon::now()->format('m');
-        $waterSettings = WaterSetting::where('check_seat_id', $checkSeatId->getId())
+        $now = Carbon::now();
+
+        $plantUnits = PlantUnit::with('checkSeat.waterSetting.waterAlertTimes')
+            ->where('user_id', $userId->getId())
             ->get();
 
-        $alertTimes = [];
-        foreach ($waterSettings as $waterSetting) {
-            if (in_array($currentMonth, json_decode($waterSetting->months))) {
-                $alertTimes[] = WaterAlertTime::whereIn('alert_time', json_decode($waterSetting->alert_times))
-                    ->where('water_setting_id', $waterSetting->water_setting_id)
-                    ->with('waterSetting:water_setting_id,months,water_note,water_amount,watering_times,watering_interval')
-                    ->get();
+        $waterCares = [];
+        foreach ($plantUnits as $plantUnit) {
+            $checkSeat = $plantUnit->checkSeat;
+            $waterSettings = $checkSeat->waterSetting;
+            if (!$waterSettings) {
+                continue;
+            }
+            foreach ($waterSettings as $waterSetting) {
+                if (in_array($currentMonth, json_decode($waterSetting->months))) {
+                    $waterSetting->plant_name = $plantUnit->plant_name;
+                    $careWaterSettings[]=$waterSetting;
+                }
             }
         }
-        return $alertTimes;
+
+        foreach ($careWaterSettings as $careWaterSetting) {
+            foreach ($careWaterSetting->waterAlertTimes as $alertTime) {
+                if ($alertTime->resent_care_time == null) {
+                    $diff = $now->diffInSeconds(Carbon::createFromTimeString('0001-01-01 00:00:00')) * 1000;
+                } else {
+                    $diff = $now->diffInMilliseconds(Carbon::createFromTimeString($alertTime->resent_care_time));
+                }
+                $interval = 86400000 * $careWaterSetting->watering_interval;
+                if ($diff >= $interval) {
+                    $waterCares[]=new WaterCare(
+                        new WaterAlertTimeId($alertTime->alert_time_id),
+                        new plantName($careWaterSetting->plant_name),
+                        new WaterAmount($careWaterSetting->water_amount),
+                        new WaterNote($careWaterSetting->water_note),
+                        $alertTime->alert_time,
+                    );
+                }
+
+            }
+        }
+
+        return $waterCares;
     }
 
     public function save(WaterSettingCollection $waterSetting)

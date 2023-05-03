@@ -66,4 +66,8 @@ class PlantUnit extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+    public function checkSeat()
+    {
+        return $this->hasOne(CheckSeat::class,'plant_unit_id');
+    }
 }

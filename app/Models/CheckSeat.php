@@ -31,14 +31,18 @@ class CheckSeat extends Authenticatable
         'plant_unit_id'
     ];
 
+    public function plantUnit()
+    {
+        return $this->belongsTo(PlantUnit::class,'plant_unit_id');
+    }
     public function fertilizerSetting()
     {
-        return $this->hasMany(FertilizerSetting::class);
+        return $this->hasMany(FertilizerSetting::class,"check_seat_id");
     }
 
     public function waterSetting()
     {
-        return $this->hasMany(WaterSetting::class);
+        return $this->hasMany(WaterSetting::class,"check_seat_id");
     }
 
     /**

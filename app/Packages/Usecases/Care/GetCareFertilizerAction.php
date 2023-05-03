@@ -15,20 +15,15 @@ use Illuminate\Support\Facades\Log;
 
 class GetCareFertilizerAction
 {
-    /**
-     * @var CommentRepositoryInterface
-     */
+
     private CareFertilizerRepository $careRepository;
-    private PlantUnitRepositoryInterface $plantUnitRepository;
 
     /**
      * @param CareFertilizerRepository $careRepository
      */
-    public function __construct(CareFertilizerRepository          $careRepository,
-                                PlantUnitRepositoryInterface $plantUnitRepository)
+    public function __construct(CareFertilizerRepository $careRepository)
     {
         $this->careRepository = $careRepository;
-        $this->plantUnitRepository = $plantUnitRepository;
 
     }
 
@@ -42,22 +37,23 @@ class GetCareFertilizerAction
     {
         Log::info(__METHOD__, ['開始']);
         $userId = $getCareRequest->getUserId();
-        $hitPlantUnits = $this->plantUnitRepository->findByUser(new UserId($userId));
-
-        foreach ($hitPlantUnits as $plantUnit) {
-            if (!empty($this->careRepository->find($plantUnit->getCheckSeatId()))) {
-                $currentMonthCarePlantSettings = $this->careRepository->find($plantUnit->getCheckSeatId());
-                foreach ($currentMonthCarePlantSettings as $currentMonthCarePlantSetting) {
-                    foreach ($currentMonthCarePlantSetting as $hoge){
-                        $hoge->plant_name =$plantUnit->getPlantName()->getvalue() ;
-                        $todayCare[] = $hoge;
-                    }
-                }
-            }
-        }
+        $hitPlantUnits=$this->careRepository->findCareByUser(new UserId($userId));
+//        $hitPlantUnits = $this->plantUnitRepository->findByUser(new UserId($userId));
+//
+//        foreach ($hitPlantUnits as $plantUnit) {
+//            if (!empty($this->careRepository->find($plantUnit->getCheckSeatId()))) {
+//                $currentMonthCarePlantSettings = $this->careRepository->find($plantUnit->getCheckSeatId());
+//                foreach ($currentMonthCarePlantSettings as $currentMonthCarePlantSetting) {
+//                    foreach ($currentMonthCarePlantSetting as $hoge){
+//                        $hoge->plant_name =$plantUnit->getPlantName()->getvalue() ;
+//                        $todayCare[] = $hoge;
+//                    }
+//                }
+//            }
+//        }
 //dd($todayCare);
         Log::info(__METHOD__, ['終了']);
-        return $todayCare;
+//        return $todayCare;
 //        return new CareWrapDto($currentMonthCarePlantSettings);
     }
 }

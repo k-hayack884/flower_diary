@@ -61,4 +61,6 @@ class CareFertilizerRepository
         $alertTime->resent_care_time=now();
         $alertTime->save();
     }
+
+
 }

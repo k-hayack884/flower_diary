@@ -109,24 +109,24 @@ export default {
             .catch((error) => {
                 console.log(error);
             });
-        axios.get(`/api/user/${this.user.user_id}/care/fertilizer?userId=${this.user.user_id}`, {})
-            .then((res) => {
-                console.log(res.data[0]);
-                const fertilizerSettingData = res.data.map(fertilizerSetting => ({
-                    alertTimeId: fertilizerSetting.alert_time_id,
-                    plantName: fertilizerSetting.plant_name,
-                    fertilizerSettingId: fertilizerSetting.fertilizer_setting_id,
-                    fertilizerNote: fertilizerSetting.fertilizer_setting.fertilizer_note,
-                    fertilizerAmount: fertilizerSetting.fertilizer_setting.fertilizer_amount,
-                    fertilizerName: fertilizerSetting.fertilizer_setting.fertilizer_name,
-                    resentCareFertilizerTime: fertilizerSetting.resent_care_time,
-                    alertMonth: fertilizerSetting.alert_month
-                }));
-                this.fertilizerCareDatas = fertilizerSettingData
-            })
-            .catch((error) => {
-                console.log(error);
-            });
+        // axios.get(`/api/user/${this.user.user_id}/care/fertilizer?userId=${this.user.user_id}`, {})
+        //     .then((res) => {
+        //         console.log(res.data[0]);
+        //         const fertilizerSettingData = res.data.map(fertilizerSetting => ({
+        //             alertTimeId: fertilizerSetting.alert_time_id,
+        //             plantName: fertilizerSetting.plant_name,
+        //             fertilizerSettingId: fertilizerSetting.fertilizer_setting_id,
+        //             fertilizerNote: fertilizerSetting.fertilizer_setting.fertilizer_note,
+        //             fertilizerAmount: fertilizerSetting.fertilizer_setting.fertilizer_amount,
+        //             fertilizerName: fertilizerSetting.fertilizer_setting.fertilizer_name,
+        //             resentCareFertilizerTime: fertilizerSetting.resent_care_time,
+        //             alertMonth: fertilizerSetting.alert_month
+        //         }));
+        //         this.fertilizerCareDatas = fertilizerSettingData
+        //     })
+        //     .catch((error) => {
+        //         console.log(error);
+        //     });
     },
     methods: {
         isShowWaterSetting(waterSetting) {

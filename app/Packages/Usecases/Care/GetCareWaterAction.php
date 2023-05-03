@@ -13,19 +13,14 @@ use Illuminate\Support\Facades\Log;
 
 class GetCareWaterAction
 {
-    /**
-     * @var CommentRepositoryInterface
-     */
     private CareWaterRepository $careRepository;
 
     /**
      * @param CareWaterRepository $careRepository
      */
-    public function __construct(CareWaterRepository          $careRepository,
-                                PlantUnitRepositoryInterface $plantUnitRepository)
+    public function __construct(CareWaterRepository          $careRepository,)
     {
         $this->careRepository = $careRepository;
-        $this->plantUnitRepository = $plantUnitRepository;
 
     }
 
@@ -39,19 +34,19 @@ class GetCareWaterAction
     {
         Log::info(__METHOD__, ['開始']);
         $userId = $getCareRequest->getUserId();
-        $hitPlantUnits = $this->plantUnitRepository->findByUser(new UserId($userId));
+        $hitPlantUnits = $this->careRepository->findCareByUser(new UserId($userId));
 
-        foreach ($hitPlantUnits as $plantUnit) {
-            if (!empty($this->careRepository->find($plantUnit->getCheckSeatId()))) {
-                $currentMonthCarePlantSettings = $this->careRepository->find($plantUnit->getCheckSeatId());
-                foreach ($currentMonthCarePlantSettings as $currentMonthCarePlantSetting) {
-                    foreach ($currentMonthCarePlantSetting as $hoge){
-                        $hoge->plant_name =$plantUnit->getPlantName()->getvalue() ;
-                        $todayCare[] = $hoge;
-                    }
-                }
-            }
-        }
+//        foreach ($hitPlantUnits as $plantUnit) {
+//            if (!empty($this->careRepository->find($plantUnit->getCheckSeatId()))) {
+//                $currentMonthCarePlantSettings = $this->careRepository->find($plantUnit->getCheckSeatId());
+//                foreach ($currentMonthCarePlantSettings as $currentMonthCarePlantSetting) {
+//                    foreach ($currentMonthCarePlantSetting as $hoge){
+//                        $hoge->plant_name =$plantUnit->getPlantName()->getvalue() ;
+//                        $todayCare[] = $hoge;
+//                    }
+//                }
+//            }
+//        }
 //dd($todayCare);
         Log::info(__METHOD__, ['終了']);
         return $todayCare;
