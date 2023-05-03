@@ -74,9 +74,9 @@ defineProps({
 <!--            </label>-->
 <!--            <img :src="avatar" alt="" class="image mx-auto" id="plant_image">-->
             <div v-if="selectedImage">
-                <img :src="selectedImage" alt="Selected image">
+                <img :src="selectedImage" alt="Selected image" id="plant_image">
             </div>
-            <button v-if="avatar"
+            <button v-if="selectedImage"
                     class="btn btn-outline-success bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded px-12 my-4"
                     @click="startImage()">診断する！
             </button>
@@ -117,7 +117,7 @@ defineProps({
                 <div class="container mx-auto flex justify-center items-center">
 
                     <button
-                        @click="registerPlant(userId)"
+                        @click="registerPlant($page.props.user.user_id)"
                         class="btn btn-outline-success bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded"
                         type="button" id="button-addon2">
                         {{ registerButton }}
@@ -369,7 +369,7 @@ export default {
             axios.post('http://localhost:51111/api/plantUnit', {
                 plantId: this.plantId,
                 userId: userId,
-                plantImage: this.avatar,
+                plantImage: this.selectedImage,
             }).then(res => {
                 this.plant = res.data;
                 this.getPlant = true

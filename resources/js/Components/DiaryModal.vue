@@ -20,6 +20,10 @@ CheckSeatModal.vue
                     <div class="lg:w-full mx-auto flex flex-wrap">
                         <div v-if="selectedImage">
                             <img :src="selectedImage" alt="Selected image" style="width: 300px; height: 300px ;">
+                            <input type="file" @change="onFileChange">
+                        </div>
+                        <div v-else-if="diary.diaryImage">
+                            <img :src="'data:image/png;base64,'+diary.diaryImage" alt="Selected image" style="width: 300px; height: 300px ;">
                         </div>
                         <div v-else>
                             <img src="../../icon/noImag.png" style="width: 300px; height: 300px ;">
@@ -28,7 +32,7 @@ CheckSeatModal.vue
                         <div class="lg:w-1/2 w-full lg:pl-10  mt-6 lg:mt-0">
                             <div class="relative mb-4">
                                 <label for="message" class="leading-7 text-sm text-gray-600">投稿内容（投稿できるのは200字までです）</label>
-                                <textarea id="message" name="message" class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out" style="width: 300px; height: 200px;"></textarea>
+                                <textarea v-model="diary.diaryContent" id="message" name="message" class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out" style="width: 300px; height: 200px;"></textarea>
                             </div>
                             <div>
                                 <image-maker @image-selected="onImageSelected"></image-maker>
@@ -42,7 +46,7 @@ CheckSeatModal.vue
                                                      class="flex mx-auto mt-16 text-white bg-green-600 border-0 py-2 px-8 focus:outline-none hover:bg-green-800 rounded text-lg">
                                                 編集する
                                             </button>
-                                            <button  @click="deleteSeat()"
+                                            <button  @click="deleteDiary()"
                                                      class="flex mx-auto mt-16 text-white bg-red-500 border-0 py-2 px-8 focus:outline-none hover:bg-red-800 rounded text-lg">
                                                 削除する
                                             </button>
@@ -86,7 +90,7 @@ import ImageMaker from "@/Components/ImageMaker.vue";
 
 
 export default defineComponent({
-    name: "WaterSettingModal",
+    name: "DiaryModal",
     components: {
         ImageMaker,
         LoadWait
@@ -101,10 +105,14 @@ export default defineComponent({
             default: () => ({
                 diaryId: '',
                 diaryContent: '',
-                image: '',
+                diaryImage: '',
                 createDate: '',
             })
         },
+        plantUnitId: {
+            type: String,
+            required: true,
+        }
     },
     data() {
         return {
@@ -133,24 +141,18 @@ export default defineComponent({
         onImageSelected(imageData) {
             // ImageMakerコンポーネントから渡された画像データを処理する
             this.selectedImage = imageData
+            this.diary.image = imageData;
         },
         create() {
             this.isLoading=true
 
-            axios.post('/api/waterSetting', {
-                checkSeatId: this.waterSetting.checkSeatId,
-                waterSettingMonths: this.waterSetting.months,
-                waterSettingNote: this.waterSetting.note,
-                waterSettingAmount: this.waterSetting.waterAmount,
-                waterSettingTimes: this.waterSetting.wateringTimes,
-                waterSettingInterval: this.waterSetting.wateringInterval,
-                waterSettingAlertTimes:this.waterSetting.alertTimes,
+            axios.post('/api/diary', {
+                plantUnitId: this.plantUnitId,
+                diaryContent: this.diary.diaryContent,
+                plantImage: this.diary.image,
             }).then(res => {
 
-                console.log('とうろくせいこう')
-                console.log(this.waterSetting.checkSeatId)
-
-                window.location.href = 'http://localhost:51111/checkSeat/' + this.waterSetting.checkSeatId;
+                window.location.href = 'http://localhost:51111/plantUnit/' + this.plantUnitId;
                 this.isLoading=false
             }).catch(error => {
                 if (error.response.status === 422) {
@@ -167,14 +169,11 @@ export default defineComponent({
         },
         update() {
             this.isLoading=true
-            axios.post('/api/waterSetting/' + this.waterSetting.waterSettingId, {
-                    checkSeatId: this.waterSetting.checkSeatId,
-                    waterSettingMonths: this.waterSetting.months,
-                    waterSettingNote: this.waterSetting.note,
-                    waterSettingAmount: this.waterSetting.waterAmount,
-                    waterSettingTimes: this.waterSetting.wateringTimes,
-                    waterSettingInterval: this.waterSetting.wateringInterval,
-                    waterSettingAlertTimes:this.waterSetting.alertTimes,
+            console.log(this.diary.diaryId)
+            axios.post('/api/diary/' + this.diary.diaryId, {
+                    plantUnitId: this.plantUnitId,
+                    diaryContent: this.diary.diaryContent,
+                    plantImage: this.diary.image,
                 },
                 {
                     headers: {
@@ -185,7 +184,7 @@ export default defineComponent({
 
                 console.log('とうろくせいこう')
 
-                window.location.href = 'http://localhost:51111/checkSeat/' + this.waterSetting.checkSeatId;
+                window.location.href = 'http://localhost:51111/plantUnit/' + this.plantUnitId;
                 this.isLoading=false
 
             }).catch(error => {
@@ -201,9 +200,9 @@ export default defineComponent({
                 }
             });
         },
-        deleteSeat() {
+        deleteDiary() {
             this.isLoading=true
-            axios.post('/api/waterSetting/' + this.waterSetting.waterSettingId, {
+            axios.post('/api/diary/' + this.diary.diaryId, {
                 },
                 {
                     headers: {
@@ -211,7 +210,7 @@ export default defineComponent({
                         'X-HTTP-Method-Override': 'DELETE',
                     }
                 }).then(res => {
-                window.location.href = 'http://localhost:51111/checkSeat/' + this.waterSetting.checkSeatId;
+                window.location.href = 'http://localhost:51111/plantUnit/' + this.plantUnitId;
                 this.isLoading=false
             }).catch(error => {
                 console.log(error);

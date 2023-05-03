@@ -14,6 +14,7 @@ use App\Packages\Usecases\Dto\Diary\DiaryDto;
 use App\Packages\Usecases\Dto\Diary\DiaryWrapDto;
 use Exception;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
 
 class CreateDiaryAction
 {
@@ -48,7 +49,12 @@ class CreateDiaryAction
             $diaryId = new DiaryId();
             $diaryContent = new DiaryContent($diaryContent);
             $plantImageData = $createDiaryRequest->getPlantImage();
-            $plantImageFileName = Base64Service::base64FileDecode($plantImageData, 'diaryImage');
+            if($plantImageData!==null){
+                $plantImageFileName = Base64Service::base64FileDecode($plantImageData, 'diaryImage');
+            }else{
+                $plantImageFileName='';
+            }
+
             $plantImage = new DiaryImage($plantImageFileName);
             $diary = new Diary(
                 $diaryId,
@@ -58,7 +64,11 @@ class CreateDiaryAction
             $diaryCollection = new DiaryCollection();
             $diaryCollection->addDiary($diary);
             $this->diaryRepository->save($diaryCollection,$plantUnitId);
+            Session::flash('successMessage', '投稿に成功しました');
+
         } catch (\DomainException $e) {
+            Session::flash('failMessage', '投稿に失敗しました');
+
             Log::error(__METHOD__, ['エラー']);
             abort(400,$e);
         } finally {

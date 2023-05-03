@@ -3,6 +3,7 @@
 namespace App\Packages\Presentations\Requests\Diary;
 
 use App\Http\Requests\BaseRequest;
+use App\Rules\FileBase64;
 
 class UpdateDiaryRequest extends BaseRequest
 {
@@ -20,6 +21,10 @@ class UpdateDiaryRequest extends BaseRequest
                 'string',
                 'max:200'
             ],
+            'plantImage' => [
+                'nullable',
+                new FileBase64(),
+                ]
         ];
     }
 
@@ -44,6 +49,10 @@ class UpdateDiaryRequest extends BaseRequest
     public function getDiaryContent(): mixed
     {
         return $this->input('diaryContent');
+    }
+    public function getPlantImage():string|null
+    {
+        return $this->input('plantImage');
     }
 
 

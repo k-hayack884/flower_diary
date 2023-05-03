@@ -3,6 +3,7 @@
 namespace App\Packages\Presentations\Requests\Diary;
 
 use App\Http\Requests\BaseRequest;
+use App\Rules\FileBase64;
 
 class CreateDiaryRequest extends BaseRequest
 {
@@ -21,8 +22,9 @@ class CreateDiaryRequest extends BaseRequest
                 'max:200'
             ],
             'plantImage' => [
-                'file_base64' => 'required_without:file|string'
-            ]
+                'nullable',
+                new FileBase64(),
+                ]
         ];
     }
     /**
@@ -39,7 +41,7 @@ class CreateDiaryRequest extends BaseRequest
     {
         return $this->input('diaryContent');
     }
-    public function getPlantImage():string
+    public function getPlantImage():string|null
     {
         return $this->input('plantImage');
     }

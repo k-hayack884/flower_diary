@@ -1,6 +1,7 @@
 <template>
     <p>plantUnitId: {{ plantUnitId }}</p>
-    <figure><img :src="'data:image/png;base64,'+plantImage"/></figure>
+
+
     <div id="tab" class="w-full max-w-500 mx-auto">
         <ul class="flex tabMenu">
             <li class="w-auto px-4 py-2 text-white border-r border-white bg-blue-700 cursor-pointer"
@@ -13,26 +14,42 @@
                 情報
             </li>
         </ul>
-        <div class="w-full p-4 border border-blue-700 tabContents w-3/4">
+        <div class="w-full p-4 border border-blue-700 tabContents w-full lg:w-3/4">
             <div v-if="isActive === '1'">
                 <button class="btn btn-success" @click="openDiaryModal(); getIndex(null)">日記を投稿する</button>
-                <div v-for="(diary, index) in diaries" class="">
-                    <div
-                        class="card card-side bg-base-100 shadow-lg rounded-lg overflow-hidden m4transform hover:scale-105 transition duration-300 my-4">
-                        <figure><img :src="diary.diaryImage"/></figure>
-                        <div class="card-body">
-                            <h2 clasoss="card-title">{{ diary.diaryContent }}</h2>
-                            <button class="btn btn-success" @click="openDiaryModal(); getIndex(index)">日記を編集する</button>
-                            <p>日記更新日: {{ diary.createDate }}</p>
+                <div v-for="(diary, index) in diaries" class="mb-4">
+
+                    <div class="card card-side bg-base-100 shadow-lg rounded-lg overflow-hidden flex flex-col">
+                        <div class="flex items-center h-200">
+                            <div class="w-1/6">
+                                <div v-if="diary.diaryImage" class="w-1/8">
+                                    <img :src="'data:image/png;base64,'+diary.diaryImage"
+                                         class="lg:w-full lg:h-full object-cover"/>
+                                </div>
+                                <div v-else>
+                                    <img src="../../icon/noImag.png" class="lg:w-full lg:h-full object-cover">
+                                </div>
+                            </div>
+                            <div class="w-5/6">
+                                <div class="card-body px-8 pb-0 flex-1">
+                                    <p>{{ diary.diaryContent }}</p>
+                                    <div class="flex mb-4 h-12 items-end">
+                                        <div class="flex-1 inline-block">日記更新日: {{ diary.createDate }}</div>
+                                        <button class="btn btn-success flex-1 w-18"
+                                                @click="openDiaryModal(); getIndex(index)">日記を編集する
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="border border-dashed border-gray-400"></div>
+                        <div class="px-8 py-4 flex-1">
                             <div v-if="diary.comments && diary.comments.length > 0">
-                                <button @click="commentToggle(diary.diaryId,index)">コメント {{
-                                        diary.comments.length
-                                    }}
+                                <button class="flex-1" @click="commentToggle(diary.diaryId,index)">コメント
+                                    {{ diary.comments.length }}
                                 </button>
                                 <div :class="{'hidden': !diary.showComment}">
-
                                     <div v-for="comment in diary.comments" class="">
-
                                         <div class="chat chat-start">
                                             <div class="chat-image avatar">
                                                 <div class="w-10 rounded-full">
@@ -48,9 +65,11 @@
                                     </div>
                                 </div>
                             </div>
+                            <div v-else>コメント 0</div>
                         </div>
                     </div>
                 </div>
+
             </div>
             <div v-else-if="isActive === '2'">
                 <h2 class="mb-4 text-2xl font-bold">今月のお世話設定</h2>
@@ -149,17 +168,19 @@
     </div>
     <DiaryModal :open-modal="isDiaryModalOpen" @closeModal="closeDiaryModal"
                 v-if="arrayIndex !== null"
-                :diary="diaries[arrayIndex]"/>
+                :diary="diaries[arrayIndex]"
+                :plant-unit-id="plantUnitId"/>
 
     <DiaryModal :open-modal="isDiaryModalOpen" @closeModal="closeDiaryModal"
                 v-else
-    :diary="reactive({
+                :diary="reactive({
         plantUnitId:plantUnitId,
         diaryId: '',
         diaryContent: '',
         image: '',
         createDate: '',
-        isCreate:true    })"/>
+        isCreate:true    })"
+                :plant-unit-id="plantUnitId"/>
 </template>
 
 <script>

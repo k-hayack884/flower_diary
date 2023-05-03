@@ -10,6 +10,7 @@ use App\Packages\infrastructures\Shared\TransactionInterface;
 use App\Packages\Presentations\Requests\Diary\DeleteDiaryRequest;
 use Exception;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
 
 class DeleteDiaryAction
 {
@@ -43,6 +44,8 @@ class DeleteDiaryAction
         Log::info(__METHOD__, ['開始']);
         $diaryId = new DiaryId($deleteDiaryRequest->getId());
 
+
+
         try {
             $this->transaction->begin();
 
@@ -53,8 +56,10 @@ class DeleteDiaryAction
             }
             $this->diaryRepository->delete($diary->getDiaryId());
             $this->transaction->commit();
+            Session::flash('successMessage', '削除に成功しました');
         } catch (\DomainException $e) {
             $this->transaction->rollback();
+            Session::flash('failMessage', '削除に失敗しました');
             Log::error(__METHOD__, ['エラー']);
 
             abort(400,$e);

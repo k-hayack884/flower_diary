@@ -25,6 +25,7 @@ use App\Packages\infrastructures\Shared\TransactionInterface;
 use App\Packages\infrastructures\Water\MockWaterRepository;
 
 use App\Packages\infrastructures\Water\WaterSettingRepository;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -83,6 +84,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+
     }
 }

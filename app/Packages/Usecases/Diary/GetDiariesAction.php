@@ -2,6 +2,7 @@
 
 namespace App\Packages\Usecases\Diary;
 
+use App\Http\Services\Base64Service;
 use App\Packages\Domains\Diary\DiaryCollection;
 use App\Packages\Domains\Diary\DiaryRepositoryInterface;
 use App\Packages\Domains\PlantUnit\PlantUnitId;
@@ -35,16 +36,20 @@ class GetDiariesAction
         Log::info(__METHOD__, ['開始']);
         $plantUnitId = new PlantUnitId($getDiaryRequest->getPlantUnitId());
         $diaries = $this->DiaryRepository->findByPlantUnitId($plantUnitId);
+
+
         $diaryCollection = new DiaryCollection($diaries);
 
         $diaryDtos = [];
 
         foreach ($diaryCollection->toArray() as $diary) {
+            $diaryImageData= $diary->getDiaryImage()->getValue();
+            $diaryImage=Base64Service::base64FileEncode($diaryImageData,'diaryImage');
             $diaryDtos[] =
                 new DiaryDto(
                     $diary->getDiaryId()->getId(),
                     $diary->getDiaryContent()->getValue(),
-                    $diary->getDiaryImage()->getValue(),
+                    $diaryImage,
                     $diary->getcomments(),
                     $diary->getCreateDate()->format('Y/m/d'),
                 );
