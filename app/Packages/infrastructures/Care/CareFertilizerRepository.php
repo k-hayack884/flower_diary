@@ -32,7 +32,7 @@ class CareFertilizerRepository
             ->where('user_id', $userId->getId())
             ->get();
 
-        $waterCares = [];
+        $careFertilizerSettings = [];
         foreach ($plantUnits as $plantUnit) {
             $checkSeat = $plantUnit->checkSeat;
             $fertilizerSettings = $checkSeat->fertilizerSetting;
@@ -46,15 +46,20 @@ class CareFertilizerRepository
                 }
             }
         }
+
+        $fertilizerCares=[];
         foreach ($careFertilizerSettings as $careFertilizerSetting) {
             foreach ($careFertilizerSetting->fertilizerAlertTimes as $alertTime) {
+                if($alertTime->alert_month!==$currentMonth){
+                    continue;
+                }
                 if ($alertTime->resent_care_time === null||$now->month !== Carbon::parse($alertTime->resent_care_time)->month) {
                     $fertilizerCares[]=new FertilizerCare(
                         new FertilizerAlertTimeId($alertTime->alert_time_id),
                         new plantName($careFertilizerSetting->plant_name),
                         new FertilizerAmount($careFertilizerSetting->fertilizer_amount),
                         new FertilizerNote($careFertilizerSetting->fertilizer_note),
-                        new FertilizerName($careFertilizerSetting->fertilizer_note),
+                        new FertilizerName($careFertilizerSetting->fertilizer_name),
                         $alertTime->alert_month,
                     );
                 }

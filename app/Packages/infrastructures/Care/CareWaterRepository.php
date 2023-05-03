@@ -31,7 +31,7 @@ class CareWaterRepository
             ->where('user_id', $userId->getId())
             ->get();
 
-        $waterCares = [];
+        $careWaterSettings=[];
         foreach ($plantUnits as $plantUnit) {
             $checkSeat = $plantUnit->checkSeat;
             $waterSettings = $checkSeat->waterSetting;
@@ -45,7 +45,7 @@ class CareWaterRepository
                 }
             }
         }
-
+        $waterCares = [];
         foreach ($careWaterSettings as $careWaterSetting) {
             foreach ($careWaterSetting->waterAlertTimes as $alertTime) {
                 if ($alertTime->resent_care_time == null) {
