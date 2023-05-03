@@ -42,31 +42,31 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="border border-dashed border-gray-400"></div>
-                        <div class="px-8 py-4 flex-1">
-                            <div v-if="diary.comments && diary.comments.length > 0">
-                                <button class="flex-1" @click="commentToggle(diary.diaryId,index)">コメント
-                                    {{ diary.comments.length }}
-                                </button>
-                                <div :class="{'hidden': !diary.showComment}">
-                                    <div v-for="comment in diary.comments" class="">
-                                        <div class="chat chat-start">
-                                            <div class="chat-image avatar">
-                                                <div class="w-10 rounded-full">
-                                                    <img :src="'data:image/png;base64,'+comment.userImage"/>
-                                                </div>
-                                            </div>
-                                            <div class="chat-header">
-                                                {{ comment.userName }}
-                                                <time class="text-xs opacity-50"> {{ comment.createDate }}</time>
-                                            </div>
-                                            <div class="chat-bubble">{{ comment.content }}</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div v-else>コメント 0</div>
-                        </div>
+<!--                        <div class="border border-dashed border-gray-400"></div>-->
+<!--                        <div class="px-8 py-4 flex-1">-->
+<!--                            <div v-if="diary.comments && diary.comments.length > 0">-->
+<!--                                <button class="flex-1" @click="commentToggle(diary.diaryId,index)">コメント-->
+<!--                                    {{ diary.comments.length }}-->
+<!--                                </button>-->
+<!--                                <div :class="{'hidden': !diary.showComment}">-->
+<!--                                    <div v-for="comment in diary.comments" class="">-->
+<!--                                        <div class="chat chat-start">-->
+<!--                                            <div class="chat-image avatar">-->
+<!--                                                <div class="w-10 rounded-full">-->
+<!--                                                    <img :src="'data:image/png;base64,'+comment.userImage"/>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                            <div class="chat-header">-->
+<!--                                                {{ comment.userName }}-->
+<!--                                                <time class="text-xs opacity-50"> {{ comment.createDate }}</time>-->
+<!--                                            </div>-->
+<!--                                            <div class="chat-bubble">{{ comment.content }}</div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div v-else>コメント 0</div>-->
+<!--                        </div>-->
                     </div>
                 </div>
 
