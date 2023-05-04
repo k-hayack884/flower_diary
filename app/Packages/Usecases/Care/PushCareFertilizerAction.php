@@ -32,8 +32,8 @@ class PushCareFertilizerAction
     }
 
     /**
-     * @param GetCommentRequest $getCommentRequest
-     * @return CommentWrapDto
+     * @param PushCareFertilizerRequest $getCareRequest
+     * @return \Illuminate\Http\JsonResponse
      */
     public function __invoke(
         PushCareFertilizerRequest $getCareRequest,
@@ -44,8 +44,8 @@ class PushCareFertilizerAction
 $this->careRepository->push($alertTimeId);
 
         Log::info(__METHOD__, ['終了']);
-        Session::flash('successMessage', 'お世話ができました');
-
-//        return new WaterCaresWrapDto($currentMonthCarePlantSettings);
+        return response()->json([
+            'successMessage' => 'お世話ができました',
+        ]);
     }
 }

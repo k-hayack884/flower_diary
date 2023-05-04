@@ -30,8 +30,8 @@ class PushCareWaterAction
     }
 
     /**
-     * @param GetCommentRequest $getCommentRequest
-     * @return CommentWrapDto
+     * @param PushCareWaterRequest $getCareRequest
+     * @return \Illuminate\Http\JsonResponse
      */
     public function __invoke(
         PushCareWaterRequest $getCareRequest,
@@ -45,6 +45,8 @@ $this->careRepository->push($alertTimeId);
         Log::info(__METHOD__, ['終了']);
         Session::flash('successMessage', 'お世話ができました');
 
-//        return new WaterCaresWrapDto($currentMonthCarePlantSettings);
+        return response()->json([
+            'successMessage' => 'お世話ができました',
+        ]);
     }
 }
