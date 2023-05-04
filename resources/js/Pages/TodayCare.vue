@@ -1,79 +1,207 @@
 <template>
-    <div v-for="waterCareData in waterCareDatas">
-        <div v-show="isShowWaterSetting(waterCareData)">
-            <div class="stats stats-vertical lg:stats-horizontal shadow">
-                <div class="stat">
-                    <div class="stat-title">植物名</div>
-                    <div class="stat-value">{{ waterCareData.plantName }}</div>
-                </div>
 
-                <div class="stat">
-                    <div class="stat-title">通知時間</div>
-                    <div class="stat-value">{{ waterCareData.alertTime }}</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-title">水やり量</div>
 
-                    <div class="stat-value">
-                        <p v-if="waterCareData.waterAmount='a_lot'">
-                            たっぷり
-                        </p>
-                        <p v-else-if="waterCareData.waterAmount='moderate_amount'">
-                            適量
-                        </p>
-                        <p v-else-if="waterCareData.waterAmount='sparingly'">
-                            ひかえめ
-                        </p>
+    <div class="container px-5 py-6 mx-auto">
+        <div class="flex flex-wrap w-full mb-20 flex-col items-center text-center">
+            <h1 class="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900">今日のお世話</h1>
+
+        </div>
+        <h1 class="relative py-1">
+                <span
+                    class="absolute font-bold font-fontawesome content-'\\f00c Check' bg-green-500 text-white left-0 bottom-full rounded-t-md px-4 py-2 text-sm leading-tight tracking-widest"> 水やり</span>
+            <span class="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-green-600 to-transparent"></span>
+        </h1>
+            <div v-for="waterCareData in waterCareDatas">
+
+                <div class=" text-center flex justify-center items-center mt-4 hidden lg:block">
+                    <div class="inline-block rounded-lg overflow-hidden shadow-lg lg:w-3/4 text-center">
+                        <div class="grid grid-cols-5 gap-4 px-6 my-4">
+                            <div class="h-16">
+                                <p class="text-sm">植物名</p>
+                                <p class="text-lg　font-bold">{{waterCareData.plantName}}</p>
+                            </div>
+                            <div class="h-16">
+                                <p class="text-sm">通知時間</p>
+                                <p class="text-xl　font-bold">{{waterCareData.alertTime}}</p></div>
+                            <div class="h-16">
+                                <div v-if="waterCareData.waterAmount === 'a_lot'">
+                                    <p class="text-sm">水やり量</p>
+                                    <p class="text-xl　font-bold">たっぷり</p>
+                                </div>
+                                <div  v-else-if="waterCareData.waterAmount === 'moderate_amount'">
+                                    <p class="text-sm">水やり量</p>
+                                    <p class="text-xl　font-bold">適量</p>
+                                </div>
+                                <div v-else-if="waterCareData.waterAmount === 'sparingly'">
+                                    <p class="text-sm">水やり量</p>
+                                    <p class="text-xl　font-bold">ひかえめ</p>
+                                </div>
+                            </div>
+                            <div class="h-16">
+                                <p class="text-sm">備考</p>
+                                <p class="text-sm　font-bold">{{waterCareData.waterNote}}</p>
+                            </div>
+                            <div class=" h-16">
+                                <button
+                                    class="btn btn-outline-success bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded px-12 my-4"
+                                    @click="doneWaterCared(waterCareData)">世話を完了する！
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <div class="stat">
-                    <div class="stat-title">備考欄</div>
-                    <div class="stat-desc">{{ waterCareData.waterNote }}</div>
-                    <div class="stat-desc">{{ waterCareData.resentCareWaterTime }}</div>
+                <div class="flex flex-wrap m-4">
+                <div class="p-4 h-104 w-full lg:hidden">
+                    <div class="border border-gray-200 rounded-lg text-center p-6">
+                        <div
+                            class="w-10 h-10 inline-flex items-center justify-center rounded-full bg-indigo-100 text-indigo-500 mb-4 ">
+                            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                 stroke-width="2" class="w-6 h-6" viewBox="0 0 24 24">
+                                <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+                            </svg>
+                        </div>
+                        <ul>
+                            <li>
+                                植物名:{{ waterCareData.plantName }}
+                            </li>
+                            <li>
+                                通知時間:{{ waterCareData.alertTime }}
+                            </li>
+                            <li v-if="waterCareData.waterAmount === 'a_lot'">
+                                <p>水やり量:たっぷり</p>
+                            </li>
+                            <li v-else-if="waterCareData.waterAmount === 'moderate_amount'">
+                                <p>水やり量:適量</p>
+                            </li>
+                            <li v-else-if="waterCareData.waterAmount === 'sparingly'">
+                                <p>水やり量:ひかえめ</p>
+                            </li>
 
+                            <li>
+                                備考:{{ waterCareData.waterNote }}
+                            </li>
+                            <li>
+                                通知時間:{{ waterCareData.alertTime }}
+                            </li>
+
+                        </ul>
+                        <button
+                            class="btn btn-outline-success bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded px-12 my-4"
+                            @click="doneWaterCared(waterCareData)">世話を完了する！
+                        </button>
+                    </div>
                 </div>
-                <div class="stat">
-                    <button @click="doneWaterCared(waterCareData)">世話を完了する</button>
+            </div>
+            </div>
+
+        <h1 class="relative py-1">
+                <span
+                    class="absolute font-bold font-fontawesome content-'\\f00c Check' bg-green-500 text-white left-0 bottom-full rounded-t-md px-4 py-2 mt-2 text-sm leading-tight tracking-widest"> 肥料</span>
+            <span class="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-green-600 to-transparent"></span>
+        </h1>
+        <div v-for="fertilizerCareData in fertilizerCareDatas">
+
+            <div class=" text-center flex justify-center items-center mt-4 hidden lg:block">
+                <div class="inline-block rounded-lg overflow-hidden shadow-lg lg:w-3/4 text-center">
+                    <div class="grid grid-cols-5 gap-4 px-6 my-4">
+                        <div class="h-16">
+                            <p class="text-sm">植物名</p>
+                            <p class="text-lg　font-bold">{{fertilizerCareData.plantName}}</p>
+                        </div>
+                        <div class="h-16">
+                            <p class="text-sm">肥料名</p>
+                            <p class="text-xl　font-bold">{{fertilizerCareData.fertilizerName}}</p>
+                        </div>
+                        <div class="h-16">
+                            <p class="text-sm">施肥量</p>
+                            <p class="text-xl　font-bold">{{fertilizerCareData.fertilizerAmount}}</p>
+                        </div>
+                        <div class="h-16">
+                            <p class="text-sm">備考</p>
+                            <p class="text-sm　font-bold">{{fertilizerCareData.fertilizerNote}}</p>
+                        </div>
+                        <div class=" h-16">
+                            <button
+                                class="btn btn-outline-success bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded px-12 my-4"
+                                @click="doneFertilizerCared(fertilizerCareData)">世話を完了する！
+                            </button>
+                        </div>
+                    </div>
                 </div>
-
             </div>
         </div>
+
+        <!--            <div class="stats stats-vertical lg:stats-horizontal shadow">-->
+        <!--                <div class="stat">-->
+        <!--                    <div class="stat-title">植物名</div>-->
+        <!--                    <div class="stat-value">{{ waterCareData.plantName }}</div>-->
+        <!--                </div>-->
+
+        <!--                <div class="stat">-->
+        <!--                    <div class="stat-title">通知時間</div>-->
+        <!--                    <div class="stat-value">{{ waterCareData.alertTime }}</div>-->
+        <!--                </div>-->
+        <!--                <div class="stat">-->
+        <!--                    <div class="stat-title">水やり量</div>-->
+
+        <!--                    <div class="stat-value">-->
+        <!--                        <p v-if="waterCareData.waterAmount='a_lot'">-->
+        <!--                            たっぷり-->
+        <!--                        </p>-->
+        <!--                        <p v-else-if="waterCareData.waterAmount='moderate_amount'">-->
+        <!--                            適量-->
+        <!--                        </p>-->
+        <!--                        <p v-else-if="waterCareData.waterAmount='sparingly'">-->
+        <!--                            ひかえめ-->
+        <!--                        </p>-->
+        <!--                    </div>-->
+        <!--                </div>-->
+
+        <!--                <div class="stat">-->
+        <!--                    <div class="stat-title">備考欄</div>-->
+        <!--                    <div class="stat-desc">{{ waterCareData.waterNote }}</div>-->
+        <!--                    <div class="stat-desc">{{ waterCareData.resentCareWaterTime }}</div>-->
+
+        <!--                </div>-->
+        <!--                <div class="stat">-->
+        <!--                    <button @click="doneWaterCared(waterCareData)">世話を完了する</button>-->
+        <!--                </div>-->
+
+        <!--            </div>-->
     </div>
-    <div v-for="fertilizerCareData in fertilizerCareDatas">
-                <div v-show="isShowFertilizerSetting(fertilizerCareData)">
-        <div class="stats stats-vertical lg:stats-horizontal shadow">
-            <div class="stat">
-                <div class="stat-title">植物名</div>
-                <div class="stat-value">{{ fertilizerCareData.plantName }}</div>
-            </div>
+    <!--    <div v-for="fertilizerCareData in fertilizerCareDatas">-->
+    <!--        <div class="stats stats-vertical lg:stats-horizontal shadow">-->
+    <!--            <div class="stat">-->
+    <!--                <div class="stat-title">植物名</div>-->
+    <!--                <div class="stat-value">{{ fertilizerCareData.plantName }}</div>-->
+    <!--            </div>-->
 
-            <div class="stat">
-                <div class="stat-title">施肥予定月</div>
-                <div class="stat-value">{{ fertilizerCareData.alertMonth }}</div>
-            </div>
-            <div class="stat">
-                <div class="stat-title">肥料名</div>
-                <div class="stat-value">{{ fertilizerCareData.fertilizerName }}</div>
-            </div>
-            <div class="stat">
-                <div class="stat-title">施肥量</div>
-                <div class="stat-value">{{ fertilizerCareData.fertilizerAmount }}g</div>
-            </div>
+    <!--            <div class="stat">-->
+    <!--                <div class="stat-title">施肥予定月</div>-->
+    <!--                <div class="stat-value">{{ fertilizerCareData.alertMonth }}</div>-->
+    <!--            </div>-->
+    <!--            <div class="stat">-->
+    <!--                <div class="stat-title">肥料名</div>-->
+    <!--                <div class="stat-value">{{ fertilizerCareData.fertilizerName }}</div>-->
+    <!--            </div>-->
+    <!--            <div class="stat">-->
+    <!--                <div class="stat-title">施肥量</div>-->
+    <!--                <div class="stat-value">{{ fertilizerCareData.fertilizerAmount }}g</div>-->
+    <!--            </div>-->
 
-            <div class="stat">
-                <div class="stat-title">備考欄</div>
-                <div class="stat-desc">{{ fertilizerCareData.fertilizerNote }}</div>
-                <div class="stat-desc">{{ fertilizerCareData.resentCareFertilizerTime }}</div>
+    <!--            <div class="stat">-->
+    <!--                <div class="stat-title">備考欄</div>-->
+    <!--                <div class="stat-desc">{{ fertilizerCareData.fertilizerNote }}</div>-->
+    <!--                <div class="stat-desc">{{ fertilizerCareData.resentCareFertilizerTime }}</div>-->
 
-            </div>
-            <div class="stat">
-                <button @click="doneFertilizerCared(fertilizerCareData)">世話を完了する</button>
-            </div>
+    <!--            </div>-->
+    <!--            <div class="stat">-->
+    <!--                <button @click="doneFertilizerCared(fertilizerCareData)">世話を完了する</button>-->
+    <!--            </div>-->
 
-        </div>
-    </div>
-        </div>
+    <!--        </div>-->
+    <!--    </div>-->
 </template>
 
 <script>
@@ -92,15 +220,12 @@ export default {
         axios.get(`/api/user/${this.user.user_id}/care/water?userId=${this.user.user_id}`, {})
             .then((res) => {
                 console.log(res.data[0]);
-                const waterCareDatas = res.data.map(waterSetting => ({
-                    alertTimeId: waterSetting.alert_time_id,
-                    plantName: waterSetting.plant_name,
-                    waterSettingId: waterSetting.water_setting_id,
-                    waterAmount: waterSetting.water_setting.water_amount,
-                    waterNote: waterSetting.water_setting.water_note,
-                    wateringInterval: waterSetting.water_setting.watering_interval,
-                    resentCareWaterTime: waterSetting.resent_care_time,
-                    alertTime: waterSetting.alert_time,
+                const waterCareDatas = res.data.waterCares.map(waterSetting => ({
+                    alertTimeId: waterSetting.alertTimeId,
+                    plantName: waterSetting.plantName,
+                    waterAmount: waterSetting.waterAmount,
+                    waterNote: waterSetting.waterNote,
+                    alertTime: waterSetting.alertTime,
                 }));
                 console.log(waterCareDatas);
 
@@ -112,15 +237,13 @@ export default {
         axios.get(`/api/user/${this.user.user_id}/care/fertilizer?userId=${this.user.user_id}`, {})
             .then((res) => {
                 console.log(res.data[0]);
-                const fertilizerSettingData = res.data.map(fertilizerSetting => ({
-                    alertTimeId: fertilizerSetting.alert_time_id,
-                    plantName: fertilizerSetting.plant_name,
-                    fertilizerSettingId: fertilizerSetting.fertilizer_setting_id,
-                    fertilizerNote: fertilizerSetting.fertilizer_setting.fertilizer_note,
-                    fertilizerAmount: fertilizerSetting.fertilizer_setting.fertilizer_amount,
-                    fertilizerName: fertilizerSetting.fertilizer_setting.fertilizer_name,
-                    resentCareFertilizerTime: fertilizerSetting.resent_care_time,
-                    alertMonth: fertilizerSetting.alert_month
+                const fertilizerSettingData = res.data.fertilizerCares.map(fertilizerSetting => ({
+                    alertTimeId: fertilizerSetting.alertTimeId,
+                    plantName: fertilizerSetting.plantName,
+                    fertilizerNote: fertilizerSetting.fertilizerNote,
+                    fertilizerAmount: fertilizerSetting.fertilizerAmount,
+                    fertilizerName: fertilizerSetting.fertilizerName,
+                    alertMonth: fertilizerSetting.alertMonth
                 }));
                 this.fertilizerCareDatas = fertilizerSettingData
             })
@@ -129,27 +252,27 @@ export default {
             });
     },
     methods: {
-        isShowWaterSetting(waterSetting) {
-            let diff;
-            if (waterSetting.resentCareWaterTime == null) {
-                diff = this.nowDate - new Date('0001-01-01 00:00:00');
-            } else {
-                diff = this.nowDate - new Date(waterSetting.resentCareWaterTime);
-            }
-            console.log(diff)
-            if (diff >= (86400000 * waterSetting.wateringInterval)) {
-                return true
-            } else {
-                return false
-            }
-        },
-        isShowFertilizerSetting(fertilizerSetting) {
-            if (fertilizerSetting.resentCareFertilizerTime == null||new Date(fertilizerSetting.resentCareFertilizerTime).getMonth() !=this.nowDate.getMonth()) {
-                return true
-            } else {
-                return false
-            }
-        },
+        // isShowWaterSetting(waterSetting) {
+        //     let diff;
+        //     if (waterSetting.resentCareWaterTime == null) {
+        //         diff = this.nowDate - new Date('0001-01-01 00:00:00');
+        //     } else {
+        //         diff = this.nowDate - new Date(waterSetting.resentCareWaterTime);
+        //     }
+        //     console.log(diff)
+        //     if (diff >= (86400000 * waterSetting.wateringInterval)) {
+        //         return true
+        //     } else {
+        //         return false
+        //     }
+        // },
+        // isShowFertilizerSetting(fertilizerSetting) {
+        //     if (fertilizerSetting.resentCareFertilizerTime == null||new Date(fertilizerSetting.resentCareFertilizerTime).getMonth() !=this.nowDate.getMonth()) {
+        //         return true
+        //     } else {
+        //         return false
+        //     }
+        // },
         doneWaterCared(waterSetting) {
             axios.post(`/api/care/${waterSetting.alertTimeId}/water?alertTimeId=${waterSetting.alertTimeId}`
             ).then(res => {
