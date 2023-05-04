@@ -39,12 +39,12 @@ class WaterSetting extends Authenticatable
 
     public function checkSeat()
     {
-        return $this->belongsTo(CheckSeat::class);
+        return $this->belongsTo(CheckSeat::class,"check_seat_id");
     }
 
-    public function waterAlertTime()
+    public function waterAlertTimes()
     {
-        return $this->hasMany(WaterAlertTime::class);
+        return $this->hasMany(WaterAlertTime::class,'water_setting_id');
     }
     /**
      * The attributes that should be hidden for serialization.

@@ -4,34 +4,69 @@ namespace App\Packages\infrastructures\Care;
 
 use App\Models\FertilizerAlertTime;
 use App\Models\FertilizerSetting;
+use App\Models\PlantUnit;
 use App\Models\WaterAlertTime;
 use App\Models\CheckSeat;
 use App\Models\WaterSetting;
+use App\Packages\Domains\Care\FertilizerAlertTimeId;
+use App\Packages\Domains\Care\FertilizerCare;
 use App\Packages\Domains\CheckSeat\CheckSeatId;
+use App\Packages\Domains\Fertilizer\FertilizerAmount;
+use App\Packages\Domains\Fertilizer\fertilizerName;
+use App\Packages\Domains\Fertilizer\FertilizerNote;
 use App\Packages\Domains\Fertilizer\FertilizerSettingCollection;
+use App\Packages\Domains\PlantUnit\plantName;
 use App\Packages\Domains\PlantUnit\PlantUnitId;
 use App\Packages\Domains\Shared\Uuid;
+use App\Packages\Domains\User\UserId;
 use App\Packages\Domains\Water\WaterSettingCollection;
 use Carbon\Carbon;
 
 class CareFertilizerRepository
 {
-    public function find(CheckSeatId $checkSeatId)
+    public function findCareByUser(UserId $userId)
     {
         $currentMonth = (int)Carbon::now()->format('m');
-        $fertilizerSettings = FertilizerSetting::where('check_seat_id', $checkSeatId->getId())
+        $now = Carbon::now();
+        $plantUnits = PlantUnit::with('checkSeat.fertilizerSetting.fertilizerAlertTimes')
+            ->where('user_id', $userId->getId())
             ->get();
 
-        $alertTimes = [];
-        foreach ($fertilizerSettings as $fertilizerSetting) {
-            if (in_array($currentMonth, json_decode($fertilizerSetting->months))) {
-                $alertTimes[] = FertilizerAlertTime::where('alert_month', $currentMonth)
-                    ->where('fertilizer_setting_id', $fertilizerSetting->fertilizer_setting_id)
-                    ->with('fertilizerSetting:fertilizer_setting_id,months,fertilizer_note,fertilizer_amount,fertilizer_name')
-                    ->get();
+        $careFertilizerSettings = [];
+        foreach ($plantUnits as $plantUnit) {
+            $checkSeat = $plantUnit->checkSeat;
+            $fertilizerSettings = $checkSeat->fertilizerSetting;
+            if (!$fertilizerSettings) {
+                continue;
+            }
+            foreach ($fertilizerSettings as $fertilizerSetting) {
+                if (in_array($currentMonth, json_decode($fertilizerSetting->months))) {
+                    $fertilizerSetting->plant_name = $plantUnit->plant_name;
+                    $careFertilizerSettings[]=$fertilizerSetting;
+                }
             }
         }
-        return $alertTimes;
+
+        $fertilizerCares=[];
+        foreach ($careFertilizerSettings as $careFertilizerSetting) {
+            foreach ($careFertilizerSetting->fertilizerAlertTimes as $alertTime) {
+                if($alertTime->alert_month!==$currentMonth){
+                    continue;
+                }
+                if ($alertTime->resent_care_time === null||$now->month !== Carbon::parse($alertTime->resent_care_time)->month) {
+                    $fertilizerCares[]=new FertilizerCare(
+                        new FertilizerAlertTimeId($alertTime->alert_time_id),
+                        new plantName($careFertilizerSetting->plant_name),
+                        new FertilizerAmount($careFertilizerSetting->fertilizer_amount),
+                        new FertilizerNote($careFertilizerSetting->fertilizer_note),
+                        new FertilizerName($careFertilizerSetting->fertilizer_name),
+                        $alertTime->alert_month,
+                    );
+                }
+
+            }
+        }
+        return $fertilizerCares;
     }
 
     public function save(FertilizerSettingCollection $fertilizerSetting)
@@ -61,4 +96,6 @@ class CareFertilizerRepository
         $alertTime->resent_care_time=now();
         $alertTime->save();
     }
+
+
 }

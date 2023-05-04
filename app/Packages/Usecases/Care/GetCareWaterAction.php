@@ -8,24 +8,20 @@ use App\Packages\Domains\PlantUnit\PlantUnitRepositoryInterface;
 use App\Packages\Domains\User\UserId;
 use App\Packages\infrastructures\Care\CareWaterRepository;
 use App\Packages\Presentations\Requests\Care\GetCareWaterRequest;
-use App\Packages\Usecases\Dto\Care\CareWrapDto;
+use App\Packages\Usecases\Dto\Care\WaterCareDto;
+use App\Packages\Usecases\Dto\Care\WaterCaresWrapDto;
 use Illuminate\Support\Facades\Log;
 
 class GetCareWaterAction
 {
-    /**
-     * @var CommentRepositoryInterface
-     */
     private CareWaterRepository $careRepository;
 
     /**
      * @param CareWaterRepository $careRepository
      */
-    public function __construct(CareWaterRepository          $careRepository,
-                                PlantUnitRepositoryInterface $plantUnitRepository)
+    public function __construct(CareWaterRepository          $careRepository,)
     {
         $this->careRepository = $careRepository;
-        $this->plantUnitRepository = $plantUnitRepository;
 
     }
 
@@ -35,26 +31,26 @@ class GetCareWaterAction
      */
     public function __invoke(
         GetCareWaterRequest $getCareRequest,
-    )
+    ):WaterCaresWrapDto
     {
         Log::info(__METHOD__, ['開始']);
         $userId = $getCareRequest->getUserId();
-        $hitPlantUnits = $this->plantUnitRepository->findByUser(new UserId($userId));
+        $hitCares = $this->careRepository->findCareByUser(new UserId($userId));
+        $careDtos=[];
 
-        foreach ($hitPlantUnits as $plantUnit) {
-            if (!empty($this->careRepository->find($plantUnit->getCheckSeatId()))) {
-                $currentMonthCarePlantSettings = $this->careRepository->find($plantUnit->getCheckSeatId());
-                foreach ($currentMonthCarePlantSettings as $currentMonthCarePlantSetting) {
-                    foreach ($currentMonthCarePlantSetting as $hoge){
-                        $hoge->plant_name =$plantUnit->getPlantName()->getvalue() ;
-                        $todayCare[] = $hoge;
-                    }
-                }
-            }
+        foreach ($hitCares as $hitCare) {
+            $careDtos[]=new WaterCareDto(
+                $hitCare->getAlertTimeId()->getId(),
+                $hitCare->getPlantName()->getvalue(),
+                $hitCare->getWaterAmount()->getvalue(),
+                $hitCare->getWaterNote()->getvalue(),
+                $hitCare->getAlertTime(),
+            );
         }
+
 //dd($todayCare);
         Log::info(__METHOD__, ['終了']);
-        return $todayCare;
-//        return new CareWrapDto($currentMonthCarePlantSettings);
+        return new WaterCaresWrapDto($careDtos);
+
     }
 }

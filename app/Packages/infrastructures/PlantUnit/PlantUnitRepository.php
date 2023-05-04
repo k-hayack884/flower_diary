@@ -112,7 +112,13 @@ class PlantUnitRepository implements PlantUnitRepositoryInterface
                 'create_date' => $plant->getCreateDate()->format('Y/m/d'),
                 'update_date' => $plant->getUpdateDate()->format('Y/m/d'),
             ]);
+            \App\Models\CheckSeat::create([
+                'plant_unit_id' => $plant->getPlantUnitId()->getId(),
+                'check_seat_id' => $plant->getCheckSeatId()->getId(),
+            ]);
+
         }
+
     }
 
     public function delete(PlantUnitId $plantUnitId): void
