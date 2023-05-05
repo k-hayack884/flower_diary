@@ -16,6 +16,7 @@ use App\Packages\infrastructures\Plant\PlantRepository;
 use App\Packages\Presentations\Requests\PlantUnit\CreatePlantUnitRequest;
 use App\Packages\Usecases\Dto\PlantUnit\PlantUnitWrapDto;
 use App\http\Services\ImageService;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use Exception;
 use Illuminate\Support\Facades\Log;
@@ -76,8 +77,12 @@ class CreatePlantUnitAction
            $plantUnitCollection = new PlantUnitCollection();
             $plantUnitCollection->addUnit($plantUnit);
             $this->plantUnitRepository->save($plantUnitCollection);
+            Session::flash('successMessage', '登録に成功しました');
+
         } catch (\DomainException $e) {
             Log::error(__METHOD__, ['エラー']);
+            Session::flash('failMessage', '登録に失敗しました');
+
             abort(400, $e);
         } finally {
             Log::info(__METHOD__, ['終了']);

@@ -69,7 +69,7 @@ class PlantUnitRepository implements PlantUnitRepositoryInterface
         );
     }
 
-    public function findByUser(UserId $userId): array
+    public function findByUserId(UserId $userId): array
     {
         $plantUnits = [];
         $allPlantUnits = \App\Models\PlantUnit::where('user_id', $userId->getId())->get();

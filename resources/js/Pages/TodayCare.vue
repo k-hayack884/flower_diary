@@ -189,15 +189,19 @@
             </div>
         </div>
     </div>
+    <NaviFooter/>
+
 </template>
 
 <script>
 import LoadWait from "@/Components/LoadWait.vue";
+import NaviFooter from "@/Components/NaviFooter.vue";
 
 export default {
     name: "TodayCare",
     components: {
-        LoadWait
+        LoadWait,
+        NaviFooter,
     },
     props: ['user'],
     data() {
@@ -208,7 +212,6 @@ export default {
             fertilizerCareDatas: [],
             nowDate: new Date(),
             isLoading:false,
-            loading: false
         }
     },created() {
         this.isLoading = true

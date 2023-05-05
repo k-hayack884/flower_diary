@@ -1,34 +1,61 @@
 <template>
-    <div class="flex justify-center">
-        <div class="flex flex-col w-3/4">
+    <div class="bg-green-100 pb-16">
+        <LoadWait :show="isLoading" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50"></LoadWait>
 
-            <div v-for="plantUnit in plantUnits" class="">
-                <div
-                    class="card card-side bg-base-100 shadow-lg rounded-lg overflow-hidden m4transform hover:scale-105 transition duration-300 my-4">
-                    <figure><img :src="'data:image/png;base64,'+plantUnit.plantImage" /> </figure>
-                    <div class="card-body">
-                        <h2 clasoss="card-title">{{ plantUnit.plantName }}</h2><a href="">名前変更</a>
-                        {{ plantUnit.plantData.scientific }}
-                        <p>日記更新日: {{ plantUnit.createDate }}</p>
+        <h1 class="text-5xl text-center pt-4">My　プラント</h1>
+        <div class="flex justify-center">
+            <div class="flex flex-col w-5/6 lg:w-3/4">
+                <div v-if="isLoading">
+                    <p class="text-center p-24">Loading...</p>
+                </div>
+                <div v-else>
+                <div v-for="plantUnit in plantUnits">
+                    <div
+                        class="card card-side bg-base-100 shadow-lg rounded-lg overflow-hidden m4transform hover:scale-105 transition duration-300 my-4">
+                        <figure><img :src="'data:image/png;base64,'+plantUnit.plantImage" class="w-24 h-24 md:w-36 md:h-36 lg:w-48 lg:h-48"/></figure>
+                        <div class="card-body">
 
-                        <div class="card-actions justify-end">
-                            <a :href="route('plantUnitDetail', { plantUnitId: plantUnit.plantUnitId })"
-                                  class="block">
-                                <button class="btn btn-primary">詳細</button>
-                            </a>
+                            <div class="flex justify-between">
+                                <h2 class="card-title">{{ plantUnit.plantNickName }}</h2>
+                                <a href="">名前変更</a>
+                            </div>
+                            <p>種名：{{ plantUnit.plantName }}</p>
+                            <p>学名：{{ plantUnit.scientific }}</p>
+                            <p>日記更新日: {{ plantUnit.createDate }}</p>
+
+                            <div class="card-actions justify-end ">
+<div class="flex flex-col">
+                                <a :href="route('plantUnitDetail', { plantUnitId: plantUnit.plantUnitId })"
+                                   class="block">
+                                    <button class="btn btn-primary">詳細</button>
+                                </a>
+                                <button class=" bg-red-300 rounded mt-4">削除</button>
+</div>
+                            </div>
+
                         </div>
-
                     </div>
+                </div>
                 </div>
             </div>
         </div>
     </div>
+    <NaviFooter/>
+
 </template>
 
 <script>
+import LoadWait from "@/Components/LoadWait.vue";
+import NaviFooter from "@/Components/NaviFooter.vue";
+
 export default {
     name: "PlantUnit",
+    components: {
+        LoadWait,
+        NaviFooter,
+    },
     props: ['user'],
+
     data() {
         return {
             plantUnits: [{
@@ -45,51 +72,39 @@ export default {
                     scientific: '',
                 }
             }],
+            isLoading:false,
         }
     },
     created() {
-        console.log(this.user.user_id)
-        axios.get(`/api/${this.user.user_id}/plantUnit`)
-            .then(res => {
-                const plantUnits = res.data.plantUnits.map(plant => ({
-                    plantUnitId: plant.plantUnitId,
-                    userId: plant.userId,
-                    plantId: plant.plantId,
-                    checkSeatId: plant.checkSeatId,
-                    plantName: plant.plantName,
-                    plantImage: plant.plantImage,
-                    diaries: plant.diaries,
-                    createDate: plant.createDate,
-                    updateDate: plant.updateDate,
-                    plantData: {
-                        scientific: '',
-                    }
-                }));
-                this.plantUnits = plantUnits;
-                console.log(this.plantUnits[3].plantImage);
+        this.isLoading = true
+            console.log(this.user.user_id);
+            axios.get(`/api/${this.user.user_id}/plantUnit?userId=${this.user.user_id}`)
+                .then(res => {
+                    const plantUnits = res.data.plantUnits.map(plant => ({
+                        plantUnitId: plant.plantUnitId,
+                        userId: plant.userId,
+                        plantId: plant.plantId,
+                        checkSeatId: plant.checkSeatId,
+                        plantNickName: plant.plantNickName,
+                        plantImage: plant.plantImage,
+                        diaries: plant.diaries,
+                        createDate: plant.createDate,
+                        updateDate: plant.updateDate,
+                        plantName: plant.plantName,
+                        scientific: plant.scientific
 
-                // `this.plantUnits`が更新された後に実行
-                this.$nextTick(() => {
-                    this.plantUnits.forEach((plantUnit, index) => {
-                        axios.get(`/api/plant/${plantUnit.plantId}`, {})
-                            .then(res => {
-                                console.log(res.data.plant.scientific)
-                                Vue.set(this.plantUnits[index], 'plantData', {
-                                    scientific: res.data.plant.scientific
-                                });
+                    }));
+                    this.plantUnits = plantUnits;
+                    this.isLoading=false;
 
-                            })
-                            .catch(error => {
-                                // APIリクエストが失敗した場合の処理
-                                console.log(error);
-                            });
-                    });
+
+                })
+                .catch(error => {
+                    // APIリクエストが失敗した場合の処理
+                    console.log(error);
+                    this.isLoading=false;
+
                 });
-            })
-            .catch(error => {
-                // APIリクエストが失敗した場合の処理
-                console.log(error);
-            });
     },
     computed: {
         computedPlantUnitId() {

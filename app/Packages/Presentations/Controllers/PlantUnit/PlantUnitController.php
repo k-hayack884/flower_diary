@@ -23,7 +23,9 @@ class PlantUnitController extends Controller
         GetPlantUnitsAction $action,
     ):array
     {
-        return (array)$action($request);
+        $userId = $request->input('userId');
+        $request->merge(['userId' => $userId]);
+        return (array) $action($request);
     }
     public function create(
         CreatePlantUnitRequest $request,

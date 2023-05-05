@@ -5,7 +5,10 @@ namespace App\Packages\Usecases\PlantUnit;
 use App\Http\Services\Base64Service;
 use App\Packages\Domains\PlantUnit\PlantUnitCollection;
 use App\Packages\Domains\PlantUnit\PlantUnitRepositoryInterface;
+use App\Packages\Domains\User\UserId;
+use App\Packages\infrastructures\Plant\PlantRepository;
 use App\Packages\Presentations\Requests\PlantUnit\GetPlantUnitsRequest;
+use App\Packages\Usecases\Dto\PlantUnit\PlantUnitDetailDto;
 use App\Packages\Usecases\Dto\PlantUnit\PlantUnitDto;
 use App\Packages\Usecases\Dto\PlantUnit\PlantUnitsWrapDto;
 use Illuminate\Support\Facades\Log;
@@ -16,13 +19,16 @@ class GetPlantUnitsAction
      * @var PlantUnitRepositoryInterface
      */
     private PlantUnitRepositoryInterface $plantUnitRepository;
+    private PlantRepository $plantRepository;
 
     /**
      * @param PlantUnitRepositoryInterface $plantUnitRepository
      */
-    public function __construct(PlantUnitRepositoryInterface $plantUnitRepository)
+    public function __construct(PlantUnitRepositoryInterface $plantUnitRepository,
+                                PlantRepository              $plantRepository)
     {
         $this->plantUnitRepository = $plantUnitRepository;
+        $this->plantRepository = $plantRepository;
     }
 
     /**
@@ -33,18 +39,20 @@ class GetPlantUnitsAction
     ): PlantUnitsWrapDto
     {
         Log::info(__METHOD__, ['開始']);
+        $userId = new UserId($getPlantUnitsRequest->getUserId());
+        $plantUnits = $this->plantUnitRepository->findByUserId($userId);
 
-        $plantUnits = $this->plantUnitRepository->find();
-        $plantUnitCollection=new PlantUnitCollection($plantUnits);
+        $plantUnitCollection = new PlantUnitCollection($plantUnits);
 
 
         $plantUnitDtos = [];
 
         foreach ($plantUnitCollection->toArray() as $plantUnit) {
-            $plantImageData= $plantUnit->getPlantImage()->getValue();
-            $plantImage=Base64Service::base64FileEncode($plantImageData,'plantUnitImage');
+            $plantImageData = $plantUnit->getPlantImage()->getValue();
+            $plantImage = Base64Service::base64FileEncode($plantImageData, 'plantUnitImage');
+            $plant=$this->plantRepository->findById($plantUnit->getPlantId());
             $plantUnitDtos[] =
-                new PlantUnitDto(
+                new PlantUnitDetailDto(
                     $plantUnit->getPlantUnitId()->getId(),
                     $plantUnit->getPlantId()->getId(),
                     $plantUnit->getUserId()->getId(),
@@ -54,6 +62,8 @@ class GetPlantUnitsAction
                     $plantUnit->getDiaries(),
                     $plantUnit->getCreateDate()->format('Y/m/d'),
                     $plantUnit->getUpdateDate()->format('Y/m/d'),
+                    $plant->getName(),
+                    $plant->getScientific()
                 );
         }
         Log::info(__METHOD__, ['終了']);
