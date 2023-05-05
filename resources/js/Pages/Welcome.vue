@@ -16,9 +16,8 @@ defineProps({
 
 <template>
     <Head title="Welcome"/>
-
-    <div
-        class="relative flex items-top justify-center bg-gray-100 dark:bg-gray-900 sm:items-center sm:pt-0">
+<div class="bg-green-100">
+    <div class="relative flex items-top justify-center bg-gray-100 dark:bg-gray-900 sm:items-center sm:pt-0">
 
     </div>
     <div class="container text-center p-3 mb-2">
@@ -46,7 +45,7 @@ defineProps({
         <div class="col-sm-6 mx-auto" id="judge">
             <div class="input-group-append">
                 <button @click="startCamera"
-                        class="btn btn-outline-success bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded  px-8"
+                        class="btn btn-outline-success bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded  px-8 button-width"
                         type="button" id="button-addon2">
                     {{ recogButton }}
                 </button>
@@ -54,47 +53,36 @@ defineProps({
         </div>
         <br>
         <div class="flex justify-center items-center">
-            <video id="webcam" width="180" height="240" muted autoplay playsinline></video>
+            <video id="webcam" width="200" height="300" muted autoplay playsinline></video>
         </div>
 
 
         <div>
             <p id="error" v-show="error">{{ error }}</p>
-            <image-maker @image-selected="onImageSelected"></image-maker>
-<!--            <label class="btn btn-success px-6 my-4">-->
-<!--                <p>画像をアップロードする</p>-->
-<!--                <div>-->
-<!--                    <input-->
-<!--                        type="file"-->
-<!--                        id="avatar_name"-->
-<!--                        accept="image/jpeg, image/png"-->
-<!--                        @change="onImageChange"-->
-<!--                    />-->
-<!--                </div>-->
-<!--            </label>-->
-<!--            <img :src="avatar" alt="" class="image mx-auto" id="plant_image">-->
-            <div v-if="selectedImage">
-                <img :src="selectedImage" alt="Selected image" id="plant_image">
+            <image-maker class="button-width" @image-selected="onImageSelected"></image-maker>
+            <div v-if="selectedImage" class="flex items-center justify-center">
+                <img :src="selectedImage" alt="Selected image" id="plant_image" style="width: 300px; height: 300px ;">
             </div>
+
             <button v-if="selectedImage"
-                    class="btn btn-outline-success bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded px-12 my-4"
+                    class="btn btn-outline-success bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded px-12 my-4 button-width"
                     @click="startImage()">診断する！
             </button>
 
             <div v-if="canLogin" class="flex justify-center items-center ">
                 <Link v-if="$page.props.user" :href="route('dashboard')"
-                      class="btn btn-success bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded px-10 my-4">
+                      class="btn btn-success bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded px-10 my-4 button-width">
                     マイページに戻る
                 </Link>
                 <template v-else>
                     <div class="flex flex-col">
                         <button
-                            class="btn btn-success bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded px-10 my-4">
+                            class="btn btn-success bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded px-10 my-4 button-width">
                             <Link :href="route('login')" class="text-sm text-white-700 dark:text-gray-500">Log in
                             </Link>
                         </button>
                         <button
-                            class="btn btn-success bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded px-10 my-4">
+                            class="btn btn-success bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded px-10 my-4 button-width">
                             <Link v-if="canRegister" :href="route('register')"
                                   class="
                                   ml-4 text-sm text-white-700 dark:text-white-500">Register
@@ -105,31 +93,38 @@ defineProps({
             </div>
             <div v-if="getPlant">
                 <p>{{ message }}</p>
-                名前：{{ plantName }} id：{{ plantId }}
+                名前：{{ plantName }} 学名：{{ scientific }}
+                <p>解説：{{information}}
+                </p>
+            </div>
+            <div v-if="getPlant">
+                <div class="text-white py-4">
+                    <div class="container mx-auto flex justify-center items-center">
+
+                        <button
+                            @click="registerPlant($page.props.user.user_id)"
+                            class="btn btn-outline-success bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded px-10 button-width"
+                            type="button" id="button-addon2">
+                            {{ registerButton }}
+                        </button>
+
+                        <RegisterModal :open-modal="isModalOpen"/>
+
+                    </div>
+                </div>
             </div>
         </div>
         <Load :show="isLoading" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></Load>
 
         <!--        <p v-html="text" v-show="load" id="load"></p>-->
 
-        <div v-if="getPlant">
-            <div class="bg-gray-900 text-white py-4">
-                <div class="container mx-auto flex justify-center items-center">
 
-                    <button
-                        @click="registerPlant($page.props.user.user_id)"
-                        class="btn btn-outline-success bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded"
-                        type="button" id="button-addon2">
-                        {{ registerButton }}
-                    </button>
-
-                    <RegisterModal :open-modal="isModalOpen"/>
-
-                </div>
-            </div>
-        </div>
     </div>
-</template>
+    <div v-show="$page.props.user.user_id">
+    <NaviFooter />
+    </div>
+</div>
+    </template>
 <style>
 @media screen {
     #avatar_name {
@@ -141,12 +136,15 @@ defineProps({
 <script>
 
 import ImageMaker from "@/Components/ImageMaker.vue";
+import NaviFooter from "@/Components/NaviFooter.vue";
 
 export default {
     components: {
         Load,
+        LoadWait,
         RegisterModal,
-        ImageMaker
+        ImageMaker,
+        NaviFooter,
     },
     props: {
         userId: null,
@@ -170,9 +168,7 @@ export default {
             isLoading: false,
             isModalOpen: false,
             selectedImage: null,
-            // text: '<img src="../../icon/loading.gif">',
-            // 植物
-            // 作成したモデルのURL
+
             myPlant: [{
                 imageModelURL: '',
                 name: '',
@@ -181,15 +177,6 @@ export default {
                 light: '',
                 comment: ''
             }],
-            // 天気予報のためのオブジェクトを定義
-            object: [{
-                date: '',
-                weather: '',
-                min_temperature: '',
-                max_temperature: '',
-                image: ''
-            }],
-            num: 3
         }
     },
     // created: async function () {
@@ -205,7 +192,7 @@ export default {
             this.recogButton = '撮影準備中…';
             const stream = await navigator.mediaDevices.getUserMedia({
                 audio: false,
-                video: {width: 200, height: 200, facingMode: 'environment'},
+                video: {width: 200, height: 300, facingMode: 'environment'},
                 // フロントカメラ優先 { facingMode: "user" }
                 // リアカメラ優先 { facingMode: "environment" }
             });
@@ -238,7 +225,7 @@ export default {
                 this.error = '画像がありません'
             }
             console.log(this.avatar);
-            const plant_image = document.getElementById('plant_image');
+            const plant_image = await document.getElementById('plant_image');
 
             // Googleのサーバーにアップロードした自作モデルを読み込みにいきます
             this.myPlant.imageModelURL = 'https://teachablemachine.withgoogle.com/models/9P6f9Msvu/';
@@ -273,7 +260,6 @@ export default {
                 });
                 console.log(results[0].label)
 
-                // setTimeout(this.loop(classifier), 1000);
             })
         },
         scanCamera: function (classifier) {
@@ -303,67 +289,9 @@ export default {
             // ImageMakerコンポーネントから渡された画像データを処理する
             this.selectedImage = imageData
         },
-        // getBase64(file) {
-        //     return new Promise((resolve, reject) => {
-        //         const reader = new FileReader()
-        //         reader.readAsDataURL(file)
-        //         reader.onload = () => resolve(reader.result)
-        //         reader.onerror = error => reject(error)
-        //     })
-        // },
-        // onImageChange(e) {
-        //     const images = e.target.files || e.dataTransfer.files
-        //     this.getBase64(images[0])
-        //         .then(image => {
-        //             const originalImg = new Image()
-        //             originalImg.src = image
-        //             originalImg.onload = () => {
-        //                 const resizedCanvas = this.createResizedCanvasElement(originalImg)
-        //                 const resizedBase64 = resizedCanvas.toDataURL(images[0].type)
-        //                 this.avatar = resizedBase64
-        //             }
-        //             // this.avatar = image
-        //         })
-        //         .catch(error => this.setError(error, '画像のアップロードに失敗しました。'))
-        // },
-        // createResizedCanvasElement(originalImg) {
-        //     const originalImgWidth = originalImg.width
-        //     const originalImgHeight = originalImg.height
-        //
-        //     // resizeWidthAndHeight関数については下記参照
-        //     const [resizedWidth, resizedHeight] = this.resizeWidthAndHeight(originalImgWidth, originalImgHeight)
-        //     const canvas = document.createElement('canvas')
-        //     const ctx = canvas.getContext('2d')
-        //     canvas.width = resizedWidth
-        //     canvas.height = resizedHeight
-        //     // drawImage関数の仕様はcanvasAPIのドキュメントを参照下さい
-        //     ctx.drawImage(originalImg, 0, 0, resizedWidth, resizedHeight)
-        //     return canvas
-        // },
-        // resizeWidthAndHeight(width, height) {
-        //
-        //     // 今回は400x400のサイズにしましたが、ここはプロジェクトによって柔軟に変更してよいと思います
-        //     const MAX_WIDTH = 200
-        //     const MAX_HEIGHT = 200
-        //
-        //     // 縦と横の比率を保つ
-        //     if (width > height) {
-        //         if (width > MAX_WIDTH) {
-        //             height *= MAX_WIDTH / width
-        //             width = MAX_WIDTH
-        //         }
-        //     } else {
-        //         if (height > MAX_HEIGHT) {
-        //             width *= MAX_HEIGHT / height
-        //             height = MAX_HEIGHT
-        //         }
-        //     }
-        //     return [width, height]
-        // },
         async registerPlant(userId) {
             if (!this.$page.props.user) {
                 this.openModal();
-                console.log('はい？')
                 return;
             }
             axios.post('http://localhost:51111/api/plantUnit', {
@@ -417,5 +345,8 @@ export default {
 
 video {
     border: 3px solid green;
+}
+.button-width {
+    width: 200px; /* 任意の幅に設定 */
 }
 </style>

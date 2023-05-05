@@ -35,8 +35,9 @@ CheckSeatModal.vue
                                 <textarea v-model="diary.diaryContent" id="message" name="message" class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out" style="width: 300px; height: 200px;"></textarea>
                             </div>
                             <div>
+                                <div class="flex justify-center items-center h-200">
                                 <image-maker @image-selected="onImageSelected"></image-maker>
-
+                                </div>
                                 <button v-if="diary.isCreate" @click="create()"
                                                 class="flex mx-auto mt-16 text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
                                             作成する
