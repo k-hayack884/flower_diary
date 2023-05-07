@@ -9,7 +9,7 @@
                     <p class="text-center p-24">Loading...</p>
                 </div>
                 <div v-else>
-                <div v-for="plantUnit in plantUnits">
+                <div v-for="(plantUnit,index) in plantUnits">
                     <div
                         class="card card-side bg-base-100 shadow-lg rounded-lg overflow-hidden m4transform hover:scale-105 transition duration-300 my-4">
                         <figure><img :src="'data:image/png;base64,'+plantUnit.plantImage" class="w-24 h-24 md:w-36 md:h-36 lg:w-48 lg:h-48"/></figure>
@@ -17,7 +17,7 @@
 
                             <div class="flex justify-between">
                                 <h2 class="card-title">{{ plantUnit.plantNickName }}</h2>
-                                <a href="">名前変更</a>
+                                <button  @click="openChangeNameModal(),getIndex(index)">名前変更</button>
                             </div>
                             <p>種名：{{ plantUnit.plantName }}</p>
                             <p>学名：{{ plantUnit.scientific }}</p>
@@ -29,7 +29,7 @@
                                    class="block">
                                     <button class="btn btn-primary">詳細</button>
                                 </a>
-                                <button class=" bg-red-300 rounded mt-4">削除</button>
+                                <button class=" bg-red-300 rounded mt-4" @click="deleteUnit(plantUnit)">削除</button>
 </div>
                             </div>
 
@@ -40,6 +40,8 @@
             </div>
         </div>
     </div>
+    <ChangeNameModal :open-modal="isChangeNameModalOpen" @closeModal="closeChangeNameModal"
+                            :plantUnit="plantUnits[arrayIndex]"/>
     <NaviFooter/>
 
 </template>
@@ -47,12 +49,14 @@
 <script>
 import LoadWait from "@/Components/LoadWait.vue";
 import NaviFooter from "@/Components/NaviFooter.vue";
+import ChangeNameModal from "@/Components/ChangeNameModal.vue";
 
 export default {
     name: "PlantUnit",
     components: {
         LoadWait,
         NaviFooter,
+        ChangeNameModal
     },
     props: ['user'],
 
@@ -72,7 +76,9 @@ export default {
                     scientific: '',
                 }
             }],
+            isChangeNameModalOpen:false,
             isLoading:false,
+            arrayIndex : null,
         }
     },
     created() {
@@ -106,6 +112,38 @@ export default {
 
                 });
     },
+    methods:{
+        deleteUnit(plantUnit){
+            this.isLoading=true
+            axios.post('/api/plantUnit/' + plantUnit.plantUnitId, {
+                },
+                {
+                    headers: {
+                        'content-type': 'multipart/form-data',
+                        'X-HTTP-Method-Override': 'DELETE',
+                    }
+                }).then(res => {
+                window.location.href = 'http://localhost:51111/plantUnit/';
+                this.isLoading=false
+            }).catch(error => {
+                console.log(error);
+                this.isLoading=false
+
+            });
+        },
+        getIndex(index) {
+            this.arrayIndex = index
+        },
+        openChangeNameModal() {
+            setTimeout(() => {
+                this.isChangeNameModalOpen = true;
+            }, 100);
+        },
+        closeChangeNameModal(){
+            this.isChangeNameModalOpen = false;
+        }
+    },
+
     computed: {
         computedPlantUnitId() {
             return this.plantUnitId;

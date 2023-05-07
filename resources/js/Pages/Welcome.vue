@@ -146,6 +146,7 @@ defineProps({
 
 import ImageMaker from "@/Components/ImageMaker.vue";
 import NaviFooter from "@/Components/NaviFooter.vue";
+import LoadWait from "@/Components/LoadWait.vue";
 
 export default {
     components: {

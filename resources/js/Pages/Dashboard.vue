@@ -12,7 +12,7 @@ import Welcome from '@/Components/Welcome.vue';
                 {{ $attrs.user.user_id}}
             </h2>
         </template>
-
+        <div class="bg-green-100 pb-16">
         <section class="text-gray-600 body-font">
                 <div class="grid grid-cols-2 gap-4 justify-items-center">
                     <Link :href="route('welcome')" class="block">
@@ -57,7 +57,9 @@ import Welcome from '@/Components/Welcome.vue';
                     </div>
                     </Link>
                 </div>
+            <NaviFooter/>
         </section>
+            </div>
     </AppLayout>
 </template>
 <style>
@@ -67,7 +69,12 @@ object {
 </style>
 <script>
 
+import NaviFooter from "@/Components/NaviFooter.vue";
+
 export default {
+    components: {
+        NaviFooter,
+    },
     props: {
         user_id: {
             type: String,

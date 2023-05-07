@@ -123,8 +123,7 @@ class PlantUnitRepository implements PlantUnitRepositoryInterface
 
     public function delete(PlantUnitId $plantUnitId): void
     {
-        $plantUnit = \App\Models\Diary::where('plant_unit_id', $plantUnitId->getId())->first();
-
+        $plantUnit = \App\Models\PlantUnit::where('plant_unit_id', $plantUnitId->getId())->first();
         if ($plantUnit === null) {
             throw new NotFoundException('指定した植物ユニットIDを見つけることができませんでした');
         }

@@ -166,8 +166,8 @@ export default defineComponent({
         };
     },
     created() {
-        this.currentWateringTimes = this.waterSetting.currentWateringTimes;
-        this.currentWateringInterval = this.waterSetting.currentWateringInterval;
+        this.currentWateringTimes = this.waterSetting.wateringTimes;
+        this.currentWateringInterval = this.waterSetting.wateringInterval;
     },
     watch: {
         openModal(newVal) {
