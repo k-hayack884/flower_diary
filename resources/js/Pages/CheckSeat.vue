@@ -7,13 +7,14 @@ import WaterSettingModal from "@/Components/WaterSettingModal.vue";
 import {reactive} from "vue";
 </script>
 <template>
+    <div class="bg-green-100 pb-16">
 
+    <LoadWait :show="isLoading"
+              class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50"></LoadWait>
     <section class="text-gray-600 body-font">
         <div class="container px-5 py-24 mx-auto">
             <div class="flex flex-wrap w-full mb-20 flex-col items-center text-center">
                 <h1 class="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900">お世話の設定</h1>
-                <p class="lg:w-1/2 w-full leading-relaxed text-gray-500">Whatever cardigan tote bag tumblr hexagon
-                    brooklyn asymmetrical gentrify, subway tile poke farm-to-table.</p>
             </div>
             <h1 class="relative py-1">
                 <span
@@ -23,7 +24,7 @@ import {reactive} from "vue";
             <div class="flex flex-wrap m-4">
                 <div v-for="(waterSetting,index) in waterSettings" class="w-full sm:w-1/2 lg:w-1/3 p-4 ">
                     <div class="p-4 h-104 w-auto">
-                        <div class="border border-gray-200 rounded-lg text-center p-6">
+                        <div class="border border-gray-200 rounded-lg text-center p-6 bg-white">
                             <div
                                 class="w-10 h-10 inline-flex items-center justify-center rounded-full bg-indigo-100 text-indigo-500 mb-4 ">
                                 <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
@@ -32,7 +33,8 @@ import {reactive} from "vue";
                                 </svg>
                             </div>
                             <h2 class="text-lg text-gray-900 font-medium title-font mb-2">水やり設定{{ index + 1 }}</h2>
-                            <ul>
+                            <div class="mx-8">
+                            <ul class="text-left">
                                 <li>
                                     設定月:{{ waterSetting.months }}
                                 </li>
@@ -55,26 +57,26 @@ import {reactive} from "vue";
                                     通知時間:{{ waterSetting.alertTimes }}
                                 </li>
                             </ul>
-
+                            </div>
                             <button @click="openWaterModal(); getIndex(index)"
                                     class="flex mx-auto mt-16 text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
-                                設定
+                                設定する
                             </button>
                         </div>
                     </div>
                 </div>
+            </div>
+            <button @click="openWaterModal(),getIndex(null)"
+                    class="flex mx-auto mt-16 text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
+                作成する
+            </button>
+            <WaterSettingModal :open-modal="isWaterModalOpen" @closeModal="closeWaterModal"
+                               v-if="waterSettings[arrayIndex]"
+                               :waterSetting="waterSettings[arrayIndex]"/>
 
-                <button @click="openWaterModal(),getIndex(null)"
-                        class="flex mx-auto mt-16 text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
-                    設定
-                </button>
-                <WaterSettingModal :open-modal="isWaterModalOpen" @closeModal="closeWaterModal"
-                                   v-if="waterSettings[arrayIndex]"
-                                   :waterSetting="waterSettings[arrayIndex]"/>
-
-                <WaterSettingModal :open-modal="isWaterModalOpen" @closeModal="closeWaterModal"
-                                        v-else
-                                        :waterSetting="reactive({
+            <WaterSettingModal :open-modal="isWaterModalOpen" @closeModal="closeWaterModal"
+                               v-else
+                               :waterSetting="reactive({
                                         checkSeatId:checkSeatId,
         waterSettingId: '',
         months: [],
@@ -86,8 +88,6 @@ import {reactive} from "vue";
         isCreate:true
     })
        "/>
-
-            </div>
             <h1 class="relative py-1">
                 <span
                     class="absolute font-bold font-fontawesome content-'\\f00c Check' bg-green-500 text-white left-0 bottom-full rounded-t-md px-4 py-2 mt-4 text-sm leading-tight tracking-widest"> 肥料</span>
@@ -96,7 +96,7 @@ import {reactive} from "vue";
             <div class="flex flex-wrap m-4">
                 <div v-for="(fertilizerSetting,index) in fertilizerSettings" class="w-full sm:w-1/2 lg:w-1/3 p-4">
                     <div class="p-4 h-104 w-auto">
-                        <div class="border border-gray-200 p-6 rounded-lg text-center">
+                        <div class="border border-gray-200 p-6 rounded-lg text-center bg-white">
                             <div
                                 class="w-10 h-10 inline-flex items-center justify-center rounded-full bg-indigo-100 text-indigo-500 mb-4">
                                 <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
@@ -105,7 +105,8 @@ import {reactive} from "vue";
                                 </svg>
                             </div>
                             <h2 class="text-lg text-gray-900 font-medium title-font mb-2">肥料設定{{ index + 1 }}</h2>
-                            <ul>
+                            <div class="mx-8">
+                            <ul class="text-left">
                                 <li>
                                     肥料名:{{ fertilizerSetting.fertilizerName }}
                                 </li>
@@ -119,23 +120,27 @@ import {reactive} from "vue";
                                     備考:{{ fertilizerSetting.note }}
                                 </li>
                             </ul>
+                                </div>
                             <button @click="openFertilizerModal(); getIndex(index)"
                                     class="flex mx-auto mt-16 text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
-                                設定
+                                設定する
                             </button>
                         </div>
                     </div>
                 </div>
-                <button @click="openFertilizerModal(),getIndex(null)"
-                        class="flex mx-auto mt-16 text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
-                    設定
-                </button>
-                <FertilizerSettingModal :open-modal="isFertilizerModalOpen" @closeModal="closeFertilizerModal"
-                                        v-if="arrayIndex !== null"
-                                        :fertilizerSetting="fertilizerSettings[arrayIndex]"/>
-                <FertilizerSettingModal :open-modal="isFertilizerModalOpen" @closeModal="closeFertilizerModal"
-                                        v-else
-                                        :fertilizerSetting="reactive({
+
+
+            </div>
+            <button @click="openFertilizerModal(),getIndex(null)"
+                    class="flex mx-auto mt-16 text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
+                作成する
+            </button>
+            <FertilizerSettingModal :open-modal="isFertilizerModalOpen" @closeModal="closeFertilizerModal"
+                                    v-if="arrayIndex !== null"
+                                    :fertilizerSetting="fertilizerSettings[arrayIndex]"/>
+            <FertilizerSettingModal :open-modal="isFertilizerModalOpen" @closeModal="closeFertilizerModal"
+                                    v-else
+                                    :fertilizerSetting="reactive({
                                         checkSeatId:checkSeatId,
         fertilizerSettingId: '',
         months: [],
@@ -145,20 +150,25 @@ import {reactive} from "vue";
         isCreate:true
     })
                 "/>
-
-            </div>
         </div>
+        <NaviFooter/>
+
     </section>
 
-
+</div>
 </template>
 <script>
 
 
+import LoadWait from "@/Components/LoadWait.vue";
+import NaviFooter from "@/Components/NaviFooter.vue";
+
 export default {
     components: {
         WaterSettingModal,
+        LoadWait,
         FertilizerSettingModal,
+        NaviFooter,
 
     },
     name: "CheckSeat.vue",
@@ -172,12 +182,17 @@ export default {
             arrayIndex: null,
             successMessage: null,
             errorMessage: null,
+            isLoading:false,
         }
     },
     created() {
-        axios.get(`/api/checkSeat/${this.checkSeatId}/waterSetting?checkSeatId=${this.checkSeatId}`, {})
-            .then((res) => {
-                const waterSettingData = res.data.waterSettings.map(waterSetting => ({
+        this.isLoading = true;
+        axios.all([
+            axios.get(`/api/checkSeat/${this.checkSeatId}/waterSetting?checkSeatId=${this.checkSeatId}`),
+            axios.get(`/api/checkSeat/${this.checkSeatId}/fertilizerSetting?checkSeatId=${this.checkSeatId}`)
+        ])
+            .then(axios.spread((res1, res2) => {
+                const waterSettingData = res1.data.waterSettings.map(waterSetting => ({
                     waterSettingId: waterSetting.waterSettingId,
                     checkSeatId:this.checkSeatId,
                     months: waterSetting.months,
@@ -188,13 +203,8 @@ export default {
                     alertTimes: waterSetting.alertTimes,
                 }));
                 this.waterSettings = waterSettingData
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-        axios.get(`/api/checkSeat/${this.checkSeatId}/fertilizerSetting?checkSeatId=${this.checkSeatId}`, {})
-            .then((res) => {
-                const fertilizerSettingData = res.data.fertilizerSettings.map(fertilizerSetting => ({
+
+                const fertilizerSettingData = res2.data.fertilizerSettings.map(fertilizerSetting => ({
                     fertilizerSettingId: fertilizerSetting.fertilizerSettingId,
                     checkSeatId:this.checkSeatId,
                     months: fertilizerSetting.months,
@@ -203,11 +213,49 @@ export default {
                     fertilizerName: fertilizerSetting.fertilizerName,
                 }));
                 this.fertilizerSettings = fertilizerSettingData
-            })
+            }))
             .catch((error) => {
+                this.isLoading = false;
                 console.log(error);
-            });
+            })
+            .finally(() => {
+                this.isLoading = false;
+            });;
 
+        // axios.get(`/api/checkSeat/${this.checkSeatId}/waterSetting?checkSeatId=${this.checkSeatId}`, {})
+        //     .then((res) => {
+        //         const waterSettingData = res.data.waterSettings.map(waterSetting => ({
+        //             waterSettingId: waterSetting.waterSettingId,
+        //             checkSeatId:this.checkSeatId,
+        //             months: waterSetting.months,
+        //             note: waterSetting.note,
+        //             waterAmount: waterSetting.waterAmount,
+        //             wateringTimes: waterSetting.wateringTimes,
+        //             wateringInterval: waterSetting.wateringInterval,
+        //             alertTimes: waterSetting.alertTimes,
+        //         }));
+        //         this.waterSettings = waterSettingData
+        //
+        //     })
+        //     .catch((error) => {
+        //         console.log(error);
+        //     });
+        // axios.get(`/api/checkSeat/${this.checkSeatId}/fertilizerSetting?checkSeatId=${this.checkSeatId}`, {})
+        //     .then((res) => {
+        //         const fertilizerSettingData = res.data.fertilizerSettings.map(fertilizerSetting => ({
+        //             fertilizerSettingId: fertilizerSetting.fertilizerSettingId,
+        //             checkSeatId:this.checkSeatId,
+        //             months: fertilizerSetting.months,
+        //             note: fertilizerSetting.note,
+        //             fertilizerAmount: fertilizerSetting.fertilizerAmount,
+        //             fertilizerName: fertilizerSetting.fertilizerName,
+        //         }));
+        //         this.fertilizerSettings = fertilizerSettingData
+        //     })
+        //     .catch((error) => {
+        //         console.log(error);
+        //     });
+        //
 
     },
     mounted() {

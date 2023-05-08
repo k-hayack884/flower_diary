@@ -1,171 +1,188 @@
 <template>
     <p>plantUnitId: {{ plantUnitId }}</p>
 
+    <div class="bg-green-100 pb-16">
+        <LoadWait :show="isLoading"
+                  class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50"></LoadWait>
 
-    <div id="tab" class="w-full max-w-500 mx-auto">
-        <ul class="flex tabMenu">
-            <li class="w-auto px-4 py-2 text-white border-r border-white bg-blue-700 cursor-pointer"
-                @click="isSelect('1')">日記
-            </li>
-            <li class="w-auto px-4 py-2 text-white border-r border-white bg-blue-700 cursor-pointer"
-                @click="isSelect('2');showCheckSeat()">お世話
-            </li>
-            <li class="w-auto px-4 py-2 text-white bg-blue-700 cursor-pointer" @click="isSelect('3');getPlantData()">
-                情報
-            </li>
-        </ul>
-        <div class="w-full p-4 border border-blue-700 tabContents w-full lg:w-3/4">
-            <div v-if="isActive === '1'">
-                <button class="btn btn-success" @click="openDiaryModal(); getIndex(null)">日記を投稿する</button>
-                <div v-for="(diary, index) in diaries" class="mb-4">
+        <div id="tab" class="w-full max-w-500 mx-auto">
+            <ul class="flex tabMenu">
+                <li class="w-auto px-4 py-2 text-white border-r border-white bg-blue-700 cursor-pointer"
+                    @click="isSelect('1')">日記
+                </li>
+                <li class="w-auto px-4 py-2 text-white border-r border-white bg-blue-700 cursor-pointer"
+                    @click="isSelect('2');showCheckSeat()">お世話
+                </li>
+                <li class="w-auto px-4 py-2 text-white bg-blue-700 cursor-pointer"
+                    @click="isSelect('3');getPlantData()">
+                    情報
+                </li>
+            </ul>
+            <div class="w-full p-4 border border-blue-700 tabContents w-full lg:w-3/4">
+                <div v-if="isActive === '1'">
 
-                    <div class="card card-side bg-base-100 shadow-lg rounded-lg overflow-hidden flex flex-col">
-                        <div class="flex items-center h-200">
-                            <div class="w-1/6">
-                                <div v-if="diary.diaryImage" class="w-1/8">
-                                    <img :src="'data:image/png;base64,'+diary.diaryImage"
-                                         class="lg:w-full lg:h-full object-cover"/>
+                    <button class="btn btn-success" @click="openDiaryModal(); getIndex(null)">日記を投稿する</button>
+                    <div v-if="diaries.length===0" class="py-16 text-center">日記はありません</div>
+
+                    <div v-for="(diary, index) in diaries" class="mb-4">
+
+                        <div class="card card-side bg-base-100 shadow-lg rounded-lg overflow-hidden flex flex-col">
+                            <div class="flex items-center h-200">
+                                <div class="w-1/6">
+                                    <div v-if="diary.diaryImage" class="w-1/8">
+                                        <img :src="'data:image/png;base64,'+diary.diaryImage"
+                                             class="lg:w-full lg:h-full object-cover"/>
+                                    </div>
+                                    <div v-else>
+                                        <img src="../../icon/noImag.png" class="lg:w-full lg:h-full object-cover">
+                                    </div>
                                 </div>
-                                <div v-else>
-                                    <img src="../../icon/noImag.png" class="lg:w-full lg:h-full object-cover">
-                                </div>
-                            </div>
-                            <div class="w-5/6">
-                                <div class="card-body px-8 pb-0 flex-1">
-                                    <p>{{ diary.diaryContent }}</p>
-                                    <div class="flex mb-4 h-12 items-end">
-                                        <div class="flex-1 inline-block">日記更新日: {{ diary.createDate }}</div>
-                                        <button class="btn btn-success flex-1 w-18"
-                                                @click="openDiaryModal(); getIndex(index)">日記を編集する
-                                        </button>
+                                <div class="w-5/6">
+                                    <div class="card-body px-8 pb-0 flex-1">
+                                        <p>{{ diary.diaryContent }}</p>
+                                        <div class="flex mb-4 h-12 items-end">
+                                            <div class="flex-1 inline-block">日記更新日: {{ diary.createDate }}</div>
+                                            <button class="btn btn-success flex-1 w-18"
+                                                    @click="openDiaryModal(); getIndex(index)">日記を編集する
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+                            <!--                        <div class="border border-dashed border-gray-400"></div>-->
+                            <!--                        <div class="px-8 py-4 flex-1">-->
+                            <!--                            <div v-if="diary.comments && diary.comments.length > 0">-->
+                            <!--                                <button class="flex-1" @click="commentToggle(diary.diaryId,index)">コメント-->
+                            <!--                                    {{ diary.comments.length }}-->
+                            <!--                                </button>-->
+                            <!--                                <div :class="{'hidden': !diary.showComment}">-->
+                            <!--                                    <div v-for="comment in diary.comments" class="">-->
+                            <!--                                        <div class="chat chat-start">-->
+                            <!--                                            <div class="chat-image avatar">-->
+                            <!--                                                <div class="w-10 rounded-full">-->
+                            <!--                                                    <img :src="'data:image/png;base64,'+comment.userImage"/>-->
+                            <!--                                                </div>-->
+                            <!--                                            </div>-->
+                            <!--                                            <div class="chat-header">-->
+                            <!--                                                {{ comment.userName }}-->
+                            <!--                                                <time class="text-xs opacity-50"> {{ comment.createDate }}</time>-->
+                            <!--                                            </div>-->
+                            <!--                                            <div class="chat-bubble">{{ comment.content }}</div>-->
+                            <!--                                        </div>-->
+                            <!--                                    </div>-->
+                            <!--                                </div>-->
+                            <!--                            </div>-->
+                            <!--                            <div v-else>コメント 0</div>-->
+                            <!--                        </div>-->
                         </div>
-<!--                        <div class="border border-dashed border-gray-400"></div>-->
-<!--                        <div class="px-8 py-4 flex-1">-->
-<!--                            <div v-if="diary.comments && diary.comments.length > 0">-->
-<!--                                <button class="flex-1" @click="commentToggle(diary.diaryId,index)">コメント-->
-<!--                                    {{ diary.comments.length }}-->
-<!--                                </button>-->
-<!--                                <div :class="{'hidden': !diary.showComment}">-->
-<!--                                    <div v-for="comment in diary.comments" class="">-->
-<!--                                        <div class="chat chat-start">-->
-<!--                                            <div class="chat-image avatar">-->
-<!--                                                <div class="w-10 rounded-full">-->
-<!--                                                    <img :src="'data:image/png;base64,'+comment.userImage"/>-->
-<!--                                                </div>-->
-<!--                                            </div>-->
-<!--                                            <div class="chat-header">-->
-<!--                                                {{ comment.userName }}-->
-<!--                                                <time class="text-xs opacity-50"> {{ comment.createDate }}</time>-->
-<!--                                            </div>-->
-<!--                                            <div class="chat-bubble">{{ comment.content }}</div>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                            <div v-else>コメント 0</div>-->
-<!--                        </div>-->
                     </div>
+
                 </div>
+                <div v-else-if="isActive === '2'">
+                    <h2 class="mb-4 text-2xl font-bold">今月のお世話設定</h2>
 
-            </div>
-            <div v-else-if="isActive === '2'">
-                <h2 class="mb-4 text-2xl font-bold">今月のお世話設定</h2>
-                <div class="flex flex-col">
-                    <div class="w-auto px-4 py-2 text-white border-r border-white bg-blue-700">
-                        <div class="card w-96 bg-base-100 shadow-xl text-black">
-                            <div class="card-body">
-                                <h2 class="card-title">水やり設定</h2>
-
-                                <p>
-                                    水やり回数:{{ waterSettings[0].wateringInterval }}日に{{
-                                        waterSettings[0].wateringTimes
-                                    }}回</p>
-                                <div v-if="waterSettings[0].waterAmount === 'a_lot'">
-                                    <p>水やり量:たっぷり</p>
-                                </div>
-                                <div v-else-if="waterSettings[0].waterAmount === 'moderate_amount'">
-                                    <p>水やり量:適量</p>
-                                </div>
-                                <div v-else-if="waterSettings[0].waterAmount === 'sparingly'">
-                                    <p>水やり量:ひかえめ</p>
-                                </div>
-                                <p>備考:{{ waterSettings[0].note }}</p>
-                            </div>
-
-
-                        </div>
-
+                    <div v-if="waterSettings.length===0 && fertilizerSettings.length===0" class="py-16 text-center">
+                        お世話設定がありません
                     </div>
-                    <div class="w-auto px-4 py-2 text-white border-r border-white bg-blue-700">
-                        <div class="card w-96 bg-base-100 shadow-xl text-black">
-                            <div class="card-body">
-                                <h2 class="card-title">肥料設定</h2>
-                                <ul v-for="fertilizerSetting in fertilizerSettings" class="">
-                                    <li>
-                                        <p>肥料名:{{ fertilizerSetting.fertilizerName }}</p>
-                                        <p>肥料量:{{ fertilizerSetting.fertilizerAmount }}g</p>
-                                        <p>備考:{{ fertilizerSetting.note }}</p>
-                                    </li>
-                                </ul>
+
+                    <div v-else class="flex flex-col">
+                        <div class="w-auto px-4 py-2 text-white border-r border-white bg-green-700 m-2">
+                            <div class="card w-96 bg-base-100 shadow-xl text-black">
+                                <div class="card-body">
+                                    <h2 class="card-title">水やり設定</h2>
+                                    <p>
+                                        水やり回数:{{ waterSettings[0].wateringInterval }}日に{{
+                                            waterSettings[0].wateringTimes
+                                        }}回</p>
+                                    <div v-if="waterSettings[0].waterAmount === 'a_lot'">
+                                        <p>水やり量:たっぷり</p>
+                                    </div>
+                                    <div v-else-if="waterSettings[0].waterAmount === 'moderate_amount'">
+                                        <p>水やり量:適量</p>
+                                    </div>
+                                    <div v-else-if="waterSettings[0].waterAmount === 'sparingly'">
+                                        <p>水やり量:ひかえめ</p>
+                                    </div>
+                                    <p>備考:{{ waterSettings[0].note }}</p>
+                                </div>
+
+
+                            </div>
+
+                        </div>
+                        <div class="w-auto px-4 py-2 text-white border-r border-white bg-green-700 m-2">
+                            <div class="card w-96 bg-base-100 shadow-xl text-black">
+                                <div class="card-body">
+                                    <h2 class="card-title">肥料設定</h2>
+                                    <ul v-for="fertilizerSetting in fertilizerSettings" class="">
+                                        <li>
+                                            <div class="border border-dashed"></div>
+                                            <p>肥料名:{{ fertilizerSetting.fertilizerName }}</p>
+                                            <p>肥料量:{{ fertilizerSetting.fertilizerAmount }}g</p>
+                                            <p>備考:{{ fertilizerSetting.note }}</p>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
+
                     </div>
                     <a :href="route('checkSeat', { checkSeatId: checkSeatId })"
                        class="block">
                         <button class="btn btn-primary">お世話設定</button>
                     </a>
+
+
                 </div>
-            </div>
-            <div v-else-if="isActive === '3'">
-                <div class="card w-96 bg-base-100 shadow-xl">
-                    <div class="card-body">
-                        <h2 class="card-title">
-                            {{ plantData.plantName }}
-                        </h2>
-                        <p>学名:{{ plantData.scientific }}</p>
-                        <p>If a dog chews shoes whose shoes does he choose?</p>
-                        <div class="card-actions justify-end">
+                <div v-else-if="isActive === '3'">
+                    <div class="card w-96 bg-base-100 shadow-xl">
+                        <div class="card-body">
+                            <h2 class="card-title">
+                                {{ plantData.plantName }}
+                            </h2>
+                            <p>学名:{{ plantData.scientific }}</p>
+                            <p>If a dog chews shoes whose shoes does he choose?</p>
+                            <div class="card-actions justify-end">
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="card w-96 bg-base-100 shadow-xl">
-                    <div class="card-body">
-                        <h2 class="card-title">
-                            説明
-                        </h2>
-                        <p>{{ plantData.information }}</p>
-                        <div class="card-actions justify-end">
+                    <div class="card w-96 bg-base-100 shadow-xl">
+                        <div class="card-body">
+                            <h2 class="card-title">
+                                説明
+                            </h2>
+                            <p>{{ plantData.information }}</p>
+                            <div class="card-actions justify-end">
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="card w-96 bg-base-100 shadow-xl">
-                    <div class="card-body">
-                        <h2 class="card-title">
-                            おすすめのお世話設定
-                        </h2>
-                        <p>春:</p>
-                        <p>夏:</p>
-                        <p>秋:</p>
-                        <p>冬:</p>
-                        <div class="card-actions justify-end">
+                    <div class="card w-96 bg-base-100 shadow-xl">
+                        <div class="card-body">
+                            <h2 class="card-title">
+                                おすすめのお世話設定
+                            </h2>
+                            <p>春:</p>
+                            <p>夏:</p>
+                            <p>秋:</p>
+                            <p>冬:</p>
+                            <div class="card-actions justify-end">
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="card w-96 bg-base-100 shadow-xl">
-                    <div class="card-body">
-                        <h2 class="card-title">
-                            {{ plantData.plantName }}の画像
-                        </h2>
-                        <div class="card-actions justify-end">
+                    <div class="card w-96 bg-base-100 shadow-xl">
+                        <div class="card-body">
+                            <h2 class="card-title">
+                                {{ plantData.plantName }}の画像
+                            </h2>
+                            <div class="card-actions justify-end">
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <NaviFooter/>
     <DiaryModal :open-modal="isDiaryModalOpen" @closeModal="closeDiaryModal"
                 v-if="arrayIndex !== null"
                 :diary="diaries[arrayIndex]"
@@ -186,13 +203,17 @@
 <script>
 import DiaryModal from "@/Components/DiaryModal.vue";
 import {reactive} from "vue";
+import NaviFooter from "@/Components/NaviFooter.vue";
+import LoadWait from "@/Components/LoadWait.vue";
 
 export default {
     name: "PlantUnitDetail",
     components: {
         DiaryModal,
+        LoadWait,
+        NaviFooter,
     },
-    props: ['plantUnitId'],
+    props: ['plantUnitId','checkSeatId'],
     data() {
         return {
             userId: '',
@@ -209,25 +230,33 @@ export default {
             },
             diaries: [
                 {
+                    diaryId:'',
+                    diaryContent:'',
+                    diaryImage:'',
+                    createDate:'',
+                    comments:[],
                     showComment: false,
                 }
             ],
             waterSettings: [],
             fertilizerSettings: [],
-            currentMonth: 5,
+            currentMonth: '',
             isActive: '1',
             showComment: false,
             isDiaryModalOpen: false,
             arrayIndex: null,
+            isLoading:false,
+
 
 
         }
     },
     created() {
+        this.isLoading = true
         this.fetchPlantUnitData();
         const date = new Date();
         const month = date.getMonth() + 1; // 0-11の月の値を1-12に変換するために+1する
-        this.currentMonth = 5;
+        this.currentMonth = month;
     },
     methods: {
         reactive,
@@ -261,7 +290,10 @@ export default {
                 })
                 .catch((error) => {
                     console.log(error);
-                });
+                }).finally(()=> {
+                this.isLoading = false;
+
+            });
 
 
         },
@@ -316,9 +348,15 @@ export default {
             // });
         },
         showCheckSeat() {
-            axios.get(`/api/checkSeat/${this.checkSeatId}/waterSetting?checkSeatId=${this.checkSeatId}`, {})
-                .then((res) => {
-                    const waterSettingData = res.data.waterSettings.map(waterSetting => ({
+            this.isLoading=true;
+
+            axios.all([
+                axios.get(`/api/checkSeat/${this.checkSeatId}/waterSetting?checkSeatId=${this.checkSeatId}`),
+                axios.get(`/api/checkSeat/${this.checkSeatId}/fertilizerSetting?checkSeatId=${this.checkSeatId}`)
+            ])
+
+                .then(axios.spread((res1, res2) => {
+                    const waterSettingData = res1.data.waterSettings.map(waterSetting => ({
                         waterSettingId: waterSetting.waterSettingId,
                         months: waterSetting.months,
                         note: waterSetting.note,
@@ -332,14 +370,7 @@ export default {
                     const currentWaterSettings = waterSettingData.filter(setting => setting.months.includes(this.currentMonth));
                     this.waterSettings = currentWaterSettings;
 
-                    console.log(currentWaterSettings); // 検索結果の数値が出力される
-                })
-                .catch((error) => {
-                    console.log(error);
-                });
-            axios.get(`/api/checkSeat/${this.checkSeatId}/fertilizerSetting?checkSeatId=${this.checkSeatId}`, {})
-                .then((res) => {
-                    const fertilizerSettingData = res.data.fertilizerSettings.map(fertilizerSetting => ({
+                    const fertilizerSettingData = res2.data.fertilizerSettings.map(fertilizerSetting => ({
                         fertilizerSettingId: fertilizerSetting.fertilizerSettingId,
                         months: fertilizerSetting.months,
                         note: fertilizerSetting.note,
@@ -352,9 +383,12 @@ export default {
                     const currentFertilizerSettings = fertilizerSettingData.filter(setting => setting.months.includes(this.currentMonth));
                     this.fertilizerSettings = currentFertilizerSettings;
 
-                })
+                }))
                 .catch((error) => {
                     console.log(error);
+                })
+                .finally(() => {
+                    this.isLoading = false;
                 });
         },
         getPlantData() {

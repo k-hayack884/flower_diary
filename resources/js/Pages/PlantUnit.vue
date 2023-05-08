@@ -50,6 +50,7 @@
 import LoadWait from "@/Components/LoadWait.vue";
 import NaviFooter from "@/Components/NaviFooter.vue";
 import ChangeNameModal from "@/Components/ChangeNameModal.vue";
+import {reactive} from "vue";
 
 export default {
     name: "PlantUnit",
@@ -113,6 +114,8 @@ export default {
                 });
     },
     methods:{
+        reactive,
+
         deleteUnit(plantUnit){
             this.isLoading=true
             axios.post('/api/plantUnit/' + plantUnit.plantUnitId, {

@@ -203,6 +203,10 @@ Route::middleware('auth:sanctum')->group(function () {
         'plantUnit',
         [PlantUnitController::class,'create']
     );
+    Route::put(
+        'plantUnit/{plantUnitId}',
+        [PlantUnitController::class,'updateName']
+    );
     Route::get(
         'plantUnit/{plantUnitId}',
         [PlantUnitController::class,'show']

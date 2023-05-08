@@ -9,38 +9,39 @@ CheckSeatModal.vue
 
         <div class="p-8 bg-white w-3/4 lg:py-32 lg:px-16 lg:pl-10 lg:w-1/2 tails-selected-element"
              contenteditable="true" @click.stop="" style="max-height: 120vh; overflow-y: auto;">
+            <h1 class="text-2xl">水やりを設定する</h1>
             {{ waterSetting }}
             <span v-show="errors" class="text-red-500">
                 <p v-for="error in errors">
                     {{ error }}
                 </p></span>
             <div class="flex flex-col items-start w-full lg:max-w-lg mx-auto"> <!-- mx-autoを追加 -->
-                <div class="grid grid-cols-4 gap-4">
+                <div class="grid grid-cols-4 gap-4 mx-auto">
                     <button v-for="(month, index) in 12" :key="month"
-                            :class="{'bg-blue-900': waterSetting.months && waterSetting.months.includes(index+1),
-                             'bg-blue-500': !waterSetting.months || !waterSetting.months.includes(index+1)}"
-                            class="text-white font-bold py-2 px-4 rounded-full"
+                            :class="{'bg-green-900': waterSetting.months && waterSetting.months.includes(index+1),
+                             'bg-green-500': !waterSetting.months || !waterSetting.months.includes(index+1)}"
+                            class="text-white font-bold py-2 px-2 lg:px-4 rounded-full"
                     @click="selectMonth(index)">
                         {{ month }}月
                     </button>
                 </div>
 
-                <div class="grid grid-cols-3 w-full lg:max-w-lg mx-auto">
+                <div class="grid grid-cols-3 w-full lg:max-w-lg mx-auto pt-8">
                     <div class="btn-group flex justify-center">
-                        <label class="btn px-16" :class="{ 'bg-blue-500': waterSetting.waterAmount === 'a_lot' }">
+                        <label class="btn px-4 md:px-8 lg:px-12 bg-green-500 hover:bg-green-900" :class="{ 'bg-green-900': waterSetting.waterAmount === 'a_lot' }">
                             <input @click="selectAmount('a_lot')" type="radio" name="options" class="hidden"/>
                             <span style="writing-mode: horizontal-tb;">たっぷり</span>
                         </label>
                     </div>
                     <div class="btn-group flex justify-center">
-                        <label class="btn px-16"
-                               :class="{ 'bg-blue-500': waterSetting.waterAmount === 'moderate_amount' }">
+                        <label class="btn px-6 md:px-10 lg:px-12 bg-green-500 hover:bg-green-900"
+                               :class="{ 'bg-green-900': waterSetting.waterAmount === 'moderate_amount' }">
                             <input @click="selectAmount('moderate_amount')" type="radio" name="options" class="hidden"/>
                             <span style="writing-mode: horizontal-tb;">適量</span>
                         </label>
                     </div>
                     <div class="btn-group flex justify-center">
-                        <label class="btn px-16" :class="{ 'bg-blue-500': waterSetting.waterAmount === 'sparingly' }">
+                        <label class="btn px-4 md:px-8 lg:px-12 bg-green-500 hover:bg-green-900" :class="{ 'bg-green-900': waterSetting.waterAmount === 'sparingly' }">
                             <input @click="selectAmount('sparingly')" type="radio" name="options" class="hidden"/>
                             <span style="writing-mode: horizontal-tb;">ひかえめ</span>
                         </label>
@@ -50,8 +51,8 @@ CheckSeatModal.vue
                     <label class="label">
                         <span class="label-text">水やり間隔</span>
                     </label>
-                    <label class="input-group">
-                        <input type="text" placeholder="" class="input input-bordered"
+                    <label class="input-group flex flex-col sm:flex-row">
+                        <input type="text" placeholder="" class="input input-bordered sm:mb-0"
                                v-model="waterSetting.wateringInterval"/>
                         <span>現在の水やり間隔:{{ currentWateringInterval }}</span>
                     </label>
@@ -60,13 +61,13 @@ CheckSeatModal.vue
                     <label class="label">
                         <span class="label-text">水やり回数</span>
                     </label>
-                    <label class="input-group">
+                    <label class="input-group flex flex-col sm:flex-row">
                         <input type="text" placeholder="" class="input input-bordered"
                                v-model="waterSetting.wateringTimes"/>
                         <span>現在の水やり回数:{{ currentWateringTimes }}</span>
                     </label>
                 </div>
-                <div class="form-control">
+                <div class="form-control mb-4">
                     <label class="label">
                         <span class="label-text">備考欄</span>
                     </label>
@@ -172,7 +173,23 @@ export default defineComponent({
     watch: {
         openModal(newVal) {
             this.isOpen = newVal;
+            if (!newVal) {
+                // isOpenプロパティがfalseになった時にdataオブジェクトを初期値に設定する
+                this.alertTimes = [];
+                this.currentWateringTimes = 0;
+                this.currentWateringInterval = 0;
+                this.errors = [];
+                this.isLoading = false;
+            }
         },
+        waterSetting(newVal) {
+            console.log(newVal)
+            this.alertTimes = newVal.alertTimes;
+            this.currentWateringTimes = newVal.wateringTimes;
+            this.currentWateringInterval = newVal.wateringInterval;
+        },
+
+
     },
     methods: {
         closeModal() {
@@ -288,7 +305,7 @@ export default defineComponent({
             });
         }
 
-    }
+    },
 });
 </script>
 

@@ -6,8 +6,6 @@ CheckSeatModal.vue
     <div class="relative">
         <LoadWait :show="isLoading" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50"></LoadWait>
     <div id="overlay" @click="closeModal()" v-show="isOpen" class="z-20 flex justify-center">
-
-        <h1>ああああああああああああ</h1>
         <div class="p-8 bg-white w-full lg:py-32 lg:px-16 lg:pl-10 lg:w-3/4 tails-selected-element"
              contenteditable="true" @click.stop="" style="max-height: 120vh; overflow-y: auto;">
             {{ diary }}

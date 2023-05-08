@@ -45,10 +45,10 @@
                             <p class="text-sm">備考</p>
                             <p class="text-sm　font-bold">{{ waterCareData.waterNote }}</p>
                         </div>
-                        <div class=" h-16">
+                        <div class=" h-16 w-full">
                             <button
-                                class="btn btn-outline-success bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded px-12 my-4"
-                                @click="doneWaterCared(waterCareData);switchWater(index)">世話を完了する！
+                                class="btn btn-outline-success bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded my-4 w-full"
+                                @click="doneWaterCared(waterCareData);switchWater(index)">世話完了！
                             </button>
                         </div>
                     </div>
@@ -91,8 +91,8 @@
 
                         </ul>
                         <button
-                            class="btn btn-outline-success bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded px-12 my-4"
-                            @click="doneWaterCared(waterCareData);switchWater(index)">世話を完了する！
+                            class="btn btn-outline-success bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded px-12 my-4 w-full"
+                            @click="doneWaterCared(waterCareData);switchWater(index)">世話完了！
                         </button>
                     </div>
                 </div>
@@ -105,7 +105,7 @@
             <span class="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-green-600 to-transparent"></span>
         </h1>
 
-        <div v-if="fertilizerCareDatas.length===0" class="py-16 text-center">本日の肥料設定はありません</div>
+        <div v-if="fertilizerCareDatas.length===0" class="py-16 mb-12 text-center">本日の肥料設定はありません</div>
 
         <div v-for="fertilizerCareData in fertilizerCareDatas">
 
@@ -131,9 +131,9 @@
                         </div>
                         <div class=" h-16">
                             <button
-                                class="btn btn-outline-success bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded px-12 my-4"
+                                class="btn btn-outline-success bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded  my-4 w-full"
                                 @click="doneFertilizerCared(fertilizerCareData);switchFertilizer(index)">
-                                世話を完了する！
+                                世話完了！
                             </button>
                         </div>
                     </div>
@@ -164,7 +164,7 @@
                             </li>
                         </ul>
                         <button
-                            class="btn btn-outline-success bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded px-12 my-4"
+                            class="btn btn-outline-success bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded px-12 my-4 w-full"
                             @click="doneFertilizerCared(fertilizerCareData);switchFertilizer(index)">
                             世話を完了する！
                         </button>

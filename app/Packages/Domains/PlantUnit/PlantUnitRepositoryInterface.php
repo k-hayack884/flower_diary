@@ -12,6 +12,6 @@ interface PlantUnitRepositoryInterface
     public function findById(PlantUnitId $plantUnitId):PlantUnit;
 
     public function save(PlantUnitCollection $plantUnit):void;
-
+//    public function upDateName(PlantUnitCollection $plantUnit):void;
     public function delete(PlantUnitId $plantUnitId):void;
 }
