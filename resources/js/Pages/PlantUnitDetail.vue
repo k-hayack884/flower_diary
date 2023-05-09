@@ -229,14 +229,14 @@ export default {
                 information: '',
             },
             diaries: [
-                {
-                    diaryId:'',
-                    diaryContent:'',
-                    diaryImage:'',
-                    createDate:'',
-                    comments:[],
-                    showComment: false,
-                }
+                // {
+                //     diaryId:'',
+                //     diaryContent:'',
+                //     diaryImage:'',
+                //     createDate:'',
+                //     comments:[],
+                //     showComment: false,
+                // }
             ],
             waterSettings: [],
             fertilizerSettings: [],
@@ -274,7 +274,7 @@ export default {
                     this.plantId = res.data.plantUnit.plantId;
                     this.checkSeatId = res.data.plantUnit.checkSeatId;
                     this.plantName = res.data.plantUnit.plantName;
-                    this.diaries = res.data.plantUnit.diaries;
+                    // this.diaries = res.data.plantUnit.diaries;
                     this.plantImage = res.data.plantUnit.plantImage;
                     this.createDate = res.data.plantUnit.createDate;
                     this.updateDate = res.data.plantUnit.updateDate;
@@ -303,7 +303,8 @@ export default {
             // for (const diary of this.diaries) {
             //     const index = this.diaries.indexOf(diary);
             const res = await axios.get(`/api/plantUnit/${this.plantUnitId}/diary?plantUnitId=${this.plantUnitId}`, {})
-                .then((res) => {
+                //thenはいらない
+                // .then((res) => {
 
                     const diaryData = res.data.diaries.map(diary => ({
                         diaryId: diary.diaryId,
@@ -318,10 +319,10 @@ export default {
                     //     this.showCommentsLength();
                     // }
                     this.diaries = diaryData;
-                })
-                .catch((error) => {
-                    console.log(error);
-                });
+                // })
+                // .catch((error) => {
+                //     console.log(error);
+                // });
             // }
         },
         commentToggle(diaryId, index) {

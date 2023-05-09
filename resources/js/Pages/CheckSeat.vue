@@ -75,6 +75,7 @@ import {reactive} from "vue";
                                :waterSetting="waterSettings[arrayIndex]"/>
 
             <WaterSettingModal :open-modal="isWaterModalOpen" @closeModal="closeWaterModal"
+                               @some-event="someEvent"
                                v-else
                                :waterSetting="reactive({
                                         checkSeatId:checkSeatId,
@@ -262,6 +263,10 @@ export default {
         this.successMessage = "{{ session('success') }}";
     },
     methods: {
+        someEvent(n){
+           this.waterSettings.push({})
+            console.log(this.waterSettings)
+        },
         getIndex(index) {
             this.arrayIndex = index
         },

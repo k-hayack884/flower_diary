@@ -102,7 +102,8 @@ class PlantUnitRepository implements PlantUnitRepositoryInterface
 
 
         foreach ($collectionArray as $plant) {
-            \App\Models\PlantUnit::create([
+            \App\Models\PlantUnit::updateOrCreate(['plant_unit_id' => $plantUnit->getPlantUnitId()->getId()],
+                [
                 'plant_unit_id' => $plant->getPlantUnitId()->getId(),
                 'user_id' => $plant->getUserId()->getId(),
                 'plant_id' => $plant->getPlantId()->getId(),
@@ -111,6 +112,7 @@ class PlantUnitRepository implements PlantUnitRepositoryInterface
                 'plant_image'=>$plant->getPlantImage()->getValue(),
                 'create_date' => $plant->getCreateDate()->format('Y/m/d'),
                 'update_date' => $plant->getUpdateDate()->format('Y/m/d'),
+
             ]);
             \App\Models\CheckSeat::create([
                 'plant_unit_id' => $plant->getPlantUnitId()->getId(),

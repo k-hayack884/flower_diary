@@ -221,6 +221,7 @@ export default defineComponent({
         },
         create() {
             this.isLoading=true
+            this.$emit('someEvent',1)
 
             axios.post('/api/waterSetting', {
                 checkSeatId: this.waterSetting.checkSeatId,
@@ -270,7 +271,7 @@ export default defineComponent({
 
                 console.log('とうろくせいこう')
 
-                window.location.href = 'http://localhost:51111/checkSeat/' + this.waterSetting.checkSeatId;
+                // window.location.href = 'http://localhost:51111/checkSeat/' + this.waterSetting.checkSeatId;
                 this.isLoading=false
 
             }).catch(error => {
