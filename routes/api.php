@@ -25,10 +25,7 @@ use Inertia\Inertia;
 |
 */
 
-Route::get(
-    'plantUnit/{plantUnitId}/care',
-    [CareController::class,'index']
-);
+
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -59,6 +56,11 @@ Route::post(
 Route::get(
     'plant/{plantId}',
     [PlantController::class,'show']
+);
+
+Route::post(
+    'addPlant',
+    [PlantController::class,'add']
 );
 Route::middleware('auth:sanctum')->group(function () {
 
@@ -235,7 +237,10 @@ Route::middleware('auth:sanctum')->group(function () {
         'care/{alertTimeId}/fertilizer',
         [CareController::class,'pushFertilizer']
     );
-
+    Route::get(
+        'plantUnit/{plantUnitId}/care',
+        [CareController::class,'index']
+    );
 });
 //植物のスキャン
 

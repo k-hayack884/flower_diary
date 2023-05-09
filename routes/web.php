@@ -23,7 +23,9 @@ Route::get('/', function () {
         'phpVersion' => PHP_VERSION,
     ]);
 });
-
+Route::get('/addPlantImage', function () {
+    return Inertia::render('AddPlantImage');
+})->name('addPlantImage');
 
 Route::middleware([
     'auth:sanctum',

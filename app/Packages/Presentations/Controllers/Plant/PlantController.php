@@ -4,7 +4,9 @@ namespace App\Packages\Presentations\Controllers\Plant;
 
 
 use App\Http\Controllers\Controller;
+use App\Packages\Presentations\Requests\Plant\AddPlantRequest;
 use App\Packages\Presentations\Requests\Plant\GetPlantRequest;
+use App\Packages\Usecases\Plant\AddPlantAction;
 use App\Packages\Usecases\Plant\GetPlantAction;
 use App\Packages\Usecases\Plant\ScanPlantAction;
 use Illuminate\Http\Request;
@@ -28,6 +30,14 @@ class PlantController extends Controller
     {
 
         $request = $request->input('plantLabel');
+        return (array)$action($request);
+    }
+
+    public function add(
+        AddPlantRequest $request,
+        AddPlantAction  $action,
+    )
+    {
         return (array)$action($request);
     }
 
