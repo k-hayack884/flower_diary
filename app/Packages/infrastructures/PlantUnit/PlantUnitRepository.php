@@ -18,6 +18,7 @@ use Carbon\Carbon;
 
 class PlantUnitRepository implements PlantUnitRepositoryInterface
 {
+    //あああ
     public function find(): array
     {
         $plantUnits = [];
