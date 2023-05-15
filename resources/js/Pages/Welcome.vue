@@ -105,6 +105,34 @@ defineProps({
                     名前：{{ plantName }} 学名：{{ scientific }}
                     <p>解説：{{ information }}
                     </p>
+                    {{ plantName }}の画像
+                    <div class="carousel rounded-box">
+                        <div class="carousel-item">
+                            <img :src="'data:image/png;base64,'+image1"
+                                 class="lg:w-full lg:h-full object-cover"
+                                 style="width: 400px; height: 400px ;"/>
+                        </div>
+                        <div class="carousel-item">
+                            <img :src="'data:image/png;base64,'+image2"
+                                 class="lg:w-full lg:h-full object-cover"
+                                 style="width: 400px; height: 400px ;"/>
+                        </div>
+                        <div class="carousel-item">
+                            <img :src="'data:image/png;base64,'+image3"
+                                 class="lg:w-full lg:h-full object-cover"
+                                 style="width: 400px; height: 400px ;"/>
+                        </div>
+                        <div class="carousel-item">
+                            <img :src="'data:image/png;base64,'+image4"
+                                 class="lg:w-full lg:h-full object-cover"
+                                 style="width: 400px; height: 400px ;"/>
+                        </div>
+                        <div class="carousel-item">
+                            <img :src="'data:image/png;base64,'+image5"
+                                 class="lg:w-full lg:h-full object-cover"
+                                 style="width: 400px; height: 400px ;"/>
+                        </div>
+                    </div>
                 </div>
                 <div v-if="getPlant">
                     <div class="text-white py-4">
@@ -169,6 +197,11 @@ export default {
             plantName: '',
             scientific: '',
             information: '',
+            image1:'',
+            image2:'',
+            image3:'',
+            image4:'',
+            image5:'',
             avatar: null,
             message: '',
             getPlant: false,
@@ -273,6 +306,11 @@ export default {
                     this.plantName = res.data.plant.name;
                     this.information = res.data.plant.information;
                     this.scientific = res.data.plant.scientific;
+                    this.image1 = res.data.plant.plantImage1;
+                    this.image2 = res.data.plant.plantImage2;
+                    this.image3 = res.data.plant.plantImage3;
+                    this.image4 = res.data.plant.plantImage4;
+                    this.image5 = res.data.plant.plantImage5;
                     this.getPlant = true;
                     this.isScan = false
 
@@ -297,6 +335,11 @@ export default {
                     this.plantName = res.data.plant.name;
                     this.information = res.data.plant.information;
                     this.scientific = res.data.plant.scientific;
+                    this.image1 = res.data.plant.plantImage1;
+                    this.image2 = res.data.plant.plantImage2;
+                    this.image3 = res.data.plant.plantImage3;
+                    this.image4 = res.data.plant.plantImage4;
+                    this.image5 = res.data.plant.plantImage5;
                     this.getPlant = true;
                     this.isLoading = false
 

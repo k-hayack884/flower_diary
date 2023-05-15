@@ -89,9 +89,9 @@ import {reactive} from "vue";
         isCreate:true
     })
        "/>
+            <div class="mt-16"></div>
             <h1 class="relative py-1">
-                <span
-                    class="absolute font-bold font-fontawesome content-'\\f00c Check' bg-green-500 text-white left-0 bottom-full rounded-t-md px-4 py-2 mt-4 text-sm leading-tight tracking-widest"> 肥料</span>
+                <span class="absolute font-bold font-fontawesome content-'\\f00c Check' bg-green-500 text-white left-0 bottom-full rounded-t-md px-4 py-2 mt-4 text-sm leading-tight tracking-widest"> 肥料</span>
                 <span class="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-green-600 to-transparent"></span>
             </h1>
             <div class="flex flex-wrap m-4">

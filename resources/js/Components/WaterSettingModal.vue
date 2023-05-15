@@ -1,4 +1,4 @@
-CheckSeatModal.vue
+WaterSettingModal.vue
 
 
 <template>

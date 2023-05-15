@@ -135,46 +135,76 @@
 
                 </div>
                 <div v-else-if="isActive === '3'">
-                    <div class="card w-96 bg-base-100 shadow-xl">
-                        <div class="card-body">
-                            <h2 class="card-title">
-                                {{ plantData.plantName }}
-                            </h2>
-                            <p>学名:{{ plantData.scientific }}</p>
-                            <p>If a dog chews shoes whose shoes does he choose?</p>
-                            <div class="card-actions justify-end">
+                    <div class="flex flex-col items-center">
+                        <div class="card w-full lg:w-2/3 bg-base-100 shadow-xl my-4">
+                            <div class="card-body">
+                                <h2 class="card-title">
+                                    {{ plantData.plantName }}
+                                </h2>
+                                <p>学名:{{ plantData.scientific }}</p>
+                                <p>If a dog chews shoes whose shoes does he choose?</p>
+                                <div class="card-actions justify-end">
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="card w-96 bg-base-100 shadow-xl">
-                        <div class="card-body">
-                            <h2 class="card-title">
-                                説明
-                            </h2>
-                            <p>{{ plantData.information }}</p>
-                            <div class="card-actions justify-end">
+                        <div class="card w-full lg:w-2/3 bg-base-100 shadow-xl my-4">
+                            <div class="card-body">
+                                <h2 class="card-title">
+                                    説明
+                                </h2>
+                                <p>{{ plantData.information }}</p>
+                                <div class="card-actions justify-end">
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="card w-96 bg-base-100 shadow-xl">
-                        <div class="card-body">
-                            <h2 class="card-title">
-                                おすすめのお世話設定
-                            </h2>
-                            <p>春:</p>
-                            <p>夏:</p>
-                            <p>秋:</p>
-                            <p>冬:</p>
-                            <div class="card-actions justify-end">
+                        <div class="card w-full lg:w-2/3 bg-base-100 shadow-xl my-4">
+                            <div class="card-body">
+                                <h2 class="card-title">
+                                    おすすめのお世話設定
+                                </h2>
+                                <p>春:</p>
+                                <p>夏:</p>
+                                <p>秋:</p>
+                                <p>冬:</p>
+                                <div class="card-actions justify-end">
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="card w-96 bg-base-100 shadow-xl">
-                        <div class="card-body">
-                            <h2 class="card-title">
-                                {{ plantData.plantName }}の画像
-                            </h2>
-                            <div class="card-actions justify-end">
+                        <div class="card w-full lg:w-2/3 bg-base-100 shadow-xl my-4">
+                            <div class="card-body">
+                                <h2 class="card-title">
+                                    {{ plantData.plantName }}の画像
+                                </h2>
+
+                                <div class="carousel rounded-box">
+                                    <div class="carousel-item">
+                                        <img :src="'data:image/png;base64,'+plantData.image1"
+                                             class="lg:w-full lg:h-full object-cover"
+                                             style="width: 400px; height: 400px ;"/>
+                                    </div>
+                                    <div class="carousel-item">
+                                        <img :src="'data:image/png;base64,'+plantData.image2"
+                                             class="lg:w-full lg:h-full object-cover"
+                                             style="width: 400px; height: 400px ;"/>
+                                    </div>
+                                    <div class="carousel-item">
+                                        <img :src="'data:image/png;base64,'+plantData.image3"
+                                             class="lg:w-full lg:h-full object-cover"
+                                             style="width: 400px; height: 400px ;"/>
+                                    </div>
+                                    <div class="carousel-item">
+                                        <img :src="'data:image/png;base64,'+plantData.image4"
+                                             class="lg:w-full lg:h-full object-cover"
+                                             style="width: 400px; height: 400px ;"/>
+                                    </div>
+                                    <div class="carousel-item">
+                                        <img :src="'data:image/png;base64,'+plantData.image5"
+                                             class="lg:w-full lg:h-full object-cover"
+                                             style="width: 400px; height: 400px ;"/>
+                                    </div>
+                                </div>
+                                <div class="card-actions justify-end">
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -213,7 +243,7 @@ export default {
         LoadWait,
         NaviFooter,
     },
-    props: ['plantUnitId','checkSeatId'],
+    props: ['plantUnitId', 'checkSeatId'],
     data() {
         return {
             userId: '',
@@ -229,14 +259,6 @@ export default {
                 information: '',
             },
             diaries: [
-                // {
-                //     diaryId:'',
-                //     diaryContent:'',
-                //     diaryImage:'',
-                //     createDate:'',
-                //     comments:[],
-                //     showComment: false,
-                // }
             ],
             waterSettings: [],
             fertilizerSettings: [],
@@ -245,14 +267,13 @@ export default {
             showComment: false,
             isDiaryModalOpen: false,
             arrayIndex: null,
-            isLoading:false,
-
+            isLoading: false,
 
 
         }
     },
     created() {
-        this.isLoading = true
+
         this.fetchPlantUnitData();
         const date = new Date();
         const month = date.getMonth() + 1; // 0-11の月の値を1-12に変換するために+1する
@@ -268,6 +289,7 @@ export default {
             this.arrayIndex = index
         },
         fetchPlantUnitData() {
+            this.isLoading = true;
             axios.get(`/api/plantUnit/${this.plantUnitId}`)
                 .then(res => {
                     this.userId = res.data.plantUnit.userId;
@@ -290,40 +312,38 @@ export default {
                 })
                 .catch((error) => {
                     console.log(error);
-                }).finally(()=> {
-                this.isLoading = false;
-
-            });
+                })
 
 
         },
         // api/plantunit/{plantunitId}/image
         async fetchDiaryData() {
-
+            this.isLoading = true
             // for (const diary of this.diaries) {
             //     const index = this.diaries.indexOf(diary);
             const res = await axios.get(`/api/plantUnit/${this.plantUnitId}/diary?plantUnitId=${this.plantUnitId}`, {})
-                //thenはいらない
-                // .then((res) => {
+            //thenはいらない
+            // .then((res) => {
 
-                    const diaryData = res.data.diaries.map(diary => ({
-                        diaryId: diary.diaryId,
-                        diaryContent: diary.content,
-                        diaryImage: diary.diaryImage,
-                        createDate: diary.createDate,
-                        comments: diary.comments,
-                    }));
-                    console.log(diaryData);
-                    Vue.set(this.diariesData, diaryData);
-                    // if (index === this.diaries.length - 1) {
-                    //     this.showCommentsLength();
-                    // }
-                    this.diaries = diaryData;
-                // })
-                // .catch((error) => {
-                //     console.log(error);
-                // });
+            const diaryData = res.data.diaries.map(diary => ({
+                diaryId: diary.diaryId,
+                diaryContent: diary.content,
+                diaryImage: diary.diaryImage,
+                createDate: diary.createDate,
+                comments: diary.comments,
+            }));
+            console.log(diaryData);
+            Vue.set(this.diariesData, diaryData);
+            // if (index === this.diaries.length - 1) {
+            //     this.showCommentsLength();
             // }
+            this.diaries = diaryData;
+            // })
+            // .catch((error) => {
+            //     console.log(error);
+            // });
+            // }
+            this.isLoading = false
         },
         commentToggle(diaryId, index) {
             this.diaries[index].showComment = !this.diaries[index].showComment;
@@ -349,7 +369,7 @@ export default {
             // });
         },
         showCheckSeat() {
-            this.isLoading=true;
+            this.isLoading = true;
 
             axios.all([
                 axios.get(`/api/checkSeat/${this.checkSeatId}/waterSetting?checkSeatId=${this.checkSeatId}`),
@@ -400,6 +420,11 @@ export default {
                         plantName: res.data.plant.name,
                         scientific: res.data.plant.scientific,
                         information: res.data.plant.information,
+                        image1: res.data.plant.plantImage1,
+                        image2: res.data.plant.plantImage2,
+                        image3: res.data.plant.plantImage3,
+                        image4: res.data.plant.plantImage4,
+                        image5: res.data.plant.plantImage5,
                     })
 
                     // this.fetchCheckSeatData();

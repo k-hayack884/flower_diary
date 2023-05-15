@@ -75,6 +75,19 @@ class PlantRepository implements PlantRepositoryInterface
         $hitPlant->image5 = $plantImages->getPlantImage5();
         $hitPlant->save();
     }
+    public function findImage(PlantId $plantId): PlantImages
+    {
+        $hitPlant = Plant::where('id', $plantId->getId())->first();
+
+        return new PlantImages(
+            new PlantId($hitPlant->id),
+            $hitPlant->image1,
+            $hitPlant->image2,
+            $hitPlant->image3,
+            $hitPlant->image4,
+            $hitPlant->image5,
+        );
+    }
 
     public function save(PlantData $plant): void
     {
