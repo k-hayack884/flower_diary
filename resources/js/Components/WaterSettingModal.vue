@@ -28,20 +28,21 @@ WaterSettingModal.vue
 
                 <div class="grid grid-cols-3 w-full lg:max-w-lg mx-auto pt-8">
                     <div class="btn-group flex justify-center">
-                        <label class="btn px-4 md:px-8 lg:px-12 bg-green-500 hover:bg-green-900" :class="{ 'bg-green-900': waterSetting.waterAmount === 'a_lot' }">
+                        <label class="btn px-4 md:px-8 lg:px-12 bg-green-500 hover:bg-green-900"
+                               :class="{ 'bg-green-800': waterSetting.waterAmount === 'a_lot' }">
                             <input @click="selectAmount('a_lot')" type="radio" name="options" class="hidden"/>
                             <span style="writing-mode: horizontal-tb;">たっぷり</span>
                         </label>
                     </div>
                     <div class="btn-group flex justify-center">
                         <label class="btn px-6 md:px-10 lg:px-12 bg-green-500 hover:bg-green-900"
-                               :class="{ 'bg-green-900': waterSetting.waterAmount === 'moderate_amount' }">
+                               :class="{ 'bg-green-800': waterSetting.waterAmount === 'moderate_amount' }">
                             <input @click="selectAmount('moderate_amount')" type="radio" name="options" class="hidden"/>
                             <span style="writing-mode: horizontal-tb;">適量</span>
                         </label>
                     </div>
                     <div class="btn-group flex justify-center">
-                        <label class="btn px-4 md:px-8 lg:px-12 bg-green-500 hover:bg-green-900" :class="{ 'bg-green-900': waterSetting.waterAmount === 'sparingly' }">
+                        <label class="btn px-4 md:px-8 lg:px-12 bg-green-500 hover:bg-green-900" :class="{ 'bg-green-800': waterSetting.waterAmount === 'sparingly' }">
                             <input @click="selectAmount('sparingly')" type="radio" name="options" class="hidden"/>
                             <span style="writing-mode: horizontal-tb;">ひかえめ</span>
                         </label>
