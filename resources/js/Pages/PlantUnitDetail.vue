@@ -21,7 +21,7 @@
             <div class="w-full p-4 border border-blue-700 tabContents w-full lg:w-3/4">
                 <div v-if="isActive === '1'">
 
-                    <button class="btn btn-success" @click="openDiaryModal(); getIndex(null)">日記を投稿する</button>
+                    <button class="btn btn-success mb-8" @click="openDiaryModal(); getIndex(null)">日記を投稿する</button>
                     <div v-if="diaries.length===0" class="py-16 text-center">日記はありません</div>
 
                     <div v-for="(diary, index) in diaries" class="mb-4">
