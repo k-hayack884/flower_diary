@@ -142,6 +142,7 @@ defineProps({
                                 @click="registerPlant($page.props.user.user_id)"
                                 class="btn btn-outline-success bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded px-10 button-width"
                                 type="button" id="button-addon2"
+                                :class="{ 'opacity-25': isRecognizing }"
                                 :disabled="isRecognizing">
                                 {{ registerButton }}
                             </button>

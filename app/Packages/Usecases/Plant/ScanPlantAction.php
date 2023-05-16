@@ -2,6 +2,7 @@
 
 namespace App\Packages\Usecases\Plant;
 
+use App\Packages\Domains\Plant\PlantId;
 use App\Packages\Domains\Plant\PlantRepositoryInterface;
 use App\Packages\Usecases\Dto\Plant\PlantWrapDto;
 
@@ -19,6 +20,8 @@ class ScanPlantAction
     ): PlantWrapDto
     {
         $hitPlant = $this->plantRepository->findByName($plantLabel);
-        return PlantDtoFactory::create($hitPlant);
+        $hitPlantImage = $this->plantRepository->findImage(new PlantId($hitPlant->getPlantId()));
+
+        return PlantDtoFactory::create($hitPlant,$hitPlantImage);
     }
 }
