@@ -5,13 +5,7 @@ import Welcome from '@/Components/Welcome.vue';
 </script>
 
 <template>
-    <AppLayout title="Dashboard">
-        <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Dashboard
-                {{ $attrs.user.user_id}}
-            </h2>
-        </template>
+
         <div class="bg-green-100 pb-16">
         <section class="text-gray-600 body-font">
                 <div class="grid grid-cols-2 gap-4 justify-items-center">
@@ -56,7 +50,6 @@ import Welcome from '@/Components/Welcome.vue';
             <NaviFooter/>
         </section>
             </div>
-    </AppLayout>
 </template>
 <style>
 object {
