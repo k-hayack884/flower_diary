@@ -33,6 +33,7 @@ const submit = () => {
     <Head title="Log in" />
 
     <AuthenticationCard>
+
         <template #logo>
             <AuthenticationCardLogo />
         </template>
@@ -43,7 +44,7 @@ const submit = () => {
 
         <form @submit.prevent="submit">
             <div>
-                <InputLabel for="email" value="Email" />
+                <InputLabel for="email" value="メールアドレス" />
                 <TextInput
                     id="email"
                     v-model="form.email"
@@ -56,7 +57,7 @@ const submit = () => {
             </div>
 
             <div class="mt-4">
-                <InputLabel for="password" value="Password" />
+                <InputLabel for="password" value="パスワード" />
                 <TextInput
                     id="password"
                     v-model="form.password"
@@ -71,19 +72,25 @@ const submit = () => {
             <div class="block mt-4">
                 <label class="flex items-center">
                     <Checkbox v-model:checked="form.remember" name="remember" />
-                    <span class="ml-2 text-sm text-gray-600">Remember me</span>
+                    <span class="ml-2 text-sm text-gray-600">パスワードを保存する</span>
                 </label>
             </div>
 
-            <div class="flex items-center justify-end mt-4">
+            <div class="flex items-center justify-between mt-4">
+                <div class="flex flex-col">
                 <Link v-if="canResetPassword" :href="route('password.request')" class="underline text-sm text-gray-600 hover:text-gray-900">
-                    Forgot your password?
+                    パスワードをお忘れですか？
                 </Link>
-
-                <PrimaryButton class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                    Log in
+                <Link :href="route('register')" class="underline text-sm text-gray-600 hover:text-gray-900">
+                    まだアカウントを持っていませんか？
+                </Link>
+                </div>
+                <PrimaryButton class="btn btn-outline-success bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded px-12 my-4 button-width ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing"
+                >
+                    ログイン
                 </PrimaryButton>
             </div>
         </form>
     </AuthenticationCard>
+
 </template>
