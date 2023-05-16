@@ -79,11 +79,11 @@ const clearPhotoFileInput = () => {
 <template>
     <FormSection @submitted="updateProfileInformation">
         <template #title>
-            Profile Information
+           ユーザー名とメールアドレスの変更
         </template>
 
         <template #description>
-            Update your account's profile information and email address.
+            ユーザー名、またはメールアドレスを変更できます
         </template>
 
         <template #form>
@@ -97,7 +97,7 @@ const clearPhotoFileInput = () => {
                     @change="updatePhotoPreview"
                 >
 
-                <InputLabel for="photo" value="Photo" />
+                <InputLabel for="photo" value="ユーザー画像" />
 
                 <!-- Current Profile Photo -->
                 <div v-show="! photoPreview" class="mt-2">
@@ -113,7 +113,7 @@ const clearPhotoFileInput = () => {
                 </div>
 
                 <SecondaryButton class="mt-2 mr-2" type="button" @click.prevent="selectNewPhoto">
-                    Select A New Photo
+                    画像を変更する
                 </SecondaryButton>
 
                 <SecondaryButton
@@ -130,7 +130,7 @@ const clearPhotoFileInput = () => {
 
             <!-- Name -->
             <div class="col-span-6 sm:col-span-4">
-                <InputLabel for="name" value="Name" />
+                <InputLabel for="name" value="ユーザー名" />
                 <TextInput
                     id="name"
                     v-model="form.name"
@@ -143,7 +143,7 @@ const clearPhotoFileInput = () => {
 
             <!-- Email -->
             <div class="col-span-6 sm:col-span-4">
-                <InputLabel for="email" value="Email" />
+                <InputLabel for="email" value="メールアドレス" />
                 <TextInput
                     id="email"
                     v-model="form.email"
@@ -176,11 +176,13 @@ const clearPhotoFileInput = () => {
 
         <template #actions>
             <ActionMessage :on="form.recentlySuccessful" class="mr-3">
-                Saved.
+                変更しました.
             </ActionMessage>
 
-            <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                Save
+            <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing"
+                           class="btn btn-outline-success bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded px-12 my-4 button-width"
+            >
+                変更する
             </PrimaryButton>
         </template>
     </FormSection>
