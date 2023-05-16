@@ -32,9 +32,9 @@ class PlantId
      * @param PlantUnitId $plantUnitId
      * @return bool
      */
-    public function equals(PlantUnitId $plantUnitId): bool
+    public function equals(PlantId $plantId): bool
     {
-        return $this->getId() === $plantUnitId->getId();
+        return $this->getId() === $plantId->getId();
     }
 
     /**

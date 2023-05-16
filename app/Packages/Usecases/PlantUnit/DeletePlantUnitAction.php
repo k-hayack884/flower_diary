@@ -18,6 +18,7 @@ use App\Packages\infrastructures\Shared\TransactionInterface;
 use App\Packages\Presentations\Requests\PlantUnit\DeletePlantUnitRequest;
 use Exception;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
 
 class DeletePlantUnitAction
 {
@@ -66,6 +67,7 @@ class DeletePlantUnitAction
         Log::info(__METHOD__, ['開始']);
 
         $requestId = $deletePlantUnitRequest->getId();
+        $diaries=[];
         try {
             $this->transaction->begin();
             $hitPlantUnit = $this->plantUnitRepository->findById(new PlantUnitId($requestId));
@@ -96,9 +98,13 @@ class DeletePlantUnitAction
             $this->plantUnitRepository->delete($hitPlantUnit->getPlantUnitId());
 
             $this->transaction->commit();
+            Session::flash('successMessage', '削除に成功しました');
+
         } catch (\DomainException $e) {
             $this->transaction->rollback();
             Log::error(__METHOD__, ['エラー']);
+            Session::flash('failMessage', '削除に失敗しました');
+
             abort(400,$e);
         } finally {
             Log::info(__METHOD__, ['終了']);

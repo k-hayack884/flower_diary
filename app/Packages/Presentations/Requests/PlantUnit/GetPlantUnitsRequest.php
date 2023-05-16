@@ -9,6 +9,12 @@ class GetPlantUnitsRequest extends \App\Http\Requests\BaseRequest
      */
     public function rules(): array
     {
-        return [];
+        return [
+            'userId' => 'nullable',
+        ];
+    }
+    public function getUserId():string|null
+    {
+        return $this->input('userId');
     }
 }

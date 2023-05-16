@@ -4,8 +4,10 @@ namespace App\Packages\infrastructures\Plant;
 
 use App\Packages\Domains\Plant\PlantData;
 use App\Packages\Domains\Plant\PlantId;
+use App\Packages\Domains\Plant\PlantImages;
 use App\Packages\Domains\Plant\PlantRepositoryInterface;
 use App\Models\Plant;
+
 class PlantRepository implements PlantRepositoryInterface
 {
 
@@ -16,50 +18,75 @@ class PlantRepository implements PlantRepositoryInterface
 
     public function findById(PlantId $plantId)
     {
-        $plant=Plant::where('id',$plantId)->first();
+        $plant = Plant::where('id', $plantId)->first();
         return new PlantData(
-        $plant->id,
-        $plant->name,
-        $plant->scientific,
-        $plant->information,
-        $plant->recommendSpringWaterInterval,
-        $plant->recommendSpringWaterTimes,
-        $plant->recommendSummerWaterInterval,
-        $plant->recommendSummerWaterTimes,
-        $plant->recommendAutumnWaterInterval,
-        $plant->recommendAutumnWaterTimes,
-        $plant->recommendWinterWaterInterval,
-        $plant->recommendWinterWaterTimes,
-        $plant->fertilizerName,
-        json_decode($plant->fertilizerMonths)
-    );
+            $plant->id,
+            $plant->name,
+            $plant->scientific,
+            $plant->information,
+            $plant->recommendSpringWaterInterval,
+            $plant->recommendSpringWaterTimes,
+            $plant->recommendSummerWaterInterval,
+            $plant->recommendSummerWaterTimes,
+            $plant->recommendAutumnWaterInterval,
+            $plant->recommendAutumnWaterTimes,
+            $plant->recommendWinterWaterInterval,
+            $plant->recommendWinterWaterTimes,
+            $plant->fertilizerName,
+            json_decode($plant->fertilizerMonths)
+        );
     }
+
     public function findPlantNameById(PlantId $plantId)
     {
-        $hitPlantName= Plant::where('id',$plantId)->first('name');
+        $hitPlantName = Plant::where('id', $plantId)->first('name');
         return $hitPlantName->name;
     }
 
 
     public function findByName(string $name): PlantData
     {
-      $plant= Plant::where('name',$name)->first();
-      return new PlantData(
-          $plant->id,
-          $plant->name,
-          $plant->scientific,
-          $plant->information,
-          $plant->recommendSpringWaterInterval,
-          $plant->recommendSpringWaterTimes,
-          $plant->recommendSummerWaterInterval,
-          $plant->recommendSummerWaterTimes,
-          $plant->recommendAutumnWaterInterval,
-          $plant->recommendAutumnWaterTimes,
-          $plant->recommendWinterWaterInterval,
-          $plant->recommendWinterWaterTimes,
-          $plant->fertilizerName,
-          json_decode($plant->fertilizerMonths)
-      );
+        $plant = Plant::where('name', $name)->first();
+        return new PlantData(
+            $plant->id,
+            $plant->name,
+            $plant->scientific,
+            $plant->information,
+            $plant->recommendSpringWaterInterval,
+            $plant->recommendSpringWaterTimes,
+            $plant->recommendSummerWaterInterval,
+            $plant->recommendSummerWaterTimes,
+            $plant->recommendAutumnWaterInterval,
+            $plant->recommendAutumnWaterTimes,
+            $plant->recommendWinterWaterInterval,
+            $plant->recommendWinterWaterTimes,
+            $plant->fertilizerName,
+            json_decode($plant->fertilizerMonths)
+        );
+    }
+
+    public function addImage(PlantImages $plantImages): void
+    {
+        $hitPlant = Plant::where('id', $plantImages->getPlantId()->getId())->first();
+        $hitPlant->image1 = $plantImages->getPlantImage1();
+        $hitPlant->image2 = $plantImages->getPlantImage2();
+        $hitPlant->image3 = $plantImages->getPlantImage3();
+        $hitPlant->image4 = $plantImages->getPlantImage4();
+        $hitPlant->image5 = $plantImages->getPlantImage5();
+        $hitPlant->save();
+    }
+    public function findImage(PlantId $plantId): PlantImages
+    {
+        $hitPlant = Plant::where('id', $plantId->getId())->first();
+
+        return new PlantImages(
+            new PlantId($hitPlant->id),
+            $hitPlant->image1,
+            $hitPlant->image2,
+            $hitPlant->image3,
+            $hitPlant->image4,
+            $hitPlant->image5,
+        );
     }
 
     public function save(PlantData $plant): void

@@ -8,10 +8,10 @@ interface PlantUnitRepositoryInterface
 {
     public function find():array;
 
-    public function findByUser(UserId $userId):array;
+    public function findByUserId(UserId $userId):array;
     public function findById(PlantUnitId $plantUnitId):PlantUnit;
 
     public function save(PlantUnitCollection $plantUnit):void;
-
+//    public function upDateName(PlantUnitCollection $plantUnit):void;
     public function delete(PlantUnitId $plantUnitId):void;
 }

@@ -7,6 +7,7 @@ CheckSeatModal.vue
 
         <div class="p-8 bg-white w-3/4 lg:py-32 lg:px-16 lg:pl-10 lg:w-1/2 tails-selected-element"
              contenteditable="true" @click.stop="" style="max-height: 120vh; overflow-y: auto;">
+            <h1 class="text-2xl">肥料を設定する</h1>
             {{ fertilizerSetting }}
 
             <span v-show="errors" class="text-red-500">
@@ -14,11 +15,11 @@ CheckSeatModal.vue
                     {{ error }}
                 </p></span>
             <div class="flex flex-col items-start w-full lg:max-w-lg mx-auto"> <!-- mx-autoを追加 -->
-                <div class="grid grid-cols-4 gap-4">
+                <div class="grid grid-cols-4 gap-4 mx-auto">
                     <button v-for="(month, index) in 12" :key="month"
-                            :class="{'bg-blue-900': fertilizerSetting.months && fertilizerSetting.months.includes(index+1),
-                             'bg-blue-500': !fertilizerSetting.months || !fertilizerSetting.months.includes(index+1)}"
-                            class="text-white font-bold py-2 px-4 rounded-full"
+                            :class="{'bg-green-900': fertilizerSetting.months && fertilizerSetting.months.includes(index+1),
+                             'bg-green-500': !fertilizerSetting.months || !fertilizerSetting.months.includes(index+1)}"
+                            class="text-white font-bold py-2 px-2 lg:px-4 rounded-full"
                             @click="selectMonth(index)">
                         {{ month }}月
                     </button>
@@ -28,7 +29,7 @@ CheckSeatModal.vue
                     <label class="label">
                         <span class="label-text">肥料名</span>
                     </label>
-                    <label class="input-group">
+                    <label class="input-group flex flex-col sm:flex-row">
                         <input type="text" placeholder="" class="input input-bordered"
                                v-model="fertilizerSetting.fertilizerName"/>
                         <span>現在の肥料名:{{ currentFertilizerName }}</span>
@@ -38,7 +39,7 @@ CheckSeatModal.vue
                     <label class="label">
                         <span class="label-text">肥料量</span>
                     </label>
-                    <label class="input-group">
+                    <label class="input-group flex flex-col sm:flex-row">
                         <input type="text" placeholder="" class="input input-bordered"
                                v-model="fertilizerSetting.fertilizerAmount"/>
                         <span>現在の肥料量:{{ currentFertilizerAmount }}g</span>
@@ -139,6 +140,18 @@ export default {
     watch: {
         openModal(newVal) {
             this.isOpen = newVal;
+            if (!newVal) {
+                // isOpenプロパティがfalseになった時にdataオブジェクトを初期値に設定する
+                this.currentFertilizerAmount = 0;
+                this.currentFertilizerName = '';
+                this.errors = [];
+                this.isLoading = false;
+            }
+        },
+        fertilizerSetting(newVal) {
+            console.log(newVal)
+            this.currentFertilizerAmount = newVal.fertilizerAmount;
+            this.currentFertilizerName = newVal.fertilizerName;
         },
     },
     methods: {

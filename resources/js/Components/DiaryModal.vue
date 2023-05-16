@@ -6,8 +6,6 @@ CheckSeatModal.vue
     <div class="relative">
         <LoadWait :show="isLoading" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50"></LoadWait>
     <div id="overlay" @click="closeModal()" v-show="isOpen" class="z-20 flex justify-center">
-
-        <h1>ああああああああああああ</h1>
         <div class="p-8 bg-white w-full lg:py-32 lg:px-16 lg:pl-10 lg:w-3/4 tails-selected-element"
              contenteditable="true" @click.stop="" style="max-height: 120vh; overflow-y: auto;">
             {{ diary }}
@@ -35,8 +33,9 @@ CheckSeatModal.vue
                                 <textarea v-model="diary.diaryContent" id="message" name="message" class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out" style="width: 300px; height: 200px;"></textarea>
                             </div>
                             <div>
+                                <div class="flex justify-center items-center h-200">
                                 <image-maker @image-selected="onImageSelected"></image-maker>
-
+                                </div>
                                 <button v-if="diary.isCreate" @click="create()"
                                                 class="flex mx-auto mt-16 text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
                                             作成する

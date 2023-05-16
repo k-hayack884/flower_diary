@@ -18,7 +18,7 @@ use Carbon\Carbon;
 
 class PlantUnitRepository implements PlantUnitRepositoryInterface
 {
-
+    //あああ
     public function find(): array
     {
         $plantUnits = [];
@@ -69,7 +69,7 @@ class PlantUnitRepository implements PlantUnitRepositoryInterface
         );
     }
 
-    public function findByUser(UserId $userId): array
+    public function findByUserId(UserId $userId): array
     {
         $plantUnits = [];
         $allPlantUnits = \App\Models\PlantUnit::where('user_id', $userId->getId())->get();
@@ -99,10 +99,9 @@ class PlantUnitRepository implements PlantUnitRepositoryInterface
     public function save(PlantUnitCollection $plantUnit): void
     {
         $collectionArray = $plantUnit->toArray();
-
-
         foreach ($collectionArray as $plant) {
-            \App\Models\PlantUnit::create([
+            \App\Models\PlantUnit::updateOrCreate(['plant_unit_id' => $plantUnit->getPlantUnitId()->getId()],
+                [
                 'plant_unit_id' => $plant->getPlantUnitId()->getId(),
                 'user_id' => $plant->getUserId()->getId(),
                 'plant_id' => $plant->getPlantId()->getId(),
@@ -111,6 +110,7 @@ class PlantUnitRepository implements PlantUnitRepositoryInterface
                 'plant_image'=>$plant->getPlantImage()->getValue(),
                 'create_date' => $plant->getCreateDate()->format('Y/m/d'),
                 'update_date' => $plant->getUpdateDate()->format('Y/m/d'),
+
             ]);
             \App\Models\CheckSeat::create([
                 'plant_unit_id' => $plant->getPlantUnitId()->getId(),
@@ -123,8 +123,7 @@ class PlantUnitRepository implements PlantUnitRepositoryInterface
 
     public function delete(PlantUnitId $plantUnitId): void
     {
-        $plantUnit = \App\Models\Diary::where('plant_unit_id', $plantUnitId->getId())->first();
-
+        $plantUnit = \App\Models\PlantUnit::where('plant_unit_id', $plantUnitId->getId())->first();
         if ($plantUnit === null) {
             throw new NotFoundException('指定した植物ユニットIDを見つけることができませんでした');
         }

@@ -12,7 +12,7 @@ import Welcome from '@/Components/Welcome.vue';
                 {{ $attrs.user.user_id}}
             </h2>
         </template>
-
+        <div class="bg-green-100 pb-16">
         <section class="text-gray-600 body-font">
                 <div class="grid grid-cols-2 gap-4 justify-items-center">
                     <Link :href="route('welcome')" class="block">
@@ -20,7 +20,6 @@ import Welcome from '@/Components/Welcome.vue';
                             <div class="px-4 py-6 rounded-lg text-center">
                                 <img src="../../icon/カメラ.png" style="width: 128px;height: 128px"/>
                                 <h2 class="title-font font-medium text-3xl text-gray-900">診断</h2>
-                                <p class="leading-relaxed">Downloads</p>
                             </div>
                         </div>
                     </Link>
@@ -31,7 +30,7 @@ import Welcome from '@/Components/Welcome.vue';
                             <img src="../../icon/聴診器.png" style="width: 128px;height: 128px"/>
 
                             <h2 class="title-font font-medium text-3xl text-gray-900">病気判定</h2>
-                            <p class="leading-relaxed">Users</p>
+                            <p class="leading-relaxed">実装未定</p>
                         </div>
                         </Link>
                     </div>
@@ -41,8 +40,6 @@ import Welcome from '@/Components/Welcome.vue';
                         <div class="px-4 py-6 rounded-lg text-center">
                             <img src="../../icon/チューリップ.png" style="width: 128px;height: 128px"/>
                             <h2 class="title-font font-medium text-3xl text-gray-900">my<br>プラント</h2>
-
-                            <p class="leading-relaxed">Files</p>
                         </div>
                     </div>
                     </Link>
@@ -52,12 +49,13 @@ import Welcome from '@/Components/Welcome.vue';
                             <img src="../../icon/じょうろ.png" style="width: 128px;height: 128px"/>
 
                             <h2 class="title-font font-medium text-3xl text-gray-900">今日の<br>お世話</h2>
-                            <p class="leading-relaxed">Places</p>
                         </div>
                     </div>
                     </Link>
                 </div>
+            <NaviFooter/>
         </section>
+            </div>
     </AppLayout>
 </template>
 <style>
@@ -67,7 +65,12 @@ object {
 </style>
 <script>
 
+import NaviFooter from "@/Components/NaviFooter.vue";
+
 export default {
+    components: {
+        NaviFooter,
+    },
     props: {
         user_id: {
             type: String,
