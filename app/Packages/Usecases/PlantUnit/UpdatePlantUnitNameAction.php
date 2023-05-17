@@ -69,10 +69,8 @@ class UpdatePlantUnitNameAction
                 $hitPlantUnit->getPlantImage(),
                 $hitPlantUnit->getDiaries()
             );
-            dump($plantUnit);
             $plantUnitCollection = new PlantUnitCollection();
             $plantUnitCollection->addUnit($plantUnit);
-            dump($plantUnitCollection);
             $this->plantUnitRepository->save($plantUnitCollection);
             Session::flash('successMessage', '登録に成功しました');
 

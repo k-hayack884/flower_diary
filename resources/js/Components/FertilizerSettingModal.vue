@@ -7,9 +7,7 @@ CheckSeatModal.vue
 
         <div class="p-8 bg-white w-3/4 lg:py-32 lg:px-16 lg:pl-10 lg:w-1/2 tails-selected-element"
              contenteditable="true" @click.stop="" style="max-height: 120vh; overflow-y: auto;">
-            <h1 class="text-2xl">肥料を設定する</h1>
-            {{ fertilizerSetting }}
-
+            <h1 class="text-2xl text-center mb-12">肥料を設定する</h1>
             <span v-show="errors" class="text-red-500">
                 <p v-for="error in errors">
                     {{ error }}
@@ -55,16 +53,22 @@ CheckSeatModal.vue
             </div>
 
             <button v-if="fertilizerSetting.isCreate" @click="create()"
-                    class="flex mx-auto mt-16 text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
+                    class="flex mx-auto mt-16 btn btn-outline-success bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded px-10 button-width mt-8"
+                    :class="{ 'opacity-25': isLoading }"
+                    :disabled="isLoading">
                 作成する
             </button>
             <div v-else>
             <button  @click="update()"
-                    class="flex mx-auto mt-16 text-white bg-green-600 border-0 py-2 px-8 focus:outline-none hover:bg-green-800 rounded text-lg">
+                     class="flex mx-auto mt-16 btn btn-outline-success bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded px-10 button-width mt-8"
+                     :class="{ 'opacity-25': isLoading }"
+                     :disabled="isLoading">
                 編集する
             </button>
                 <button  @click="deleteSeat()"
-                         class="flex mx-auto mt-16 text-white bg-red-500 border-0 py-2 px-8 focus:outline-none hover:bg-red-800 rounded text-lg">
+                         class="flex mx-auto mt-16 btn btn-outline-success bg-gradient-to-br from-red-300 to-red-800 hover:bg-gradient-to-tl text-white rounded px-10 button-width mt-8"
+                         :class="{ 'opacity-25': isLoading }"
+                         :disabled="isLoading">
                     削除する
                 </button>
             </div>
@@ -149,7 +153,6 @@ export default {
             }
         },
         fertilizerSetting(newVal) {
-            console.log(newVal)
             this.currentFertilizerAmount = newVal.fertilizerAmount;
             this.currentFertilizerName = newVal.fertilizerName;
         },
@@ -174,6 +177,8 @@ export default {
         },
         create() {
             this.isLoading=true
+            this.$emit('addFertilizerSetting',this.fertilizerSetting)
+
             axios.post('http://localhost:51111/api/fertilizerSetting', {
                 checkSeatId: this.fertilizerSetting.checkSeatId,
                 fertilizerSettingMonths: this.fertilizerSetting.months,
@@ -181,12 +186,8 @@ export default {
                 fertilizerSettingAmount: this.fertilizerSetting.fertilizerAmount,
                 fertilizerSettingName: this.fertilizerSetting.fertilizerName,
             }).then(res => {
-
-                console.log('とうろくせいこう')
-                console.log(this.fertilizerSetting.checkSeatId)
-
-                window.location.href = 'http://localhost:51111/checkSeat/' + this.fertilizerSetting.checkSeatId;
-                this.isLoading=false
+               this.isLoading=false
+                this.closeModal()
             }).catch(error => {
                 if (error.response.status === 422) {
                     console.log(error.response.data.errors);

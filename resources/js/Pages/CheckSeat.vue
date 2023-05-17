@@ -59,7 +59,7 @@ import {reactive} from "vue";
                             </ul>
                             </div>
                             <button @click="openWaterModal(); getIndex(index)"
-                                    class="flex mx-auto mt-16 text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
+                                    class="btn btn-outline-success bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded px-10 button-width mt-8">
                                 設定する
                             </button>
                         </div>
@@ -67,7 +67,8 @@ import {reactive} from "vue";
                 </div>
             </div>
             <button @click="openWaterModal(),getIndex(null)"
-                    class="flex mx-auto mt-16 text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
+                    class="flex mx-auto btn btn-outline-success bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded px-10 button-width mt-8"
+            >
                 作成する
             </button>
             <WaterSettingModal :open-modal="isWaterModalOpen" @closeModal="closeWaterModal"
@@ -75,7 +76,7 @@ import {reactive} from "vue";
                                :waterSetting="waterSettings[arrayIndex]"/>
 
             <WaterSettingModal :open-modal="isWaterModalOpen" @closeModal="closeWaterModal"
-                               @some-event="someEvent"
+                               @add-water-setting="addWaterSetting"
                                v-else
                                :waterSetting="reactive({
                                         checkSeatId:checkSeatId,
@@ -123,7 +124,8 @@ import {reactive} from "vue";
                             </ul>
                                 </div>
                             <button @click="openFertilizerModal(); getIndex(index)"
-                                    class="flex mx-auto mt-16 text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
+                                    class="btn btn-outline-success bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded px-10 button-width mt-8"
+                            >
                                 設定する
                             </button>
                         </div>
@@ -133,13 +135,15 @@ import {reactive} from "vue";
 
             </div>
             <button @click="openFertilizerModal(),getIndex(null)"
-                    class="flex mx-auto mt-16 text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
+                    class="flex mx-auto btn btn-outline-success bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded px-10 button-width mt-8"
+            >
                 作成する
             </button>
             <FertilizerSettingModal :open-modal="isFertilizerModalOpen" @closeModal="closeFertilizerModal"
                                     v-if="arrayIndex !== null"
                                     :fertilizerSetting="fertilizerSettings[arrayIndex]"/>
             <FertilizerSettingModal :open-modal="isFertilizerModalOpen" @closeModal="closeFertilizerModal"
+                                    @add-fertilizer-setting="addFertilizerSetting"
                                     v-else
                                     :fertilizerSetting="reactive({
                                         checkSeatId:checkSeatId,
@@ -263,9 +267,31 @@ export default {
         this.successMessage = "{{ session('success') }}";
     },
     methods: {
-        someEvent(n){
-           this.waterSettings.push({})
-            console.log(this.waterSettings)
+        addWaterSetting(setting){
+            const { alertTimes, checkSeatId, months, note, waterAmount, waterSettingId, wateringInterval, wateringTimes } = setting;
+            this.waterSettings.push({
+                alertTimes, // alertTimesが存在しない場合は空の配列を使用
+                checkSeatId,
+                months,
+                note,
+                waterAmount,
+                waterSettingId,
+                wateringInterval,
+                wateringTimes,
+                isCreate:false,
+            });
+        },
+        addFertilizerSetting(setting){
+            const {checkSeatId, months, note, fertilizerAmount, fertilizerSettingId, fertilizerName } = setting;
+            this.fertilizerSettings.push({
+                checkSeatId,
+                months,
+                note,
+                fertilizerAmount,
+                fertilizerSettingId,
+                fertilizerName,
+                isCreate:false,
+            });
         },
         getIndex(index) {
             this.arrayIndex = index
