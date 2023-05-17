@@ -84,8 +84,8 @@ import {reactive} from "vue";
         months: [],
         note: '',
         waterAmount: 'moderate_amount',
-        wateringTimes: 0,
-        wateringInterval: 0,
+        wateringTimes: 1,
+        wateringInterval: 1,
         alertTimes:[],
         isCreate:true
     })
@@ -150,7 +150,7 @@ import {reactive} from "vue";
         fertilizerSettingId: '',
         months: [],
         note: '',
-        fertilizerAmount: 0,
+        fertilizerAmount: 1,
         fertilizerName: '',
         isCreate:true
     })

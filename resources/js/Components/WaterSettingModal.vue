@@ -157,8 +157,8 @@ export default defineComponent({
                 months: [],
                 note: '',
                 waterSettingAmount: 'moderate_amount',
-                wateringTimes: 0,
-                wateringInterval: 0,
+                wateringTimes: 1,
+                wateringInterval: 1,
                 alertTimes:[],})
         },
 
@@ -228,7 +228,6 @@ export default defineComponent({
         },
         create() {
             this.isLoading=true
-            this.$emit('addWaterSetting',this.waterSetting)
 
             axios.post('/api/waterSetting', {
                 checkSeatId: this.waterSetting.checkSeatId,
@@ -239,12 +238,7 @@ export default defineComponent({
                 waterSettingInterval: this.waterSetting.wateringInterval,
                 waterSettingAlertTimes:this.waterSetting.alertTimes,
             }).then(res => {
-
-                console.log('とうろくせいこう')
-                console.log(this.waterSetting.checkSeatId)
-
-                // window.location.href = 'http://localhost:51111/checkSeat/' + this.waterSetting.checkSeatId;
-
+                this.$emit('addWaterSetting',this.waterSetting)
                 this.isLoading=false;
                 this.closeModal()
             }).catch(error => {

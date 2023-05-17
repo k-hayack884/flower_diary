@@ -121,7 +121,7 @@ export default {
                 fertilizerSettingId: '',
                 months: [],
                 note: '',
-                fertilizerAmount: 0,
+                fertilizerAmount: 1,
                 fertilizerName: '',
             })
         },
@@ -177,7 +177,6 @@ export default {
         },
         create() {
             this.isLoading=true
-            this.$emit('addFertilizerSetting',this.fertilizerSetting)
 
             axios.post('http://localhost:51111/api/fertilizerSetting', {
                 checkSeatId: this.fertilizerSetting.checkSeatId,
@@ -186,7 +185,8 @@ export default {
                 fertilizerSettingAmount: this.fertilizerSetting.fertilizerAmount,
                 fertilizerSettingName: this.fertilizerSetting.fertilizerName,
             }).then(res => {
-               this.isLoading=false
+                this.$emit('addFertilizerSetting',this.fertilizerSetting)
+                this.isLoading=false
                 this.closeModal()
             }).catch(error => {
                 if (error.response.status === 422) {

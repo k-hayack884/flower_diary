@@ -178,7 +178,7 @@
 
         </div>
         <div v-if="successMessage" id="successMessage"
-             class="fixed bottom-0 left-1/2 transform -translate-x-1/2 z-9999">
+             class="fixed bottom-16 left-1/2 transform -translate-x-1/2 z-9999">
             <div class="bg-white">
                 <div class="w-96 rounded-lg overflow-hidden shadow-md py-5 flex">
                     <div class="flex-grow-1 my-auto">
@@ -284,7 +284,8 @@ export default {
             this.isLoading = true
             axios.post(`/api/care/${fertilizerSetting.alertTimeId}/fertilizer?alertTimeId=${fertilizerSetting.alertTimeId}`
             ).then(res => {
-
+                this.successMessage = res.data.original.successMessage;
+                this.isLoading = false
             }).catch(error => {
                 if (error.response.status === 422) {
                     console.log(error.response.data.errors);
