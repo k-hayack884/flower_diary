@@ -32,26 +32,32 @@ CheckSeatModal.vue
                                 <label for="message" class="leading-7 text-sm text-gray-600">投稿内容（投稿できるのは200字までです）</label>
                                 <textarea v-model="diary.diaryContent" id="message" name="message" class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out" style="width: 300px; height: 200px;"></textarea>
                             </div>
-                            <div>
                                 <div class="flex justify-center items-center h-200">
                                 <image-maker @image-selected="onImageSelected"></image-maker>
                                 </div>
+                            <div class="flex justify-center">
                                 <button v-if="diary.isCreate" @click="create()"
-                                                class="flex mx-auto mt-16 text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
+                                        class="btn btn-outline-success bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded px-10 button-width mt-8"
+                                        :class="{ 'opacity-25': isLoading }"
+                                        :disabled="isLoading">
                                             作成する
                                         </button>
                                         <div v-else>
                                             <button  @click="update()"
-                                                     class="flex mx-auto mt-16 text-white bg-green-600 border-0 py-2 px-8 focus:outline-none hover:bg-green-800 rounded text-lg">
+                                       class="btn btn-outline-success bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded px-10 button-width mt-8"
+                                                     :class="{ 'opacity-25': isLoading }"
+                                                     :disabled="isLoading">
                                                 編集する
                                             </button>
                                             <button  @click="deleteDiary()"
-                                                     class="flex mx-auto mt-16 text-white bg-red-500 border-0 py-2 px-8 focus:outline-none hover:bg-red-800 rounded text-lg">
+                                                     class="flex mx-auto mt-16 btn btn-outline-success bg-gradient-to-br from-red-300 to-red-800 hover:bg-gradient-to-tl text-white rounded px-10 button-width mt-8"
+
+                                                     :class="{ 'opacity-25': isLoading }"
+                                                     :disabled="isLoading">
                                                 削除する
                                             </button>
                                         </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -150,9 +156,7 @@ export default defineComponent({
                 diaryContent: this.diary.diaryContent,
                 plantImage: this.diary.image,
             }).then(res => {
-
                 window.location.href = 'http://localhost:51111/plantUnit/' + this.plantUnitId;
-                this.isLoading=false
             }).catch(error => {
                 if (error.response.status === 422) {
                     console.log(error.response.data.errors);
@@ -184,7 +188,6 @@ export default defineComponent({
                 console.log('とうろくせいこう')
 
                 window.location.href = 'http://localhost:51111/plantUnit/' + this.plantUnitId;
-                this.isLoading=false
 
             }).catch(error => {
                 if (error.response.status === 422) {
@@ -200,22 +203,23 @@ export default defineComponent({
             });
         },
         deleteDiary() {
-            this.isLoading=true
-            axios.post('/api/diary/' + this.diary.diaryId, {
-                },
-                {
-                    headers: {
-                        'content-type': 'multipart/form-data',
-                        'X-HTTP-Method-Override': 'DELETE',
-                    }
-                }).then(res => {
-                window.location.href = 'http://localhost:51111/plantUnit/' + this.plantUnitId;
-                this.isLoading=false
-            }).catch(error => {
-                console.log(error);
-                this.isLoading=false
+            if (confirm('本当に削除しますか？')) {
+                this.isLoading = true
+                axios.post('/api/diary/' + this.diary.diaryId, {},
+                    {
+                        headers: {
+                            'content-type': 'multipart/form-data',
+                            'X-HTTP-Method-Override': 'DELETE',
+                        }
+                    }).then(res => {
+                    window.location.href = 'http://localhost:51111/plantUnit/' + this.plantUnitId;
+                    this.isLoading = false
+                }).catch(error => {
+                    console.log(error);
+                    this.isLoading = false
 
-            });
+                });
+            }
         }
 
     }

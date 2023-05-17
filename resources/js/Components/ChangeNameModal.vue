@@ -133,6 +133,7 @@ export default defineComponent({
                 console.log('とうろくせいこう')
 
                 this.isLoading = false
+                this.closeModal();
 
             }).catch(error => {
                 if (error.response.status === 422) {

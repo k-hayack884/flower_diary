@@ -27,7 +27,7 @@
 <div class="flex flex-col">
                                 <a :href="route('plantUnitDetail', { plantUnitId: plantUnit.plantUnitId })"
                                    class="block">
-                                    <button class="btn btn-primary">詳細</button>
+                                    <button class="btn btn-success">詳細</button>
                                 </a>
                                 <button class=" bg-red-300 rounded mt-4" @click="deleteUnit(plantUnit)">削除</button>
 </div>
@@ -116,23 +116,25 @@ export default {
     methods:{
         reactive,
 
-        deleteUnit(plantUnit){
-            this.isLoading=true
-            axios.post('/api/plantUnit/' + plantUnit.plantUnitId, {
-                },
-                {
-                    headers: {
-                        'content-type': 'multipart/form-data',
-                        'X-HTTP-Method-Override': 'DELETE',
-                    }
-                }).then(res => {
-                window.location.href = 'http://localhost:51111/plantUnit/';
-                this.isLoading=false
-            }).catch(error => {
-                console.log(error);
-                this.isLoading=false
-
-            });
+        deleteUnit(plantUnit) {
+            if (confirm('本当に削除しますか？')) {
+                this.isLoading = true;
+                axios
+                    .post('/api/plantUnit/' + plantUnit.plantUnitId, {}, {
+                        headers: {
+                            'content-type': 'multipart/form-data',
+                            'X-HTTP-Method-Override': 'DELETE',
+                        }
+                    })
+                    .then(res => {
+                        window.location.href = 'http://localhost:51111/plantUnit/';
+                        this.isLoading = false;
+                    })
+                    .catch(error => {
+                        console.log(error);
+                        this.isLoading = false;
+                    });
+            }
         },
         getIndex(index) {
             this.arrayIndex = index

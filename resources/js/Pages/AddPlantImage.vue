@@ -3,7 +3,8 @@ import {Head, Link} from '@inertiajs/inertia-vue3';
 import AppLayout from '@/Layouts/AppLayout.vue';
 </script>
 <template>
-
+    <LoadWait :show="isLoading"
+              class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50"></LoadWait>
     <h1 class="red">植物の画像を追加する</h1>
 
     <div class="flex justify-between">
@@ -57,19 +58,36 @@ import AppLayout from '@/Layouts/AppLayout.vue';
         </label>
     </div>
     <button @click="addImage()"
-            class="flex mx-auto mt-16 text-white bg-green-600 border-0 py-2 px-8 focus:outline-none hover:bg-green-800 rounded text-lg">
+            class="flex mx-auto mt-16 text-white bg-green-600 border-0 py-2 px-8 focus:outline-none hover:bg-green-800 rounded text-lg"
+            :class="{ 'opacity-25': isLoading }"
+            :disabled="isLoading">
         追加する
     </button>
+    <div v-if="successMessage" id="successMessage"
+         class="fixed bottom-16 left-1/2 transform -translate-x-1/2 z-9999">
+        <div class="bg-white">
+            <div class="w-96 rounded-lg overflow-hidden shadow-md py-5 flex">
+                <div class="flex-grow-1 my-auto">
+                    <p class="text-center ml-12">{{ successMessage }}</p>
+                </div>
+                <div class="flex items-center ml-auto">
+                    <div class="flex flex-col justify-between p-4">
+                        <span class="flower-loader h-150"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </template>
 <script>
 import ImageMaker from "@/Components/ImageMaker.vue";
+import LoadWait from "@/Components/LoadWait.vue";
 
 export default {
     name: "Diary.vue",
     components: {
         // Load,
-        // LoadWait,
-        // RegisterModal,
+        LoadWait,
         ImageMaker,
         // NaviFooter,
     },
@@ -82,7 +100,7 @@ export default {
             selectedImage3: null,
             selectedImage4: null,
             selectedImage5: null,
-
+            successMessage: null,
             myPlant: [{
                 imageModelURL: '',
                 name: '',
@@ -94,6 +112,15 @@ export default {
         }
     },
     props: ['plantUnitId'],
+    watch: {
+        successMessage(value) {
+            if (value) {
+                setTimeout(() => {
+                    this.successMessage = null;
+                }, 5000);
+            }
+        }
+    },
     methods: {
         onImageSelected1(imageData) {
             // ImageMakerコンポーネントから渡された画像データを処理する
@@ -126,9 +153,14 @@ export default {
                 plantImage4: this.selectedImage4,
                 plantImage5: this.selectedImage5,
             }).then(res => {
-
-                console.log('とうろくせいこう')
-                this.isLoading = false
+                this.successMessage = res.data.original.successMessage;
+                this.isLoading = false;
+                this.plantId=null;
+                    this.selectedImage1=null;
+                    this.selectedImage2=null;
+                    this.selectedImage3=null;
+                    this.selectedImage4=null;
+                    this.selectedImage5=null;
             }).catch(error => {
                 if (error.response.status === 422) {
                     console.log(error.response.data.errors);

@@ -30,12 +30,14 @@ class UpdateWaterSettingRequest extends BaseRequest
             'waterSettingTimes' => [
                 'required',
                 'int',
-                'digits_between:1,9'
+                'min:1',
+                'max:9'
             ],
             'waterSettingInterval' => [
                 'required',
                 'int',
-                'digits_between:1,365'
+                'min:1',
+                'max:365'
             ],
             'waterSettingAlertTimes.*' => [
                 'regex:/^([01]?[0-9]|2[0-3]):([0-5]?[0-9])$/',

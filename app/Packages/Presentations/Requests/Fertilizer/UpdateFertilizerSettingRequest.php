@@ -25,7 +25,8 @@ class UpdateFertilizerSettingRequest extends BaseRequest
             ],
             'fertilizerSettingAmount' => [
                 'required',
-                'int'
+                'int',
+                'min:1',
             ],
             'fertilizerSettingName' => [
                 'required',

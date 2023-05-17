@@ -9,8 +9,7 @@ WaterSettingModal.vue
 
         <div class="p-8 bg-white w-3/4 lg:py-32 lg:px-16 lg:pl-10 lg:w-1/2 tails-selected-element"
              contenteditable="true" @click.stop="" style="max-height: 120vh; overflow-y: auto;">
-            <h1 class="text-2xl">水やりを設定する</h1>
-            {{ waterSetting }}
+            <h1 class="text-2xl text-center mb-12">水やりを設定する</h1>
             <span v-show="errors" class="text-red-500">
                 <p v-for="error in errors">
                     {{ error }}
@@ -76,6 +75,7 @@ WaterSettingModal.vue
                               v-model="waterSetting.note"></textarea>
                 </div>
                 <smart-tagz
+                    :key="waterSetting.waterSettingId"
                     v-if="waterSetting.alertTimes"
                     autosuggest
                     editable
@@ -91,16 +91,22 @@ WaterSettingModal.vue
                 />
             </div>
             <button v-if="waterSetting.isCreate" @click="create()"
-                    class="flex mx-auto mt-16 text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
+                    class="flex mx-auto mt-16 btn btn-outline-success bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded px-10 button-width mt-8"
+                    :class="{ 'opacity-25': isLoading }"
+                    :disabled="isLoading">
                 作成する
             </button>
             <div v-else>
                 <button  @click="update()"
-                         class="flex mx-auto mt-16 text-white bg-green-600 border-0 py-2 px-8 focus:outline-none hover:bg-green-800 rounded text-lg">
+                         class="flex mx-auto mt-16 btn btn-outline-success bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded px-10 button-width mt-8"
+                         :class="{ 'opacity-25': isLoading }"
+                         :disabled="isLoading">
                     編集する
                 </button>
                 <button  @click="deleteSeat()"
-                         class="flex mx-auto mt-16 text-white bg-red-500 border-0 py-2 px-8 focus:outline-none hover:bg-red-800 rounded text-lg">
+                         class="flex mx-auto mt-16 btn btn-outline-success bg-gradient-to-br from-red-300 to-red-800 hover:bg-gradient-to-tl text-white rounded px-10 button-width mt-8"
+                         :class="{ 'opacity-25': isLoading }"
+                         :disabled="isLoading">
                     削除する
                 </button>
             </div>
@@ -151,8 +157,8 @@ export default defineComponent({
                 months: [],
                 note: '',
                 waterSettingAmount: 'moderate_amount',
-                wateringTimes: 0,
-                wateringInterval: 0,
+                wateringTimes: 1,
+                wateringInterval: 1,
                 alertTimes:[],})
         },
 
@@ -168,6 +174,7 @@ export default defineComponent({
         };
     },
     created() {
+        this.alertTimes = this.waterSetting.alertTimes;
         this.currentWateringTimes = this.waterSetting.wateringTimes;
         this.currentWateringInterval = this.waterSetting.wateringInterval;
     },
@@ -184,7 +191,6 @@ export default defineComponent({
             }
         },
         waterSetting(newVal) {
-            console.log(newVal)
             this.alertTimes = newVal.alertTimes;
             this.currentWateringTimes = newVal.wateringTimes;
             this.currentWateringInterval = newVal.wateringInterval;
@@ -222,7 +228,6 @@ export default defineComponent({
         },
         create() {
             this.isLoading=true
-            this.$emit('someEvent',1)
 
             axios.post('/api/waterSetting', {
                 checkSeatId: this.waterSetting.checkSeatId,
@@ -233,12 +238,9 @@ export default defineComponent({
                 waterSettingInterval: this.waterSetting.wateringInterval,
                 waterSettingAlertTimes:this.waterSetting.alertTimes,
             }).then(res => {
-
-                console.log('とうろくせいこう')
-                console.log(this.waterSetting.checkSeatId)
-
-                window.location.href = 'http://localhost:51111/checkSeat/' + this.waterSetting.checkSeatId;
-                this.isLoading=false
+                this.$emit('addWaterSetting',this.waterSetting)
+                this.isLoading=false;
+                this.closeModal()
             }).catch(error => {
                 if (error.response.status === 422) {
                     console.log(error.response.data.errors);
@@ -274,7 +276,7 @@ export default defineComponent({
 
                 // window.location.href = 'http://localhost:51111/checkSeat/' + this.waterSetting.checkSeatId;
                 this.isLoading=false
-
+                this.closeModal()
             }).catch(error => {
                 if (error.response.status === 422) {
                     console.log(error.response.data.errors);

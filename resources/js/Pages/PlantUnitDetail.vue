@@ -7,21 +7,24 @@
 
         <div id="tab" class="w-full max-w-500 mx-auto">
             <ul class="flex tabMenu">
-                <li class="w-auto px-4 py-2 text-white border-r border-white bg-blue-700 cursor-pointer"
+                <li class="w-auto px-4 py-2 text-white border-r border-white bg-green-700 cursor-pointer"
                     @click="isSelect('1')">日記
                 </li>
-                <li class="w-auto px-4 py-2 text-white border-r border-white bg-blue-700 cursor-pointer"
-                    @click="isSelect('2');showCheckSeat()">お世話
+                <li class="w-auto px-4 py-2 text-white border-r border-white bg-green-700 cursor-pointer"
+                    @click="isSelect('2')">お世話
                 </li>
-                <li class="w-auto px-4 py-2 text-white bg-blue-700 cursor-pointer"
-                    @click="isSelect('3');getPlantData()">
+                <li class="w-auto px-4 py-2 text-white bg-green-700 cursor-pointer"
+                    @click="isSelect('3')">
                     情報
                 </li>
             </ul>
-            <div class="w-full p-4 border border-blue-700 tabContents w-full lg:w-3/4">
+            <div class="w-full p-4 border border-green-700 tabContents w-full lg:w-3/4">
                 <div v-if="isActive === '1'">
 
-                    <button class="btn btn-success mb-8" @click="openDiaryModal(); getIndex(null)">日記を投稿する</button>
+                    <button
+                        class="btn btn-outline-success bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded px-10 button-width mb-8"
+                        @click="openDiaryModal(); getIndex(null)">日記を投稿する
+                    </button>
                     <div v-if="diaries.length===0" class="py-16 text-center">日記はありません</div>
 
                     <div v-for="(diary, index) in diaries" class="mb-4">
@@ -42,8 +45,9 @@
                                         <p>{{ diary.diaryContent }}</p>
                                         <div class="flex mb-4 h-12 items-end">
                                             <div class="flex-1 inline-block">日記更新日: {{ diary.createDate }}</div>
-                                            <button class="btn btn-success flex-1 w-18"
-                                                    @click="openDiaryModal(); getIndex(index)">日記を編集する
+                                            <button                         class="btn btn-outline-success bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded px-10 button-width"
+
+                                                                            @click="openDiaryModal(); getIndex(index)">日記を編集する
                                             </button>
                                         </div>
                                     </div>
@@ -86,8 +90,7 @@
                     </div>
 
                     <div v-else class="flex flex-col">
-                        <div class="w-auto px-4 py-2 text-white border-r border-white bg-green-700 m-2">
-                            <div class="card w-96 bg-base-100 shadow-xl text-black">
+                            <div class="card w-full bg-base-100 shadow-xl text-black my-4">
                                 <div class="card-body">
                                     <h2 class="card-title">水やり設定</h2>
                                     <p>
@@ -107,11 +110,10 @@
                                 </div>
 
 
-                            </div>
 
                         </div>
-                        <div class="w-auto px-4 py-2 text-white border-r border-white bg-green-700 m-2">
-                            <div class="card w-96 bg-base-100 shadow-xl text-black">
+
+                            <div class="card w-full bg-base-100 shadow-xl text-black my-4">
                                 <div class="card-body">
                                     <h2 class="card-title">肥料設定</h2>
                                     <ul v-for="fertilizerSetting in fertilizerSettings" class="">
@@ -126,16 +128,20 @@
                             </div>
                         </div>
 
-                    </div>
+
                     <a :href="route('checkSeat', { checkSeatId: checkSeatId })"
                        class="block">
-                        <button class="btn btn-primary">お世話設定</button>
+                        <button
+                            class="btn btn-outline-success bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded px-10 button-width mb-8">
+                            お世話設定
+                        </button>
                     </a>
 
 
                 </div>
                 <div v-else-if="isActive === '3'">
-                    <div class="flex flex-col items-center">
+
+                    <div v-if="Object.keys(plantData).length !== 0" class="flex flex-col items-center">
                         <div class="card w-full lg:w-2/3 bg-base-100 shadow-xl my-4">
                             <div class="card-body">
                                 <h2 class="card-title">
@@ -208,6 +214,7 @@
                             </div>
                         </div>
                     </div>
+                    <div v-else>植物のデータを取得中です</div>
                 </div>
             </div>
         </div>
@@ -243,7 +250,7 @@ export default {
         LoadWait,
         NaviFooter,
     },
-    props: ['plantUnitId', 'checkSeatId'],
+    props: ['plantUnitId'],
     data() {
         return {
             userId: '',
@@ -253,13 +260,8 @@ export default {
             plantImage: '',
             createDate: '',
             updateDate: '',
-            plantData: {
-                plantName: '',
-                scientific: '',
-                information: '',
-            },
-            diaries: [
-            ],
+            diaries: [],
+            plantData: {},
             waterSettings: [],
             fertilizerSettings: [],
             currentMonth: '',
@@ -272,11 +274,13 @@ export default {
 
         }
     },
-    created() {
+    async created() {
+        await this.fetchPlantUnitData();
+        this.showCheckSeat();
+        this.getPlantData();
 
-        this.fetchPlantUnitData();
         const date = new Date();
-        const month = date.getMonth() + 1; // 0-11の月の値を1-12に変換するために+1する
+        const month = date.getMonth() + 1;
         this.currentMonth = month;
     },
     methods: {
@@ -289,32 +293,28 @@ export default {
             this.arrayIndex = index
         },
         fetchPlantUnitData() {
-            this.isLoading = true;
-            axios.get(`/api/plantUnit/${this.plantUnitId}`)
-                .then(res => {
-                    this.userId = res.data.plantUnit.userId;
-                    this.plantId = res.data.plantUnit.plantId;
-                    this.checkSeatId = res.data.plantUnit.checkSeatId;
-                    this.plantName = res.data.plantUnit.plantName;
-                    // this.diaries = res.data.plantUnit.diaries;
-                    this.plantImage = res.data.plantUnit.plantImage;
-                    this.createDate = res.data.plantUnit.createDate;
-                    this.updateDate = res.data.plantUnit.updateDate;
-                    this.plantData = {
-                        plantName: '',
-                        scientific: '',
-                        information: '',
-                    };
-                    this.diariesData = [];
-                    this.fetchDiaryData();
-                    // return axios.get(`/api/plant/${this.plantId}`, {});
+            return new Promise((resolve, reject) => {
+                this.isLoading = true;
+                axios.get(`/api/plantUnit/${this.plantUnitId}`)
+                    .then(res => {
+                        this.userId = res.data.plantUnit.userId;
+                        this.plantId = res.data.plantUnit.plantId;
+                        this.checkSeatId = res.data.plantUnit.checkSeatId;
+                        this.plantName = res.data.plantUnit.plantName;
+                        // this.diaries = res.data.plantUnit.diaries;
+                        this.plantImage = res.data.plantUnit.plantImage;
+                        this.createDate = res.data.plantUnit.createDate;
+                        this.updateDate = res.data.plantUnit.updateDate;
+                        this.diariesData = [];
+                        this.fetchDiaryData();
 
-                })
-                .catch((error) => {
-                    console.log(error);
-                })
-
-
+                        resolve(); // Promise の解決
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                        reject(error); // Promise の拒否
+                    });
+            });
         },
         // api/plantunit/{plantunitId}/image
         async fetchDiaryData() {

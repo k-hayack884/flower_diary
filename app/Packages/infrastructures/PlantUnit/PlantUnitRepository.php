@@ -100,7 +100,7 @@ class PlantUnitRepository implements PlantUnitRepositoryInterface
     {
         $collectionArray = $plantUnit->toArray();
         foreach ($collectionArray as $plant) {
-            \App\Models\PlantUnit::updateOrCreate(['plant_unit_id' => $plantUnit->getPlantUnitId()->getId()],
+            \App\Models\PlantUnit::updateOrCreate(['plant_unit_id' => $plant->getPlantUnitId()->getId()],
                 [
                 'plant_unit_id' => $plant->getPlantUnitId()->getId(),
                 'user_id' => $plant->getUserId()->getId(),
