@@ -147,11 +147,7 @@ export default {
 
             axios.post('/api/addPlant', {
                 plantId: this.plantId,
-                plantImage1: this.selectedImage1,
-                plantImage2: this.selectedImage2,
-                plantImage3: this.selectedImage3,
-                plantImage4: this.selectedImage4,
-                plantImage5: this.selectedImage5,
+                plantImages:[this.selectedImage1,this.selectedImage2,this.selectedImage3,this.selectedImage4,this.selectedImage5]
             }).then(res => {
                 this.successMessage = res.data.original.successMessage;
                 this.isLoading = false;

@@ -10,7 +10,7 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
 
-class Plant extends Authenticatable
+class PlantImage extends Authenticatable
 {
     use HasApiTokens;
     use HasFactory;
@@ -24,25 +24,8 @@ class Plant extends Authenticatable
      * @var string[]
      */
     protected $fillable = [
-        'plantId',
-        'name',
-        'scientific',
-        'information',
-        'recommendSpringWaterInterval',
-        'recommendSpringWaterTimes',
-        'recommendSummerWaterInterval',
-        'recommendSummerWaterTimes',
-        'recommendAutumnWaterInterval',
-        'recommendAutumnWaterTimes',
-        'recommendWinterWaterInterval',
-        'recommendWinterWaterTimes',
-        'fertilizerName',
-        'fertilizerMonths',
-        'image1',
-        'image2',
-        'image3',
-        'image4',
-        'image5',
+        'plant_id',
+        'plant_images',
     ];
 
     /**
@@ -65,14 +48,10 @@ class Plant extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-public function plantUnit(){
-    return $this->hasMany(PlantUnit::class,'plant_id');
+public function plant(){
+    return $this->belongsTo(Plant::class,'id');
 
 }
-    public function plant(){
-        return $this->hasMany(PlantImage::class,'plant_id');
-
-    }
     /**
      * The accessors to append to the model's array form.
      *

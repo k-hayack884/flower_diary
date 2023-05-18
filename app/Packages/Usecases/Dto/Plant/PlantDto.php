@@ -19,11 +19,7 @@ class PlantDto
         public int    $recommendWinterWaterTimes,
         public string $fertilizerName,
         public array  $fertilizerMonths,
-        public string $plantImage1,
-        public string $plantImage2,
-        public string $plantImage3,
-        public string $plantImage4,
-        public string $plantImage5,
+        public array  $plantImages,
     )
     {
     }

@@ -182,32 +182,34 @@
                                     {{ plantData.plantName }}の画像
                                 </h2>
 
-                                <div class="carousel rounded-box">
-                                    <div class="carousel-item">
-                                        <img :src="'data:image/png;base64,'+plantData.image1"
-                                             class="lg:w-full lg:h-full object-cover"
-                                             style="width: 400px; height: 400px ;"/>
+                                <div class="flex mx-auto carousel rounded-box" style="width: 300px; height: 300px ;">
+                                    <div class="carousel-item" >
+                                        <div v-for="image in plantImages">
+                                            <img :src="'data:image/png;base64,'+image"
+                                                 class="lg:w-full lg:h-full object-cover"
+                                                 style="width: 300px; height: 300px ;"/>
+                                        </div>
                                     </div>
-                                    <div class="carousel-item">
-                                        <img :src="'data:image/png;base64,'+plantData.image2"
-                                             class="lg:w-full lg:h-full object-cover"
-                                             style="width: 400px; height: 400px ;"/>
-                                    </div>
-                                    <div class="carousel-item">
-                                        <img :src="'data:image/png;base64,'+plantData.image3"
-                                             class="lg:w-full lg:h-full object-cover"
-                                             style="width: 400px; height: 400px ;"/>
-                                    </div>
-                                    <div class="carousel-item">
-                                        <img :src="'data:image/png;base64,'+plantData.image4"
-                                             class="lg:w-full lg:h-full object-cover"
-                                             style="width: 400px; height: 400px ;"/>
-                                    </div>
-                                    <div class="carousel-item">
-                                        <img :src="'data:image/png;base64,'+plantData.image5"
-                                             class="lg:w-full lg:h-full object-cover"
-                                             style="width: 400px; height: 400px ;"/>
-                                    </div>
+<!--                                    <div class="carousel-item">-->
+<!--                                        <img :src="'data:image/png;base64,'+plantData.image2"-->
+<!--                                             class="lg:w-full lg:h-full object-cover"-->
+<!--                                             style="width: 400px; height: 400px ;"/>-->
+<!--                                    </div>-->
+<!--                                    <div class="carousel-item">-->
+<!--                                        <img :src="'data:image/png;base64,'+plantData.image3"-->
+<!--                                             class="lg:w-full lg:h-full object-cover"-->
+<!--                                             style="width: 400px; height: 400px ;"/>-->
+<!--                                    </div>-->
+<!--                                    <div class="carousel-item">-->
+<!--                                        <img :src="'data:image/png;base64,'+plantData.image4"-->
+<!--                                             class="lg:w-full lg:h-full object-cover"-->
+<!--                                             style="width: 400px; height: 400px ;"/>-->
+<!--                                    </div>-->
+<!--                                    <div class="carousel-item">-->
+<!--                                        <img :src="'data:image/png;base64,'+plantData.image5"-->
+<!--                                             class="lg:w-full lg:h-full object-cover"-->
+<!--                                             style="width: 400px; height: 400px ;"/>-->
+<!--                                    </div>-->
                                 </div>
                                 <div class="card-actions justify-end">
                                 </div>
@@ -420,11 +422,7 @@ export default {
                         plantName: res.data.plant.name,
                         scientific: res.data.plant.scientific,
                         information: res.data.plant.information,
-                        image1: res.data.plant.plantImage1,
-                        image2: res.data.plant.plantImage2,
-                        image3: res.data.plant.plantImage3,
-                        image4: res.data.plant.plantImage4,
-                        image5: res.data.plant.plantImage5,
+                        plantImage: res.data.plant.plantImages,
                     })
 
                     // this.fetchCheckSeatData();

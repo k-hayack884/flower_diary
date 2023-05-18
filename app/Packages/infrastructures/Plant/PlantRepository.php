@@ -2,6 +2,7 @@
 
 namespace App\Packages\infrastructures\Plant;
 
+use App\Models\PlantImage;
 use App\Packages\Domains\Plant\PlantData;
 use App\Packages\Domains\Plant\PlantId;
 use App\Packages\Domains\Plant\PlantImages;
@@ -18,9 +19,14 @@ class PlantRepository implements PlantRepositoryInterface
 
     public function findById(PlantId $plantId)
     {
-        $plant = Plant::where('id', $plantId)->first();
+        $plant = Plant::join('plant_images', 'plants.id', '=', 'plant_images.plant_id')
+            ->where('plants.id', $plantId->getId())
+            ->select('plants.id', 'plants.name', 'plants.scientific', 'plants.information', 'plants.recommendSpringWaterInterval', 'plants.recommendSpringWaterTimes', 'plants.recommendSummerWaterInterval', 'plants.recommendSummerWaterTimes',
+                'plants.recommendAutumnWaterInterval', 'plants.recommendAutumnWaterTimes', 'plants.recommendWinterWaterInterval', 'plants.recommendWinterWaterTimes', 'plants.fertilizerName', 'plants.fertilizerMonths', 'plant_images.plant_images')
+            ->first();
+
         return new PlantData(
-            $plant->id,
+            new PlantId($plant->id),
             $plant->name,
             $plant->scientific,
             $plant->information,
@@ -33,7 +39,8 @@ class PlantRepository implements PlantRepositoryInterface
             $plant->recommendWinterWaterInterval,
             $plant->recommendWinterWaterTimes,
             $plant->fertilizerName,
-            json_decode($plant->fertilizerMonths)
+            json_decode($plant->fertilizerMonths),
+            new PlantImages($plant->id, json_decode($plant->plant_images))
         );
     }
 
@@ -46,9 +53,14 @@ class PlantRepository implements PlantRepositoryInterface
 
     public function findByName(string $name): PlantData
     {
-        $plant = Plant::where('name', $name)->first();
+        $plant = Plant::join('plant_images', 'plants.id', '=', 'plant_images.plant_id')
+            ->where('plants.name', $name)
+            ->select('plants.id', 'plants.name', 'plants.scientific', 'plants.information', 'plants.recommendSpringWaterInterval', 'plants.recommendSpringWaterTimes', 'plants.recommendSummerWaterInterval', 'plants.recommendSummerWaterTimes',
+                'plants.recommendAutumnWaterInterval', 'plants.recommendAutumnWaterTimes', 'plants.recommendWinterWaterInterval', 'plants.recommendWinterWaterTimes', 'plants.fertilizerName', 'plants.fertilizerMonths', 'plant_images.plant_images')
+            ->first();
+
         return new PlantData(
-            $plant->id,
+            new PlantId($plant->id),
             $plant->name,
             $plant->scientific,
             $plant->information,
@@ -61,20 +73,22 @@ class PlantRepository implements PlantRepositoryInterface
             $plant->recommendWinterWaterInterval,
             $plant->recommendWinterWaterTimes,
             $plant->fertilizerName,
-            json_decode($plant->fertilizerMonths)
+            json_decode($plant->fertilizerMonths),
+            new PlantImages(new PlantId($plant->id), json_decode($plant->plant_images))
         );
     }
 
     public function addImage(PlantImages $plantImages): void
     {
-        $hitPlant = Plant::where('id', $plantImages->getPlantId()->getId())->first();
-        $hitPlant->image1 = $plantImages->getPlantImage1();
-        $hitPlant->image2 = $plantImages->getPlantImage2();
-        $hitPlant->image3 = $plantImages->getPlantImage3();
-        $hitPlant->image4 = $plantImages->getPlantImage4();
-        $hitPlant->image5 = $plantImages->getPlantImage5();
-        $hitPlant->save();
+        foreach ($plantImages->getPlantImages() as $image){
+            PlantImage::create([
+                'plant_id' => $plantImages->getPlantId()->getId(),
+                'plant_images' => $image
+            ]);
+        }
+
     }
+
     public function findImage(PlantId $plantId): PlantImages
     {
         $hitPlant = Plant::where('id', $plantId->getId())->first();

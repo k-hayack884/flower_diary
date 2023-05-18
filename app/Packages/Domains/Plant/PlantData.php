@@ -5,7 +5,7 @@ namespace App\Packages\Domains\Plant;
 class PlantData
 {
     public function __construct(
-        private string $plantId,
+        private PlantId $plantId,
         private string $name,
         private string $scientific,
         private string $information,
@@ -19,6 +19,7 @@ class PlantData
         private int    $recommendWinterWaterTimes,
         private string $fertilizerName,
         private array  $fertilizerMonths,
+        private ?plantImages $plantImages
     )
     {
     }
@@ -26,7 +27,7 @@ class PlantData
     /**
      * @return string
      */
-    public function getPlantId(): string
+    public function getPlantId(): PlantId
     {
         return $this->plantId;
     }
@@ -132,5 +133,13 @@ class PlantData
     public function getFertilizerMonths(): array
     {
         return $this->fertilizerMonths;
+    }
+
+    /**
+     * @return plantImages|null
+     */
+    public function getPlantImages(): ?plantImages
+    {
+        return $this->plantImages;
     }
 }
