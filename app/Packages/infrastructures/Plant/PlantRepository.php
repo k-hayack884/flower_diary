@@ -23,24 +23,26 @@ class PlantRepository implements PlantRepositoryInterface
             ->where('plants.id', $plantId->getId())
             ->select('plants.id', 'plants.name', 'plants.scientific', 'plants.information', 'plants.recommendSpringWaterInterval', 'plants.recommendSpringWaterTimes', 'plants.recommendSummerWaterInterval', 'plants.recommendSummerWaterTimes',
                 'plants.recommendAutumnWaterInterval', 'plants.recommendAutumnWaterTimes', 'plants.recommendWinterWaterInterval', 'plants.recommendWinterWaterTimes', 'plants.fertilizerName', 'plants.fertilizerMonths', 'plant_images.plant_images')
-            ->first();
-
+            ->get();
+        $plant_images = $plant->pluck('plant_images')->toArray();
+        shuffle($plant_images);
+        $randomPlantImages = array_slice($plant_images, 0, 5);
         return new PlantData(
-            new PlantId($plant->id),
-            $plant->name,
-            $plant->scientific,
-            $plant->information,
-            $plant->recommendSpringWaterInterval,
-            $plant->recommendSpringWaterTimes,
-            $plant->recommendSummerWaterInterval,
-            $plant->recommendSummerWaterTimes,
-            $plant->recommendAutumnWaterInterval,
-            $plant->recommendAutumnWaterTimes,
-            $plant->recommendWinterWaterInterval,
-            $plant->recommendWinterWaterTimes,
-            $plant->fertilizerName,
-            json_decode($plant->fertilizerMonths),
-            new PlantImages($plant->id, json_decode($plant->plant_images))
+            new PlantId($plant[0]->id),
+            $plant[0]->name,
+            $plant[0]->scientific,
+            $plant[0]->information,
+            $plant[0]->recommendSpringWaterInterval,
+            $plant[0]->recommendSpringWaterTimes,
+            $plant[0]->recommendSummerWaterInterval,
+            $plant[0]->recommendSummerWaterTimes,
+            $plant[0]->recommendAutumnWaterInterval,
+            $plant[0]->recommendAutumnWaterTimes,
+            $plant[0]->recommendWinterWaterInterval,
+            $plant[0]->recommendWinterWaterTimes,
+            $plant[0]->fertilizerName,
+            json_decode($plant[0]->fertilizerMonths),
+            new PlantImages(new PlantId($plant[0]->id),$randomPlantImages)
         );
     }
 
@@ -57,24 +59,26 @@ class PlantRepository implements PlantRepositoryInterface
             ->where('plants.name', $name)
             ->select('plants.id', 'plants.name', 'plants.scientific', 'plants.information', 'plants.recommendSpringWaterInterval', 'plants.recommendSpringWaterTimes', 'plants.recommendSummerWaterInterval', 'plants.recommendSummerWaterTimes',
                 'plants.recommendAutumnWaterInterval', 'plants.recommendAutumnWaterTimes', 'plants.recommendWinterWaterInterval', 'plants.recommendWinterWaterTimes', 'plants.fertilizerName', 'plants.fertilizerMonths', 'plant_images.plant_images')
-            ->first();
-
+            ->get();
+        $plant_images = $plant->pluck('plant_images')->toArray();
+        shuffle($plant_images);
+        $randomPlantImages = array_slice($plant_images, 0, 5);
         return new PlantData(
-            new PlantId($plant->id),
-            $plant->name,
-            $plant->scientific,
-            $plant->information,
-            $plant->recommendSpringWaterInterval,
-            $plant->recommendSpringWaterTimes,
-            $plant->recommendSummerWaterInterval,
-            $plant->recommendSummerWaterTimes,
-            $plant->recommendAutumnWaterInterval,
-            $plant->recommendAutumnWaterTimes,
-            $plant->recommendWinterWaterInterval,
-            $plant->recommendWinterWaterTimes,
-            $plant->fertilizerName,
-            json_decode($plant->fertilizerMonths),
-            new PlantImages(new PlantId($plant->id), json_decode($plant->plant_images))
+            new PlantId($plant[0]->id),
+            $plant[0]->name,
+            $plant[0]->scientific,
+            $plant[0]->information,
+            $plant[0]->recommendSpringWaterInterval,
+            $plant[0]->recommendSpringWaterTimes,
+            $plant[0]->recommendSummerWaterInterval,
+            $plant[0]->recommendSummerWaterTimes,
+            $plant[0]->recommendAutumnWaterInterval,
+            $plant[0]->recommendAutumnWaterTimes,
+            $plant[0]->recommendWinterWaterInterval,
+            $plant[0]->recommendWinterWaterTimes,
+            $plant[0]->fertilizerName,
+            json_decode($plant[0]->fertilizerMonths),
+            new PlantImages(new PlantId($plant[0]->id),$randomPlantImages)
         );
     }
 
@@ -87,20 +91,6 @@ class PlantRepository implements PlantRepositoryInterface
             ]);
         }
 
-    }
-
-    public function findImage(PlantId $plantId): PlantImages
-    {
-        $hitPlant = Plant::where('id', $plantId->getId())->first();
-
-        return new PlantImages(
-            new PlantId($hitPlant->id),
-            $hitPlant->image1,
-            $hitPlant->image2,
-            $hitPlant->image3,
-            $hitPlant->image4,
-            $hitPlant->image5,
-        );
     }
 
     public function save(PlantData $plant): void

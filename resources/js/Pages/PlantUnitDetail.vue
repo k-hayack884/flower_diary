@@ -184,7 +184,7 @@
 
                                 <div class="flex mx-auto carousel rounded-box" style="width: 300px; height: 300px ;">
                                     <div class="carousel-item" >
-                                        <div v-for="image in plantImages">
+                                        <div v-for="image in plantData.plantImages">
                                             <img :src="'data:image/png;base64,'+image"
                                                  class="lg:w-full lg:h-full object-cover"
                                                  style="width: 300px; height: 300px ;"/>
@@ -259,7 +259,6 @@ export default {
             plantId: '',
             checkSeatId: '',
             plantName: null,
-            plantImage: '',
             createDate: '',
             updateDate: '',
             diaries: [],
@@ -422,7 +421,7 @@ export default {
                         plantName: res.data.plant.name,
                         scientific: res.data.plant.scientific,
                         information: res.data.plant.information,
-                        plantImage: res.data.plant.plantImages,
+                        plantImages: res.data.plant.plantImages,
                     })
 
                     // this.fetchCheckSeatData();
