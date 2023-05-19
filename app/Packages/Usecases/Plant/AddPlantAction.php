@@ -25,24 +25,13 @@ class AddPlantAction
     {
         Log::info(__METHOD__, ['開始']);
         $plantId = new PlantId($addPlantRequest->getPlantId());
-        $plantImage1 = $addPlantRequest->getImage1();
-        $plantImageFileName1 = Base64Service::base64FileDecode($plantImage1, 'plantImage');
-        $plantImage2 = $addPlantRequest->getImage2();
-        $plantImageFileName2 = Base64Service::base64FileDecode($plantImage2, 'plantImage');
-        $plantImage3 = $addPlantRequest->getImage3();
-        $plantImageFileName3 = Base64Service::base64FileDecode($plantImage3, 'plantImage');
-        $plantImage4 = $addPlantRequest->getImage4();
-        $plantImageFileName4 = Base64Service::base64FileDecode($plantImage4, 'plantImage');
-        $plantImage5 = $addPlantRequest->getImage5();
-        $plantImageFileName5 = Base64Service::base64FileDecode($plantImage5, 'plantImage');
+        $plantImageFileNames = [];
+        foreach ($addPlantRequest->getPlantImages() as $image) {
+            $plantImageFileNames[] = Base64Service::base64FileDecode($image, 'plantImage');
+        }
         $plantImages = new PlantImages(
             $plantId,
-            $plantImageFileName1,
-            $plantImageFileName2,
-            $plantImageFileName3,
-            $plantImageFileName4,
-            $plantImageFileName5,
-
+            $plantImageFileNames,
         );
         $this->plantRepository->addImage($plantImages);
         Log::info(__METHOD__, ['終了']);

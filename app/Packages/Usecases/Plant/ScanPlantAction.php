@@ -20,8 +20,6 @@ class ScanPlantAction
     ): PlantWrapDto
     {
         $hitPlant = $this->plantRepository->findByName($plantLabel);
-        $hitPlantImage = $this->plantRepository->findImage(new PlantId($hitPlant->getPlantId()));
-
-        return PlantDtoFactory::create($hitPlant,$hitPlantImage);
+        return PlantDtoFactory::create($hitPlant);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Packages\infrastructures\Plant;
 
+use App\Models\PlantImage;
 use App\Packages\Domains\Plant\PlantData;
 use App\Packages\Domains\Plant\PlantId;
 use App\Packages\Domains\Plant\PlantImages;
@@ -18,22 +19,30 @@ class PlantRepository implements PlantRepositoryInterface
 
     public function findById(PlantId $plantId)
     {
-        $plant = Plant::where('id', $plantId)->first();
+        $plant = Plant::join('plant_images', 'plants.id', '=', 'plant_images.plant_id')
+            ->where('plants.id', $plantId->getId())
+            ->select('plants.id', 'plants.name', 'plants.scientific', 'plants.information', 'plants.recommendSpringWaterInterval', 'plants.recommendSpringWaterTimes', 'plants.recommendSummerWaterInterval', 'plants.recommendSummerWaterTimes',
+                'plants.recommendAutumnWaterInterval', 'plants.recommendAutumnWaterTimes', 'plants.recommendWinterWaterInterval', 'plants.recommendWinterWaterTimes', 'plants.fertilizerName', 'plants.fertilizerMonths', 'plant_images.plant_images')
+            ->get();
+        $plant_images = $plant->pluck('plant_images')->toArray();
+        shuffle($plant_images);
+        $randomPlantImages = array_slice($plant_images, 0, 5);
         return new PlantData(
-            $plant->id,
-            $plant->name,
-            $plant->scientific,
-            $plant->information,
-            $plant->recommendSpringWaterInterval,
-            $plant->recommendSpringWaterTimes,
-            $plant->recommendSummerWaterInterval,
-            $plant->recommendSummerWaterTimes,
-            $plant->recommendAutumnWaterInterval,
-            $plant->recommendAutumnWaterTimes,
-            $plant->recommendWinterWaterInterval,
-            $plant->recommendWinterWaterTimes,
-            $plant->fertilizerName,
-            json_decode($plant->fertilizerMonths)
+            new PlantId($plant[0]->id),
+            $plant[0]->name,
+            $plant[0]->scientific,
+            $plant[0]->information,
+            $plant[0]->recommendSpringWaterInterval,
+            $plant[0]->recommendSpringWaterTimes,
+            $plant[0]->recommendSummerWaterInterval,
+            $plant[0]->recommendSummerWaterTimes,
+            $plant[0]->recommendAutumnWaterInterval,
+            $plant[0]->recommendAutumnWaterTimes,
+            $plant[0]->recommendWinterWaterInterval,
+            $plant[0]->recommendWinterWaterTimes,
+            $plant[0]->fertilizerName,
+            json_decode($plant[0]->fertilizerMonths),
+            new PlantImages(new PlantId($plant[0]->id),$randomPlantImages)
         );
     }
 
@@ -46,47 +55,42 @@ class PlantRepository implements PlantRepositoryInterface
 
     public function findByName(string $name): PlantData
     {
-        $plant = Plant::where('name', $name)->first();
+        $plant = Plant::join('plant_images', 'plants.id', '=', 'plant_images.plant_id')
+            ->where('plants.name', $name)
+            ->select('plants.id', 'plants.name', 'plants.scientific', 'plants.information', 'plants.recommendSpringWaterInterval', 'plants.recommendSpringWaterTimes', 'plants.recommendSummerWaterInterval', 'plants.recommendSummerWaterTimes',
+                'plants.recommendAutumnWaterInterval', 'plants.recommendAutumnWaterTimes', 'plants.recommendWinterWaterInterval', 'plants.recommendWinterWaterTimes', 'plants.fertilizerName', 'plants.fertilizerMonths', 'plant_images.plant_images')
+            ->get();
+        $plant_images = $plant->pluck('plant_images')->toArray();
+        shuffle($plant_images);
+        $randomPlantImages = array_slice($plant_images, 0, 5);
         return new PlantData(
-            $plant->id,
-            $plant->name,
-            $plant->scientific,
-            $plant->information,
-            $plant->recommendSpringWaterInterval,
-            $plant->recommendSpringWaterTimes,
-            $plant->recommendSummerWaterInterval,
-            $plant->recommendSummerWaterTimes,
-            $plant->recommendAutumnWaterInterval,
-            $plant->recommendAutumnWaterTimes,
-            $plant->recommendWinterWaterInterval,
-            $plant->recommendWinterWaterTimes,
-            $plant->fertilizerName,
-            json_decode($plant->fertilizerMonths)
+            new PlantId($plant[0]->id),
+            $plant[0]->name,
+            $plant[0]->scientific,
+            $plant[0]->information,
+            $plant[0]->recommendSpringWaterInterval,
+            $plant[0]->recommendSpringWaterTimes,
+            $plant[0]->recommendSummerWaterInterval,
+            $plant[0]->recommendSummerWaterTimes,
+            $plant[0]->recommendAutumnWaterInterval,
+            $plant[0]->recommendAutumnWaterTimes,
+            $plant[0]->recommendWinterWaterInterval,
+            $plant[0]->recommendWinterWaterTimes,
+            $plant[0]->fertilizerName,
+            json_decode($plant[0]->fertilizerMonths),
+            new PlantImages(new PlantId($plant[0]->id),$randomPlantImages)
         );
     }
 
     public function addImage(PlantImages $plantImages): void
     {
-        $hitPlant = Plant::where('id', $plantImages->getPlantId()->getId())->first();
-        $hitPlant->image1 = $plantImages->getPlantImage1();
-        $hitPlant->image2 = $plantImages->getPlantImage2();
-        $hitPlant->image3 = $plantImages->getPlantImage3();
-        $hitPlant->image4 = $plantImages->getPlantImage4();
-        $hitPlant->image5 = $plantImages->getPlantImage5();
-        $hitPlant->save();
-    }
-    public function findImage(PlantId $plantId): PlantImages
-    {
-        $hitPlant = Plant::where('id', $plantId->getId())->first();
+        foreach ($plantImages->getPlantImages() as $image){
+            PlantImage::create([
+                'plant_id' => $plantImages->getPlantId()->getId(),
+                'plant_images' => $image
+            ]);
+        }
 
-        return new PlantImages(
-            new PlantId($hitPlant->id),
-            $hitPlant->image1,
-            $hitPlant->image2,
-            $hitPlant->image3,
-            $hitPlant->image4,
-            $hitPlant->image5,
-        );
     }
 
     public function save(PlantData $plant): void

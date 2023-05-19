@@ -22,7 +22,6 @@ class GetPlantAction
     {
         $plantId=new PlantId($getPlantRequest->getId());
         $hitPlant = $this->plantRepository->findById($plantId);
-        $hitPlantImage = $this->plantRepository->findImage($plantId);
-        return PlantDtoFactory::create($hitPlant,$hitPlantImage);
+        return PlantDtoFactory::create($hitPlant);
     }
 }

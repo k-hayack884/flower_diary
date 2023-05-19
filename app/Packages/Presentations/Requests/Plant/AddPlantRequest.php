@@ -3,6 +3,7 @@
 namespace App\Packages\Presentations\Requests\Plant;
 
 use App\Rules\FileBase64;
+use GuzzleHttp\Promise\Each;
 
 class AddPlantRequest extends \App\Http\Requests\BaseRequest
 {
@@ -14,6 +15,14 @@ class AddPlantRequest extends \App\Http\Requests\BaseRequest
         return [
             'plantId' => [
                 'required'
+            ],
+            'plantImages.*' => [
+                'required',
+                new FileBase64(),
+            ],
+            'plantImages' => [
+                'array',
+                'max:5',
             ],
             'plantImage1' => [
                 new FileBase64(),
@@ -73,4 +82,9 @@ class AddPlantRequest extends \App\Http\Requests\BaseRequest
     {
         return $this->input('plantImage5');
     }
+    public function getPlantImages():array
+    {
+        return $this->input('plantImages');
+    }
+
 }

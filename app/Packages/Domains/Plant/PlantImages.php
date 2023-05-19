@@ -5,20 +5,22 @@ namespace App\Packages\Domains\Plant;
 class PlantImages
 {
     private PlantId $plantId;
-    private string $plantImage1;
-    private string $plantImage2;
-    private string $plantImage3;
-    private string $plantImage4;
-    private string $plantImage5;
-
-    public function __construct(PlantId $plantId, string $plantImage1, string $plantImage2, string $plantImage3, string $plantImage4, string $plantImage5)
+//    private string $plantImage1;
+//    private string $plantImage2;
+//    private string $plantImage3;
+//    private string $plantImage4;
+//    private string $plantImage5;
+    private array $plantImages;
+    public function __construct(PlantId $plantId,array $plantImages)
     {
         $this->plantId = $plantId;
-        $this->plantImage1 = $plantImage1;
-        $this->plantImage2 = $plantImage2;
-        $this->plantImage3 = $plantImage3;
-        $this->plantImage4 = $plantImage4;
-        $this->plantImage5 = $plantImage5;
+$this->plantImages=$plantImages;
+
+//        $this->plantImage1 = $plantImage1;
+//        $this->plantImage2 = $plantImage2;
+//        $this->plantImage3 = $plantImage3;
+//        $this->plantImage4 = $plantImage4;
+//        $this->plantImage5 = $plantImage5;
     }
 
     /**
@@ -66,5 +68,13 @@ class PlantImages
     public function getPlantImage5(): string
     {
         return $this->plantImage5;
+    }
+
+    /**
+     * @return array
+     */
+    public function getPlantImages(): array
+    {
+        return $this->plantImages;
     }
 }
