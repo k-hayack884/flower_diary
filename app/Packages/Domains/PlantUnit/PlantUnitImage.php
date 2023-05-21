@@ -9,9 +9,6 @@ class PlantUnitImage
     private string $plantFile;
     public function __construct(string $plantFile)
     {
-        if($plantFile===null){
-            throw new DomainException('植物の画像を取得できませんでした');
-        }
         $this->plantFile = $plantFile;
     }
 
@@ -21,9 +18,6 @@ class PlantUnitImage
      */
     public function update(string $plantFile): PlantUnitImage
     {
-        if($plantFile===null){
-            throw new DomainException('植物の画像を取得できませんでした');
-        }
         return new self($plantFile);
     }
 

@@ -45,4 +45,12 @@ class PlantUnitId
     {
         return $this->value;
     }
+
+    /**
+     * @param string $value
+     */
+    public function setValue(string $value): void
+    {
+        $this->value = $value;
+    }
 }

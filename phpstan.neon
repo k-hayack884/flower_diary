@@ -16,3 +16,7 @@ parameters:
         - ./*/*/FileToBeExcluded.php
 
     checkMissingIterableValueType: false
+
+
+    parameters:
+        checkGenericClassInNonGenericObjectType: false

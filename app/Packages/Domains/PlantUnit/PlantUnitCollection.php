@@ -14,7 +14,7 @@ class PlantUnitCollection
      */
     public function __construct(array $plantUnits = [])
     {
-        $this->plantUnits=(new Collection)->collect([]);
+        $this->plantUnits = collect([]);
         foreach ($plantUnits as $plantUnit) {
             $this->addUnit($plantUnit);
         }
@@ -48,7 +48,7 @@ class PlantUnitCollection
     {
         $plantUnit = $this->plantUnits->get($plantUnitId->getId());
         if (is_null($plantUnit)) {
-            throw new NotFoundException('指定した植物ユニットIDが見つかりませんでした (id:' . $plantUnit->getId() . ')');
+            throw new NotFoundException('指定した植物ユニットIDが見つかりませんでした (id:' . $plantUnitId->getId() . ')');
         }
         if (!$plantUnit->getPlantUnitSettingId()->equals($plantUnitId)) {
             throw new NotFoundException('指定した植物ユニットIDが見つかりませんでした (id:' . $plantUnit->getId() . ')');
@@ -71,7 +71,7 @@ class PlantUnitCollection
      */
     public function delete(PlantUnit $plantUnit): void
     {
-        $this->plantUnits->forget($plantUnit->getPlantUnitSettingId()->getId());
+        $this->plantUnits->forget($plantUnit->getPlantUnitId()->getId());
     }
 
     /**

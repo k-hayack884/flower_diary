@@ -4,7 +4,7 @@ namespace App\Packages\Domains\PlantUnit;
 
 use DomainException;
 
-class plantName
+class PlantName
 {
     public const RESET = '';
     /**
@@ -28,7 +28,7 @@ class plantName
 
     /**
      * @param string|null $name
-     * @return plantName
+     * @return PlantName
      */
     public function update(string|null $name=null): PlantName
     {
