@@ -1,6 +1,6 @@
 <script setup>
-import { ref } from 'vue';
-import { useForm } from '@inertiajs/inertia-vue3';
+import {ref} from 'vue';
+import {useForm} from '@inertiajs/inertia-vue3';
 import ActionMessage from '@/Components/ActionMessage.vue';
 import FormSection from '@/Components/FormSection.vue';
 import InputError from '@/Components/InputError.vue';
@@ -49,7 +49,7 @@ const updatePassword = () => {
 
         <template #form>
             <div class="col-span-6 sm:col-span-4">
-                <InputLabel for="current_password" value="現在のパスワード" />
+                <InputLabel for="current_password" value="現在のパスワード"/>
                 <TextInput
                     id="current_password"
                     ref="currentPasswordInput"
@@ -58,11 +58,11 @@ const updatePassword = () => {
                     class="mt-1 block w-full"
                     autocomplete="current-password"
                 />
-                <InputError :message="form.errors.current_password" class="mt-2" />
+                <InputError :message="form.errors.current_password" class="mt-2"/>
             </div>
 
             <div class="col-span-6 sm:col-span-4">
-                <InputLabel for="password" value="新しいパスワード" />
+                <InputLabel for="password" value="新しいパスワード"/>
                 <TextInput
                     id="password"
                     ref="passwordInput"
@@ -71,11 +71,11 @@ const updatePassword = () => {
                     class="mt-1 block w-full"
                     autocomplete="new-password"
                 />
-                <InputError :message="form.errors.password" class="mt-2" />
+                <InputError :message="form.errors.password" class="mt-2"/>
             </div>
 
             <div class="col-span-6 sm:col-span-4">
-                <InputLabel for="password_confirmation" value="パスワードの確認" />
+                <InputLabel for="password_confirmation" value="パスワードの確認"/>
                 <TextInput
                     id="password_confirmation"
                     v-model="form.password_confirmation"
@@ -83,7 +83,7 @@ const updatePassword = () => {
                     class="mt-1 block w-full"
                     autocomplete="new-password"
                 />
-                <InputError :message="form.errors.password_confirmation" class="mt-2" />
+                <InputError :message="form.errors.password_confirmation" class="mt-2"/>
             </div>
         </template>
 
@@ -92,7 +92,8 @@ const updatePassword = () => {
                 変更しました
             </ActionMessage>
 
-            <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing"                                     class="btn btn-outline-success bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded px-12 my-4 button-width"
+            <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing"
+                           class="btn btn-outline-success bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded px-12 my-4 button-width"
             >
                 変更する
             </PrimaryButton>

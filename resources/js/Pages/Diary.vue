@@ -3,7 +3,6 @@ import {Head, Link} from '@inertiajs/inertia-vue3';
 import AppLayout from '@/Layouts/AppLayout.vue';
 </script>
 <template>
-
     <h1 class="red">日記 操作をする</h1>
     <div class="flex justify-between">
         <button @click="create()">Create</button>

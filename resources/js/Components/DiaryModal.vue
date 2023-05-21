@@ -4,69 +4,68 @@ CheckSeatModal.vue
 <template>
 
     <div class="relative">
-        <LoadWait :show="isLoading" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50"></LoadWait>
-    <div id="overlay" @click="closeModal()" v-show="isOpen" class="z-20 flex justify-center">
-        <div class="p-8 bg-white w-full lg:py-32 lg:px-16 lg:pl-10 lg:w-3/4 tails-selected-element"
-             contenteditable="true" @click.stop="" style="max-height: 120vh; overflow-y: auto;">
-            {{ diary }}
-            <span v-show="errors" class="text-red-500">
+        <LoadWait :show="isLoading"
+                  class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50"></LoadWait>
+        <div id="overlay" @click="closeModal()" v-show="isOpen" class="z-20 flex justify-center">
+            <div class="p-8 bg-white w-full lg:py-32 lg:px-16 lg:pl-10 lg:w-3/4 tails-selected-element"
+                 contenteditable="true" @click.stop="" style="max-height: 120vh; overflow-y: auto;">
+                <span v-show="errors" class="text-red-500">
                 <p v-for="error in errors">
                     {{ error }}
                 </p></span>
-            <section class="text-gray-600 body-font overflow-hidden">
-                <div class="container px-5 py-24 mx-auto">
-                    <div class="lg:w-full mx-auto flex flex-wrap">
-                        <div v-if="selectedImage">
-                            <img :src="selectedImage" alt="Selected image" style="width: 300px; height: 300px ;">
-                            <input type="file" @change="onFileChange">
-                        </div>
-                        <div v-else-if="diary.diaryImage">
-                            <img :src="'data:image/png;base64,'+diary.diaryImage" alt="Selected image" style="width: 300px; height: 300px ;">
-                        </div>
-                        <div v-else>
-                            <img src="../../icon/noImag.png" style="width: 300px; height: 300px ;">
-                        </div>
-
-                        <div class="lg:w-1/2 w-full lg:pl-10  mt-6 lg:mt-0">
-                            <div class="relative mb-4">
-                                <label for="message" class="leading-7 text-sm text-gray-600">投稿内容（投稿できるのは200字までです）</label>
-                                <textarea v-model="diary.diaryContent" id="message" name="message" class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out" style="width: 300px; height: 200px;"></textarea>
+                <section class="text-gray-600 body-font overflow-hidden">
+                    <div class="container px-5 py-24 mx-auto">
+                        <div class="lg:w-full mx-auto flex flex-wrap">
+                            <div v-if="selectedImage">
+                                <img :src="selectedImage" alt="Selected image" style="width: 300px; height: 300px ;">
+                                <input type="file" @change="onFileChange">
                             </div>
-                                <div class="flex justify-center items-center h-200">
-                                <image-maker @image-selected="onImageSelected"></image-maker>
+                            <div v-else-if="diary.diaryImage">
+                                <img :src="'data:image/png;base64,'+diary.diaryImage" alt="Selected image"
+                                     style="width: 300px; height: 300px ;">
+                            </div>
+                            <div v-else>
+                                <img src="../../icon/noImag.png" style="width: 300px; height: 300px ;">
+                            </div>
+                            <div class="lg:w-1/2 w-full lg:pl-10  mt-6 lg:mt-0">
+                                <div class="relative mb-4">
+                                    <label for="message"
+                                           class="leading-7 text-sm text-gray-600">投稿内容（投稿できるのは200字までです）</label>
+                                    <textarea v-model="diary.diaryContent" id="message" name="message"
+                                              class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out"
+                                              style="width: 300px; height: 200px;"></textarea>
                                 </div>
-                            <div class="flex justify-center">
-                                <button v-if="diary.isCreate" @click="create()"
-                                        class="btn btn-outline-success bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded px-10 button-width mt-8"
-                                        :class="{ 'opacity-25': isLoading }"
-                                        :disabled="isLoading">
-                                            作成する
+                                <div class="flex justify-center items-center h-200">
+                                    <image-maker @image-selected="onImageSelected"></image-maker>
+                                </div>
+                                <div class="flex justify-center">
+                                    <button v-if="diary.isCreate" @click="create()"
+                                            class="btn btn-outline-success bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded px-10 button-width mt-8"
+                                            :class="{ 'opacity-25': isLoading }"
+                                            :disabled="isLoading">
+                                        作成する
+                                    </button>
+                                    <div v-else>
+                                        <button @click="update()"
+                                                class="btn btn-outline-success bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded px-10 button-width mt-8"
+                                                :class="{ 'opacity-25': isLoading }"
+                                                :disabled="isLoading">
+                                            編集する
                                         </button>
-                                        <div v-else>
-                                            <button  @click="update()"
-                                       class="btn btn-outline-success bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded px-10 button-width mt-8"
-                                                     :class="{ 'opacity-25': isLoading }"
-                                                     :disabled="isLoading">
-                                                編集する
-                                            </button>
-                                            <button  @click="deleteDiary()"
-                                                     class="flex mx-auto mt-16 btn btn-outline-success bg-gradient-to-br from-red-300 to-red-800 hover:bg-gradient-to-tl text-white rounded px-10 button-width mt-8"
-
-                                                     :class="{ 'opacity-25': isLoading }"
-                                                     :disabled="isLoading">
-                                                削除する
-                                            </button>
-                                        </div>
+                                        <button @click="deleteDiary()"
+                                                class="flex mx-auto mt-16 btn btn-outline-success bg-gradient-to-br from-red-300 to-red-800 hover:bg-gradient-to-tl text-white rounded px-10 button-width mt-8"
+                                                :class="{ 'opacity-25': isLoading }"
+                                                :disabled="isLoading">
+                                            削除する
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </section>
-
-
-
+                </section>
+            </div>
         </div>
-    </div>
     </div>
 </template>
 
@@ -126,9 +125,8 @@ export default defineComponent({
             currentWateringTimes: null,
             currentWateringInterval: null,
             errors: [],
-            isLoading:false,
+            isLoading: false,
             selectedImage: null,
-
         };
     },
     created() {
@@ -144,13 +142,11 @@ export default defineComponent({
             this.$emit("closeModal");
         },
         onImageSelected(imageData) {
-            // ImageMakerコンポーネントから渡された画像データを処理する
             this.selectedImage = imageData
             this.diary.image = imageData;
         },
         create() {
-            this.isLoading=true
-
+            this.isLoading = true
             axios.post('/api/diary', {
                 plantUnitId: this.plantUnitId,
                 diaryContent: this.diary.diaryContent,
@@ -161,17 +157,16 @@ export default defineComponent({
                 if (error.response.status === 422) {
                     console.log(error.response.data.errors);
                     this.errors = error.response.data.errors;
-                    this.isLoading=false
+                    this.isLoading = false
                 } else {
                     console.log(error);
-                    this.isLoading=false
-
+                    this.isLoading = false
                 }
             });
 
         },
         update() {
-            this.isLoading=true
+            this.isLoading = true
             console.log(this.diary.diaryId)
             axios.post('/api/diary/' + this.diary.diaryId, {
                     plantUnitId: this.plantUnitId,
@@ -184,21 +179,15 @@ export default defineComponent({
                         'X-HTTP-Method-Override': 'PUT',
                     }
                 }).then(res => {
-
-                console.log('とうろくせいこう')
-
                 window.location.href = 'http://localhost:51111/plantUnit/' + this.plantUnitId;
-
             }).catch(error => {
                 if (error.response.status === 422) {
                     console.log(error.response.data.errors);
                     this.errors = error.response.data.errors;
-                    this.isLoading=false
-
+                    this.isLoading = false
                 } else {
                     console.log(error);
-                    this.isLoading=false
-
+                    this.isLoading = false
                 }
             });
         },
@@ -217,7 +206,6 @@ export default defineComponent({
                 }).catch(error => {
                     console.log(error);
                     this.isLoading = false
-
                 });
             }
         }

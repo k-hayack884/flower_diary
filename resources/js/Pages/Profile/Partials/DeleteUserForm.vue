@@ -1,6 +1,6 @@
 <script setup>
-import { ref } from 'vue';
-import { useForm } from '@inertiajs/inertia-vue3';
+import {ref} from 'vue';
+import {useForm} from '@inertiajs/inertia-vue3';
 import ActionSection from '@/Components/ActionSection.vue';
 import DangerButton from '@/Components/DangerButton.vue';
 import DialogModal from '@/Components/DialogModal.vue';
@@ -67,7 +67,8 @@ const closeModal = () => {
                 </template>
 
                 <template #content>
-                    アカウントを削除してもよろしいですか? アカウントが削除されると、ユーザーが保持するデータはすべて完全に削除されます。 アカウントを完全に削除することを確認するため、パスワードを入力してください。
+                    アカウントを削除してもよろしいですか? アカウントが削除されると、ユーザーが保持するデータはすべて完全に削除されます。
+                    アカウントを完全に削除することを確認するため、パスワードを入力してください。
                     <div class="mt-4">
                         <TextInput
                             ref="passwordInput"
@@ -78,7 +79,7 @@ const closeModal = () => {
                             @keyup.enter="deleteUser"
                         />
 
-                        <InputError :message="form.errors.password" class="mt-2" />
+                        <InputError :message="form.errors.password" class="mt-2"/>
                     </div>
                 </template>
 

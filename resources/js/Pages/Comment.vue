@@ -19,8 +19,7 @@ export default {
 
     methods: {
         async index() {
-            axios.get('http://localhost:51111/api/comment', {
-            }).then(res => {
+            axios.get('http://localhost:51111/api/comment', {}).then(res => {
                 console.log('とうろくせいこう')
             }).catch(error => {
                 console.log(error);
@@ -33,46 +32,6 @@ export default {
                 commentContent: 'めちゃくちゃ成長している',
 
             }).then(res => {
-                console.log('とうろくせいこう')
-            }).catch(error => {
-                console.log(error);
-            });
-        },
-        async read() {
-            axios.get('http://localhost:51111/api/comment/665c1092-7a0d-40b0-af6e-30bff5975e31', {}).then(res => {
-                console.log('とうろくせいこう')
-            }).catch(error => {
-                console.log(error);
-            });
-        },
-        async update() {
-            axios.post('http://localhost:51111/api/comment/98b517b2-ba89-4b35-9dd1-ffb71b6d240b',
-                {
-                    commentUserId: '774c1092-7a0d-40b0-af6e-30bff5975e31',
-                    commentContent: '書き換え完了',
-                },
-                {
-                    headers: {
-                        'content-type': 'multipart/form-data',
-                        'X-HTTP-Method-Override': 'PUT',
-                    }
-                }).then(res => {
-                console.log('とうろくせいこう')
-            }).catch(error => {
-                console.log(error);
-            });
-        },
-        async delete_suru() {
-            axios.post('http://localhost:51111/api/comment/98b517b2-ba89-4b35-9dd1-ffb71b6d240b',
-                {
-                    commentUserId: '774c1092-7a0d-40b0-af6e-30bff5975e31',
-                },
-                {
-                    headers: {
-                        'content-type': 'multipart/form-data',
-                        'X-HTTP-Method-Override': 'DELETE',
-                    }
-                }).then(res => {
                 console.log('とうろくせいこう')
             }).catch(error => {
                 console.log(error);

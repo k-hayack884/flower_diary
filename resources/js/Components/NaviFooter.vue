@@ -28,39 +28,32 @@ import {Head, Link} from '@inertiajs/inertia-vue3';
 
                 </div>
             </div>
-<!--            <div class="w-1/5 p-4">-->
-<!--                <div class="flex items-center justify-center rounded-lg text-center flex-col">-->
-<!--                    <Link :href="route('welcome')" class="block">-->
-<!--                        <div class="flex justify-center">-->
+            <!--            <div class="w-1/5 p-4">-->
+            <!--                <div class="flex items-center justify-center rounded-lg text-center flex-col">-->
+            <!--                    <Link :href="route('welcome')" class="block">-->
+            <!--                        <div class="flex justify-center">-->
 
-<!--                            <img src="../../icon/聴診器.png" style="width: 32px;height: 32px"/>-->
-<!--                        </div>-->
-<!--                        <h2 class="title-font font-medium text-sm lg:text-xl text-gray-900">病気判定</h2>-->
+            <!--                            <img src="../../icon/聴診器.png" style="width: 32px;height: 32px"/>-->
+            <!--                        </div>-->
+            <!--                        <h2 class="title-font font-medium text-sm lg:text-xl text-gray-900">病気判定</h2>-->
 
 
-<!--                    </Link>-->
-<!--                </div>-->
+            <!--                    </Link>-->
+            <!--                </div>-->
 
-<!--            </div>-->
+            <!--            </div>-->
             <div class="w-1/5 p-4">
-
                 <div class="flex items-center justify-center rounded-lg text-center flex-col">
                     <Link :href="route('plantUnit')" class="block">
                         <div class="flex justify-center">
-
                             <img src="../../icon/チューリップ.png" style="width: 32px;height: 32px"/>
                         </div>
-
                         <h2 class="title-font font-medium text-sm lg:text-xl text-gray-900">myプラント</h2>
                     </Link>
                 </div>
-
             </div>
             <div class="w-1/5 p-4">
-
                 <div class="flex items-center justify-center rounded-lg text-center flex-col">
-
-
                     <Link :href="route('todayCare')" class="block">
                         <div class="flex justify-center">
                             <img src="../../icon/じょうろ.png" style="width: 32px;height: 32px"/>
@@ -68,21 +61,16 @@ import {Head, Link} from '@inertiajs/inertia-vue3';
                         <h2 class="title-font font-medium text-sm lg:text-xl text-gray-900">お世話</h2>
                     </Link>
                 </div>
-
             </div>
             <div class="w-1/5 p-4">
                 <div class="flex items-center justify-center rounded-lg text-center flex-col">
                     <Link :href="route('profile.show')" class="block">
                         <div class="flex justify-center">
-
                             <img src="../../icon/歯車.png" style="width: 32px;height: 32px"/>
                         </div>
                         <h2 class="title-font font-medium text-sm lg:text-xl text-gray-900">設定</h2>
-
-
                     </Link>
                 </div>
-
             </div>
         </div>
     </footer>

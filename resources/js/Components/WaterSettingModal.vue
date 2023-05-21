@@ -1,118 +1,116 @@
 WaterSettingModal.vue
 
-
 <template>
-
     <div class="relative">
-        <LoadWait :show="isLoading" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50"></LoadWait>
-    <div id="overlay" @click="closeModal()" v-show="isOpen" class="z-20 flex justify-center">
-
-        <div class="p-8 bg-white w-3/4 lg:py-32 lg:px-16 lg:pl-10 lg:w-1/2 tails-selected-element"
-             contenteditable="true" @click.stop="" style="max-height: 120vh; overflow-y: auto;">
-            <h1 class="text-2xl text-center mb-12">水やりを設定する</h1>
-            <span v-show="errors" class="text-red-500">
+        <LoadWait :show="isLoading"
+                  class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50"></LoadWait>
+        <div id="overlay" @click="closeModal()" v-show="isOpen" class="z-20 flex justify-center">
+            <div class="p-8 bg-white w-3/4 lg:py-32 lg:px-16 lg:pl-10 lg:w-1/2 tails-selected-element"
+                 contenteditable="true" @click.stop="" style="max-height: 120vh; overflow-y: auto;">
+                <h1 class="text-2xl text-center mb-12">水やりを設定する</h1>
+                <span v-show="errors" class="text-red-500">
                 <p v-for="error in errors">
                     {{ error }}
                 </p></span>
-            <div class="flex flex-col items-start w-full lg:max-w-lg mx-auto"> <!-- mx-autoを追加 -->
-                <div class="grid grid-cols-4 gap-4 mx-auto">
-                    <button v-for="(month, index) in 12" :key="month"
-                            :class="{'bg-green-900': waterSetting.months && waterSetting.months.includes(index+1),
+                <div class="flex flex-col items-start w-full lg:max-w-lg mx-auto"> <!-- mx-autoを追加 -->
+                    <div class="grid grid-cols-4 gap-4 mx-auto">
+                        <button v-for="(month, index) in 12" :key="month"
+                                :class="{'bg-green-900': waterSetting.months && waterSetting.months.includes(index+1),
                              'bg-green-500': !waterSetting.months || !waterSetting.months.includes(index+1)}"
-                            class="text-white font-bold py-2 px-2 lg:px-4 rounded-full"
-                    @click="selectMonth(index)">
-                        {{ month }}月
+                                class="text-white font-bold py-2 px-2 lg:px-4 rounded-full"
+                                @click="selectMonth(index)">
+                            {{ month }}月
+                        </button>
+                    </div>
+                    <div class="grid grid-cols-3 w-full lg:max-w-lg mx-auto pt-8">
+                        <div class="btn-group flex justify-center">
+                            <label class="btn px-4 md:px-8 lg:px-12 bg-green-500 hover:bg-green-900"
+                                   :class="{ 'bg-green-800': waterSetting.waterAmount === 'a_lot' }">
+                                <input @click="selectAmount('a_lot')" type="radio" name="options" class="hidden"/>
+                                <span style="writing-mode: horizontal-tb;">たっぷり</span>
+                            </label>
+                        </div>
+                        <div class="btn-group flex justify-center">
+                            <label class="btn px-6 md:px-10 lg:px-12 bg-green-500 hover:bg-green-900"
+                                   :class="{ 'bg-green-800': waterSetting.waterAmount === 'moderate_amount' }">
+                                <input @click="selectAmount('moderate_amount')" type="radio" name="options"
+                                       class="hidden"/>
+                                <span style="writing-mode: horizontal-tb;">適量</span>
+                            </label>
+                        </div>
+                        <div class="btn-group flex justify-center">
+                            <label class="btn px-4 md:px-8 lg:px-12 bg-green-500 hover:bg-green-900"
+                                   :class="{ 'bg-green-800': waterSetting.waterAmount === 'sparingly' }">
+                                <input @click="selectAmount('sparingly')" type="radio" name="options" class="hidden"/>
+                                <span style="writing-mode: horizontal-tb;">ひかえめ</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-control">
+                        <label class="label">
+                            <span class="label-text">水やり間隔</span>
+                        </label>
+                        <label class="input-group flex flex-col sm:flex-row">
+                            <input type="text" placeholder="" class="input input-bordered sm:mb-0"
+                                   v-model="waterSetting.wateringInterval"/>
+                            <span>現在の水やり間隔:{{ currentWateringInterval }}</span>
+                        </label>
+                    </div>
+                    <div class="form-control">
+                        <label class="label">
+                            <span class="label-text">水やり回数</span>
+                        </label>
+                        <label class="input-group flex flex-col sm:flex-row">
+                            <input type="text" placeholder="" class="input input-bordered"
+                                   v-model="waterSetting.wateringTimes"/>
+                            <span>現在の水やり回数:{{ currentWateringTimes }}</span>
+                        </label>
+                    </div>
+                    <div class="form-control mb-4">
+                        <label class="label">
+                            <span class="label-text">備考欄</span>
+                        </label>
+                        <textarea class="textarea textarea-success" :placeholder="waterSetting.note"
+                                  v-model="waterSetting.note"></textarea>
+                    </div>
+                    <smart-tagz
+                        :key="waterSetting.waterSettingId"
+                        v-if="waterSetting.alertTimes"
+                        autosuggest
+                        editable
+                        inputPlaceholder="通知時間を選んでください(最大10個まで)"
+                        :sources="sources"
+                        :allowPaste="{delimiter: ','}"
+                        :allowDuplicates="false"
+                        :maxTags="10"
+                        v-model="waterSetting.alertTimes"
+                        :defaultTags="waterSetting.alertTimes"
+                        :on-changed="handleTagAdded"
+                        class="w-full"
+                    />
+                </div>
+                <button v-if="waterSetting.isCreate" @click="create()"
+                        class="flex mx-auto mt-16 btn btn-outline-success bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded px-10 button-width mt-8"
+                        :class="{ 'opacity-25': isLoading }"
+                        :disabled="isLoading">
+                    作成する
+                </button>
+                <div v-else>
+                    <button @click="update()"
+                            class="flex mx-auto mt-16 btn btn-outline-success bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded px-10 button-width mt-8"
+                            :class="{ 'opacity-25': isLoading }"
+                            :disabled="isLoading">
+                        編集する
+                    </button>
+                    <button @click="deleteSeat()"
+                            class="flex mx-auto mt-16 btn btn-outline-success bg-gradient-to-br from-red-300 to-red-800 hover:bg-gradient-to-tl text-white rounded px-10 button-width mt-8"
+                            :class="{ 'opacity-25': isLoading }"
+                            :disabled="isLoading">
+                        削除する
                     </button>
                 </div>
-
-                <div class="grid grid-cols-3 w-full lg:max-w-lg mx-auto pt-8">
-                    <div class="btn-group flex justify-center">
-                        <label class="btn px-4 md:px-8 lg:px-12 bg-green-500 hover:bg-green-900"
-                               :class="{ 'bg-green-800': waterSetting.waterAmount === 'a_lot' }">
-                            <input @click="selectAmount('a_lot')" type="radio" name="options" class="hidden"/>
-                            <span style="writing-mode: horizontal-tb;">たっぷり</span>
-                        </label>
-                    </div>
-                    <div class="btn-group flex justify-center">
-                        <label class="btn px-6 md:px-10 lg:px-12 bg-green-500 hover:bg-green-900"
-                               :class="{ 'bg-green-800': waterSetting.waterAmount === 'moderate_amount' }">
-                            <input @click="selectAmount('moderate_amount')" type="radio" name="options" class="hidden"/>
-                            <span style="writing-mode: horizontal-tb;">適量</span>
-                        </label>
-                    </div>
-                    <div class="btn-group flex justify-center">
-                        <label class="btn px-4 md:px-8 lg:px-12 bg-green-500 hover:bg-green-900" :class="{ 'bg-green-800': waterSetting.waterAmount === 'sparingly' }">
-                            <input @click="selectAmount('sparingly')" type="radio" name="options" class="hidden"/>
-                            <span style="writing-mode: horizontal-tb;">ひかえめ</span>
-                        </label>
-                    </div>
-                </div>
-                <div class="form-control">
-                    <label class="label">
-                        <span class="label-text">水やり間隔</span>
-                    </label>
-                    <label class="input-group flex flex-col sm:flex-row">
-                        <input type="text" placeholder="" class="input input-bordered sm:mb-0"
-                               v-model="waterSetting.wateringInterval"/>
-                        <span>現在の水やり間隔:{{ currentWateringInterval }}</span>
-                    </label>
-                </div>
-                <div class="form-control">
-                    <label class="label">
-                        <span class="label-text">水やり回数</span>
-                    </label>
-                    <label class="input-group flex flex-col sm:flex-row">
-                        <input type="text" placeholder="" class="input input-bordered"
-                               v-model="waterSetting.wateringTimes"/>
-                        <span>現在の水やり回数:{{ currentWateringTimes }}</span>
-                    </label>
-                </div>
-                <div class="form-control mb-4">
-                    <label class="label">
-                        <span class="label-text">備考欄</span>
-                    </label>
-                    <textarea class="textarea textarea-success" :placeholder="waterSetting.note"
-                              v-model="waterSetting.note"></textarea>
-                </div>
-                <smart-tagz
-                    :key="waterSetting.waterSettingId"
-                    v-if="waterSetting.alertTimes"
-                    autosuggest
-                    editable
-                    inputPlaceholder="通知時間を選んでください(最大10個まで)"
-                    :sources="sources"
-                    :allowPaste="{delimiter: ','}"
-                    :allowDuplicates="false"
-                    :maxTags="10"
-                    v-model="waterSetting.alertTimes"
-                    :defaultTags="waterSetting.alertTimes"
-                    :on-changed="handleTagAdded"
-                    class="w-full"
-                />
-            </div>
-            <button v-if="waterSetting.isCreate" @click="create()"
-                    class="flex mx-auto mt-16 btn btn-outline-success bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded px-10 button-width mt-8"
-                    :class="{ 'opacity-25': isLoading }"
-                    :disabled="isLoading">
-                作成する
-            </button>
-            <div v-else>
-                <button  @click="update()"
-                         class="flex mx-auto mt-16 btn btn-outline-success bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded px-10 button-width mt-8"
-                         :class="{ 'opacity-25': isLoading }"
-                         :disabled="isLoading">
-                    編集する
-                </button>
-                <button  @click="deleteSeat()"
-                         class="flex mx-auto mt-16 btn btn-outline-success bg-gradient-to-br from-red-300 to-red-800 hover:bg-gradient-to-tl text-white rounded px-10 button-width mt-8"
-                         :class="{ 'opacity-25': isLoading }"
-                         :disabled="isLoading">
-                    削除する
-                </button>
             </div>
         </div>
-
-    </div>
     </div>
 </template>
 
@@ -159,9 +157,9 @@ export default defineComponent({
                 waterSettingAmount: 'moderate_amount',
                 wateringTimes: 1,
                 wateringInterval: 1,
-                alertTimes:[],})
+                alertTimes: [],
+            })
         },
-
     },
     data() {
         return {
@@ -170,7 +168,7 @@ export default defineComponent({
             currentWateringTimes: null,
             currentWateringInterval: null,
             errors: [],
-            isLoading:false
+            isLoading: false
         };
     },
     created() {
@@ -195,8 +193,6 @@ export default defineComponent({
             this.currentWateringTimes = newVal.wateringTimes;
             this.currentWateringInterval = newVal.wateringInterval;
         },
-
-
     },
     methods: {
         closeModal() {
@@ -224,11 +220,10 @@ export default defineComponent({
         handleTagAdded(newTags) {
             console.log(newTags)
 
-            this.waterSetting.alertTimes=newTags
+            this.waterSetting.alertTimes = newTags
         },
         create() {
-            this.isLoading=true
-
+            this.isLoading = true
             axios.post('/api/waterSetting', {
                 checkSeatId: this.waterSetting.checkSeatId,
                 waterSettingMonths: this.waterSetting.months,
@@ -236,26 +231,24 @@ export default defineComponent({
                 waterSettingAmount: this.waterSetting.waterAmount,
                 waterSettingTimes: this.waterSetting.wateringTimes,
                 waterSettingInterval: this.waterSetting.wateringInterval,
-                waterSettingAlertTimes:this.waterSetting.alertTimes,
+                waterSettingAlertTimes: this.waterSetting.alertTimes,
             }).then(res => {
-                this.$emit('addWaterSetting',this.waterSetting)
-                this.isLoading=false;
+                this.$emit('addWaterSetting', this.waterSetting)
+                this.isLoading = false;
                 this.closeModal()
             }).catch(error => {
                 if (error.response.status === 422) {
                     console.log(error.response.data.errors);
                     this.errors = error.response.data.errors;
-                    this.isLoading=false
+                    this.isLoading = false
                 } else {
                     console.log(error);
-                    this.isLoading=false
-
+                    this.isLoading = false
                 }
             });
-
         },
         update() {
-            this.isLoading=true
+            this.isLoading = true
             axios.post('/api/waterSetting/' + this.waterSetting.waterSettingId, {
                     checkSeatId: this.waterSetting.checkSeatId,
                     waterSettingMonths: this.waterSetting.months,
@@ -263,7 +256,7 @@ export default defineComponent({
                     waterSettingAmount: this.waterSetting.waterAmount,
                     waterSettingTimes: this.waterSetting.wateringTimes,
                     waterSettingInterval: this.waterSetting.wateringInterval,
-                    waterSettingAlertTimes:this.waterSetting.alertTimes,
+                    waterSettingAlertTimes: this.waterSetting.alertTimes,
                 },
                 {
                     headers: {
@@ -271,44 +264,38 @@ export default defineComponent({
                         'X-HTTP-Method-Override': 'PUT',
                     }
                 }).then(res => {
-
-                console.log('とうろくせいこう')
-
-                // window.location.href = 'http://localhost:51111/checkSeat/' + this.waterSetting.checkSeatId;
-                this.isLoading=false
+                this.isLoading = false
                 this.closeModal()
             }).catch(error => {
                 if (error.response.status === 422) {
                     console.log(error.response.data.errors);
                     this.errors = error.response.data.errors;
-                    this.isLoading=false
-
+                    this.isLoading = false
                 } else {
                     console.log(error);
-                    this.isLoading=false
-
+                    this.isLoading = false
                 }
             });
         },
         deleteSeat() {
-            this.isLoading=true
-            axios.post('/api/waterSetting/' + this.waterSetting.waterSettingId, {
-                },
-                {
-                    headers: {
-                        'content-type': 'multipart/form-data',
-                        'X-HTTP-Method-Override': 'DELETE',
-                    }
-                }).then(res => {
-                window.location.href = 'http://localhost:51111/checkSeat/' + this.waterSetting.checkSeatId;
-                this.isLoading=false
-            }).catch(error => {
-                console.log(error);
-                this.isLoading=false
+            if (confirm('本当に削除しますか？')) {
+                this.isLoading = true
+                axios.post('/api/waterSetting/' + this.waterSetting.waterSettingId, {},
+                    {
+                        headers: {
+                            'content-type': 'multipart/form-data',
+                            'X-HTTP-Method-Override': 'DELETE',
+                        }
+                    }).then(res => {
+                    window.location.href = 'http://localhost:51111/checkSeat/' + this.waterSetting.checkSeatId;
+                    this.isLoading = false
+                }).catch(error => {
+                    console.log(error);
+                    this.isLoading = false
 
-            });
+                });
+            }
         }
-
     },
 });
 </script>

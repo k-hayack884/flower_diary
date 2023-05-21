@@ -20,15 +20,12 @@
             </ul>
             <div class="w-full p-4 border border-green-700 tabContents w-full lg:w-3/4">
                 <div v-if="isActive === '1'">
-
                     <button
                         class="btn btn-outline-success bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded px-10 button-width mb-8"
                         @click="openDiaryModal(); getIndex(null)">日記を投稿する
                     </button>
                     <div v-if="diaries.length===0" class="py-16 text-center">日記はありません</div>
-
                     <div v-for="(diary, index) in diaries" class="mb-4">
-
                         <div class="card card-side bg-base-100 shadow-lg rounded-lg overflow-hidden flex flex-col">
                             <div class="flex items-center h-200">
                                 <div class="w-1/6">
@@ -45,9 +42,10 @@
                                         <p>{{ diary.diaryContent }}</p>
                                         <div class="flex mb-4 h-12 items-end">
                                             <div class="flex-1 inline-block">日記更新日: {{ diary.createDate }}</div>
-                                            <button                         class="btn btn-outline-success bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded px-10 button-width"
+                                            <button
+                                                class="btn btn-outline-success bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded px-10 button-width"
 
-                                                                            @click="openDiaryModal(); getIndex(index)">日記を編集する
+                                                @click="openDiaryModal(); getIndex(index)">日記を編集する
                                             </button>
                                         </div>
                                     </div>
@@ -80,55 +78,46 @@
                             <!--                        </div>-->
                         </div>
                     </div>
-
                 </div>
                 <div v-else-if="isActive === '2'">
                     <h2 class="mb-4 text-2xl font-bold">今月のお世話設定</h2>
-
                     <div v-if="waterSettings.length===0 && fertilizerSettings.length===0" class="py-16 text-center">
                         お世話設定がありません
                     </div>
-
                     <div v-else class="flex flex-col">
-                            <div class="card w-full bg-base-100 shadow-xl text-black my-4">
-                                <div class="card-body">
-                                    <h2 class="card-title">水やり設定</h2>
-                                    <p>
-                                        水やり回数:{{ waterSettings[0].wateringInterval }}日に{{
-                                            waterSettings[0].wateringTimes
-                                        }}回</p>
-                                    <div v-if="waterSettings[0].waterAmount === 'a_lot'">
-                                        <p>水やり量:たっぷり</p>
-                                    </div>
-                                    <div v-else-if="waterSettings[0].waterAmount === 'moderate_amount'">
-                                        <p>水やり量:適量</p>
-                                    </div>
-                                    <div v-else-if="waterSettings[0].waterAmount === 'sparingly'">
-                                        <p>水やり量:ひかえめ</p>
-                                    </div>
-                                    <p>備考:{{ waterSettings[0].note }}</p>
+                        <div class="card w-full bg-base-100 shadow-xl text-black my-4">
+                            <div class="card-body">
+                                <h2 class="card-title">水やり設定</h2>
+                                <p>水やり回数:{{ waterSettings[0].wateringInterval }}日に{{
+                                        waterSettings[0].wateringTimes
+                                    }}回</p>
+                                <div v-if="waterSettings[0].waterAmount === 'a_lot'">
+                                    <p>水やり量:たっぷり</p>
                                 </div>
-
-
-
-                        </div>
-
-                            <div class="card w-full bg-base-100 shadow-xl text-black my-4">
-                                <div class="card-body">
-                                    <h2 class="card-title">肥料設定</h2>
-                                    <ul v-for="fertilizerSetting in fertilizerSettings" class="">
-                                        <li>
-                                            <div class="border border-dashed"></div>
-                                            <p>肥料名:{{ fertilizerSetting.fertilizerName }}</p>
-                                            <p>肥料量:{{ fertilizerSetting.fertilizerAmount }}g</p>
-                                            <p>備考:{{ fertilizerSetting.note }}</p>
-                                        </li>
-                                    </ul>
+                                <div v-else-if="waterSettings[0].waterAmount === 'moderate_amount'">
+                                    <p>水やり量:適量</p>
                                 </div>
+                                <div v-else-if="waterSettings[0].waterAmount === 'sparingly'">
+                                    <p>水やり量:ひかえめ</p>
+                                </div>
+                                <p>備考:{{ waterSettings[0].note }}</p>
                             </div>
                         </div>
 
-
+                        <div class="card w-full bg-base-100 shadow-xl text-black my-4">
+                            <div class="card-body">
+                                <h2 class="card-title">肥料設定</h2>
+                                <ul v-for="fertilizerSetting in fertilizerSettings" class="">
+                                    <li>
+                                        <div class="border border-dashed"></div>
+                                        <p>肥料名:{{ fertilizerSetting.fertilizerName }}</p>
+                                        <p>肥料量:{{ fertilizerSetting.fertilizerAmount }}g</p>
+                                        <p>備考:{{ fertilizerSetting.note }}</p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                     <a :href="route('checkSeat', { checkSeatId: checkSeatId })"
                        class="block">
                         <button
@@ -136,8 +125,6 @@
                             お世話設定
                         </button>
                     </a>
-
-
                 </div>
                 <div v-else-if="isActive === '3'">
 
@@ -181,35 +168,14 @@
                                 <h2 class="card-title">
                                     {{ plantData.plantName }}の画像
                                 </h2>
-
                                 <div class="flex mx-auto carousel rounded-box" style="width: 300px; height: 300px ;">
-                                    <div class="carousel-item" >
+                                    <div class="carousel-item">
                                         <div v-for="image in plantData.plantImages">
                                             <img :src="'data:image/png;base64,'+image"
                                                  class="lg:w-full lg:h-full object-cover"
                                                  style="width: 300px; height: 300px ;"/>
                                         </div>
                                     </div>
-<!--                                    <div class="carousel-item">-->
-<!--                                        <img :src="'data:image/png;base64,'+plantData.image2"-->
-<!--                                             class="lg:w-full lg:h-full object-cover"-->
-<!--                                             style="width: 400px; height: 400px ;"/>-->
-<!--                                    </div>-->
-<!--                                    <div class="carousel-item">-->
-<!--                                        <img :src="'data:image/png;base64,'+plantData.image3"-->
-<!--                                             class="lg:w-full lg:h-full object-cover"-->
-<!--                                             style="width: 400px; height: 400px ;"/>-->
-<!--                                    </div>-->
-<!--                                    <div class="carousel-item">-->
-<!--                                        <img :src="'data:image/png;base64,'+plantData.image4"-->
-<!--                                             class="lg:w-full lg:h-full object-cover"-->
-<!--                                             style="width: 400px; height: 400px ;"/>-->
-<!--                                    </div>-->
-<!--                                    <div class="carousel-item">-->
-<!--                                        <img :src="'data:image/png;base64,'+plantData.image5"-->
-<!--                                             class="lg:w-full lg:h-full object-cover"-->
-<!--                                             style="width: 400px; height: 400px ;"/>-->
-<!--                                    </div>-->
                                 </div>
                                 <div class="card-actions justify-end">
                                 </div>
@@ -230,12 +196,12 @@
     <DiaryModal :open-modal="isDiaryModalOpen" @closeModal="closeDiaryModal"
                 v-else
                 :diary="reactive({
-        plantUnitId:plantUnitId,
-        diaryId: '',
-        diaryContent: '',
-        image: '',
-        createDate: '',
-        isCreate:true    })"
+                plantUnitId:plantUnitId,
+                diaryId: '',
+                diaryContent: '',
+                image: '',
+                createDate: '',
+                isCreate:true    })"
                 :plant-unit-id="plantUnitId"/>
 </template>
 
@@ -271,8 +237,6 @@ export default {
             isDiaryModalOpen: false,
             arrayIndex: null,
             isLoading: false,
-
-
         }
     },
     async created() {
@@ -308,7 +272,6 @@ export default {
                         this.updateDate = res.data.plantUnit.updateDate;
                         this.diariesData = [];
                         this.fetchDiaryData();
-
                         resolve(); // Promise の解決
                     })
                     .catch((error) => {
@@ -317,15 +280,9 @@ export default {
                     });
             });
         },
-        // api/plantunit/{plantunitId}/image
         async fetchDiaryData() {
             this.isLoading = true
-            // for (const diary of this.diaries) {
-            //     const index = this.diaries.indexOf(diary);
             const res = await axios.get(`/api/plantUnit/${this.plantUnitId}/diary?plantUnitId=${this.plantUnitId}`, {})
-            //thenはいらない
-            // .then((res) => {
-
             const diaryData = res.data.diaries.map(diary => ({
                 diaryId: diary.diaryId,
                 diaryContent: diary.content,
@@ -335,21 +292,11 @@ export default {
             }));
             console.log(diaryData);
             Vue.set(this.diariesData, diaryData);
-            // if (index === this.diaries.length - 1) {
-            //     this.showCommentsLength();
-            // }
             this.diaries = diaryData;
-            // })
-            // .catch((error) => {
-            //     console.log(error);
-            // });
-            // }
             this.isLoading = false
         },
         commentToggle(diaryId, index) {
             this.diaries[index].showComment = !this.diaries[index].showComment;
-            console.log(diaryId)
-            // diary.comments.forEach((comment, index) => {
             axios.get(`/api/diary/${diaryId}/comment?diaryId=${diaryId}`, {})
                 .then((res) => {
                     const commentData = res.data.comments.map(comment => ({
@@ -360,14 +307,11 @@ export default {
                         content: comment.content,
                         createDate: comment.createDate,
                     }));
-                    // Vue.set(diary.comments, index, commentData);
-                    // this.diaries.comments[index]=commentData;
                     this.diaries[index].comments = commentData;
                 })
                 .catch((error) => {
                     console.log(error);
                 });
-            // });
         },
         showCheckSeat() {
             this.isLoading = true;
@@ -376,7 +320,6 @@ export default {
                 axios.get(`/api/checkSeat/${this.checkSeatId}/waterSetting?checkSeatId=${this.checkSeatId}`),
                 axios.get(`/api/checkSeat/${this.checkSeatId}/fertilizerSetting?checkSeatId=${this.checkSeatId}`)
             ])
-
                 .then(axios.spread((res1, res2) => {
                     const waterSettingData = res1.data.waterSettings.map(waterSetting => ({
                         waterSettingId: waterSetting.waterSettingId,
@@ -387,8 +330,6 @@ export default {
                         wateringInterval: waterSetting.wateringInterval,
                         alertTimes: waterSetting.wateringInterval,
                     }));
-                    // Vue.set(diary.comments, index, commentData);
-                    // this.diaries.comments[index]=commentData;
                     const currentWaterSettings = waterSettingData.filter(setting => setting.months.includes(this.currentMonth));
                     this.waterSettings = currentWaterSettings;
 
@@ -399,12 +340,9 @@ export default {
                         fertilizerAmount: fertilizerSetting.fertilizerAmount,
                         fertilizerName: fertilizerSetting.fertilizerName,
                     }));
-                    // Vue.set(diary.comments, index, commentData);
-                    // this.diaries.comments[index]=commentData;
                     this.fertilizerSettings = fertilizerSettingData;
                     const currentFertilizerSettings = fertilizerSettingData.filter(setting => setting.months.includes(this.currentMonth));
                     this.fertilizerSettings = currentFertilizerSettings;
-
                 }))
                 .catch((error) => {
                     console.log(error);
@@ -423,9 +361,6 @@ export default {
                         information: res.data.plant.information,
                         plantImages: res.data.plant.plantImages,
                     })
-
-                    // this.fetchCheckSeatData();
-
                 })
         },
         openDiaryModal() {
