@@ -16,10 +16,16 @@ use App\Packages\Usecases\Comment\GetCommentsAction;
 use App\Packages\Usecases\Comment\GetDiariesAction;
 use App\Packages\Usecases\Comment\GetCommentAction;
 use App\Packages\Usecases\Comment\UpdateCommentAction;
+use Exception;
 use Illuminate\Support\Facades\Gate;
 
 class CommentController extends Controller
 {
+    /**
+     * @param GetCommentsRequest $request
+     * @param GetCommentsAction $action
+     * @return array
+     */
     public function index(
         GetCommentsRequest $request,
         GetCommentsAction  $action
@@ -30,7 +36,11 @@ class CommentController extends Controller
         return (array)$action($request);
     }
 
-
+    /**
+     * @param CreateCommentRequest $request
+     * @param CreateCommentAction $action
+     * @return array
+     */
     public function create(
         CreateCommentRequest $request,
         CreateCommentAction  $action
@@ -39,6 +49,12 @@ class CommentController extends Controller
         return (array)$action($request);
     }
 
+    /**
+     * @param GetCommentRequest $request
+     * @param GetCommentAction $action
+     * @param string $commentId
+     * @return array
+     */
     public function show(
         GetCommentRequest $request,
         GetCommentAction  $action,
@@ -50,6 +66,14 @@ class CommentController extends Controller
 
         return (array)$action($request);
     }
+
+    /**
+     * @param UpdateCommentRequest $request
+     * @param UpdateCommentAction $action
+     * @param string $commentId
+     * @return array
+     * @throws Exception
+     */
     public function update(
         UpdateCommentRequest $request,
         UpdateCommentAction  $action,
@@ -57,9 +81,16 @@ class CommentController extends Controller
     ): array
     {
         $request->merge(['commentId' => $commentId]);
-        //ログインユーザーのIDを追加
         return (array)$action($request);
     }
+
+    /**
+     * @param DeleteCommentRequest $request
+     * @param DeleteCommentAction $action
+     * @param string $commentId
+     * @return array
+     * @throws Exception
+     */
     public function delete(
         DeleteCommentRequest $request,
         DeleteCommentAction  $action,
@@ -69,6 +100,4 @@ class CommentController extends Controller
         $request->merge(['commentId' => $commentId]);
         return (array)$action($request);
     }
-
-
 }

@@ -14,11 +14,17 @@ use App\Packages\Usecases\Diary\DeleteDiaryAction;
 use App\Packages\Usecases\Diary\GetDiariesAction;
 use App\Packages\Usecases\Diary\GetDiaryAction;
 use App\Packages\Usecases\Diary\UpdateDiaryAction;
+use Exception;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 
 class DiaryController extends Controller
 {
+    /**
+     * @param GetDiariesRequest $request
+     * @param GetDiariesAction $action
+     * @return array
+     */
     public function index(
         GetDiariesRequest $request,
         GetDiariesAction  $action,
@@ -29,7 +35,12 @@ class DiaryController extends Controller
         return (array) $action($request);
     }
 
-
+    /**
+     * @param CreateDiaryRequest $request
+     * @param CreateDiaryAction $action
+     * @return array
+     * @throws Exception
+     */
     public function create(
         CreateDiaryRequest $request,
         CreateDiaryAction  $action
@@ -38,6 +49,12 @@ class DiaryController extends Controller
         return (array)$action($request);
     }
 
+    /**
+     * @param GetDiaryRequest $request
+     * @param GetDiaryAction $action
+     * @param string $diaryId
+     * @return array
+     */
     public function show(
         GetDiaryRequest $request,
         GetDiaryAction  $action,
@@ -48,6 +65,12 @@ class DiaryController extends Controller
         return (array)$action($request);
     }
 
+    /**
+     * @param UpdateDiaryRequest $request
+     * @param UpdateDiaryAction $action
+     * @param string $diaryId
+     * @return array
+     */
     public function update(
         UpdateDiaryRequest $request,
         UpdateDiaryAction  $action,
@@ -58,6 +81,13 @@ class DiaryController extends Controller
         return (array)$action($request);
     }
 
+    /**
+     * @param DeleteDiaryRequest $request
+     * @param DeleteDiaryAction $action
+     * @param string $diaryId
+     * @return array
+     * @throws Exception
+     */
     public function delete(
         DeleteDiaryRequest $request,
         DeleteDiaryAction  $action,
@@ -67,6 +97,4 @@ class DiaryController extends Controller
         $request->merge(['diaryId' => $diaryId]);
         return (array)$action($request);
     }
-
-
 }

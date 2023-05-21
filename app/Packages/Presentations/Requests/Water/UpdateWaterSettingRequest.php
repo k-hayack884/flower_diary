@@ -44,11 +44,18 @@ class UpdateWaterSettingRequest extends BaseRequest
             ],
         ];
 }
-    public function getId()
+
+    /**
+     * @return string
+     */
+    public function getId():string
     {
         return $this->input('waterSettingId');
     }
 
+    /**
+     * @return string
+     */
     public function getCheckSeatId():string
     {
         return $this->input('checkSeatId');
@@ -58,7 +65,6 @@ class UpdateWaterSettingRequest extends BaseRequest
      */
     public function getMonths():array
     {
-
         $months= $this->input('waterSettingMonths');
         return array_map('intval', $months);
     }

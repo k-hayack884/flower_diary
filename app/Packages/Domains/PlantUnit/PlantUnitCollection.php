@@ -3,10 +3,12 @@
 namespace App\Packages\Domains\PlantUnit;
 
 use App\Exceptions\NotFoundException;
+use Closure;
 use Illuminate\Support\Collection;
 
 class PlantUnitCollection
 {
+    private Collection $plantUnits;
     /**
      * @param PlantUnit[] $plantUnits
      */
@@ -36,9 +38,11 @@ class PlantUnitCollection
         });
         $this->plantUnits=$sorted;
     }
+
     /**
      * @param PlantUnitId $plantUnitId
      * @return PlantUnit
+     * @throws NotFoundException
      */
     public function findById(PlantUnitId $plantUnitId): PlantUnit
     {

@@ -31,7 +31,7 @@ class WaterAlertTimeId
     }
 
     /**
-     * @param DiaryId $diaryId
+     * @param WaterAlertTimeId $diaryId
      * @return bool
      */
     public function equals(WaterAlertTimeId $diaryId): bool

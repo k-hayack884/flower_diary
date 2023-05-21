@@ -4,7 +4,6 @@ namespace App\Packages\Usecases\Water;
 
 use App\Packages\Domains\CheckSeat\CheckSeatId;
 use App\Packages\Domains\Water\WaterSettingRepositoryInterface;
-use App\Packages\Presentations\Requests\Water\GetWaterSettingRequest;
 use App\Packages\Presentations\Requests\Water\GetWaterSettingsRequest;
 use App\Packages\Usecases\Dto\Water\WaterSettingDto;
 use App\Packages\Usecases\Dto\Water\WaterSettingsWrapDto;
@@ -12,6 +11,9 @@ use Illuminate\Support\Facades\Log;
 
 class GetWaterSettingsAction
 {
+    /**
+     * @var WaterSettingRepositoryInterface
+     */
     private WaterSettingRepositoryInterface $waterSettingRepository;
 
     /**

@@ -11,6 +11,10 @@ use App\Packages\Usecases\Dto\Plant\PlantWrapDto;
 
 class PlantDtoFactory
 {
+    /**
+     * @param PlantData $plantData
+     * @return PlantWrapDto
+     */
     public static function create(PlantData $plantData): PlantWrapDto
     {
         $plantImages=[];

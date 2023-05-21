@@ -35,6 +35,12 @@ class DeletePlantUnitAction
 
     /**
      * @param PlantUnitRepositoryInterface $plantUnitRepository
+     * @param DiaryRepositoryInterface $diaryRepository
+     * @param CommentRepositoryInterface $commentRepository
+     * @param CheckSeatRepositoryInterface $checkSeatRepository
+     * @param WaterSettingRepositoryInterface $waterSettingRepository
+     * @param FertilizerRepositoryInterface $fertilizerSettingRepository
+     * @param TransactionInterface $transaction
      */
     public function __construct(
         PlantUnitRepositoryInterface    $plantUnitRepository,

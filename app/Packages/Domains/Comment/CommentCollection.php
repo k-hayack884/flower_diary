@@ -3,10 +3,13 @@
 namespace App\Packages\Domains\Comment;
 
 use App\Exceptions\NotFoundException;
+use Closure;
 use Illuminate\Support\Collection;
 
 final class CommentCollection
 {
+    private array $comments=[];
+
     /**
      * @param Comment[] $comments
      */

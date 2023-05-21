@@ -38,6 +38,7 @@ class PlantUnit
      * @param UserId $userId
      * @param CheckSeatId $checkSeatId
      * @param PlantName $plantName
+     * @param PlantUnitImage $plantUnitImage
      * @param array $diaries
      * @param Carbon|null $createDate
      * @param Carbon|null $updateDate

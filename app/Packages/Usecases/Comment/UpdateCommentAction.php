@@ -40,16 +40,13 @@ class UpdateCommentAction
     {
         Log::info(__METHOD__, ['開始']);
 
-
         $commentId = $updateCommentRequest->getId();
         $diaryId = $updateCommentRequest->getDiaryId();
         $userId = $updateCommentRequest->getUserId();
         $content = $updateCommentRequest->getCommentContent();
         $comment = $this->commentRepository->findByCommentId(new CommentId($commentId));
         $updateContent = $comment->getCommentContent()->update($content);
-
-
-
+        //TODO  new Commentの内容を変更
         try {
             $this->commentRepository->diffUserCheck(new UserId($userId),new CommentId($commentId));
             $updateComment = new Comment(

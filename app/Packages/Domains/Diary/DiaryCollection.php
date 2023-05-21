@@ -10,6 +10,8 @@ use IteratorAggregate;
 
 final class DiaryCollection
 {
+    private Collection $diaries;
+
     /**
      * @param Diary[] $diaries
      */

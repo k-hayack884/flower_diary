@@ -2,11 +2,13 @@
 
 namespace App\Packages\Domains\PlantUnit;
 
+use DomainException;
+
 class plantName
 {
     public const RESET = '';
     /**
-     * @var string|null
+     * @var string
      */
     private string $name;
 

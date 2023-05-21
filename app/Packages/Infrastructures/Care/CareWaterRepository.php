@@ -22,6 +22,10 @@ use DateTime;
 
 class CareWaterRepository
 {
+    /**
+     * @param UserId $userId
+     * @return array
+     */
     public function findCareByUser(UserId $userId): array
     {
         $currentMonth = (int)Carbon::now()->format('m');
@@ -31,7 +35,7 @@ class CareWaterRepository
             ->where('user_id', $userId->getId())
             ->get();
 
-        $careWaterSettings=[];
+        $careWaterSettings = [];
         foreach ($plantUnits as $plantUnit) {
             $checkSeat = $plantUnit->checkSeat;
             $waterSettings = $checkSeat->waterSetting;
@@ -41,7 +45,7 @@ class CareWaterRepository
             foreach ($waterSettings as $waterSetting) {
                 if (in_array($currentMonth, json_decode($waterSetting->months))) {
                     $waterSetting->plant_name = $plantUnit->plant_name;
-                    $careWaterSettings[]=$waterSetting;
+                    $careWaterSettings[] = $waterSetting;
                 }
             }
         }
@@ -55,7 +59,7 @@ class CareWaterRepository
                 }
                 $interval = 86400000 * $careWaterSetting->watering_interval;
                 if ($diff >= $interval) {
-                    $waterCares[]=new WaterCare(
+                    $waterCares[] = new WaterCare(
                         new WaterAlertTimeId($alertTime->alert_time_id),
                         new plantName($careWaterSetting->plant_name),
                         new WaterAmount($careWaterSetting->water_amount),
@@ -70,7 +74,11 @@ class CareWaterRepository
         return $waterCares;
     }
 
-    public function save(WaterSettingCollection $waterSetting)
+    /**
+     * @param WaterSettingCollection $waterSetting
+     * @return void
+     */
+    public function save(WaterSettingCollection $waterSetting):void
     {
         $collectionArray = $waterSetting->toArray();
         foreach ($collectionArray as $waterSetting) {
@@ -90,11 +98,15 @@ class CareWaterRepository
         }
     }
 
-    public function push($alertTimeId)
+    /**
+     * @param $alertTimeId
+     * @return void
+     */
+    public function push($alertTimeId):void
     {
-        $alertTime  = WaterAlertTime::where('alert_time_id', $alertTimeId)
+        $alertTime = WaterAlertTime::where('alert_time_id', $alertTimeId)
             ->first();
-        $alertTime->resent_care_time=now();
+        $alertTime->resent_care_time = now();
         $alertTime->save();
     }
 }

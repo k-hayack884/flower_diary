@@ -4,6 +4,23 @@ namespace App\Packages\Usecases\Dto\Plant;
 
 class PlantDto
 {
+    /**
+     * @param string $plantId
+     * @param string $name
+     * @param string $scientific
+     * @param string $information
+     * @param int $recommendSpringWaterInterval
+     * @param int $recommendSpringWaterTimes
+     * @param int $recommendSummerWaterInterval
+     * @param int $recommendSummerWaterTimes
+     * @param int $recommendAutumnWaterInterval
+     * @param int $recommendAutumnWaterTimes
+     * @param int $recommendWinterWaterInterval
+     * @param int $recommendWinterWaterTimes
+     * @param string $fertilizerName
+     * @param array $fertilizerMonths
+     * @param array $plantImages
+     */
     public function __construct(
         public string $plantId,
         public string $name,

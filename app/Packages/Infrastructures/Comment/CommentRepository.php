@@ -15,7 +15,9 @@ use Carbon\Carbon;
 
 class CommentRepository implements CommentRepositoryInterface
 {
-
+    /**
+     * @return array
+     */
     public function find(): array
     {
         $comments = [];
@@ -37,7 +39,10 @@ class CommentRepository implements CommentRepositoryInterface
         return $comments;
     }
 
-
+    /**
+     * @param DiaryId $diaryId
+     * @return array
+     */
     public function findByDiaryId(DiaryId $diaryId): array
     {
         $comments = [];
@@ -55,6 +60,11 @@ class CommentRepository implements CommentRepositoryInterface
         return $comments;
     }
 
+    /**
+     * @param CommentId $commentId
+     * @return Comment
+     * @throws NotFoundException
+     */
     public function findByCommentId(CommentId $commentId): Comment
     {
         $comment = \App\Models\Comment::with('user:user_id,name,image')
@@ -76,6 +86,13 @@ class CommentRepository implements CommentRepositoryInterface
 
     }
 
+    /**
+     * @param UserId $userId
+     * @param CommentId $commentId
+     * @return void
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     */
     public function diffUserCheck(UserId $userId, CommentId $commentId): void
     {
         $hitCommentUserId = \App\Models\Comment::where('comment_id', $commentId->getId())->first('user_id');
@@ -88,6 +105,11 @@ class CommentRepository implements CommentRepositoryInterface
         }
     }
 
+    /**
+     * @param CommentCollection $comment
+     * @param string $diaryId
+     * @return void
+     */
     public function save(CommentCollection $comment, string $diaryId): void
     {
         $collectionArray = $comment->toArray();
@@ -102,6 +124,11 @@ class CommentRepository implements CommentRepositoryInterface
         }
     }
 
+    /**
+     * @param CommentId $commentId
+     * @return void
+     * @throws NotFoundException
+     */
     public function delete(CommentId $commentId): void
     {
         $comment = \App\Models\Comment::where('comment_id', $commentId->getId())->first();

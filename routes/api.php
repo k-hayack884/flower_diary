@@ -58,6 +58,11 @@ Route::get(
     [PlantController::class,'show']
 );
 
+Route::get(
+    'plant',
+    [PlantController::class,'index']
+);
+
 Route::post(
     'addPlant',
     [PlantController::class,'add']

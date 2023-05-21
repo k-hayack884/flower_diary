@@ -13,6 +13,11 @@ use App\Packages\Usecases\Care\PushCareWaterAction;
 
 class CareController extends \App\Http\Controllers\Controller
 {
+    /**
+     * @param GetCareWaterRequest $request
+     * @param GetCareWaterAction $action
+     * @return array
+     */
     public function indexWater(
         GetCareWaterRequest $request,
         GetCareWaterAction  $action,
@@ -22,6 +27,12 @@ class CareController extends \App\Http\Controllers\Controller
         $request->merge(['userId' => $userId]);
         return (array) $action($request);
     }
+
+    /**
+     * @param GetCareFertilizerRequest $request
+     * @param GetCareFertilizerAction $action
+     * @return array
+     */
     public function indexFertilizer(
         GetCareFertilizerRequest $request,
         GetCareFertilizerAction  $action,
@@ -31,19 +42,31 @@ class CareController extends \App\Http\Controllers\Controller
         $request->merge(['userId' => $userId]);
         return (array) $action($request);
     }
+
+    /**
+     * @param PushCareWaterRequest $request
+     * @param PushCareWaterAction $action
+     * @return array
+     */
     public function pushWater(
         PushCareWaterRequest $request,
         PushCareWaterAction  $action,
-    )
+    ): array
     {
         $alertTimeId = $request->input('alertTimeId');
         $request->merge(['userId' => $alertTimeId]);
         return (array) $action($request);
     }
+
+    /**
+     * @param PushCareFertilizerRequest $request
+     * @param PushCareFertilizerAction $action
+     * @return array
+     */
     public function pushFertilizer(
         PushCareFertilizerRequest $request,
         PushCareFertilizerAction  $action,
-    )
+    ): array
     {
         $alertTimeId = $request->input('alertTimeId');
         $request->merge(['userId' => $alertTimeId]);

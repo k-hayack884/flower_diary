@@ -13,13 +13,15 @@ use App\Packages\Domains\Fertilizer\MonthsFertilizerSetting;
 
 class FertilizerSettingRepository implements \App\Packages\Domains\Fertilizer\FertilizerRepositoryInterface
 {
-
+    /**
+     * @return array
+     */
     public function find(): array
     {
         $fertilizerSettings = [];
-        $allFertilizerSettings= \App\Models\FertilizerSetting::all();
+        $allFertilizerSettings = \App\Models\FertilizerSetting::all();
         foreach ($allFertilizerSettings as $fertilizerSetting) {
-            $fertilizerSettings[]= new MonthsFertilizerSetting(
+            $fertilizerSettings[] = new MonthsFertilizerSetting(
                 new FertilizerSettingId($fertilizerSetting->fertilizer_setting_id),
                 json_decode($fertilizerSetting->months),
                 new FertilizerNote($fertilizerSetting->fertilizer_note),
@@ -29,12 +31,17 @@ class FertilizerSettingRepository implements \App\Packages\Domains\Fertilizer\Fe
         }
         return $fertilizerSettings;
     }
+
+    /**
+     * @param CheckSeatId $checkSeatId
+     * @return array
+     */
     public function findByCheckSeatId(CheckSeatId $checkSeatId): array
     {
         $fertilizerSettings = [];
         $allFertilizerSettings = \App\Models\FertilizerSetting::where('check_seat_id', $checkSeatId->getId())->get();
         foreach ($allFertilizerSettings as $fertilizerSetting) {
-            $fertilizerSettings[]= new MonthsFertilizerSetting(
+            $fertilizerSettings[] = new MonthsFertilizerSetting(
                 new FertilizerSettingId($fertilizerSetting->fertilizer_setting_id),
                 json_decode($fertilizerSetting->months),
                 new FertilizerNote($fertilizerSetting->fertilizer_note),
@@ -45,6 +52,11 @@ class FertilizerSettingRepository implements \App\Packages\Domains\Fertilizer\Fe
         return $fertilizerSettings;
     }
 
+    /**
+     * @param FertilizerSettingId $fertilizerSettingId
+     * @return MonthsFertilizerSetting
+     * @throws NotFoundException
+     */
     public function findById(FertilizerSettingId $fertilizerSettingId): MonthsFertilizerSetting
     {
 
@@ -61,13 +73,18 @@ class FertilizerSettingRepository implements \App\Packages\Domains\Fertilizer\Fe
         );
     }
 
-    public function save(FertilizerSettingCollection $fertilizerSetting,string $checkSeatId): void
+    /**
+     * @param FertilizerSettingCollection $fertilizerSetting
+     * @param string $checkSeatId
+     * @return void
+     */
+    public function save(FertilizerSettingCollection $fertilizerSetting, string $checkSeatId): void
     {
         $collectionArray = $fertilizerSetting->toArray();
         foreach ($collectionArray as $fertilizerSetting) {
             \App\Models\FertilizerSetting::updateOrCreate(['fertilizer_setting_id' => $fertilizerSetting->getFertilizerSettingId()->getId()],
                 ['fertilizer_setting_id' => $fertilizerSetting->getFertilizerSettingId()->getId(),
-                    'check_seat_id'=>$checkSeatId,
+                    'check_seat_id' => $checkSeatId,
                     'months' => json_encode($fertilizerSetting->getMonths()),
                     'fertilizer_note' => $fertilizerSetting->getFertilizerNote()->getvalue(),
                     'fertilizer_amount' => $fertilizerSetting->getFertilizerAmount()->getValue(),
@@ -76,9 +93,12 @@ class FertilizerSettingRepository implements \App\Packages\Domains\Fertilizer\Fe
         }
     }
 
-
-    public
-    function delete(FertilizerSettingId $fertilizerSettingId): void
+    /**
+     * @param FertilizerSettingId $fertilizerSettingId
+     * @return void
+     * @throws NotFoundException
+     */
+    public function delete(FertilizerSettingId $fertilizerSettingId): void
     {
         $fertilizerSetting = \App\Models\FertilizerSetting::where('fertilizer_setting_id', $fertilizerSettingId->getId())->first();
 

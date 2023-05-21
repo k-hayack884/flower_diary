@@ -28,6 +28,7 @@ class UpdatePlantUnitNameAction
 
     /**
      * @param PlantUnitRepositoryInterface $plantUnitRepository
+     * @param PlantRepository $plantRepository
      */
     public function __construct(PlantUnitRepositoryInterface $plantUnitRepository, PlantRepository $plantRepository)
     {
@@ -36,9 +37,8 @@ class UpdatePlantUnitNameAction
     }
 
     /**
-     * @param CreatePlantUnitRequest $createPlantUnitRequest
+     * @param UpdatePlantUnitNameRequest $updatePlantUnitRequest
      * @return PlantUnitWrapDto
-     * @throws Exception
      */
     public function __invoke(
         UpdatePlantUnitNameRequest $updatePlantUnitRequest

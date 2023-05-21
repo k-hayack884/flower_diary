@@ -9,11 +9,11 @@ use App\Packages\Domains\Water\WateringTimes;
 use App\Packages\Domains\Water\WaterSettingCollection;
 use App\Packages\Domains\Water\WaterSettingId;
 use App\Packages\Domains\Water\WaterSettingRepositoryInterface;
-use App\Packages\Presentations\Requests\Water\DeleteWaterSettingRequest;
 use App\Packages\Presentations\Requests\Water\ResetWaterSettingRequest;
 use App\Packages\Usecases\Dto\Water\WaterSettingWrapDto;
+use Exception;
 use Illuminate\Support\Facades\Log;
-use PHPUnit\Exception;
+
 
 class ResetWaterSettingAction
 {
@@ -31,9 +31,8 @@ class ResetWaterSettingAction
     }
 
     /**
-     * @param ResetWaterSettingRequest $deleteWaterSettingRequest
+     * @param ResetWaterSettingRequest $resetWaterSettingRequest
      * @return WaterSettingWrapDto
-     * @throws Exception
      */
     public function __invoke(
         ResetWaterSettingRequest $resetWaterSettingRequest,

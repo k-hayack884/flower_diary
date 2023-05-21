@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
@@ -34,7 +35,9 @@ class WaterAlertTime extends Authenticatable
         'plant_name',
     ];
 
-
+    /**
+     * @return BelongsTo
+     */
     public function waterSetting()
     {
         return $this->belongsTo(WaterSetting::class,'water_setting_id')->select('water_setting_id,months,water_note,water_amount,watering_times,watering_interval');

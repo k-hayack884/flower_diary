@@ -6,13 +6,16 @@ class PlantUnitDetailDto
 {
     /**
      * @param string $plantUnitId
-     * @param string $userId
      * @param string $plantId
+     * @param string $userId
      * @param string $checkSeatId
      * @param string $plantNickName
+     * @param string $plantImage
      * @param array $diaries
      * @param string $createDate
      * @param string $updateDate
+     * @param string $plantName
+     * @param string $scientific
      */
     public function __construct(
         public string $plantUnitId,

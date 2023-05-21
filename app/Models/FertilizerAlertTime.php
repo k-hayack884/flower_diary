@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
@@ -34,7 +35,9 @@ class FertilizerAlertTime extends Authenticatable
         'plant_name',
     ];
 
-
+    /**
+     * @return BelongsTo
+     */
     public function fertilizerSetting()
     {
         return $this->belongsTo(FertilizerSetting::class,'fertilizer_setting_id')->select('fertilizer_setting_id,months,fertilizer_note,fertilizer_amount,fertilizer_name');

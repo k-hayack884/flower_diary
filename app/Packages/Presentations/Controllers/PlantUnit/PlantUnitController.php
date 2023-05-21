@@ -14,12 +14,17 @@ use App\Packages\Usecases\PlantUnit\DeletePlantUnitAction;
 use App\Packages\Usecases\PlantUnit\GetPlantUnitAction;
 use App\Packages\Usecases\PlantUnit\GetPlantUnitsAction;
 use App\Packages\Usecases\PlantUnit\UpdatePlantUnitNameAction;
+use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 
 class PlantUnitController extends Controller
 {
-
+    /**
+     * @param GetPlantUnitsRequest $request
+     * @param GetPlantUnitsAction $action
+     * @return array
+     */
     public function index(
         GetPlantUnitsRequest $request,
         GetPlantUnitsAction $action,
@@ -29,6 +34,13 @@ class PlantUnitController extends Controller
         $request->merge(['userId' => $userId]);
         return (array) $action($request);
     }
+
+    /**
+     * @param CreatePlantUnitRequest $request
+     * @param CreatePlantUnitAction $action
+     * @return array
+     * @throws Exception
+     */
     public function create(
         CreatePlantUnitRequest $request,
         CreatePlantUnitAction $action,
@@ -36,6 +48,12 @@ class PlantUnitController extends Controller
         return (array)$action($request);
     }
 
+    /**
+     * @param GetPlantUnitRequest $request
+     * @param GetPlantUnitAction $action
+     * @param string $plantUnitId
+     * @return array
+     */
     public function show(
         GetPlantUnitRequest $request,
         GetPlantUnitAction $action,
@@ -45,6 +63,14 @@ class PlantUnitController extends Controller
         $request->merge(['plantUnitId' => $plantUnitId]);
         return (array)$action($request);
     }
+
+    /**
+     * @param UpdatePlantUnitNameRequest $request
+     * @param UpdatePlantUnitNameAction $action
+     * @param string $plantUnitId
+     * @return array
+     * @throws Exception
+     */
     public function updateName(
         UpdatePlantUnitNameRequest $request,
         UpdatePlantUnitNameAction $action,
@@ -55,6 +81,13 @@ class PlantUnitController extends Controller
         return (array)$action($request);
     }
 
+    /**
+     * @param DeletePlantUnitRequest $request
+     * @param DeletePlantUnitAction $action
+     * @param string $plantUnitId
+     * @return array
+     * @throws Exception
+     */
     public function delete(
         DeletePlantUnitRequest $request,
         DeletePlantUnitAction $action,

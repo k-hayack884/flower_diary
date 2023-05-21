@@ -26,7 +26,7 @@ class GetCommentsAction
     }
 
     /**
-     * @param GetCommentsRequest $getCommentRequest
+     * @param GetCommentsRequest $getCommentsRequest
      * @return CommentsWrapDto
      */
     public function __invoke(GetCommentsRequest $getCommentsRequest

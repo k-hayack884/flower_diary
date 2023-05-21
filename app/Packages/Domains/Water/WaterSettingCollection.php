@@ -9,6 +9,7 @@ use IteratorAggregate;
 
 class WaterSettingCollection
 {
+    private Collection $waterSettings;
     /**
      * @param MonthsWaterSetting[] $waterSettings
      */

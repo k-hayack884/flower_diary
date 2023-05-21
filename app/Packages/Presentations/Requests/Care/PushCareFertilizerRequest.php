@@ -13,6 +13,10 @@ class PushCareFertilizerRequest extends \App\Http\Requests\BaseRequest
             'alertTimeId' => 'required',
         ];
     }
+
+    /**
+     * @return string
+     */
     public function getAlertTimeId():string
     {
         return $this->input('alertTimeId');

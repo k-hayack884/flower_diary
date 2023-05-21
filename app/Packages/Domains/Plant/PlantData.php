@@ -25,7 +25,7 @@ class PlantData
     }
 
     /**
-     * @return string
+     * @return PlantId
      */
     public function getPlantId(): PlantId
     {

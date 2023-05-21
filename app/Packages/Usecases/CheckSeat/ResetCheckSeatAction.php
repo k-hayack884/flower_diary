@@ -29,7 +29,6 @@ class ResetCheckSeatAction
         ResetCheckSeatRequest $resetCheckSeatRequest
     ): CheckSeatDto
     {
-//        dd($resetCheckSeatRequest);
         Log::info(__METHOD__, ['開始']);
 
         try {
