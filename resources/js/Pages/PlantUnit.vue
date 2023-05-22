@@ -152,5 +152,7 @@ export default {
 </script>
 
 <style scoped>
-
+[data-page-status="hydrated"] {
+    visibility: hidden;
+}
 </style>

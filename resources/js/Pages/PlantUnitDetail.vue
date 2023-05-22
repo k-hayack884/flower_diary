@@ -1,12 +1,10 @@
 <template>
-    <p>plantUnitId: {{ plantUnitId }}</p>
-
     <div class="bg-green-100 pb-16">
         <LoadWait :show="isLoading"
                   class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50"></LoadWait>
 
         <div id="tab" class="w-full max-w-500 mx-auto">
-            <ul class="flex tabMenu">
+            <ul class="flex tabMenu mt-10">
                 <li class="w-auto px-4 py-2 text-white border-r border-white bg-green-700 cursor-pointer"
                     @click="isSelect('1')">日記
                 </li>
@@ -103,6 +101,21 @@
                                 <p>備考:{{ waterSettings[0].note }}</p>
                             </div>
                         </div>
+                        <div v-if="successMessage" id="successMessage"
+                             class="fixed bottom-16 left-1/2 transform -translate-x-1/2 z-9999">
+                            <div class="bg-white">
+                                <div class="w-96 rounded-lg overflow-hidden shadow-md py-5 flex">
+                                    <div class="flex-grow-1 my-auto">
+                                        <p class="text-center ml-12">{{ successMessage }}</p>
+                                    </div>
+                                    <div class="flex items-center ml-auto">
+                                        <div class="flex flex-col justify-between p-4">
+                                            <span class="flower-loader h-150"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
                         <div class="card w-full bg-base-100 shadow-xl text-black my-4">
                             <div class="card-body">
@@ -135,7 +148,6 @@
                                     {{ plantData.plantName }}
                                 </h2>
                                 <p>学名:{{ plantData.scientific }}</p>
-                                <p>If a dog chews shoes whose shoes does he choose?</p>
                                 <div class="card-actions justify-end">
                                 </div>
                             </div>

@@ -168,7 +168,7 @@
             </div>
         </div>
         <div v-if="successMessage" id="successMessage"
-             class="fixed bottom-16 left-1/2 transform -translate-x-1/2 z-9999">
+             class="fixed bottom-24 left-1/2 transform -translate-x-1/2 z-9999">
             <div class="bg-white">
                 <div class="w-96 rounded-lg overflow-hidden shadow-md py-5 flex">
                     <div class="flex-grow-1 my-auto">
@@ -297,7 +297,7 @@ export default {
             if (value) {
                 setTimeout(() => {
                     this.successMessage = null;
-                }, 3000);
+                }, 5000);
             }
         }
     },

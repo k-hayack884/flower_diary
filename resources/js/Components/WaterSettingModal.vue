@@ -233,7 +233,10 @@ export default defineComponent({
                 waterSettingInterval: this.waterSetting.wateringInterval,
                 waterSettingAlertTimes: this.waterSetting.alertTimes,
             }).then(res => {
-                this.$emit('addWaterSetting', this.waterSetting)
+                const waterSetting = res.data.waterSetting;
+                waterSetting.checkSeatId = this.waterSetting.checkSeatId;
+                this.$emit('addWaterSetting', waterSetting)
+                this.$emit('successMessage','水やり設定を登録しました')
                 this.isLoading = false;
                 this.closeModal()
             }).catch(error => {
@@ -265,6 +268,7 @@ export default defineComponent({
                     }
                 }).then(res => {
                 this.isLoading = false
+                this.$emit('successMessage','水やり設定を変更しました')
                 this.closeModal()
             }).catch(error => {
                 if (error.response.status === 422) {
@@ -287,8 +291,9 @@ export default defineComponent({
                             'X-HTTP-Method-Override': 'DELETE',
                         }
                     }).then(res => {
-                    window.location.href = 'http://localhost:51111/checkSeat/' + this.waterSetting.checkSeatId;
                     this.isLoading = false
+                    this.$emit('successMessage','水やり設定を削除しました')
+                    this.closeModal()
                 }).catch(error => {
                     console.log(error);
                     this.isLoading = false

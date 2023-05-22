@@ -82,7 +82,7 @@ defineProps({
                     </template>
                 </div>
                 <div v-if="getPlant">
-                    <p>{{ message }}</p>
+
                     名前：{{ plantName }} 学名：{{ scientific }}
                     <p>解説：{{ information }}
                     </p>
@@ -101,7 +101,7 @@ defineProps({
                     <div class="text-white py-4">
                         <div class="container mx-auto flex justify-center items-center">
                             <button
-                                @click="registerPlant($page.props.user.user_id)"
+                                @click="registerPlant($page.props.user)"
                                 class="btn btn-outline-success bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded px-10 button-width"
                                 type="button" id="button-addon2"
                                 :class="{ 'opacity-25': isRecognizing }"
@@ -114,7 +114,7 @@ defineProps({
                 </div>
             </div>
         </div>
-        <div v-show="$page.props.user.user_id">
+        <div v-show="$page.props.user">
             <NaviFooter/>
         </div>
     </div>
@@ -289,7 +289,7 @@ export default {
             // ImageMakerコンポーネントから渡された画像データを処理する
             this.selectedImage = imageData
         },
-        async registerPlant(userId) {
+        async registerPlant(user) {
             if (!this.$page.props.user) {
                 this.openModal();
                 return;
@@ -302,7 +302,7 @@ export default {
 
             axios.post('http://localhost:51111/api/plantUnit', {
                 plantId: this.plantId,
-                userId: userId,
+                userId: user.userId,
                 plantImage: this.selectedImage,
             }).then(res => {
                 this.plant = res.data;

@@ -20,7 +20,6 @@ class UpdateFertilizerSettingRequest extends BaseRequest
                 'array'
             ],
             'fertilizerSettingNote' => [
-                'string',
                 'max:20'
             ],
             'fertilizerSettingAmount' => [

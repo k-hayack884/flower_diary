@@ -20,7 +20,6 @@ class UpdateWaterSettingRequest extends BaseRequest
                 'array'
             ],
             'waterSettingNote' => [
-                'string',
                 'max:20'
             ],
             'waterSettingAmount' => [

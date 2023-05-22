@@ -180,7 +180,10 @@ export default {
                 fertilizerSettingAmount: this.fertilizerSetting.fertilizerAmount,
                 fertilizerSettingName: this.fertilizerSetting.fertilizerName,
             }).then(res => {
-                this.$emit('addFertilizerSetting', this.fertilizerSetting)
+                const fertilizerSetting = res.data.fertilizerSetting;
+                fertilizerSetting.checkSeatId = this.fertilizerSetting.checkSeatId;
+                this.$emit('addFertilizerSetting',fertilizerSetting)
+                this.$emit('successMessage','肥料設定を登録しました')
                 this.isLoading = false
                 this.closeModal()
             }).catch(error => {
@@ -212,6 +215,7 @@ export default {
                 })
                 .then(res => {
                     this.isLoading = false
+                    this.$emit('successMessage','肥料設定を変更しました')
                     this.closeModal()
                 })
                 .catch(error => {
@@ -235,8 +239,9 @@ export default {
                             'X-HTTP-Method-Override': 'DELETE',
                         }
                     }).then(res => {
-                    window.location.href = 'http://localhost:51111/checkSeat/' + this.fertilizerSetting.checkSeatId;
                     this.isLoading = false
+                    this.$emit('successMessage','肥料設定を削除しました')
+                    this.closeModal()
                 }).catch(error => {
                     console.log(error);
                     this.isLoading = false

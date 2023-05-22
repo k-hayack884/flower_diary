@@ -9,7 +9,7 @@ use IteratorAggregate;
 
 class FertilizerSettingCollection
 {
-    private array $fertilizerSettings=[];
+    private Collection $fertilizerSettings;
 
     /**
      * @param MonthsFertilizerSetting[] $fertilizerSettings

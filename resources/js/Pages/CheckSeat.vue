@@ -79,10 +79,12 @@ import {reactive} from "vue";
                 </button>
                 <WaterSettingModal :open-modal="isWaterModalOpen" @closeModal="closeWaterModal"
                                    v-if="waterSettings[arrayIndex]"
+                                   @success-message="handleSuccessMessage"
                                    :waterSetting="waterSettings[arrayIndex]"/>
 
                 <WaterSettingModal :open-modal="isWaterModalOpen" @closeModal="closeWaterModal"
                                    @add-water-setting="addWaterSetting"
+                                   @success-message="handleSuccessMessage"
                                    v-else
                                    :waterSetting="reactive({
                                         checkSeatId:checkSeatId,
@@ -152,9 +154,11 @@ import {reactive} from "vue";
                 </button>
                 <FertilizerSettingModal :open-modal="isFertilizerModalOpen" @closeModal="closeFertilizerModal"
                                         v-if="arrayIndex !== null"
+                                        @success-message="handleSuccessMessage"
                                         :fertilizerSetting="fertilizerSettings[arrayIndex]"/>
                 <FertilizerSettingModal :open-modal="isFertilizerModalOpen" @closeModal="closeFertilizerModal"
                                         @add-fertilizer-setting="addFertilizerSetting"
+                                        @success-message="handleSuccessMessage"
                                         v-else
                                         :fertilizerSetting="reactive({
                                         checkSeatId:checkSeatId,
@@ -166,6 +170,21 @@ import {reactive} from "vue";
                                         isCreate:true
                                          })
                 "/>
+            </div>
+            <div v-if="successMessage" id="successMessage"
+                 class="fixed bottom-24 left-1/2 transform -translate-x-1/2 z-9999">
+                <div class="bg-white">
+                    <div class="w-96 rounded-lg overflow-hidden shadow-md py-5 flex">
+                        <div class="flex-grow-1 my-auto">
+                            <p class="text-center ml-12">{{ successMessage }}</p>
+                        </div>
+                        <div class="flex items-center ml-auto">
+                            <div class="flex flex-col justify-between p-4">
+                                <span class="flower-loader h-150"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <NaviFooter/>
         </section>
@@ -235,10 +254,6 @@ export default {
             .finally(() => {
                 this.isLoading = false;
             });
-
-    },
-    mounted() {
-        this.successMessage = "{{ session('success') }}";
     },
     methods: {
         addWaterSetting(setting) {
@@ -265,12 +280,14 @@ export default {
             });
         },
         addFertilizerSetting(setting) {
-            const {checkSeatId,
-                    months,
-                    note,
-                    fertilizerAmount,
-                    fertilizerSettingId,
-                    fertilizerName} = setting;
+            const {
+                checkSeatId,
+                months,
+                note,
+                fertilizerAmount,
+                fertilizerSettingId,
+                fertilizerName
+            } = setting;
             this.fertilizerSettings.push({
                 checkSeatId,
                 months,
@@ -280,6 +297,11 @@ export default {
                 fertilizerName,
                 isCreate: false,
             });
+        },
+        handleSuccessMessage(message) {
+            this.successMessage = message
+            console.log(message)
+            console.log(this.successMessage)
         },
         getIndex(index) {
             this.arrayIndex = index
@@ -300,7 +322,16 @@ export default {
         closeFertilizerModal() {
             this.isFertilizerModalOpen = false;
         },
-    }
+    },
+    watch: {
+        successMessage(value) {
+            if (value) {
+                setTimeout(() => {
+                    this.successMessage = null;
+                }, 5000);
+            }
+        }
+    },
 }
 
 

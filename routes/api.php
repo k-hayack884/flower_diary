@@ -36,7 +36,6 @@ Route::get('/', function () {
     ]);
 });
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    dd($request);
     return $request->user();
 });
 
