@@ -113,8 +113,11 @@ class DiaryRepository implements DiaryRepositoryInterface
                     'diary_content' => $diary->getDiaryContent()->getvalue(),
                     'create_date' => $diary->getCreateDate()->format('Y/m/d'),
                     'image' =>$diary->getDiaryImage()->getvalue()
-                ]);
+                ])->join('plant_units as are', 'diaries.diary_id', '=', 'diaries.diary_id')
+                ->where('are.plant_unit_id', $plantUnitId)
+                ->update(['are.create_date' => $diary->getCreateDate()->format('Y/m/d')]);
         }
+
     }
 
     /**

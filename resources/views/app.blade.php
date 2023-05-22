@@ -27,7 +27,7 @@
 
 @if (session()->has('successMessage'))
 
-    <div id="successMessage" class="fixed bottom-0 left-1/2 transform -translate-x-1/2 z-9999">
+    <div id="successMessage" class="fixed bottom-24 left-1/2 transform -translate-x-1/2 z-9999">
         <div class="bg-white">
             <div class="w-96 rounded-lg overflow-hidden shadow-md py-5 flex">
                 <div class="flex-grow-1 my-auto">

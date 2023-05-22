@@ -11,6 +11,7 @@ use App\Packages\Domains\Diary\DiaryImage;
 use App\Packages\Domains\Diary\DiaryRepositoryInterface;
 use App\Packages\Presentations\Requests\Diary\UpdateDiaryRequest;
 use App\Packages\Usecases\Dto\Diary\DiaryWrapDto;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 
@@ -42,6 +43,7 @@ class UpdateDiaryAction
         $diaryId = $updateDiaryRequest->getId();
         $plantUnitId=$updateDiaryRequest->getPlantUnitId();
         $plantImageData = $updateDiaryRequest->getPlantImage();
+        $updateDate=Carbon::now();
         if($plantImageData!==null){
             $plantImageFileName = Base64Service::base64FileDecode($plantImageData, 'diaryImage');
         }else{
@@ -56,7 +58,7 @@ class UpdateDiaryAction
                 $updateContent,
                 $plantImage,
                 $diary->getComments(),
-                $diary->getCreateDate()
+                $updateDate,
             );
             $diaryCollection = new DiaryCollection();
             $diaryCollection->addDiary($updateDiary);

@@ -59,10 +59,8 @@ class UpdateFertilizerSettingAction
             $fertilizerSettingCollection = new FertilizerSettingCollection();
             $fertilizerSettingCollection->addSetting($updateFertilizerSetting);
             $this->fertilizerSettingRepository->save($fertilizerSettingCollection,$checkSeatId);
-            Session::flash('successMessage', '編集に成功しました');
         } catch (\DomainException $e) {
             Log::error(__METHOD__, ['エラー']);
-            Session::flash('failMessage', '編集に失敗しました');
             abort(400,$e);
         } finally {
             Log::info(__METHOD__, ['終了']);

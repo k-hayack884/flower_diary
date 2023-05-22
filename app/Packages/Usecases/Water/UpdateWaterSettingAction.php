@@ -84,12 +84,10 @@ class UpdateWaterSettingAction
             $this->careRepository->save($waterSettingCollection);
 
             $this->transaction->commit();
-            Session::flash('successMessage', '編集に成功しました');
 
         } catch (\DomainException $e) {
             $this->transaction->rollback();
             Log::error(__METHOD__, ['エラー']);
-            Session::flash('failMessage', '編集に失敗しました');
 
             abort(400,$e);
         } finally {

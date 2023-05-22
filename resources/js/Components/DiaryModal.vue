@@ -9,6 +9,7 @@ CheckSeatModal.vue
         <div id="overlay" @click="closeModal()" v-show="isOpen" class="z-20 flex justify-center">
             <div class="p-8 bg-white w-full lg:py-32 lg:px-16 lg:pl-10 lg:w-3/4 tails-selected-element"
                  contenteditable="true" @click.stop="" style="max-height: 120vh; overflow-y: auto;">
+                <h1 class="text-2xl text-center">日記を編集する</h1>
                 <span v-show="errors" class="text-red-500">
                 <p v-for="error in errors">
                     {{ error }}
@@ -17,11 +18,11 @@ CheckSeatModal.vue
                     <div class="container px-5 py-24 mx-auto">
                         <div class="lg:w-full mx-auto flex flex-wrap">
                             <div v-if="selectedImage">
-                                <img :src="selectedImage" alt="Selected image" style="width: 300px; height: 300px ;">
-                                <input type="file" @change="onFileChange">
+                                <img :src="selectedImage" alt="Selected image"  style="width: 300px; height: 300px ;">
                             </div>
                             <div v-else-if="diary.diaryImage">
                                 <img :src="'data:image/png;base64,'+diary.diaryImage" alt="Selected image"
+
                                      style="width: 300px; height: 300px ;">
                             </div>
                             <div v-else>
@@ -36,7 +37,7 @@ CheckSeatModal.vue
                                               style="width: 300px; height: 200px;"></textarea>
                                 </div>
                                 <div class="flex justify-center items-center h-200">
-                                    <image-maker @image-selected="onImageSelected"></image-maker>
+                                    <image-maker class="button-width" @image-selected="onImageSelected"></image-maker>
                                 </div>
                                 <div class="flex justify-center">
                                     <button v-if="diary.isCreate" @click="create()"
@@ -130,6 +131,7 @@ export default defineComponent({
         };
     },
     created() {
+        this.diary.image=this.diaryImage
     },
     watch: {
         openModal(newVal) {
@@ -143,14 +145,14 @@ export default defineComponent({
         },
         onImageSelected(imageData) {
             this.selectedImage = imageData
-            this.diary.image = imageData;
+            this.diary.diaryImage = imageData;
         },
         create() {
             this.isLoading = true
             axios.post('/api/diary', {
                 plantUnitId: this.plantUnitId,
                 diaryContent: this.diary.diaryContent,
-                plantImage: this.diary.image,
+                plantImage: this.diary.diaryImage,
             }).then(res => {
                 window.location.href = 'http://localhost:51111/plantUnit/' + this.plantUnitId;
             }).catch(error => {
@@ -167,11 +169,12 @@ export default defineComponent({
         },
         update() {
             this.isLoading = true
-            console.log(this.diary.diaryId)
+            console.log(this.diary)
+
             axios.post('/api/diary/' + this.diary.diaryId, {
                     plantUnitId: this.plantUnitId,
                     diaryContent: this.diary.diaryContent,
-                    plantImage: this.diary.image,
+                    plantImage: this.diary.diaryImage,
                 },
                 {
                     headers: {
@@ -179,7 +182,7 @@ export default defineComponent({
                         'X-HTTP-Method-Override': 'PUT',
                     }
                 }).then(res => {
-                window.location.href = 'http://localhost:51111/plantUnit/' + this.plantUnitId;
+                // window.location.href = 'http://localhost:51111/plantUnit/' + this.plantUnitId;
             }).catch(error => {
                 if (error.response.status === 422) {
                     console.log(error.response.data.errors);

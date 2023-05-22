@@ -76,12 +76,10 @@ class CreateWaterSettingAction
             $this->careRepository->save($waterSettingCollection);
 
             $this->transaction->commit();
-            Session::flash('successMessage', '登録に成功しました');
 
         } catch (\DomainException $e) {
             $this->transaction->rollback();
             Log::error(__METHOD__, ['エラー']);
-            Session::flash('failMessage', '登録に失敗しました');
 
             abort(400,$e);
         } finally {

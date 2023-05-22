@@ -41,11 +41,9 @@ class DeleteWaterSettingAction
         try {
             $waterSetting=$this->waterSettingRepository->findById($waterSettingId);
             $this->waterSettingRepository->delete($waterSetting->getWaterSettingId());
-            Session::flash('successMessage', '削除に成功しました');
 
         } catch (\DomainException $e) {
             Log::error(__METHOD__, ['エラー']);
-            Session::flash('failMessage', '削除に失敗しました');
 
             abort(400,$e);
         } finally {
