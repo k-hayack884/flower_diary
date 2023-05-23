@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-green-100 pb-16">
+    <div class="bg-green-100 pb-16 h-screen">
         <LoadWait :show="isLoading"
                   class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50"></LoadWait>
         <h1 class="text-5xl text-center pt-4">My　プラント</h1>

@@ -11,7 +11,6 @@ defineProps({
     phpVersion: String,
 });
 
-
 </script>
 
 <template>
