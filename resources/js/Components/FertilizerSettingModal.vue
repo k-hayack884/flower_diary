@@ -1,7 +1,6 @@
-CheckSeatModal.vue
+FertilizerSettingModal.vue
 <template>
     <div class="relative">
-
         <LoadWait :show="isLoading"
                   class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50"></LoadWait>
         <div id="overlay" @click="closeModal" v-show="isOpen" class="z-20 flex justify-center">
@@ -122,7 +121,6 @@ export default {
                 fertilizerName: '',
             })
         },
-
     },
     data() {
         return {
@@ -191,7 +189,6 @@ export default {
                     console.log(error.response.data.errors);
                     this.errors = error.response.data.errors;
                     this.isLoading = false
-
                 } else {
                     console.log(error);
                     this.isLoading = false

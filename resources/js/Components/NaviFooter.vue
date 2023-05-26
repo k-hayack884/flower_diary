@@ -14,7 +14,6 @@ import {Head, Link} from '@inertiajs/inertia-vue3';
                         <h2 class="title-font font-medium text-sm lg:text-xl text-gray-900">ホーム</h2>
                     </Link>
                 </div>
-
             </div>
             <div class="w-1/5 p-4">
                 <div class="flex items-center justify-center rounded-lg text-center flex-col">
@@ -23,9 +22,7 @@ import {Head, Link} from '@inertiajs/inertia-vue3';
                             <img src="../../icon/カメラ.png" style="width: 32px;height: 32px" class="flex justify-center"/>
                         </div>
                         <h2 class="title-font font-medium text-sm lg:text-xl text-gray-900">診断</h2>
-
                     </Link>
-
                 </div>
             </div>
             <!--            <div class="w-1/5 p-4">-->

@@ -1,10 +1,10 @@
 <template>
-    <div class="bg-green-100 pb-16">
+    <AppLayout title="plantUnitDetail">
         <LoadWait :show="isLoading"
                   class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50"></LoadWait>
 
         <div id="tab" class="w-full max-w-500 mx-auto">
-            <ul class="flex tabMenu mt-10">
+            <ul class="flex tabMenu pt-10">
                 <li class="w-auto px-4 py-2 text-white border-r border-white bg-green-700 cursor-pointer"
                     @click="isSelect('1')">日記
                 </li>
@@ -162,19 +162,19 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="card w-full lg:w-2/3 bg-base-100 shadow-xl my-4">
-                            <div class="card-body">
-                                <h2 class="card-title">
-                                    おすすめのお世話設定
-                                </h2>
-                                <p>春:</p>
-                                <p>夏:</p>
-                                <p>秋:</p>
-                                <p>冬:</p>
-                                <div class="card-actions justify-end">
-                                </div>
-                            </div>
-                        </div>
+<!--                        <div class="card w-full lg:w-2/3 bg-base-100 shadow-xl my-4">-->
+<!--                            <div class="card-body">-->
+<!--                                <h2 class="card-title">-->
+<!--                                    おすすめのお世話設定-->
+<!--                                </h2>-->
+<!--                                <p>春:</p>-->
+<!--                                <p>夏:</p>-->
+<!--                                <p>秋:</p>-->
+<!--                                <p>冬:</p>-->
+<!--                                <div class="card-actions justify-end">-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
                         <div class="card w-full lg:w-2/3 bg-base-100 shadow-xl my-4">
                             <div class="card-body">
                                 <h2 class="card-title">
@@ -198,7 +198,6 @@
                 </div>
             </div>
         </div>
-    </div>
     <NaviFooter/>
     <DiaryModal :open-modal="isDiaryModalOpen" @closeModal="closeDiaryModal"
                 v-if="arrayIndex !== null"
@@ -215,6 +214,7 @@
                 createDate: '',
                 isCreate:true    })"
                 :plant-unit-id="plantUnitId"/>
+    </AppLayout>
 </template>
 
 <script>
@@ -222,10 +222,12 @@ import DiaryModal from "@/Components/DiaryModal.vue";
 import {reactive} from "vue";
 import NaviFooter from "@/Components/NaviFooter.vue";
 import LoadWait from "@/Components/LoadWait.vue";
+import AppLayout from "@/Layouts/AppLayout.vue";
 
 export default {
     name: "PlantUnitDetail",
     components: {
+        AppLayout,
         DiaryModal,
         LoadWait,
         NaviFooter,

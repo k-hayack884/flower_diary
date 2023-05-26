@@ -3,6 +3,7 @@ import {Head, Link} from '@inertiajs/inertia-vue3';
 import Banner from "@/Components/Banner.vue";
 import Load from "@/Components/Load.vue";
 import RegisterModal from "@/Components/RegisterModal.vue";
+import AppLayout from "@/Layouts/AppLayout.vue";
 
 defineProps({
     canLogin: Boolean,
@@ -15,108 +16,112 @@ defineProps({
 
 <template>
     <Head title="Welcome"/>
-    <div class="bg-green-100  pb-16">
-        <LoadWait :show="isLoading"
-                  class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50"></LoadWait>
-        <Load :show="isScan" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></Load>
-        <div class="relative flex items-top justify-center bg-gray-100 dark:bg-gray-900 sm:items-center sm:pt-0">
-        </div>
-        <div class="container text-center p-3 mb-2">
-            <!-- タイトル行 -->
-            <div class="row my-3">
-                <div class="col-sm-6 mx-auto blue"><h1>植物判定アプリ</h1></div>
-            </div>
-            <div class="info">
-                <p>
-                    育て方を知りたい植物を<br>カメラに写して数秒待ってください<br>
-                </p>
-            </div>
+    <AppLayout title="Welcome">
 
-            <div class="col-sm-6 mx-auto" id="judge">
-                <div class="input-group-append">
-                    <button @click="startCamera"
-                            class="btn btn-outline-success bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded  px-8 button-width"
-                            type="button" id="button-addon2"
-                            :disabled="isRecognizing">
-                        {{ recogButton }}
-                    </button>
-                </div>
+        <div class="bg-green-100  pb-16">
+            <LoadWait :show="isLoading"
+                      class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50"></LoadWait>
+            <Load :show="isScan" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></Load>
+            <div class="relative flex items-top justify-center bg-gray-100 dark:bg-gray-900 sm:items-center sm:pt-0">
             </div>
-            <br>
-            <div class="flex justify-center items-center">
-                <video id="webcam" width="200" height="300" muted autoplay playsinline></video>
-            </div>
-            <div>
-                <p id="error" v-show="error">{{ error }}</p>
-                <image-maker class="button-width" @image-selected="onImageSelected"></image-maker>
-                <div v-if="selectedImage" class="flex items-center justify-center">
-                    <img :src="selectedImage" alt="Selected image" id="plant_image"
-                         style="width: 300px; height: 300px ;">
+            <div class="container text-center p-3 mb-2">
+                <!-- タイトル行 -->
+                <div class="row my-3">
+                    <div class="col-sm-6 mx-auto blue"><h1>植物判定アプリ</h1></div>
                 </div>
-                <button v-if="selectedImage"
-                        class="btn btn-outline-success bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded px-12 my-4 button-width"
-                        @click="startImage()"
-                        :disabled="isRecognizing">診断する！
-                </button>
-                <div v-if="canLogin" class="flex justify-center items-center ">
-                    <Link v-if="$page.props.user" :href="route('dashboard')"
-                          class="btn btn-success bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded px-10 my-4 button-width">
-                        マイページに戻る
-                    </Link>
-                    <template v-else>
-                        <div class="flex flex-col">
-                            <button
-                                class="btn btn-success bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded px-10 my-4 button-width">
-                                <Link :href="route('login')" class="text-sm text-white-700 dark:text-gray-500">Log in
-                                </Link>
-                            </button>
-                            <button
-                                class="btn btn-success bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded px-10 my-4 button-width">
-                                <Link v-if="canRegister" :href="route('register')"
-                                      class="
-                                  ml-4 text-sm text-white-700 dark:text-white-500">Register
-                                </Link>
-                            </button>
-                        </div>
-                    </template>
-                </div>
-                <div v-if="getPlant">
-
-                    名前：{{ plantName }} 学名：{{ scientific }}
-                    <p>解説：{{ information }}
+                <div class="info">
+                    <p>
+                        育て方を知りたい植物を<br>カメラに写して数秒待ってください<br>
                     </p>
-                    {{ plantName }}の画像
-                    <div class="flex mx-auto carousel rounded-box" style="width: 300px; height: 300px ;">
-                        <div class="carousel-item">
-                            <div v-for="image in plantImages">
-                                <img :src="'data:image/png;base64,'+image"
-                                     class="lg:w-full lg:h-full object-cover"
-                                     style="width: 300px; height: 300px ;"/>
+                </div>
+
+                <div class="col-sm-6 mx-auto" id="judge">
+                    <div class="input-group-append">
+                        <button @click="startCamera"
+                                class="btn btn-outline-success bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded  px-8 button-width"
+                                type="button" id="button-addon2"
+                                :disabled="isRecognizing">
+                            {{ recogButton }}
+                        </button>
+                    </div>
+                </div>
+                <br>
+                <div class="flex justify-center items-center">
+                    <video id="webcam" width="200" height="300" muted autoplay playsinline></video>
+                </div>
+                <div>
+                    <p id="error" v-show="error">{{ error }}</p>
+                    <image-maker class="button-width" @image-selected="onImageSelected"></image-maker>
+                    <div v-if="selectedImage" class="flex items-center justify-center">
+                        <img :src="selectedImage" alt="Selected image" id="plant_image"
+                             style="width: 300px; height: 300px ;">
+                    </div>
+                    <button v-if="selectedImage"
+                            class="btn btn-outline-success bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded px-12 my-4 button-width"
+                            @click="startImage()"
+                            :disabled="isRecognizing">診断する！
+                    </button>
+                    <div v-if="canLogin" class="flex justify-center items-center ">
+                        <Link v-if="$page.props.user" :href="route('dashboard')"
+                              class="btn btn-success bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded px-10 my-4 button-width">
+                            マイページに戻る
+                        </Link>
+                        <template v-else>
+                            <div class="flex flex-col">
+                                <button
+                                    class="btn btn-success bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded px-10 my-4 button-width">
+                                    <Link :href="route('login')" class="text-sm text-white-700 dark:text-gray-500">Log
+                                        in
+                                    </Link>
+                                </button>
+                                <button
+                                    class="btn btn-success bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded px-10 my-4 button-width">
+                                    <Link v-if="canRegister" :href="route('register')"
+                                          class="
+                                  ml-4 text-sm text-white-700 dark:text-white-500">Register
+                                    </Link>
+                                </button>
+                            </div>
+                        </template>
+                    </div>
+                    <div v-if="getPlant">
+
+                        名前：{{ plantName }} 学名：{{ scientific }}
+                        <p>解説：{{ information }}
+                        </p>
+                        {{ plantName }}の画像
+                        <div class="flex mx-auto carousel rounded-box" style="width: 300px; height: 300px ;">
+                            <div class="carousel-item">
+                                <div v-for="image in plantImages">
+                                    <img :src="'data:image/png;base64,'+image"
+                                         class="lg:w-full lg:h-full object-cover"
+                                         style="width: 300px; height: 300px ;"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div v-if="getPlant">
+                        <div class="text-white py-4">
+                            <div class="container mx-auto flex justify-center items-center">
+                                <button
+                                    @click="registerPlant($page.props.user)"
+                                    class="btn btn-outline-success bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded px-10 button-width"
+                                    type="button" id="button-addon2"
+                                    :class="{ 'opacity-25': isRecognizing }"
+                                    :disabled="isRecognizing">
+                                    {{ registerButton }}
+                                </button>
+                                <RegisterModal :open-modal="isModalOpen"/>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div v-if="getPlant">
-                    <div class="text-white py-4">
-                        <div class="container mx-auto flex justify-center items-center">
-                            <button
-                                @click="registerPlant($page.props.user)"
-                                class="btn btn-outline-success bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded px-10 button-width"
-                                type="button" id="button-addon2"
-                                :class="{ 'opacity-25': isRecognizing }"
-                                :disabled="isRecognizing">
-                                {{ registerButton }}
-                            </button>
-                            <RegisterModal :open-modal="isModalOpen"/>
-                        </div>
-                    </div>
-                </div>
+            </div>
+            <div v-show="$page.props.user">
+                <NaviFooter/>
             </div>
         </div>
-        <div v-show="$page.props.user">
-            <NaviFooter/>
-        </div>
-    </div>
+    </AppLayout>
 </template>
 <style>
 @media screen {

@@ -7,7 +7,8 @@ import WaterSettingModal from "@/Components/WaterSettingModal.vue";
 import {reactive} from "vue";
 </script>
 <template>
-    <div class="bg-green-100 pb-16">
+    <AppLayout title="checkSeat">
+
 
         <LoadWait :show="isLoading"
                   class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50"></LoadWait>
@@ -28,11 +29,8 @@ import {reactive} from "vue";
                             <div class="border border-gray-200 rounded-lg text-center p-6 bg-white">
                                 <div
                                     class="w-10 h-10 inline-flex items-center justify-center rounded-full bg-indigo-100 text-indigo-500 mb-4 ">
-                                    <svg fill="none" stroke="currentColor" stroke-linecap="round"
-                                         stroke-linejoin="round"
-                                         stroke-width="2" class="w-6 h-6" viewBox="0 0 24 24">
-                                        <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
-                                    </svg>
+                                    <img src="../../icon/water.png" class="lg:w-full lg:h-full object-cover">
+
                                 </div>
                                 <h2 class="text-lg text-gray-900 font-medium title-font mb-2">水やり設定{{
                                         index + 1
@@ -111,11 +109,8 @@ import {reactive} from "vue";
                             <div class="border border-gray-200 p-6 rounded-lg text-center bg-white">
                                 <div
                                     class="w-10 h-10 inline-flex items-center justify-center rounded-full bg-indigo-100 text-indigo-500 mb-4">
-                                    <svg fill="none" stroke="currentColor" stroke-linecap="round"
-                                         stroke-linejoin="round"
-                                         stroke-width="2" class="w-6 h-6" viewBox="0 0 24 24">
-                                        <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
-                                    </svg>
+                                    <img src="../../icon/fertilizer.png" class="lg:w-full lg:h-full object-cover">
+
                                 </div>
                                 <h2 class="text-lg text-gray-900 font-medium title-font mb-2">肥料設定{{
                                         index + 1
@@ -188,7 +183,7 @@ import {reactive} from "vue";
             </div>
             <NaviFooter/>
         </section>
-    </div>
+    </AppLayout>
 </template>
 <script>
 
@@ -333,7 +328,6 @@ export default {
         }
     },
 }
-
 
 </script>
 

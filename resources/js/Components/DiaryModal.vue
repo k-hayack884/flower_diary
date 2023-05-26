@@ -1,8 +1,7 @@
-CheckSeatModal.vue
+DairyModal.vue
 
 
 <template>
-
     <div class="relative">
         <LoadWait :show="isLoading"
                   class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50"></LoadWait>
@@ -22,7 +21,6 @@ CheckSeatModal.vue
                             </div>
                             <div v-else-if="diary.diaryImage">
                                 <img :src="'data:image/png;base64,'+diary.diaryImage" alt="Selected image"
-
                                      style="width: 300px; height: 300px ;">
                             </div>
                             <div v-else>
@@ -165,16 +163,19 @@ export default defineComponent({
                     this.isLoading = false
                 }
             });
-
         },
-        update() {
+         update() {
             this.isLoading = true
-            console.log(this.diary)
-
+             let diaryImage;
+             if (!this.diary.diaryImage.includes('data:image/png;base64,')) {
+                 diaryImage = 'data:image/png;base64,' + this.diary.diaryImage;
+             } else {
+                 diaryImage = this.diary.diaryImage;
+             }
             axios.post('/api/diary/' + this.diary.diaryId, {
                     plantUnitId: this.plantUnitId,
                     diaryContent: this.diary.diaryContent,
-                    plantImage: this.diary.diaryImage,
+                    plantImage: diaryImage,
                 },
                 {
                     headers: {
@@ -182,7 +183,7 @@ export default defineComponent({
                         'X-HTTP-Method-Override': 'PUT',
                     }
                 }).then(res => {
-                // window.location.href = 'http://localhost:51111/plantUnit/' + this.plantUnitId;
+                window.location.href = 'http://localhost:51111/plantUnit/' + this.plantUnitId;
             }).catch(error => {
                 if (error.response.status === 422) {
                     console.log(error.response.data.errors);
@@ -205,7 +206,6 @@ export default defineComponent({
                         }
                     }).then(res => {
                     window.location.href = 'http://localhost:51111/plantUnit/' + this.plantUnitId;
-                    this.isLoading = false
                 }).catch(error => {
                     console.log(error);
                     this.isLoading = false

@@ -136,7 +136,6 @@ import "smart-tagz/dist/smart-tagz.css";
 import {defineComponent} from "vue";
 import LoadWait from "@/Components/LoadWait.vue";
 
-
 export default defineComponent({
     name: "WaterSettingModal",
     components: {
@@ -218,8 +217,6 @@ export default defineComponent({
             }
         },
         handleTagAdded(newTags) {
-            console.log(newTags)
-
             this.waterSetting.alertTimes = newTags
         },
         create() {
@@ -297,7 +294,6 @@ export default defineComponent({
                 }).catch(error => {
                     console.log(error);
                     this.isLoading = false
-
                 });
             }
         }

@@ -1,6 +1,4 @@
 ChangeNameModal.vue
-
-
 <template>
 
     <div class="relative flex justify-center items-center">
@@ -125,9 +123,6 @@ export default defineComponent({
                         'X-HTTP-Method-Override': 'PUT',
                     }
                 }).then(res => {
-
-                console.log('とうろくせいこう')
-
                 this.isLoading = false
                 this.closeModal();
 
