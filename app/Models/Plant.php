@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
@@ -65,14 +66,25 @@ class Plant extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-public function plantUnit(){
-    return $this->hasMany(PlantUnit::class,'plant_id');
 
-}
-    public function plant(){
-        return $this->hasMany(PlantImage::class,'plant_id');
+    /**
+     * @return HasMany
+     */
+    public function plantUnit()
+    {
+        return $this->hasMany(PlantUnit::class, 'plant_id');
 
     }
+
+    /**
+     * @return HasMany
+     */
+    public function plant()
+    {
+        return $this->hasMany(PlantImage::class, 'plant_id');
+
+    }
+
     /**
      * The accessors to append to the model's array form.
      *

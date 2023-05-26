@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
@@ -36,11 +38,17 @@ class FertilizerSetting extends Authenticatable
         'fertilizer_name',
     ];
 
+    /**
+     * @return BelongsTo
+     */
     public function checkSeat()
     {
         return $this->belongsTo(CheckSeat::class);
     }
 
+    /**
+     * @return HasMany
+     */
     public function fertilizerAlertTimes()
     {
         return $this->hasMany(FertilizerAlertTime::class,'fertilizer_setting_id');

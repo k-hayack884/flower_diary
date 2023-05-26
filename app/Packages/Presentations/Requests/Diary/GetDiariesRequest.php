@@ -15,6 +15,10 @@ class GetDiariesRequest extends BaseRequest
             'plantUnitId' => 'nullable',
             ];
     }
+
+    /**
+     * @return string|null
+     */
     public function getPlantUnitId():string|null
     {
         return $this->input('plantUnitId');

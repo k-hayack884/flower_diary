@@ -2,7 +2,6 @@
 
 namespace App\Packages\Domains\Water;
 
-use App\Packages\Domains\CheckSeat\CheckSeatId;
 use App\Packages\Domains\Shared\Uuid;
 
 class WaterSettingId

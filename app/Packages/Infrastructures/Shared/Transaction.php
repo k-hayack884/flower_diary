@@ -6,12 +6,17 @@ use Illuminate\Support\Facades\DB;
 
 class Transaction implements TransactionInterface
 {
-
+    /**
+     * @return void
+     */
     public function begin(): void
     {
         DB::beginTransaction();
     }
 
+    /**
+     * @return void
+     */
     public function beginReservation(): void
     {
         $pdo=DB::connection()->getPdo();
@@ -20,6 +25,9 @@ class Transaction implements TransactionInterface
         DB::beginTransaction();
     }
 
+    /**
+     * @return void
+     */
     public function commit(): void
     {
         DB::commit();
@@ -30,6 +38,9 @@ class Transaction implements TransactionInterface
 
     }
 
+    /**
+     * @return void
+     */
     public function rollback(): void
     {
         DB::rollBack();

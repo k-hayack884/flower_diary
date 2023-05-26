@@ -68,10 +68,10 @@ class MockCheckSeatRepository implements CheckSeatRepositoryInterface
 
     /**
      * @param CheckSeatId $checkSeatId
-     * @return array
+     * @return CheckSeat
      * @throws NotFoundException
      */
-    public function findById(CheckSeatId $checkSeatId): array
+    public function findById(CheckSeatId $checkSeatId): CheckSeat
     {
         foreach ($this->checkSeats as $index => $checkSeat) {
             if ($checkSeat['check_seat_id'] === $checkSeatId->getId()) {

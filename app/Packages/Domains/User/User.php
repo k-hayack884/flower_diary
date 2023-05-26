@@ -2,13 +2,13 @@
 
 namespace App\Packages\Domains\User;
 
-use Illuminate\Support\Facades\Hash;
-
 class User
 {
+
     private UserId $userId;
     private string $name;
     private string $email;
+    private string $password;
     private int $role;
     public function __construct(UserId $userId, string $name, string $email, int $role)
     {

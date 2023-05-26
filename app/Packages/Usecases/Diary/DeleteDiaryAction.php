@@ -18,9 +18,13 @@ class DeleteDiaryAction
      * @var DiaryRepositoryInterface
      */
     private DiaryRepositoryInterface $diaryRepository;
+    private CommentRepositoryInterface $commentRepository;
+    private TransactionInterface $transaction;
 
     /**
      * @param DiaryRepositoryInterface $diaryRepository
+     * @param CommentRepositoryInterface $commentRepository
+     * @param TransactionInterface $transaction
      */
     public function __construct(
         DiaryRepositoryInterface $diaryRepository,
@@ -44,13 +48,10 @@ class DeleteDiaryAction
         Log::info(__METHOD__, ['開始']);
         $diaryId = new DiaryId($deleteDiaryRequest->getId());
 
-
-
         try {
             $this->transaction->begin();
 
             $diary = $this->diaryRepository->findById($diaryId);
-
             foreach ($diary->getComments() as $commentId){
                 $this->commentRepository->delete(new CommentId($commentId));
             }

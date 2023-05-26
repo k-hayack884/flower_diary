@@ -23,6 +23,7 @@ class GetPlantUnitsAction
 
     /**
      * @param PlantUnitRepositoryInterface $plantUnitRepository
+     * @param PlantRepository $plantRepository
      */
     public function __construct(PlantUnitRepositoryInterface $plantUnitRepository,
                                 PlantRepository              $plantRepository)
@@ -44,13 +45,12 @@ class GetPlantUnitsAction
 
         $plantUnitCollection = new PlantUnitCollection($plantUnits);
 
-
         $plantUnitDtos = [];
 
         foreach ($plantUnitCollection->toArray() as $plantUnit) {
             $plantImageData = $plantUnit->getPlantImage()->getValue();
             $plantImage = Base64Service::base64FileEncode($plantImageData, 'plantUnitImage');
-            $plant=$this->plantRepository->findById($plantUnit->getPlantId());
+            $plant = $this->plantRepository->findById($plantUnit->getPlantId());
             $plantUnitDtos[] =
                 new PlantUnitDetailDto(
                     $plantUnit->getPlantUnitId()->getId(),

@@ -13,6 +13,10 @@ class GetCareFertilizerRequest extends \App\Http\Requests\BaseRequest
             'userId' => 'required',
         ];
     }
+
+    /**
+     * @return string
+     */
     public function getUserId():string
     {
         return $this->input('userId');

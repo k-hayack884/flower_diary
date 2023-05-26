@@ -41,7 +41,7 @@ UpdatePlantUnitNameRequest extends BaseRequest
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getPlantName():string|null
     {

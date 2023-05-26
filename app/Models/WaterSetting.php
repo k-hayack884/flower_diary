@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
@@ -37,11 +39,17 @@ class WaterSetting extends Authenticatable
         'alert_times',
     ];
 
+    /**
+     * @return BelongsTo
+     */
     public function checkSeat()
     {
         return $this->belongsTo(CheckSeat::class,"check_seat_id");
     }
 
+    /**
+     * @return HasMany
+     */
     public function waterAlertTimes()
     {
         return $this->hasMany(WaterAlertTime::class,'water_setting_id');

@@ -2,6 +2,8 @@
 
 namespace App\Packages\Domains\Water;
 
+use DomainException;
+
 class WateringInterval
 {
     public const RESET=1;

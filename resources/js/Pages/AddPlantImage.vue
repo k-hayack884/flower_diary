@@ -31,7 +31,6 @@ import AppLayout from '@/Layouts/AppLayout.vue';
             </div>
         </div>
         <div class="flex flex-col">
-
             <image-maker class="button-width" @image-selected="onImageSelected4"></image-maker>
             <div v-if="selectedImage4" class="flex items-center justify-center">
                 <img :src="selectedImage4" alt="Selected image" id="plant_image"
@@ -39,14 +38,12 @@ import AppLayout from '@/Layouts/AppLayout.vue';
             </div>
         </div>
         <div class="flex flex-col">
-
             <image-maker class="button-width" @image-selected="onImageSelected5"></image-maker>
             <div v-if="selectedImage5" class="flex items-center justify-center">
                 <img :src="selectedImage5" alt="Selected image" id="plant_image"
                      style="width: 300px; height: 300px ;">
             </div>
         </div>
-
     </div>
     <div class="form-control　flex mx-auto">
         <label class="label">
@@ -58,7 +55,7 @@ import AppLayout from '@/Layouts/AppLayout.vue';
         </label>
     </div>
     <button @click="addImage()"
-            class="flex mx-auto mt-16 text-white bg-green-600 border-0 py-2 px-8 focus:outline-none hover:bg-green-800 rounded text-lg"
+            class="flex mx-auto  text-white bg-green-600 border-0 py-2 px-8 focus:outline-none hover:bg-green-800 rounded text-lg"
             :class="{ 'opacity-25': isLoading }"
             :disabled="isLoading">
         追加する
@@ -86,10 +83,8 @@ import LoadWait from "@/Components/LoadWait.vue";
 export default {
     name: "Diary.vue",
     components: {
-        // Load,
         LoadWait,
         ImageMaker,
-        // NaviFooter,
     },
     data() {
         return {
@@ -123,23 +118,19 @@ export default {
     },
     methods: {
         onImageSelected1(imageData) {
-            // ImageMakerコンポーネントから渡された画像データを処理する
             this.selectedImage1 = imageData
         },
         onImageSelected2(imageData) {
-            // ImageMakerコンポーネントから渡された画像データを処理する
             this.selectedImage2 = imageData
         },
         onImageSelected3(imageData) {
-            // ImageMakerコンポーネントから渡された画像データを処理する
             this.selectedImage3 = imageData
         },
         onImageSelected4(imageData) {
-            // ImageMakerコンポーネントから渡された画像データを処理する
             this.selectedImage4 = imageData
         },
         onImageSelected5(imageData) {
-            // ImageMakerコンポーネントから渡された画像データを処理する
+
             this.selectedImage5 = imageData
         },
         addImage() {
@@ -147,16 +138,16 @@ export default {
 
             axios.post('/api/addPlant', {
                 plantId: this.plantId,
-                plantImages:[this.selectedImage1,this.selectedImage2,this.selectedImage3,this.selectedImage4,this.selectedImage5]
+                plantImages: [this.selectedImage1, this.selectedImage2, this.selectedImage3, this.selectedImage4, this.selectedImage5]
             }).then(res => {
                 this.successMessage = res.data.original.successMessage;
                 this.isLoading = false;
-                this.plantId=null;
-                    this.selectedImage1=null;
-                    this.selectedImage2=null;
-                    this.selectedImage3=null;
-                    this.selectedImage4=null;
-                    this.selectedImage5=null;
+                this.plantId = null;
+                this.selectedImage1 = null;
+                this.selectedImage2 = null;
+                this.selectedImage3 = null;
+                this.selectedImage4 = null;
+                this.selectedImage5 = null;
             }).catch(error => {
                 if (error.response.status === 422) {
                     console.log(error.response.data.errors);
@@ -165,14 +156,11 @@ export default {
                 } else {
                     console.log(error);
                     this.isLoading = false
-
                 }
             });
         },
-
     }
 }
-
 
 </script>
 

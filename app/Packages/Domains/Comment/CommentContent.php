@@ -2,6 +2,8 @@
 
 namespace App\Packages\Domains\Comment;
 
+use DomainException;
+
 class CommentContent
 {
 

@@ -13,6 +13,10 @@ class GetPlantUnitsRequest extends \App\Http\Requests\BaseRequest
             'userId' => 'nullable',
         ];
     }
+
+    /**
+     * @return string|null
+     */
     public function getUserId():string|null
     {
         return $this->input('userId');

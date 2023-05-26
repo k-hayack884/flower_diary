@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Packages\Domains\Water;
 
-use Carbon\Carbon;
 use DomainException;
 
 class WaterAmount

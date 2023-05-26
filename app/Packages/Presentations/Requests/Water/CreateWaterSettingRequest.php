@@ -44,6 +44,9 @@ class CreateWaterSettingRequest extends BaseRequest
         ];
     }
 
+    /**
+     * @return string
+     */
     public function getCheckSeatId():string
     {
         return $this->input('checkSeatId');

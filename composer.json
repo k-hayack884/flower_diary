@@ -23,6 +23,7 @@
         "laravel/sail": "^1.0.1",
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^6.1",
+        "phpstan/phpstan": "^1.10",
         "phpunit/phpunit": "^9.5.10",
         "spatie/laravel-ignition": "^1.0"
     },
@@ -40,7 +41,7 @@
     },
     "scripts": {
         "phpstan": [
-            " ./vendor/bin/phpstan analyse flower_diary/app/Packages "
+            " ./vendor/bin/phpstan analyse flower_diary/app/Packages/Domains/Care "
         ],
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",

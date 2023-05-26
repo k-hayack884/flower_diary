@@ -31,7 +31,7 @@ class FertilizerAlertTimeId
     }
 
     /**
-     * @param DiaryId $diaryId
+     * @param FertilizerAlertTimeId $diaryId
      * @return bool
      */
     public function equals(FertilizerAlertTimeId $diaryId): bool

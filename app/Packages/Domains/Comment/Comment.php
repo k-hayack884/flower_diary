@@ -11,18 +11,23 @@ class Comment
     /**
      * @var CommentId
      * @var UserId
+     * @var string $userName
+     * @var string $userImage
      * @var CommentContent
      * @var Carbon
      */
     private CommentId $commentId;
     private UserId $userId;
     private string $userName;
+    private string $userImage;
     private CommentContent $commentContent;
     private Carbon $createDate;
 
     /**
      * @param CommentId $commentId
      * @param UserId $userId
+     * @param string $userName
+     * @param string $userImage
      * @param CommentContent $commentContent
      * @param Carbon|null $createDate
      */
@@ -70,12 +75,18 @@ class Comment
         return $this->userId;
     }
 
+    /**
+     * @return string
+     */
     public function getUserName():string
     {
         return $this->userName;
 
     }
 
+    /**
+     * @return string
+     */
     public function getUserImage():string
     {
         return $this->userImage;

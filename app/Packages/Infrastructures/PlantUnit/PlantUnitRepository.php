@@ -3,6 +3,7 @@
 namespace App\Packages\infrastructures\PlantUnit;
 
 use App\Exceptions\NotFoundException;
+use App\Models\CheckSeat;
 use App\Models\Diary;
 use App\Models\Plant;
 use App\Packages\Domains\CheckSeat\CheckSeatId;
@@ -18,7 +19,9 @@ use Carbon\Carbon;
 
 class PlantUnitRepository implements PlantUnitRepositoryInterface
 {
-    //あああ
+    /**
+     * @return array
+     */
     public function find(): array
     {
         $plantUnits = [];
@@ -44,6 +47,12 @@ class PlantUnitRepository implements PlantUnitRepositoryInterface
         }
         return $plantUnits;
     }
+
+    /**
+     * @param PlantUnitId $plantUnitId
+     * @return PlantUnit
+     * @throws NotFoundException
+     */
     public function findById(PlantUnitId $plantUnitId): PlantUnit
     {
         $diaryIds = [];
@@ -68,6 +77,11 @@ class PlantUnitRepository implements PlantUnitRepositoryInterface
             new Carbon($plantUnit->update_date),
         );
     }
+
+        /**
+         * @param UserId $userId
+         * @return array
+         */
 
     public function findByUserId(UserId $userId): array
     {
@@ -96,6 +110,10 @@ class PlantUnitRepository implements PlantUnitRepositoryInterface
 
     }
 
+    /**
+     * @param PlantUnitCollection $plantUnit
+     * @return void
+     */
     public function save(PlantUnitCollection $plantUnit): void
     {
         $collectionArray = $plantUnit->toArray();
@@ -112,7 +130,7 @@ class PlantUnitRepository implements PlantUnitRepositoryInterface
                 'update_date' => $plant->getUpdateDate()->format('Y/m/d'),
 
             ]);
-            \App\Models\CheckSeat::create([
+            CheckSeat::create([
                 'plant_unit_id' => $plant->getPlantUnitId()->getId(),
                 'check_seat_id' => $plant->getCheckSeatId()->getId(),
             ]);
@@ -121,11 +139,18 @@ class PlantUnitRepository implements PlantUnitRepositoryInterface
 
     }
 
+    /**
+     * @param PlantUnitId $plantUnitId
+     * @return void
+     * @throws NotFoundException
+     */
     public function delete(PlantUnitId $plantUnitId): void
     {
         $plantUnit = \App\Models\PlantUnit::where('plant_unit_id', $plantUnitId->getId())->first();
         if ($plantUnit === null) {
             throw new NotFoundException('指定した植物ユニットIDを見つけることができませんでした');
         }
-        $plantUnit->delete();    }
+        $plantUnit->delete();
+    }
+
 }

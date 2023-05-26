@@ -19,14 +19,15 @@ class CreateUserRequest extends \App\Http\Requests\BaseRequest
             'userImage' => [
                 'file_base64' => 'required_without:file|string'
             ]
-            //terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['accepted', 'required'] : '',
-
         ];
     }
 
-    public function getDiaryContent()
-    {
-        return $this->diary['diary.content'];
-    }
+//    /**
+//     * @return mixed
+//     */
+//    public function getDiaryContent(): mixed
+//    {
+//        return $this->diary['diary.content'];
+//    }
 
 }

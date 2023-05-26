@@ -23,7 +23,7 @@ class GetDiariesAction
      */
     public function __construct(DiaryRepositoryInterface $diaryRepository)
     {
-        $this->DiaryRepository = $diaryRepository;
+        $this->diaryRepository = $diaryRepository;
     }
 
     /**
@@ -35,8 +35,7 @@ class GetDiariesAction
     {
         Log::info(__METHOD__, ['開始']);
         $plantUnitId = new PlantUnitId($getDiaryRequest->getPlantUnitId());
-        $diaries = $this->DiaryRepository->findByPlantUnitId($plantUnitId);
-
+        $diaries = $this->diaryRepository->findByPlantUnitId($plantUnitId);
 
         $diaryCollection = new DiaryCollection($diaries);
 

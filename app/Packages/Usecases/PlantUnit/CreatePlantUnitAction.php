@@ -32,6 +32,7 @@ class CreatePlantUnitAction
 
     /**
      * @param PlantUnitRepositoryInterface $plantUnitRepository
+     * @param PlantRepository $plantRepository
      */
     public function __construct(PlantUnitRepositoryInterface $plantUnitRepository, PlantRepository $plantRepository)
     {
@@ -51,7 +52,6 @@ class CreatePlantUnitAction
 
         //画像の処理
         $imageFile = $createPlantUnitRequest->file('image');
-
 
         Log::info(__METHOD__, ['開始']);
         try {

@@ -19,6 +19,7 @@ class CreateCommentAction
 
     /**
      * @param CommentRepositoryInterface $commentRepository
+     * @param UserRepositoryInterface $userRepository
      */
     public function __construct(CommentRepositoryInterface $commentRepository,UserRepositoryInterface $userRepository)
     {

@@ -11,12 +11,18 @@ use App\Models\Plant;
 
 class PlantRepository implements PlantRepositoryInterface
 {
-
+    /**
+     * @return array
+     */
     public function find(): array
     {
         return Plant::all();
     }
 
+    /**
+     * @param PlantId $plantId
+     * @return PlantData
+     */
     public function findById(PlantId $plantId)
     {
         $plant = Plant::join('plant_images', 'plants.id', '=', 'plant_images.plant_id')
@@ -46,13 +52,20 @@ class PlantRepository implements PlantRepositoryInterface
         );
     }
 
-    public function findPlantNameById(PlantId $plantId)
+    /**
+     * @param PlantId $plantId
+     * @return mixed
+     */
+    public function findPlantNameById(PlantId $plantId): mixed
     {
         $hitPlantName = Plant::where('id', $plantId)->first('name');
         return $hitPlantName->name;
     }
 
-
+    /**
+     * @param string $name
+     * @return PlantData
+     */
     public function findByName(string $name): PlantData
     {
         $plant = Plant::join('plant_images', 'plants.id', '=', 'plant_images.plant_id')
@@ -82,6 +95,10 @@ class PlantRepository implements PlantRepositoryInterface
         );
     }
 
+    /**
+     * @param PlantImages $plantImages
+     * @return void
+     */
     public function addImage(PlantImages $plantImages): void
     {
         foreach ($plantImages->getPlantImages() as $image){
@@ -90,6 +107,10 @@ class PlantRepository implements PlantRepositoryInterface
                 'plant_images' => $image
             ]);
         }
+    }
+    public function allImage()
+    {
+        return PlantImage::all();
 
     }
 

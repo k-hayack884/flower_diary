@@ -6,25 +6,36 @@ use App\Packages\Domains\Water\MonthsWaterSetting;
 use App\Packages\Domains\Water\WaterAmount;
 use App\Packages\Domains\Water\WateringInterval;
 use App\Packages\Domains\Water\WateringTimes;
-use App\Packages\Domains\Water\WaterNote;
 use App\Packages\Domains\Water\WaterSettingCollection;
 use App\Packages\Domains\Water\WaterSettingId;
 use App\Packages\Domains\Water\WaterSettingRepositoryInterface;
 use App\Packages\infrastructures\Care\CareWaterRepository;
 use App\Packages\infrastructures\Shared\TransactionInterface;
-use App\Packages\Presentations\Requests\Water\CreateWaterSettingRequest;
 use App\Packages\Presentations\Requests\Water\UpdateWaterSettingRequest;
 use App\Packages\Usecases\Dto\Water\WaterSettingWrapDto;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
-use PHPUnit\Exception;
 
 class UpdateWaterSettingAction
 {
+    /**
+     * @var WaterSettingRepositoryInterface
+     */
     private WaterSettingRepositoryInterface $waterSettingRepository;
+    /**
+     * @var CareWaterRepository
+     */
     private CareWaterRepository $careRepository;
+    /**
+     * @var TransactionInterface
+     */
     private TransactionInterface $transaction;
 
+    /**
+     * @param WaterSettingRepositoryInterface $waterSettingRepository
+     * @param CareWaterRepository $careRepository
+     * @param TransactionInterface $transaction
+     */
     public function __construct(WaterSettingRepositoryInterface $waterSettingRepository, CareWaterRepository $careRepository, TransactionInterface $transaction)
     {
         $this->waterSettingRepository = $waterSettingRepository;
@@ -73,12 +84,10 @@ class UpdateWaterSettingAction
             $this->careRepository->save($waterSettingCollection);
 
             $this->transaction->commit();
-            Session::flash('successMessage', '編集に成功しました');
 
         } catch (\DomainException $e) {
             $this->transaction->rollback();
             Log::error(__METHOD__, ['エラー']);
-            Session::flash('failMessage', '編集に失敗しました');
 
             abort(400,$e);
         } finally {

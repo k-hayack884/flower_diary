@@ -17,7 +17,6 @@ use Illuminate\Support\Facades\Log;
 
 class GetCareFertilizerAction
 {
-
     private CareFertilizerRepository $careRepository;
 
     /**
@@ -26,12 +25,11 @@ class GetCareFertilizerAction
     public function __construct(CareFertilizerRepository $careRepository)
     {
         $this->careRepository = $careRepository;
-
     }
 
     /**
-     * @param GetCommentRequest $getCommentRequest
-     * @return CommentWrapDto
+     * @param GetCareFertilizerRequest $getCareRequest
+     * @return FertilizerCaresWrapDto
      */
     public function __invoke(
         GetCareFertilizerRequest $getCareRequest,
@@ -52,7 +50,6 @@ class GetCareFertilizerAction
             );
         }
         Log::info(__METHOD__, ['終了']);
-//        return $todayCare;
         return new FertilizerCaresWrapDto($careDtos);
     }
 }

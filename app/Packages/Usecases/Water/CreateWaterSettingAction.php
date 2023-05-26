@@ -14,9 +14,9 @@ use App\Packages\infrastructures\Care\CareWaterRepository;
 use App\Packages\infrastructures\Shared\TransactionInterface;
 use App\Packages\Presentations\Requests\Water\CreateWaterSettingRequest;
 use App\Packages\Usecases\Dto\Water\WaterSettingWrapDto;
+use Exception;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
-use PHPUnit\Exception;
 
 class CreateWaterSettingAction
 {
@@ -27,9 +27,10 @@ class CreateWaterSettingAction
     private CareWaterRepository $careRepository;
     private TransactionInterface $transaction;
 
-
     /**
      * @param WaterSettingRepositoryInterface $waterSettingRepository
+     * @param CareWaterRepository $careRepository
+     * @param TransactionInterface $transaction
      */
     public function __construct(WaterSettingRepositoryInterface $waterSettingRepository, CareWaterRepository $careRepository, TransactionInterface $transaction)
     {
@@ -75,12 +76,10 @@ class CreateWaterSettingAction
             $this->careRepository->save($waterSettingCollection);
 
             $this->transaction->commit();
-            Session::flash('successMessage', '登録に成功しました');
 
         } catch (\DomainException $e) {
             $this->transaction->rollback();
             Log::error(__METHOD__, ['エラー']);
-            Session::flash('failMessage', '登録に失敗しました');
 
             abort(400,$e);
         } finally {

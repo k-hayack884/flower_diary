@@ -5,7 +5,7 @@ namespace App\Packages\Domains\Water;
 
 use DomainException;
 
-readonly class WaterNote
+class WaterNote
 {
     public const RESET='';
     /**

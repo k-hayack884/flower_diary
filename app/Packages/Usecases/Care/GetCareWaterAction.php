@@ -26,8 +26,8 @@ class GetCareWaterAction
     }
 
     /**
-     * @param GetCommentRequest $getCommentRequest
-     * @return CommentWrapDto
+     * @param GetCareWaterRequest $getCareRequest
+     * @return WaterCaresWrapDto
      */
     public function __invoke(
         GetCareWaterRequest $getCareRequest,
@@ -48,7 +48,6 @@ class GetCareWaterAction
             );
         }
 
-//dd($todayCare);
         Log::info(__METHOD__, ['終了']);
         return new WaterCaresWrapDto($careDtos);
 

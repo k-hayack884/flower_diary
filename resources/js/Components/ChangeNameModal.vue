@@ -1,20 +1,22 @@
 ChangeNameModal.vue
-
-
 <template>
 
     <div class="relative flex justify-center items-center">
-        <LoadWait :show="isLoading" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50"></LoadWait>
+        <LoadWait :show="isLoading"
+                  class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50"></LoadWait>
         <div id="overlay" @click="closeModal()" v-show="isOpen" class="z-20 flex justify-center items-center">
-            <div class="bg-white w-5/6 py-24 px-16 lg:pl-10 lg:w-3/4 flex flex-col justify-center" contenteditable="true" @click.stop="" style="height: 400px; overflow: hidden;">
+            <div class="bg-white w-5/6 py-24 px-16 lg:pl-10 lg:w-3/4 flex flex-col justify-center"
+                 contenteditable="true" @click.stop="" style="height: 400px; overflow: hidden;">
                 <h1 class="mb-4 text-2xl font-medium text-gray-900">植物の名前を変更する</h1>
-                <p>種名:{{plantUnit.plantName}}</p>
+                <p>種名:{{ plantUnit.plantName }}</p>
                 <section class="text-gray-600 body-font flex-grow">
                     <div class="mb-4">
                         <label for="plant-nickname" class="text-gray-700 font-medium">植物のニックネーム</label>
-                        <input type="text" id="plant-nickname" placeholder="" class="input input-bordered w-full" v-model="plantUnit.plantNickName"/>
+                        <input type="text" id="plant-nickname" placeholder="" class="input input-bordered w-full"
+                               v-model="plantUnit.plantNickName"/>
                     </div>
-                    <button @click="update()" class="text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
+                    <button @click="update()"
+                            class="text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
                         変更する
                     </button>
                 </section>
@@ -22,7 +24,8 @@ ChangeNameModal.vue
             <p v-for="error in errors">{{ error }}</p>
         </span>
             </div>
-        </div></div>
+        </div>
+    </div>
 
 </template>
 
@@ -64,20 +67,20 @@ export default defineComponent({
             type: String,
             required: true,
         },
-        plantUnit:{
+        plantUnit: {
             default: () => ({
-                checkSeatId:'',
-
-                diaries:[],
-                plantId:'',
-                plantImage:'',
-                plantName:'',
-                plantNickName:'',
-                plantUnitId:'',
-                scientific:'',
-                createDate:'',
-                updateDate:'',
-            })}
+                checkSeatId: '',
+                diaries: [],
+                plantId: '',
+                plantImage: '',
+                plantName: '',
+                plantNickName: '',
+                plantUnitId: '',
+                scientific: '',
+                createDate: '',
+                updateDate: '',
+            })
+        }
     },
     data() {
         return {
@@ -88,19 +91,12 @@ export default defineComponent({
             selectedImage: null,
         };
     },
-    created()
-    {
+    created() {
         console.log(this.plantUnit)
     },
     watch: {
         openModal(newVal) {
             this.isOpen = newVal;
-
-            // if (!newVal) {
-            //     // isOpenプロパティがfalseになった時にdataオブジェクトを初期値に設定する
-            //     this.plantUnit = null;
-            //     this.currentPlantNickName = '';
-            // }
         },
     },
     methods: {
@@ -109,13 +105,11 @@ export default defineComponent({
             this.$emit("closeModal");
         },
         onImageSelected(imageData) {
-            // ImageMakerコンポーネントから渡された画像データを処理する
             this.selectedImage = imageData
             this.diary.image = imageData;
         },
         create() {
             this.isLoading = true
-            this.currentPlantNickName = this.plantUnit.plantNickName;
         },
         update() {
             this.isLoading = true
@@ -129,9 +123,6 @@ export default defineComponent({
                         'X-HTTP-Method-Override': 'PUT',
                     }
                 }).then(res => {
-
-                console.log('とうろくせいこう')
-
                 this.isLoading = false
                 this.closeModal();
 
@@ -140,32 +131,12 @@ export default defineComponent({
                     console.log(error.response.data.errors);
                     this.errors = error.response.data.errors;
                     this.isLoading = false
-
                 } else {
                     console.log(error);
                     this.isLoading = false
-
                 }
             });
         },
-        deleteDiary() {
-            this.isLoading = true
-            axios.post('/api/diary/' + this.diary.diaryId, {},
-                {
-                    headers: {
-                        'content-type': 'multipart/form-data',
-                        'X-HTTP-Method-Override': 'DELETE',
-                    }
-                }).then(res => {
-                window.location.href = 'http://localhost:51111/plantUnit/' + this.plantUnitId;
-                this.isLoading = false
-            }).catch(error => {
-                console.log(error);
-                this.isLoading = false
-
-            });
-        }
-
     }
 });
 </script>

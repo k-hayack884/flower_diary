@@ -36,7 +36,6 @@ Route::get('/', function () {
     ]);
 });
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    dd($request);
     return $request->user();
 });
 
@@ -56,6 +55,11 @@ Route::post(
 Route::get(
     'plant/{plantId}',
     [PlantController::class,'show']
+);
+
+Route::get(
+    'plant',
+    [PlantController::class,'index']
 );
 
 Route::post(

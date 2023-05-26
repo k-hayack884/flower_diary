@@ -12,18 +12,19 @@ use App\Packages\Presentations\Requests\Care\GetCareWaterRequest;
 use App\Packages\Presentations\Requests\Care\PushCareFertilizerRequest;
 use App\Packages\Presentations\Requests\Care\PushCareWaterRequest;
 use App\Packages\Usecases\Dto\Care\WaterCaresWrapDto;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 
 class PushCareFertilizerAction
 {
     /**
-     * @var CommentRepositoryInterface
+     * @var CareFertilizerRepository
      */
     private CareFertilizerRepository $careRepository;
 
     /**
-     * @param CareWaterRepository $careRepository
+     * @param CareFertilizerRepository $careRepository
      */
     public function __construct(CareFertilizerRepository $careRepository,)
     {
@@ -33,11 +34,11 @@ class PushCareFertilizerAction
 
     /**
      * @param PushCareFertilizerRequest $getCareRequest
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function __invoke(
         PushCareFertilizerRequest $getCareRequest,
-    )
+    ): JsonResponse
     {
         Log::info(__METHOD__, ['開始']);
         $alertTimeId = $getCareRequest->getAlertTimeId();

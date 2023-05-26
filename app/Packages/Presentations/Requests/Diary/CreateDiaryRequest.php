@@ -41,6 +41,10 @@ class CreateDiaryRequest extends BaseRequest
     {
         return $this->input('diaryContent');
     }
+
+    /**
+     * @return string|null
+     */
     public function getPlantImage():string|null
     {
         return $this->input('plantImage');

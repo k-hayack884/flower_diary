@@ -28,7 +28,9 @@ class FertilizerCare
         $this->alertMonth = $alertMonth;
     }
 
-
+    /**
+     * @return FertilizerAlertTimeId
+     */
     public function getAlertTimeId(): FertilizerAlertTimeId
     {
         return $this->alertTimeId;

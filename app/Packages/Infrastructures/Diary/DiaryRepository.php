@@ -16,7 +16,9 @@ use Carbon\Carbon;
 
 class DiaryRepository implements DiaryRepositoryInterface
 {
-
+    /**
+     * @return array
+     */
     public function find(): array
     {
         $diaries = [];
@@ -38,6 +40,10 @@ class DiaryRepository implements DiaryRepositoryInterface
         return $diaries;
     }
 
+    /**
+     * @param PlantUnitId $plantUnitId
+     * @return array
+     */
     public function findByPlantUnitId(PlantUnitId $plantUnitId): array
     {
         $diaries = [];
@@ -61,6 +67,11 @@ class DiaryRepository implements DiaryRepositoryInterface
         return $diaries;
     }
 
+    /**
+     * @param DiaryId $diaryId
+     * @return Diary
+     * @throws NotFoundException
+     */
     public function findById(DiaryId $diaryId): Diary
     {
         $commentIds = [];
@@ -85,10 +96,14 @@ class DiaryRepository implements DiaryRepositoryInterface
         );
     }
 
+    /**
+     * @param DiaryCollection $diary
+     * @param string $plantUnitId
+     * @return void
+     */
     public function save(DiaryCollection $diary, string $plantUnitId): void
     {
         $collectionArray = $diary->toArray();
-
 
         foreach ($collectionArray as $diary) {
             \App\Models\Diary::updateOrCreate(['diary_id' => $diary->getDiaryId()->getId()],
@@ -98,10 +113,18 @@ class DiaryRepository implements DiaryRepositoryInterface
                     'diary_content' => $diary->getDiaryContent()->getvalue(),
                     'create_date' => $diary->getCreateDate()->format('Y/m/d'),
                     'image' =>$diary->getDiaryImage()->getvalue()
-                ]);
+                ])->join('plant_units as are', 'diaries.diary_id', '=', 'diaries.diary_id')
+                ->where('are.plant_unit_id', $plantUnitId)
+                ->update(['are.create_date' => $diary->getCreateDate()->format('Y/m/d')]);
         }
+
     }
 
+    /**
+     * @param DiaryId $diaryId
+     * @return void
+     * @throws NotFoundException
+     */
     public function delete(DiaryId $diaryId): void
     {
         $diary = \App\Models\Diary::where('diary_id', $diaryId->getId())->first();

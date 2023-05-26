@@ -2,9 +2,7 @@
 
 namespace App\Packages\Domains\PlantUnit;
 
-use App\Packages\Domains\CheckSeat\CheckSeat;
 use App\Packages\Domains\CheckSeat\CheckSeatId;
-use App\Packages\Domains\Diary\DiaryCollection;
 use App\Packages\Domains\Diary\DiaryId;
 use App\Packages\Domains\Plant\PlantId;
 use App\Packages\Domains\User\UserId;
@@ -38,6 +36,7 @@ class PlantUnit
      * @param UserId $userId
      * @param CheckSeatId $checkSeatId
      * @param PlantName $plantName
+     * @param PlantUnitImage $plantUnitImage
      * @param array $diaries
      * @param Carbon|null $createDate
      * @param Carbon|null $updateDate

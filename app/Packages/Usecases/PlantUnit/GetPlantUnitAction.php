@@ -20,9 +20,11 @@ class GetPlantUnitAction
      * @var PlantUnitRepositoryInterface
      */
     private PlantUnitRepositoryInterface $plantUnitRepository;
+    private DiaryRepositoryInterface $diaryRepository;
 
     /**
      * @param PlantUnitRepositoryInterface $plantUnitRepository
+     * @param DiaryRepositoryInterface $diaryRepository
      */
     public function __construct(PlantUnitRepositoryInterface $plantUnitRepository,DiaryRepositoryInterface $diaryRepository)
     {
