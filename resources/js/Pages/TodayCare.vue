@@ -122,7 +122,7 @@
                                 </div>
                                 <div class="h-16">
                                     <p class="text-sm">施肥量</p>
-                                    <p class="text-xl　font-bold">{{ fertilizerCareData.fertilizerAmount }}</p>
+                                    <p class="text-xl　font-bold">{{ fertilizerCareData.fertilizerAmount }}g</p>
                                 </div>
                                 <div class="h-16">
                                     <p class="text-sm">備考</p>

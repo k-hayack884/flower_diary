@@ -47,6 +47,7 @@ class DeleteDiaryAction
     {
         Log::info(__METHOD__, ['開始']);
         $diaryId = new DiaryId($deleteDiaryRequest->getId());
+        $plantUnitId=$deleteDiaryRequest->getPlantUnitId();
 
         try {
             $this->transaction->begin();
@@ -55,7 +56,7 @@ class DeleteDiaryAction
             foreach ($diary->getComments() as $commentId){
                 $this->commentRepository->delete(new CommentId($commentId));
             }
-            $this->diaryRepository->delete($diary->getDiaryId());
+            $this->diaryRepository->delete($diary->getDiaryId(),$plantUnitId);
             $this->transaction->commit();
             Session::flash('successMessage', '削除に成功しました');
         } catch (\DomainException $e) {

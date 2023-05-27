@@ -14,7 +14,8 @@ UpdatePlantUnitNameRequest extends BaseRequest
     {
         return [
             'plantName' => [
-                'nullable'
+                'nullable',
+                'max:20'
             ],
             'plantId' => [
                 'required'

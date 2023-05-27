@@ -289,6 +289,7 @@ export default defineComponent({
                         }
                     }).then(res => {
                     this.isLoading = false
+                    this.$emit('deleteWaterSetting',this.waterSetting.waterSettingId)
                     this.$emit('successMessage','水やり設定を削除しました')
                     this.closeModal()
                 }).catch(error => {

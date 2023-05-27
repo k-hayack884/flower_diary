@@ -104,7 +104,7 @@ class DiaryRepository implements DiaryRepositoryInterface
     public function save(DiaryCollection $diary, string $plantUnitId): void
     {
         $collectionArray = $diary->toArray();
-
+        $updateDate=Carbon::now();
         foreach ($collectionArray as $diary) {
             \App\Models\Diary::updateOrCreate(['diary_id' => $diary->getDiaryId()->getId()],
                 [
@@ -115,9 +115,8 @@ class DiaryRepository implements DiaryRepositoryInterface
                     'image' =>$diary->getDiaryImage()->getvalue()
                 ])->join('plant_units as are', 'diaries.diary_id', '=', 'diaries.diary_id')
                 ->where('are.plant_unit_id', $plantUnitId)
-                ->update(['are.create_date' => $diary->getCreateDate()->format('Y/m/d')]);
+                ->update(['are.diary_update_date' => $updateDate->format('Y/m/d')]);
         }
-
     }
 
     /**
@@ -125,13 +124,16 @@ class DiaryRepository implements DiaryRepositoryInterface
      * @return void
      * @throws NotFoundException
      */
-    public function delete(DiaryId $diaryId): void
+    public function delete(DiaryId $diaryId,string $plantUnitId): void
     {
+        $updateDate=Carbon::now();
         $diary = \App\Models\Diary::where('diary_id', $diaryId->getId())->first();
-
         if ($diary === null) {
             throw new NotFoundException('指定した日記IDを見つけることができませんでした');
         }
         $diary->delete();
+        $plantUnit=\App\Models\PlantUnit::where('plant_unit_id', $plantUnitId)->first();
+        $plantUnit->diary_update_date=$updateDate;
+        $plantUnit->save();
     }
 }

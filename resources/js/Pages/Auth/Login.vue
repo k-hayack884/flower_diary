@@ -85,7 +85,8 @@ const submit = () => {
                     まだアカウントを持っていませんか？
                 </Link>
                 </div>
-                <PrimaryButton class="btn btn-outline-success bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded px-12 my-4 button-width ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing"
+                <PrimaryButton class="btn btn-outline-success bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded px-12 my-4 button-width ml
+                -4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing"
                 >
                     ログイン
                 </PrimaryButton>

@@ -12,5 +12,5 @@ interface DiaryRepositoryInterface
 
     public function save(DiaryCollection $diary,string $plantUnitId):void;
 
-    public function delete(DiaryId $diaryId):void;
+    public function delete(DiaryId $diaryId,string $plantUnitId):void;
 }

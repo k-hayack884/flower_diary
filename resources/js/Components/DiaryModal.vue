@@ -49,7 +49,7 @@ DairyModal.vue
                                                 class="btn btn-outline-success bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded px-10 button-width mt-8"
                                                 :class="{ 'opacity-25': isLoading }"
                                                 :disabled="isLoading">
-                                            編集する
+                                            更新する
                                         </button>
                                         <button @click="deleteDiary()"
                                                 class="flex mx-auto mt-16 btn btn-outline-success bg-gradient-to-br from-red-300 to-red-800 hover:bg-gradient-to-tl text-white rounded px-10 button-width mt-8"
@@ -176,6 +176,7 @@ export default defineComponent({
                     plantUnitId: this.plantUnitId,
                     diaryContent: this.diary.diaryContent,
                     plantImage: diaryImage,
+                    createDate: this.diary.createDate,
                 },
                 {
                     headers: {
@@ -198,7 +199,9 @@ export default defineComponent({
         deleteDiary() {
             if (confirm('本当に削除しますか？')) {
                 this.isLoading = true
-                axios.post('/api/diary/' + this.diary.diaryId, {},
+                axios.post('/api/diary/' + this.diary.diaryId, {
+                        plantUnitId: this.plantUnitId,
+                    },
                     {
                         headers: {
                             'content-type': 'multipart/form-data',

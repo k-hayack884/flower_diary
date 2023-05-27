@@ -11,7 +11,11 @@ class DeleteDiaryRequest extends BaseRequest
      */
     public function rules():array
     {
-        return [];
+        return [
+            'plantUnitId'=>[
+                'required'
+            ],
+        ];
     }
 
     /**
@@ -20,5 +24,9 @@ class DeleteDiaryRequest extends BaseRequest
     public function getId():string
     {
         return $this->input('diaryId');
+    }
+    public function getPlantUnitId():string
+    {
+        return $this->input('plantUnitId');
     }
 }

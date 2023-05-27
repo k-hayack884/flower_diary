@@ -8,6 +8,9 @@ ChangeNameModal.vue
             <div class="bg-white w-5/6 py-24 px-16 lg:pl-10 lg:w-3/4 flex flex-col justify-center"
                  contenteditable="true" @click.stop="" style="height: 400px; overflow: hidden;">
                 <h1 class="mb-4 text-2xl font-medium text-gray-900">植物の名前を変更する</h1>
+                <span v-show="errors" class="text-red-500">
+            <p v-for="error in errors">{{ error }}</p>
+        </span>
                 <p>種名:{{ plantUnit.plantName }}</p>
                 <section class="text-gray-600 body-font flex-grow">
                     <div class="mb-4">
@@ -16,13 +19,13 @@ ChangeNameModal.vue
                                v-model="plantUnit.plantNickName"/>
                     </div>
                     <button @click="update()"
-                            class="text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
+                            class="text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg"
+                            :class="{ 'opacity-25': isLoading }"
+                            :disabled="isLoading">
                         変更する
                     </button>
                 </section>
-                <span v-show="errors" class="text-red-500">
-            <p v-for="error in errors">{{ error }}</p>
-        </span>
+
             </div>
         </div>
     </div>
@@ -124,6 +127,7 @@ export default defineComponent({
                     }
                 }).then(res => {
                 this.isLoading = false
+                this.$emit('successMessage', 'ニックネームをを変更しました')
                 this.closeModal();
 
             }).catch(error => {

@@ -29,7 +29,6 @@ class PushCareFertilizerAction
     public function __construct(CareFertilizerRepository $careRepository,)
     {
         $this->careRepository = $careRepository;
-
     }
 
     /**
@@ -42,7 +41,7 @@ class PushCareFertilizerAction
     {
         Log::info(__METHOD__, ['開始']);
         $alertTimeId = $getCareRequest->getAlertTimeId();
-$this->careRepository->push($alertTimeId);
+        $this->careRepository->push($alertTimeId);
 
         Log::info(__METHOD__, ['終了']);
         return response()->json([

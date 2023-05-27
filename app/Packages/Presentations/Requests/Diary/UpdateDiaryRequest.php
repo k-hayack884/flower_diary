@@ -24,7 +24,11 @@ class UpdateDiaryRequest extends BaseRequest
             'plantImage' => [
                 'nullable',
                 new FileBase64(),
-                ]
+                ],
+            'createDate' => [
+                'string',
+            ]
+
         ];
     }
 
@@ -58,6 +62,15 @@ class UpdateDiaryRequest extends BaseRequest
     {
         return $this->input('plantImage');
     }
+
+    /**
+     * @return string
+     */
+    public function getCreateDate():string
+    {
+        return $this->input('createDate');
+    }
+
 
 
 }
