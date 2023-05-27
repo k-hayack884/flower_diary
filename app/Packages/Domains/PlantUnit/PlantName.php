@@ -21,7 +21,7 @@ class PlantName
             $this->name='';
         }
         if (mb_strlen($name) > 10) {
-            throw new DomainException('名前は２０字以下に設定してください');
+            throw new DomainException('ニックネームは２０字以下に設定してください');
         }
         $this->name = $name;
     }

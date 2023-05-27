@@ -43,7 +43,7 @@ class UpdateDiaryAction
         $diaryId = $updateDiaryRequest->getId();
         $plantUnitId=$updateDiaryRequest->getPlantUnitId();
         $plantImageData = $updateDiaryRequest->getPlantImage();
-        $updateDate=Carbon::now();
+        $createDate=Carbon::create($updateDiaryRequest->getCreateDate());
         if($plantImageData!==null){
             $plantImageFileName = Base64Service::base64FileDecode($plantImageData, 'diaryImage');
         }else{
@@ -58,7 +58,7 @@ class UpdateDiaryAction
                 $updateContent,
                 $plantImage,
                 $diary->getComments(),
-                $updateDate,
+                $createDate,
             );
             $diaryCollection = new DiaryCollection();
             $diaryCollection->addDiary($updateDiary);
@@ -68,7 +68,6 @@ class UpdateDiaryAction
         } catch (\DomainException $e) {
             Session::flash('failMessage', '編集に失敗しました');
             abort(400,$e);
-            Log::error(__METHOD__, ['開始']);
         } finally {
             Log::info(__METHOD__, ['終了']);
         }

@@ -46,7 +46,7 @@ final class DiaryCollection
     }
 
     /**
-     * @return Diary
+     * @return Carbon
      */
 
     public function getFirstDate():Carbon

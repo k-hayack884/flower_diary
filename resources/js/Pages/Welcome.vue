@@ -35,6 +35,12 @@ defineProps({
                     </p>
                 </div>
 
+
+
+                <div class="flex justify-center items-center">
+                    <video id="webcam" width="200" height="300" muted autoplay playsinline></video>
+                </div>
+                <br>
                 <div class="col-sm-6 mx-auto" id="judge">
                     <div class="input-group-append">
                         <button @click="startCamera"
@@ -44,10 +50,6 @@ defineProps({
                             {{ recogButton }}
                         </button>
                     </div>
-                </div>
-                <br>
-                <div class="flex justify-center items-center">
-                    <video id="webcam" width="200" height="300" muted autoplay playsinline></video>
                 </div>
                 <div>
                     <p id="error" v-show="error">{{ error }}</p>
@@ -70,26 +72,25 @@ defineProps({
                             <div class="flex flex-col">
                                 <button
                                     class="btn btn-success bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded px-10 my-4 button-width">
-                                    <Link :href="route('login')" class="text-sm text-white-700 dark:text-gray-500">Log
-                                        in
+                                    <Link :href="route('login')" class="text-sm text-white-700 dark:text-gray-500">ログイン
                                     </Link>
                                 </button>
                                 <button
                                     class="btn btn-success bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded px-10 my-4 button-width">
                                     <Link v-if="canRegister" :href="route('register')"
                                           class="
-                                  ml-4 text-sm text-white-700 dark:text-white-500">Register
+                                  ml-4 text-sm text-white-700 dark:text-white-500">新規登録
                                     </Link>
                                 </button>
                             </div>
                         </template>
                     </div>
-                    <div v-if="getPlant">
+                    <div v-if="getPlant " class="w-full lg:w-2/3 text-center mx-auto">
+                        <p class="text-3xl pb-4">名前：{{ plantName }}</p>
+                        <p class="text-3xl pb-4">学名：{{ scientific }}</p>
+                        <p class=" pb-4">解説：{{ information }}</p>
 
-                        名前：{{ plantName }} 学名：{{ scientific }}
-                        <p>解説：{{ information }}
-                        </p>
-                        {{ plantName }}の画像
+                       <p class="text-3xl pb-4"> {{ plantName }}の画像</p>
                         <div class="flex mx-auto carousel rounded-box" style="width: 300px; height: 300px ;">
                             <div class="carousel-item">
                                 <div v-for="image in plantImages">
@@ -101,7 +102,7 @@ defineProps({
                         </div>
                     </div>
                     <div v-if="getPlant">
-                        <div class="text-white py-4">
+                        <div class="text-white py-8">
                             <div class="container mx-auto flex justify-center items-center">
                                 <button
                                     @click="registerPlant($page.props.user)"
@@ -111,7 +112,7 @@ defineProps({
                                     :disabled="isRecognizing">
                                     {{ registerButton }}
                                 </button>
-                                <RegisterModal :open-modal="isModalOpen"/>
+                                <RegisterModal :open-modal="isModalOpen" @closeModal="closeModal"/>
                             </div>
                         </div>
                     </div>
@@ -192,9 +193,9 @@ export default {
             }
             this.isRecognizing = true;
             this.recogButton = '撮影準備中…';
-            const stream = await navigator.mediaDevices.getUserMedia({
+            this.stream = await navigator.mediaDevices.getUserMedia({
                 audio: false,
-                video: {width: 200, height: 300, facingMode: 'environment'},
+                video: { width: 200, height: 300, facingMode: 'environment' },
                 // フロントカメラ優先 { facingMode: "user" }
                 // リアカメラ優先 { facingMode: "environment" }
             });
@@ -203,15 +204,36 @@ export default {
             const video = document.getElementById('webcam');
 
             // videoにカメラ映像ストリームをセット
-            video.srcObject = stream;
+            video.srcObject = this.stream;
 
             // Googleのサーバーにアップロードした自作モデルを読み込みにいきます
             this.myPlant.imageModelURL = 'https://teachablemachine.withgoogle.com/models/9P6f9Msvu/';
-            console.log('imageModelURL:', this.myPlant.imageModelURL)
             const classifier = ml5.imageClassifier(this.myPlant.imageModelURL + 'model.json', video, () => {
                 // 読み込みが完了次第ここが実行されます
                 console.log('モデルの読み込みが完了しました');
                 this.myPlant.shift();
+
+// videoにカメラ映像ストリームをセット
+                video.srcObject = this.stream;
+
+// カメラ映像が再生される際にキャプチャと代入を行う
+                // カメラ映像が再生される際にキャプチャと代入を行う
+                video.addEventListener('play', () => {
+                    // キャプチャした画像を描画するためのcanvas要素を作成
+                    const canvas = document.createElement('canvas');
+                    canvas.width = video.videoWidth;
+                    canvas.height = video.videoHeight;
+                    const context = canvas.getContext('2d');
+
+                    const captureFrame = () => {
+                        context.drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
+                        const imageData = canvas.toDataURL('image/jpeg'); // キャプチャした画像をデータURL形式で取得
+                        this.selectedImage = imageData; // selectedImageに代入
+                        setTimeout(captureFrame, 1000); // 1秒後に再度キャプチャを行う
+                    };
+
+                    setTimeout(captureFrame, (video.duration - 1) * 1000); // 終了1秒前に最初のキャプチャを行う
+                });
                 this.scanCamera(classifier);
                 console.log('loop処理1回目');
             });
@@ -241,7 +263,6 @@ export default {
                 this.myPlant.shift();
                 // this.loop(classifier);
                 this.scanImage(classifier)
-
             });
 
         },
@@ -284,8 +305,12 @@ export default {
                     console.log(error);
                 }).finally(
                     () => {
+
                         this.isRecognizing = false;
                         this.recogButton = '撮影完了'
+                        this.stream.getTracks().forEach((track) => {
+                            track.stop();
+                        });
                     });
             })
         },
@@ -301,12 +326,13 @@ export default {
             if (this.isRecognizing) {
                 return; // 認識中は何もしない
             }
+            console.log(user)
             this.isRecognizing = true;
             this.isLoading = true
 
             axios.post('http://localhost:51111/api/plantUnit', {
                 plantId: this.plantId,
-                userId: user.userId,
+                userId: user.user_id,
                 plantImage: this.selectedImage,
             }).then(res => {
                 this.plant = res.data;

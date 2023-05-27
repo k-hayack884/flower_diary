@@ -237,6 +237,7 @@ export default {
                         }
                     }).then(res => {
                     this.isLoading = false
+                    this.$emit('deleteFertilizerSetting',this.fertilizerSetting.fertilizerSettingId)
                     this.$emit('successMessage','肥料設定を削除しました')
                     this.closeModal()
                 }).catch(error => {

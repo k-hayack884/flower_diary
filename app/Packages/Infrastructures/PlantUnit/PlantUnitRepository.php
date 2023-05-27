@@ -74,7 +74,7 @@ class PlantUnitRepository implements PlantUnitRepositoryInterface
             new PlantUnitImage($plantUnit->plant_image),
             $diaryIds,
             new Carbon($plantUnit->create_date),
-            new Carbon($plantUnit->update_date),
+            new Carbon($plantUnit->diary_update_date),
         );
     }
 
@@ -102,7 +102,7 @@ class PlantUnitRepository implements PlantUnitRepositoryInterface
                 new PlantUnitImage($plantUnit->plant_image),
                 $diaryIds,
                 new Carbon($plantUnit->create_date),
-                new Carbon($plantUnit->update_date),
+                new Carbon($plantUnit->diary_update_date),
             );
 
         }
@@ -127,17 +127,23 @@ class PlantUnitRepository implements PlantUnitRepositoryInterface
                 'plant_name' => $plant->getPlantName()->getValue(),
                 'plant_image'=>$plant->getPlantImage()->getValue(),
                 'create_date' => $plant->getCreateDate()->format('Y/m/d'),
-                'update_date' => $plant->getUpdateDate()->format('Y/m/d'),
+            ]);
 
-            ]);
-            CheckSeat::create([
-                'plant_unit_id' => $plant->getPlantUnitId()->getId(),
-                'check_seat_id' => $plant->getCheckSeatId()->getId(),
-            ]);
+            // check_seat_idでレコードを検索
+            $existingCheckSeatId = CheckSeat::where('check_seat_id', $plant->getCheckSeatId()->getId())->first();
+
+            if (!$existingCheckSeatId) {
+                CheckSeat::create([
+                    'plant_unit_id' => $plant->getPlantUnitId()->getId(),
+                    'check_seat_id' => $plant->getCheckSeatId()->getId(),
+                ]);
+            }
+
 
         }
 
     }
+
 
     /**
      * @param PlantUnitId $plantUnitId

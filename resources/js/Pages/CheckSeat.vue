@@ -78,10 +78,12 @@ import {reactive} from "vue";
                 <WaterSettingModal :open-modal="isWaterModalOpen" @closeModal="closeWaterModal"
                                    v-if="waterSettings[arrayIndex]"
                                    @success-message="handleSuccessMessage"
+                                   @delete-water-setting="deleteWaterSetting"
                                    :waterSetting="waterSettings[arrayIndex]"/>
 
                 <WaterSettingModal :open-modal="isWaterModalOpen" @closeModal="closeWaterModal"
                                    @add-water-setting="addWaterSetting"
+                                   @delete-water-setting="deleteWaterSetting"
                                    @success-message="handleSuccessMessage"
                                    v-else
                                    :waterSetting="reactive({
@@ -150,9 +152,11 @@ import {reactive} from "vue";
                 <FertilizerSettingModal :open-modal="isFertilizerModalOpen" @closeModal="closeFertilizerModal"
                                         v-if="arrayIndex !== null"
                                         @success-message="handleSuccessMessage"
+                                        @delete-fertilizer-setting="deleteFertilizerSetting"
                                         :fertilizerSetting="fertilizerSettings[arrayIndex]"/>
                 <FertilizerSettingModal :open-modal="isFertilizerModalOpen" @closeModal="closeFertilizerModal"
                                         @add-fertilizer-setting="addFertilizerSetting"
+                                        @delete-fertilizer-setting="deleteFertilizerSetting"
                                         @success-message="handleSuccessMessage"
                                         v-else
                                         :fertilizerSetting="reactive({
@@ -274,6 +278,15 @@ export default {
                 isCreate: false,
             });
         },
+        deleteWaterSetting(settingId) {
+            for (let i = 0; i < this.waterSettings.length; i++) {
+                if (this.waterSettings[i].waterSettingId === settingId) {
+                    this.waterSettings.splice(i, 1);
+                    break;
+                }
+            }
+
+        },
         addFertilizerSetting(setting) {
             const {
                 checkSeatId,
@@ -293,6 +306,16 @@ export default {
                 isCreate: false,
             });
         },
+        deleteFertilizerSetting(settingId) {
+            for (let i = 0; i < this.fertilizerSettings.length; i++) {
+                if (this.fertilizerSettings[i].fertilizerSettingId === settingId) {
+                    this.fertilizerSettings.splice(i, 1);
+                    break;
+                }
+            }
+
+        },
+
         handleSuccessMessage(message) {
             this.successMessage = message
             console.log(message)

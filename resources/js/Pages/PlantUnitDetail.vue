@@ -39,7 +39,7 @@
                                     <div class="card-body px-8 pb-0 flex-1">
                                         <p>{{ diary.diaryContent }}</p>
                                         <div class="flex mb-4 h-12 items-end">
-                                            <div class="flex-1 inline-block">日記更新日: {{ diary.createDate }}</div>
+                                            <div class="flex-1 inline-block">日記作成日: {{ diary.createDate }}</div>
                                             <button
                                                 class="btn btn-outline-success bg-gradient-to-br from-green-300 to-green-800 hover:bg-gradient-to-tl text-white rounded px-10 button-width"
 
@@ -287,10 +287,12 @@ export default {
                         this.diariesData = [];
                         this.fetchDiaryData();
                         resolve(); // Promise の解決
+                        this.isLoading = false
                     })
                     .catch((error) => {
                         console.log(error);
                         reject(error); // Promise の拒否
+
                     });
             });
         },
@@ -307,7 +309,7 @@ export default {
             console.log(diaryData);
             Vue.set(this.diariesData, diaryData);
             this.diaries = diaryData;
-            this.isLoading = false
+
         },
         commentToggle(diaryId, index) {
             this.diaries[index].showComment = !this.diaries[index].showComment;

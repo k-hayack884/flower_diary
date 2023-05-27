@@ -2,7 +2,7 @@
     <AppLayout title="plantUnit">
         <LoadWait :show="isLoading"
                   class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50"></LoadWait>
-        <h1 class="text-5xl text-center pt-4">My　プラント</h1>
+        <h1 class="text-5xl text-center py-4">My　プラント</h1>
         <div class="flex justify-center">
             <div class="flex flex-col w-5/6 lg:w-3/4">
                 <div v-if="isLoading">
@@ -21,7 +21,7 @@
                                 </div>
                                 <p>種名：{{ plantUnit.plantName }}</p>
                                 <p>学名：{{ plantUnit.scientific }}</p>
-                                <p>日記更新日: {{ plantUnit.createDate }}</p>
+                                <p>日記更新日: {{ plantUnit.updateDate }}</p>
                                 <div class="card-actions justify-end ">
                                     <div class="flex flex-col">
                                         <a :href="route('plantUnitDetail', { plantUnitId: plantUnit.plantUnitId })"
@@ -39,9 +39,25 @@
             </div>
         </div>
 
-    <ChangeNameModal :open-modal="isChangeNameModalOpen" @closeModal="closeChangeNameModal"
-                     :plantUnit="plantUnits[arrayIndex]"/>
-    <NaviFooter/>
+        <ChangeNameModal :open-modal="isChangeNameModalOpen" @closeModal="closeChangeNameModal"
+                         :plantUnit="plantUnits[arrayIndex]"
+                         @success-message="handleSuccessMessage"/>
+        <div v-if="successMessage" id="successMessage"
+             class="fixed bottom-24 left-1/2 transform -translate-x-1/2 z-9999">
+            <div class="bg-white">
+                <div class="w-96 rounded-lg overflow-hidden shadow-md py-5 flex">
+                    <div class="flex-grow-1 my-auto">
+                        <p class="text-center ml-12">{{ successMessage }}</p>
+                    </div>
+                    <div class="flex items-center ml-auto">
+                        <div class="flex flex-col justify-between p-4">
+                            <span class="flower-loader h-150"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <NaviFooter/>
     </AppLayout>
 </template>
 
@@ -74,10 +90,9 @@ export default {
                 diaries: [],
                 createDate: '',
                 updateDate: '',
-                plantData: {
-                    scientific: '',
-                }
+
             }],
+            successMessage: null,
             isChangeNameModalOpen: false,
             isLoading: false,
             arrayIndex: null,
@@ -142,6 +157,20 @@ export default {
         },
         closeChangeNameModal() {
             this.isChangeNameModalOpen = false;
+        },
+        handleSuccessMessage(message) {
+            this.successMessage = message
+            console.log(message)
+            console.log(this.successMessage)
+        },
+    },
+    watch: {
+        successMessage(value) {
+            if (value) {
+                setTimeout(() => {
+                    this.successMessage = null;
+                }, 5000);
+            }
         }
     },
 
