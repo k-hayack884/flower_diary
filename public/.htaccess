@@ -20,4 +20,5 @@
     RewriteRule ^ index.php [L]
     DirectoryIndex index.php
     Options +FollowSymLinks -Indexes
+
 </IfModule>
