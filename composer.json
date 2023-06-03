@@ -43,7 +43,7 @@
             " ./vendor/bin/phpstan analyse flower_diary/app/Packages/Domains/Care "
         ],
         "post-autoload-dump": [
-            "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
+            "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump"
 
         ],
         "post-update-cmd": [
