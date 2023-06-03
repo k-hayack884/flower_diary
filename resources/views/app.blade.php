@@ -69,8 +69,6 @@
         }, 8000); // 8秒後にメッセージを非表示にする
     </script>
 @endif
-<div id="app">
-    @inertia
-</div>
+@inertia
 </body>
 </html>
