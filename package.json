@@ -1,10 +1,8 @@
 {
-    "private": false,
+    "private": true,
     "scripts": {
         "build": "vite build",
-        "watch": "cross-env NODE_ENV=development webpack --watch --progress --hide-modules",
-        "hot": "cross-env NODE_ENV=development webpack-dev-server --inline --hot",
-        "production": "cross-env NODE_ENV=production vite build",
+        "production": "cross-env NODE_ENV=production npm run build",
         "prod": "npm run production",
         "heroku-postbuild": "npm run prod"
     },
