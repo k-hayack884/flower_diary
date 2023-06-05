@@ -26,6 +26,7 @@ use App\Packages\infrastructures\Water\MockWaterRepository;
 
 use App\Packages\infrastructures\Water\WaterSettingRepository;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
 
@@ -87,6 +88,9 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Schema::defaultStringLength(150);
+        if ($this->app->environment() == 'production') {
+            URL::forceScheme('https');
+        }
     }
 }
 
