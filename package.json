@@ -5,9 +5,9 @@
         "build": "vite build",
         "watch": "cross-env NODE_ENV=development webpack --watch --progress --hide-modules",
         "hot": "cross-env NODE_ENV=development webpack-dev-server --inline --hot",
-        "production": "cross-env NODE_ENV=production webpack --progress --hide-modules",
-        "heroku-postbuild": "npm run prod",
-        "prod": "npm run production"
+        "prod": "npm run production",
+        "production": "mix --production",
+        "postinstall": "npm rum prod"
     },
     "devDependencies": {
         "@inertiajs/inertia": "^0.11.0",
