@@ -9,7 +9,7 @@ export default defineConfig({
             host: 'https://flower-diary.herokuapp.com/',
         },
         watch: {
-            usePolling: true,
+            usePolling: false,
         },
     },
     plugins: [
