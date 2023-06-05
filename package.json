@@ -1,5 +1,5 @@
 {
-    "private": true,
+    "private": false,
     "scripts": {
         "build": "vite build",
         "watch": "cross-env NODE_ENV=development webpack --watch --progress --hide-modules",
