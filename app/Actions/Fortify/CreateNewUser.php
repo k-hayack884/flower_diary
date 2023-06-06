@@ -5,7 +5,7 @@ namespace App\Actions\Fortify;
 use App\Models\User;
 use App\Packages\Domains\User\UserId;
 use App\Packages\Domains\User\UserPassWord;
-use App\Packages\infrastructures\User\UserRepository;
+use App\Packages\Infrastructures\User\UserRepository;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
