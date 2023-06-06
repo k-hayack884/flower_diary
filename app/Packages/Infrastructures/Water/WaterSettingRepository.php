@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Packages\infrastructures\Water;
+namespace App\Packages\Infrastructures\Water;
 
 use App\Exceptions\NotFoundException;
 use App\Models\WaterSetting;

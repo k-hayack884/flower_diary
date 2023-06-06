@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Packages\infrastructures\PlantUnit;
+namespace App\Packages\Infrastructures\PlantUnit;
 
 use App\Exceptions\NotFoundException;
 use App\Models\CheckSeat;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Packages\infrastructures\CheckSeat;
+namespace App\Packages\Infrastructures\CheckSeat;
 
 use App\Exceptions\NotFoundException;
 use App\Models\FertilizerSetting;

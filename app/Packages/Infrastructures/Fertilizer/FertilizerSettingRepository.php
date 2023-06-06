@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Packages\infrastructures\Fertilizer;
+namespace App\Packages\Infrastructures\Fertilizer;
 
 use App\Exceptions\NotFoundException;
 use App\Packages\Domains\CheckSeat\CheckSeatId;

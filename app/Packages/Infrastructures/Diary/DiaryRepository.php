@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Packages\infrastructures\Diary;
+namespace App\Packages\Infrastructures\Diary;
 
 use App\Exceptions\NotFoundException;
 use App\Models\Comment;

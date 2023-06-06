@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Packages\infrastructures\Shared;
+namespace App\Packages\Infrastructures\Shared;
 
 interface TransactionInterface
 {
