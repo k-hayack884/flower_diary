@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Packages\infrastructures\Care;
+namespace App\Packages\Infrastructures\Care;
 
 use App\Models\FertilizerAlertTime;
 use App\Models\FertilizerSetting;

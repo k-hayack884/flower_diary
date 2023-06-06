@@ -152,7 +152,7 @@ export default defineComponent({
                 diaryContent: this.diary.diaryContent,
                 plantImage: this.diary.diaryImage,
             }).then(res => {
-                window.location.href = 'http://localhost:51111/plantUnit/' + this.plantUnitId;
+                window.location.href = '/plantUnit/' + this.plantUnitId;
             }).catch(error => {
                 if (error.response.status === 422) {
                     console.log(error.response.data.errors);
@@ -184,7 +184,7 @@ export default defineComponent({
                         'X-HTTP-Method-Override': 'PUT',
                     }
                 }).then(res => {
-                window.location.href = 'http://localhost:51111/plantUnit/' + this.plantUnitId;
+                window.location.href = '/plantUnit/' + this.plantUnitId;
             }).catch(error => {
                 if (error.response.status === 422) {
                     console.log(error.response.data.errors);
@@ -208,7 +208,7 @@ export default defineComponent({
                             'X-HTTP-Method-Override': 'DELETE',
                         }
                     }).then(res => {
-                    window.location.href = 'http://localhost:51111/plantUnit/' + this.plantUnitId;
+                    window.location.href = '/plantUnit/' + this.plantUnitId;
                 }).catch(error => {
                     console.log(error);
                     this.isLoading = false

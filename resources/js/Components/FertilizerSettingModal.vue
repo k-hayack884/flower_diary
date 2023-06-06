@@ -171,7 +171,7 @@ export default {
         },
         create() {
             this.isLoading = true
-            axios.post('http://localhost:51111/api/fertilizerSetting', {
+            axios.post('/api/fertilizerSetting', {
                 checkSeatId: this.fertilizerSetting.checkSeatId,
                 fertilizerSettingMonths: this.fertilizerSetting.months,
                 fertilizerSettingNote: this.fertilizerSetting.note,
@@ -197,7 +197,7 @@ export default {
         },
         update() {
             this.isLoading = true
-            axios.post('http://localhost:51111/api/fertilizerSetting/' + this.fertilizerSetting.fertilizerSettingId, {
+            axios.post('/api/fertilizerSetting/' + this.fertilizerSetting.fertilizerSettingId, {
                     checkSeatId: this.fertilizerSetting.checkSeatId,
                     fertilizerSettingMonths: this.fertilizerSetting.months,
                     fertilizerSettingNote: this.fertilizerSetting.note,
@@ -229,7 +229,7 @@ export default {
         deleteSeat() {
             if (confirm('本当に削除しますか？')) {
                 this.isLoading = true
-                axios.post('http://localhost:51111/api/fertilizerSetting/' + this.fertilizerSetting.fertilizerSettingId, {},
+                axios.post('/api/fertilizerSetting/' + this.fertilizerSetting.fertilizerSettingId, {},
                     {
                         headers: {
                             'content-type': 'multipart/form-data',

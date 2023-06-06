@@ -139,7 +139,7 @@ export default {
                         }
                     })
                     .then(res => {
-                        window.location.href = 'http://localhost:51111/plantUnit/';
+                        window.location.href = '/plantUnit/';
                     })
                     .catch(error => {
                         console.log(error);

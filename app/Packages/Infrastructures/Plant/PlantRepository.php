@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Packages\infrastructures\Plant;
+namespace App\Packages\Infrastructures\Plant;
 
 use App\Models\PlantImage;
 use App\Packages\Domains\Plant\PlantData;

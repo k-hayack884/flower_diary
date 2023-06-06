@@ -268,7 +268,7 @@ export default {
         },
         scanImage: function (classifier) {
             classifier.classify(plant_image, async (err, results) => {
-                axios.post('http://localhost:51111/api/scanPlant', {
+                axios.post('/api/scanPlant', {
                     plantLabel: results[0].label
                 }).then(res => {
                     console.log(res.data)
@@ -291,7 +291,7 @@ export default {
         scanCamera: function (classifier) {
             console.log('loop　function');
             classifier.classify(async (err, results) => {
-                axios.post('http://localhost:51111/api/scanPlant', {
+                axios.post('/api/scanPlant', {
                     plantLabel: results[0].label
                 }).then(res => {
                     this.plantId = res.data.plant.plantId;
@@ -330,7 +330,7 @@ export default {
             this.isRecognizing = true;
             this.isLoading = true
 
-            axios.post('http://localhost:51111/api/plantUnit', {
+            axios.post('/api/plantUnit', {
                 plantId: this.plantId,
                 userId: user.user_id,
                 plantImage: this.selectedImage,
@@ -338,7 +338,7 @@ export default {
                 this.plant = res.data;
                 this.getPlant = true
                 this.isLoading = false
-                window.location.href = 'http://localhost:51111/plantUnit/';
+                window.location.href = '/plantUnit/';
 
             }).catch(error => {
                 console.log(error);

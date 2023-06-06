@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Packages\infrastructures\Comment;
+namespace App\Packages\Infrastructures\Comment;
 
 use App\Exceptions\ForbiddenException;
 use App\Exceptions\NotFoundException;

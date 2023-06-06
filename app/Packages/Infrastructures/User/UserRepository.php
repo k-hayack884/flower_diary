@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Packages\infrastructures\User;
+namespace App\Packages\Infrastructures\User;
 
 use App\Packages\Domains\User\User;
 use App\Packages\Domains\User\UserId;
 use App\Packages\Domains\User\UserPassWord;
+use App\Packages\Domains\User\UserRepositoryInterface;
 
-class UserRepository implements \App\Packages\Domains\User\UserRepositoryInterface
+class UserRepository implements UserRepositoryInterface
 {
     /**
      * @return array

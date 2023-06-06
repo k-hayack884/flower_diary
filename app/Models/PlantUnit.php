@@ -37,6 +37,7 @@ class PlantUnit extends Authenticatable
         'diaries',
         'create_date',
         'update_date',
+        'diary_update_date',
     ];
 
     /**
