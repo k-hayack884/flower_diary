@@ -78,10 +78,10 @@ class PlantUnitRepository implements PlantUnitRepositoryInterface
         );
     }
 
-        /**
-         * @param UserId $userId
-         * @return array
-         */
+    /**
+     * @param UserId $userId
+     * @return array
+     */
 
     public function findByUserId(UserId $userId): array
     {
@@ -120,14 +120,15 @@ class PlantUnitRepository implements PlantUnitRepositoryInterface
         foreach ($collectionArray as $plant) {
             \App\Models\PlantUnit::updateOrCreate(['plant_unit_id' => $plant->getPlantUnitId()->getId()],
                 [
-                'plant_unit_id' => $plant->getPlantUnitId()->getId(),
-                'user_id' => $plant->getUserId()->getId(),
-                'plant_id' => $plant->getPlantId()->getId(),
-                'check_seat_id' => $plant->getCheckSeatId()->getId(),
-                'plant_name' => $plant->getPlantName()->getValue(),
-                'plant_image'=>$plant->getPlantImage()->getValue(),
-                'create_date' => $plant->getCreateDate()->format('Y/m/d'),
-            ]);
+                    'plant_unit_id' => $plant->getPlantUnitId()->getId(),
+                    'user_id' => $plant->getUserId()->getId(),
+                    'plant_id' => $plant->getPlantId()->getId(),
+                    'check_seat_id' => $plant->getCheckSeatId()->getId(),
+                    'plant_name' => $plant->getPlantName()->getValue(),
+                    'plant_image' => $plant->getPlantImage()->getValue(),
+                    'create_date' => $plant->getCreateDate()->format('Y/m/d'),
+                    'diary_update_date' => Carbon::now()->format('Y/m/d'),
+                ]);
 
             // check_seat_idでレコードを検索
             $existingCheckSeatId = CheckSeat::where('check_seat_id', $plant->getCheckSeatId()->getId())->first();
