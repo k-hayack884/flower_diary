@@ -1,6 +1,7 @@
 {
     "private": true,
     "scripts": {
+        "dev": "vite  --port 51112",
         "build": "vite build",
         "production": "cross-env NODE_ENV=production npm run build",
         "prod": "npm run production",

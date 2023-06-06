@@ -6,7 +6,8 @@ export default defineConfig({
     server: {
         host: true,
         hmr: {
-            host: 'https://flower-diary.herokuapp.com/',
+            // host: 'https://flower-diary.herokuapp.com/',
+            host: 'localhost',
         },
         watch: {
             usePolling: false,
