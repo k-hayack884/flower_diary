@@ -15,10 +15,12 @@ class Base64Service
         // base64データをデコードする
         $filedata = base64_decode($data64[1]);
 // storage/appにファイルを保存する
-        Storage::put($folderName . '/' . $filename, $filedata);
+//        Storage::put($folderName . '/' . $filename, $filedata);
+        Storage::disk('s3')->put($folderName . '/' . $filename, $filedata);
 
 // 保存されたファイルのパスを取得する
-        $file_path = Storage::path($folderName . '/' . $filename);
+//        $file_path = Storage::path($folderName . '/' . $filename);
+        $file_path = Storage::disk('s3')->url($folderName . '/' . $filename);
 
         return $filename;
     }
@@ -27,10 +29,9 @@ class Base64Service
     {
 
         if ($data !== '') {
-            $file_path = Storage::path($folderName . '/' . $data);
-// ファイルを読み込む
-            $file_data = file_get_contents($file_path);
-
+            $file_path = $folderName . '/' . $data;
+            // ファイルを読み込む
+            $file_data = Storage::disk('s3')->get($file_path);
 // Base64エンコードする
             $base64_data = base64_encode($file_data);
 

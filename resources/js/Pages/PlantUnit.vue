@@ -9,6 +9,8 @@
                     <p class="text-center p-24">Loading...</p>
                 </div>
                 <div v-else>
+                    <div v-if="plantUnits.length===0" class="py-16 text-center">Myプランツがありません</div>
+
                     <div v-for="(plantUnit,index) in plantUnits">
                         <div
                             class="card card-side bg-base-100 shadow-lg rounded-lg overflow-hidden m4transform hover:scale-105 transition duration-300 my-4">
