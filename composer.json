@@ -7,14 +7,19 @@
     "require": {
         "php": "^8.2.1",
         "arcanedev/laravel-lang": "*",
+        "aws/aws-sdk-php": "^3.271",
         "barryvdh/laravel-cors": "^3.0",
         "doctrine/dbal": "^3.6",
         "guzzlehttp/guzzle": "^7.2",
+        "guzzlehttp/promises": "^1.4.0",
         "inertiajs/inertia-laravel": "^0.6.3",
         "laravel/framework": "^9.19",
         "laravel/jetstream": "^2.13",
         "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.7",
+        "league/flysystem": "^3.15",
+        "league/flysystem-aws-s3-v3": "^3.15",
+        "sendgrid/sendgrid": "^6.2",
         "tightenco/ziggy": "^1.0"
     },
     "require-dev": {
