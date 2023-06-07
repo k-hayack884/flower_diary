@@ -2,11 +2,8 @@
 
 namespace App\Packages\Usecases\Plant;
 
-use App\Packages\Domains\Plant\PlantId;
 use App\Packages\Domains\Plant\PlantRepositoryInterface;
-use App\Packages\Presentations\Requests\Plant\GetPlantRequest;
 use App\Packages\Presentations\Requests\Plant\GetPlantsRequest;
-use App\Packages\Usecases\Dto\Plant\PlantWrapDto;
 
 class GetPlantsAction
 {

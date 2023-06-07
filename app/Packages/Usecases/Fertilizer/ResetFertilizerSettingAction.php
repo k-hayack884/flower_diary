@@ -3,7 +3,6 @@
 namespace App\Packages\Usecases\Fertilizer;
 
 use App\Packages\Domains\Fertilizer\FertilizerAmount;
-use App\Packages\Domains\Fertilizer\fertilizerName;
 use App\Packages\Domains\Fertilizer\FertilizerRepositoryInterface;
 use App\Packages\Domains\Fertilizer\FertilizerSettingCollection;
 use App\Packages\Domains\Fertilizer\FertilizerSettingId;

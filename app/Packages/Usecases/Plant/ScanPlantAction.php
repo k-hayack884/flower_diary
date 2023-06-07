@@ -2,7 +2,6 @@
 
 namespace App\Packages\Usecases\Plant;
 
-use App\Packages\Domains\Plant\PlantId;
 use App\Packages\Domains\Plant\PlantRepositoryInterface;
 use App\Packages\Usecases\Dto\Plant\PlantWrapDto;
 

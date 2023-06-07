@@ -6,7 +6,6 @@ use App\Packages\Domains\Water\WaterSettingId;
 use App\Packages\Domains\Water\WaterSettingRepositoryInterface;
 use App\Packages\Presentations\Requests\Water\GetWaterSettingRequest;
 use App\Packages\Usecases\Dto\Water\WaterSettingWrapDto;
-use App\Packages\Usecases\WaterSettingWrapDtoFactory;
 use Illuminate\Support\Facades\Log;
 
 class GetWaterSettingAction

@@ -2,7 +2,6 @@
 
 namespace App\Packages\Usecases\CheckSeat;
 
-use App\Packages\Domains\CheckSeat\CheckSeat;
 use App\Packages\Domains\CheckSeat\CheckSeatId;
 use App\Packages\Domains\CheckSeat\CheckSeatRepositoryInterface;
 use App\Packages\Presentations\Requests\CheckSeat\GetCheckSeatRequest;

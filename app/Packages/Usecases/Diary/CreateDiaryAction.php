@@ -10,7 +10,6 @@ use App\Packages\Domains\Diary\DiaryId;
 use App\Packages\Domains\Diary\DiaryImage;
 use App\Packages\Domains\Diary\DiaryRepositoryInterface;
 use App\Packages\Presentations\Requests\Diary\CreateDiaryRequest;
-use App\Packages\Usecases\Dto\Diary\DiaryDto;
 use App\Packages\Usecases\Dto\Diary\DiaryWrapDto;
 use Exception;
 use Illuminate\Support\Facades\Log;

@@ -11,7 +11,6 @@ use App\Packages\Domains\Fertilizer\MonthsFertilizerSetting;
 use App\Packages\Presentations\Requests\Fertilizer\UpdateFertilizerSettingRequest;
 use App\Packages\Usecases\Dto\Fertilizer\FertilizerSettingWrapDto;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Session;
 
 class UpdateFertilizerSettingAction
 {

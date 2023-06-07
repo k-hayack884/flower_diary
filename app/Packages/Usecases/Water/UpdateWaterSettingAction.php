@@ -14,7 +14,6 @@ use App\Packages\infrastructures\Shared\TransactionInterface;
 use App\Packages\Presentations\Requests\Water\UpdateWaterSettingRequest;
 use App\Packages\Usecases\Dto\Water\WaterSettingWrapDto;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Session;
 
 class UpdateWaterSettingAction
 {

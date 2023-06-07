@@ -7,7 +7,6 @@ use App\Packages\Domains\Plant\PlantId;
 use App\Packages\Domains\Plant\PlantImages;
 use App\Packages\Domains\Plant\PlantRepositoryInterface;
 use App\Packages\Presentations\Requests\Plant\AddPlantRequest;
-use App\Packages\Usecases\Dto\Plant\PlantWrapDto;
 use Illuminate\Support\Facades\Log;
 
 class AddPlantAction

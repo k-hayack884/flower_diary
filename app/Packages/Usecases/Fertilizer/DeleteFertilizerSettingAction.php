@@ -7,8 +7,6 @@ use App\Packages\Domains\Fertilizer\FertilizerSettingId;
 use App\Packages\Domains\Water\FertilizerSettingRepositoryInterface;
 use App\Packages\Presentations\Requests\Fertilizer\DeleteFertilizerSettingRequest;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Session;
-use PHPUnit\Exception;
 
 class DeleteFertilizerSettingAction
 {

@@ -12,15 +12,12 @@ use App\Packages\Domains\PlantUnit\PlantUnitId;
 use App\Packages\Domains\PlantUnit\PlantUnitImage;
 use App\Packages\Domains\PlantUnit\PlantUnitRepositoryInterface;
 use App\Packages\Domains\User\UserId;
-use App\Packages\infrastructures\Plant\PlantRepository;
+use App\Packages\Infrastructures\Plant\PlantRepository;
 use App\Packages\Presentations\Requests\PlantUnit\CreatePlantUnitRequest;
 use App\Packages\Usecases\Dto\PlantUnit\PlantUnitWrapDto;
-use App\http\Services\ImageService;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Storage;
 use Exception;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Str;
 
 class CreatePlantUnitAction
 {

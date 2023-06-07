@@ -5,7 +5,6 @@ namespace App\Packages\Usecases\Diary;
 use App\Http\Services\Base64Service;
 use App\Packages\Domains\Diary\Diary;
 use App\Packages\Domains\Diary\DiaryCollection;
-use App\Packages\Domains\Diary\DiaryContent;
 use App\Packages\Domains\Diary\DiaryId;
 use App\Packages\Domains\Diary\DiaryImage;
 use App\Packages\Domains\Diary\DiaryRepositoryInterface;

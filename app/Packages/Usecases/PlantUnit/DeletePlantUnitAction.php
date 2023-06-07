@@ -14,7 +14,7 @@ use App\Packages\Domains\PlantUnit\PlantUnitId;
 use App\Packages\Domains\PlantUnit\PlantUnitRepositoryInterface;
 use App\Packages\Domains\Water\WaterSettingId;
 use App\Packages\Domains\Water\WaterSettingRepositoryInterface;
-use App\Packages\infrastructures\Shared\TransactionInterface;
+use App\Packages\Infrastructures\Shared\TransactionInterface;
 use App\Packages\Presentations\Requests\PlantUnit\DeletePlantUnitRequest;
 use Exception;
 use Illuminate\Support\Facades\Log;

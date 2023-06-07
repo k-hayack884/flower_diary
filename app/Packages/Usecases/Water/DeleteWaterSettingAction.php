@@ -7,7 +7,6 @@ use App\Packages\Domains\Water\WaterSettingRepositoryInterface;
 use App\Packages\Presentations\Requests\Water\DeleteWaterSettingRequest;
 use Exception;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Session;
 
 
 class DeleteWaterSettingAction

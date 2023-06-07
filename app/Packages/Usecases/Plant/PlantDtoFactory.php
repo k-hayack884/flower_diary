@@ -4,7 +4,6 @@ namespace App\Packages\Usecases\Plant;
 
 use App\Http\Services\Base64Service;
 use App\Packages\Domains\Plant\PlantData;
-use App\Packages\Domains\Plant\PlantImages;
 use App\Packages\Usecases\Dto\Plant\PlantDto;
 use App\Packages\Usecases\Dto\Plant\PlantWrapDto;
 

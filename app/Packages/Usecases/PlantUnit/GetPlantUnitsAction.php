@@ -6,10 +6,9 @@ use App\Http\Services\Base64Service;
 use App\Packages\Domains\PlantUnit\PlantUnitCollection;
 use App\Packages\Domains\PlantUnit\PlantUnitRepositoryInterface;
 use App\Packages\Domains\User\UserId;
-use App\Packages\infrastructures\Plant\PlantRepository;
+use App\Packages\Infrastructures\Plant\PlantRepository;
 use App\Packages\Presentations\Requests\PlantUnit\GetPlantUnitsRequest;
 use App\Packages\Usecases\Dto\PlantUnit\PlantUnitDetailDto;
-use App\Packages\Usecases\Dto\PlantUnit\PlantUnitDto;
 use App\Packages\Usecases\Dto\PlantUnit\PlantUnitsWrapDto;
 use Illuminate\Support\Facades\Log;
 
