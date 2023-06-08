@@ -7,7 +7,7 @@ use App\Models\PlantUnit;
 use App\Packages\Domains\Care\FertilizerAlertTimeId;
 use App\Packages\Domains\Care\FertilizerCare;
 use App\Packages\Domains\Fertilizer\FertilizerAmount;
-use App\Packages\Domains\Fertilizer\fertilizerName;
+use App\Packages\Domains\Fertilizer\FertilizerName;
 use App\Packages\Domains\Fertilizer\FertilizerNote;
 use App\Packages\Domains\Fertilizer\FertilizerSettingCollection;
 use App\Packages\Domains\PlantUnit\PlantName;
