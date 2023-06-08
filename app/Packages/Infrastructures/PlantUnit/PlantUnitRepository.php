@@ -4,11 +4,9 @@ namespace App\Packages\Infrastructures\PlantUnit;
 
 use App\Exceptions\NotFoundException;
 use App\Models\CheckSeat;
-use App\Models\Diary;
-use App\Models\Plant;
 use App\Packages\Domains\CheckSeat\CheckSeatId;
 use App\Packages\Domains\Plant\PlantId;
-use App\Packages\Domains\PlantUnit\plantName;
+use App\Packages\Domains\PlantUnit\PlantName;
 use App\Packages\Domains\PlantUnit\PlantUnit;
 use App\Packages\Domains\PlantUnit\PlantUnitCollection;
 use App\Packages\Domains\PlantUnit\PlantUnitId;
