@@ -3,23 +3,16 @@
 namespace App\Packages\Infrastructures\Care;
 
 use App\Models\FertilizerAlertTime;
-use App\Models\FertilizerSetting;
 use App\Models\PlantUnit;
-use App\Models\WaterAlertTime;
-use App\Models\CheckSeat;
-use App\Models\WaterSetting;
 use App\Packages\Domains\Care\FertilizerAlertTimeId;
 use App\Packages\Domains\Care\FertilizerCare;
-use App\Packages\Domains\CheckSeat\CheckSeatId;
 use App\Packages\Domains\Fertilizer\FertilizerAmount;
 use App\Packages\Domains\Fertilizer\fertilizerName;
 use App\Packages\Domains\Fertilizer\FertilizerNote;
 use App\Packages\Domains\Fertilizer\FertilizerSettingCollection;
-use App\Packages\Domains\PlantUnit\plantName;
-use App\Packages\Domains\PlantUnit\PlantUnitId;
+use App\Packages\Domains\PlantUnit\PlantName;
 use App\Packages\Domains\Shared\Uuid;
 use App\Packages\Domains\User\UserId;
-use App\Packages\Domains\Water\WaterSettingCollection;
 use Carbon\Carbon;
 
 class CareFertilizerRepository

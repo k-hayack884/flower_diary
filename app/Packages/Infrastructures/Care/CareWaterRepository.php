@@ -3,15 +3,10 @@
 namespace App\Packages\infrastructures\Care;
 
 use App\Models\PlantUnit;
-use App\Models\User;
 use App\Models\WaterAlertTime;
-use App\Models\CheckSeat;
-use App\Models\WaterSetting;
 use App\Packages\Domains\Care\WaterAlertTimeId;
 use App\Packages\Domains\Care\WaterCare;
-use App\Packages\Domains\CheckSeat\CheckSeatId;
-use App\Packages\Domains\PlantUnit\plantName;
-use App\Packages\Domains\PlantUnit\PlantUnitId;
+use App\Packages\Domains\PlantUnit\PlantName;
 use App\Packages\Domains\Shared\Uuid;
 use App\Packages\Domains\User\UserId;
 use App\Packages\Domains\Water\WaterAmount;
