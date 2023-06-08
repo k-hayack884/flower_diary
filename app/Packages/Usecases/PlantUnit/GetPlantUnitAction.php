@@ -23,10 +23,10 @@ class GetPlantUnitAction
      * @param PlantUnitRepositoryInterface $plantUnitRepository
      * @param DiaryRepositoryInterface $diaryRepository
      */
-    public function __construct(PlantUnitRepositoryInterface $plantUnitRepository,DiaryRepositoryInterface $diaryRepository)
+    public function __construct(PlantUnitRepositoryInterface $plantUnitRepository, DiaryRepositoryInterface $diaryRepository)
     {
         $this->plantUnitRepository = $plantUnitRepository;
-        $this->diaryRepository=$diaryRepository;
+        $this->diaryRepository = $diaryRepository;
     }
 
     /**
@@ -44,8 +44,11 @@ class GetPlantUnitAction
 
         $diaries = $this->diaryRepository->find();
         $diaryCollection = new DiaryCollection($diaries);
-        $newDate = $diaryCollection->getFirstDate();
-        $hitPlantUnit->getNewDate(new Carbon($newDate));
+        if (!empty($diaries)) {
+            $newDate = $diaryCollection->getFirstDate();
+            $hitPlantUnit->getNewDate(new Carbon($newDate));
+        }
+
 
         Log::info(__METHOD__, ['終了']);
 
