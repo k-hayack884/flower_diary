@@ -16,7 +16,6 @@ use App\Packages\Presentations\Requests\Water\CreateWaterSettingRequest;
 use App\Packages\Usecases\Dto\Water\WaterSettingWrapDto;
 use Exception;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Session;
 
 class CreateWaterSettingAction
 {
