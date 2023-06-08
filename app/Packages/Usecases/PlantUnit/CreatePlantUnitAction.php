@@ -5,7 +5,7 @@ namespace App\Packages\Usecases\PlantUnit;
 use App\Http\Services\Base64Service;
 use App\Packages\Domains\CheckSeat\CheckSeatId;
 use App\Packages\Domains\Plant\PlantId;
-use App\Packages\Domains\PlantUnit\plantName;
+use App\Packages\Domains\PlantUnit\PlantName;
 use App\Packages\Domains\PlantUnit\PlantUnit;
 use App\Packages\Domains\PlantUnit\PlantUnitCollection;
 use App\Packages\Domains\PlantUnit\PlantUnitId;
