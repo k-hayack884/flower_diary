@@ -25,16 +25,17 @@ defineProps({
             <div class="relative flex items-top justify-center bg-gray-100 dark:bg-gray-900 sm:items-center sm:pt-0">
             </div>
             <div class="container text-center p-3 mb-2">
-                <!-- タイトル行 -->
-                <div class="row my-3">
-                    <div class="col-sm-6 mx-auto blue"><h1>植物判定アプリ</h1></div>
+                <div class="row my-3 justify-content-center">
+                    <div class="col-6">
+                        <img src="../../icon/learf-logo.png" alt="" class="img-fluid" style="width: 50%; margin: 0 auto;">
+                    </div>
                 </div>
                 <div class="info">
                     <p>
-                        育て方を知りたい植物を<br>カメラに写して数秒待ってください<br>
+                        判別をしたい植物を<br>カメラに写して数秒待ってください<br>
+                        また、画像をアップロードしてください
                     </p>
                 </div>
-
 
 
                 <div class="flex justify-center items-center">
