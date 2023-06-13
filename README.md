@@ -64,9 +64,8 @@ php artisan serve
 で簡易サーバーを立ち上げ、表示確認してください。
 <br>
 テストアカウント    
-ユーザー側  
 email barianbooks@gmail.com  
-password sirokitate  
+password shirokitate
 <br>
 
 画像を登録したい場合、AWSのs3を利用する必要があります。  
