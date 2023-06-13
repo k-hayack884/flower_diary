@@ -10,6 +10,8 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
+use App\Notifications\User\UserResetPassword;
+
 
 class User extends Authenticatable
 {
@@ -78,6 +80,10 @@ class User extends Authenticatable
         'profile_photo_url',
     ];
 
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new UserResetPassword($token));
+    }
     /**
      * @return HasMany
      */
