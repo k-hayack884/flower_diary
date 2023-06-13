@@ -25,34 +25,30 @@ https://flower-diary.herokuapp.com/
 前職の経験から得た、多少のDDDの知識を活用し、水やりと肥料やりをモデリングしました。
 私はこのサービスを通して、より多くの植物と出会うきっかけになればと思います。 
 ### 機能:  
-##### ユーザー側
- - 商品を出品する機能
- - 住所から取引場所の地図を表示する機能(Google MAP API)
- - 商品をカテゴリーごと、または用語を入力して検索する機能
- - 商品をお気に入り登録し、自分だけのお気に入りを表示する機能(axios)
- - ユーザーをレビューする機能(axios)
- - ページング機能
- - 画像登録、リサイズ機能(AWS:s3,InterventionImage)
- - 自動メール送信機能(sendgrid)
- - 違反商品、コメントを報告する機能
+ -植物を判別する機能
+ - 判別した植物を自身のアカウントに紐づけて管理する機能（myプラント）
+ - myプラントごとに日記をつける機能
+ - 水やりや肥料の間隔や量を設定する機能
+ - 設定した水やりや肥料に基づいて、今日のお世話を表示する機能
+ - 画像登録機能(AWS:s3)
+ - 自動メール送信機能(sendgrid)（少し整備中）
 
-<!-- ### 使用技術:
-- PHP 8.1.2 
-- Laravel Framework 8.83.1
-- mysql 5.6.50
+### 使用技術:
+- PHP 8.2.1 
+- Laravel Framework 9.19
+- mysql 8.0.31
 - tailwindcss 3.0.0
 - vue.js 3.2.29
-- axios 0.21
-- alpinejs 3.4.2
+- axios 0.21.1
+- inertiajs/inertia-laravel 0.6.3
 - AWS(S3)
-- xampp 3.3.0
-- Google MAP API
+- Docker
+- TeachableMachine
 
 #### なぜその技術を使ったか  
-- Vue.jsはユーザーが気軽に使いたいお気に入り登録やレビュー機能を画面遷移なしで快適にするために、 Ajax を利用して実装した。React という選択肢もあったが Laravel breezeのコンポーネントと使用感覚が近く、導入やメンテナンスが容易になるため Vue.js を選んだ。　
 - TailwindCSS はユーティリティファーストのフレームワークだったので CSS をスクラッチで書くくらいの表現力を少ない記述量かつ自由に書けるため。ほかのフレームワークも検討したが Bootstrap やVuetify などはコンポーネントファーストだっため除外した。  
 ## 利用方法
-git clone https://github.com/k-hayack884/flower-gift2.git  
+git clone https://github.com/k-hayack884/flower-diary.git  
 composer install  
 composer update  
 npm install  
@@ -72,9 +68,6 @@ php artisan serve
 email barianbooks@gmail.com  
 password sirokitate  
 <br>
-管理者側  
-email barianshark@gmail.com  
-password mazikkukonbo  
 
 画像を登録したい場合、AWSのs3を利用する必要があります。  
 AWSのs3でバケットを作成した後、envに  
@@ -87,28 +80,19 @@ AWS_URL=https://s3-(リージョン).amazonaws.com/（バケット名）/
 
 ## サイトや機能の全体図
 ### ユーザー側
-![スクリーンショット (1634)](https://user-images.githubusercontent.com/85856269/155912676-6844fb05-d867-4bbc-97a6-c2fb776f386f.png)
-### 管理者側
-![スクリーンショット (1633)](https://user-images.githubusercontent.com/85856269/155912801-8ae07e97-9843-45a4-a037-75a44fc98592.png)
+![スクリーンショット (130)](https://github.com/k-hayack884/flower_diary/assets/85856269/88f66ed6-6e95-4c15-9601-a64ff5a97574)
 
 ## データベース構成
-
-![flower-gift-er](https://user-images.githubusercontent.com/85856269/155475282-e1024968-bf43-4233-b9cb-f9208f691350.png)
+![スクリーンショット (129)](https://github.com/k-hayack884/flower_diary/assets/85856269/24f86931-ad98-46c4-84a5-62584c8f59be)
 
 ## ユーザに使ってもらって見つかった課題
-- フッターがあればいい  
-製作者のお問い合わせのリンク貼って、問合せしやすくする。  
-  部分的に個人情報をやり取りするので、プライバシーポリシーを作成する必要がある。 
-  サービスが大型化した場合、広告や別の自サービスに誘導したい。
- 
-- 取引メールを送った後に商品を取引終了すれば、ユーザーの手間が省けるのではないか。  
-現状ではユーザーが手動で、取引終了に設定する必要があるため、取引終了の商品が検索に引っかかる可能性がある。  
-あるいは、取引終了に設定するまでに、別の取引希望が入ってくる可能性もある。
-トラブルの原因にもなりかねないので、修正の必要がある。  
-近いうちに改善予定  
+- 植物判別の精度が良くない  
+現在使用している学習モデルの学習ステップが不足しているため、精度を上げたいが、膨大なデータが必要である。
+自身のパソコンのスペックだと難しいので、別の方法があればいい。
+
 
 ## 今後追加したい機能
-- javascriptを利用した画像のプレビュー機能  
+<!-- - javascriptを利用した画像のプレビュー機能  
 ユーザーが自分が登録しようとしている画像をサービス上でどのように表示されているか確認するため。  
 また、画像を誤ってしまった場合、公開する前に出品を取り消すことができるから。  
 - 一つの商品に対して複数の画像を追加する機能  
@@ -119,4 +103,4 @@ AWS_URL=https://s3-(リージョン).amazonaws.com/（バケット名）/
 取引後のトラブルに対して迅速に対応できるため  
 近いうちに改善予定 -->
 ## ライセンス
-Copyright (c) [2022] [k-hayack884]
+Copyright (c) [2023] [k-hayack884]
