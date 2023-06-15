@@ -46,39 +46,11 @@ https://flower-diary.herokuapp.com/
 - TeachableMachine
 
 #### なぜその技術を使ったか  
-- PHPっとlaravelは未経験のころから使っている得意なフレームワークなので使用した。
+- PHPっとlaravelは未経験のころから使っている得意なフレームワークなので使用した。前職ではlaravel8のバージョンだが、laravel9は長期的にサポートされているとのことなので、laravel9を採用した。
 - 前回のプロジェクトであるflower-giftではxamppを使っていたが、Dockerも勉強したかったので、ローカルはDockerで開発をした。
 - pythonは画像認識のために必要だったのと、今後開発したい新機能で必要なので選択した。
 - TailwindCSS はユーティリティファーストのフレームワークだったので CSS をスクラッチで書くくらいの表現力を少ない記述量かつ自由に書けるため。ほかのフレームワークも検討したが Bootstrap やVuetify などはコンポーネントファーストだっため除外した。  
-## 利用方法
-git clone https://github.com/k-hayack884/flower-diary.git  
-composer install  
-composer update  
-npm install  
-npm run dev  
 
-seederおよびfactoryがありますので、ダミーデータが必要な場合はコメントアウトを解除して、  
-php artisan migrate::refresh  --seed  
-を入力してください。   
-
-php artisan key:generate   
-と入力してキーを生成後、  
-php artisan serve  
-で簡易サーバーを立ち上げ、表示確認してください。
-<br>
-テストアカウント    
-email barianbooks@gmail.com  
-password shirokitate
-<br>
-
-画像を登録したい場合、AWSのs3を利用する必要があります。  
-AWSのs3でバケットを作成した後、envに  
-AWS_ACCESS_KEY_ID=AWSのアクセスキー  
-AWS_SECRET_ACCESS_KEY=AWSのシークレットアクセスキー  
-AWS_DEFAULT_REGION=AWSのリージョン  
-AWS_BUCKET=s3のバケット名  
-AWS_URL=https://s3-(リージョン).amazonaws.com/（バケット名）/  
-を追記してください
 
 ## サイトや機能の全体図
 ![スクリーンショット (130)](https://github.com/k-hayack884/flower_diary/assets/85856269/88f66ed6-6e95-4c15-9601-a64ff5a97574)
@@ -110,5 +82,35 @@ AWS_URL=https://s3-(リージョン).amazonaws.com/（バケット名）/
 - googleアカウントから新規登録、ログインする機能  
 新規登録やログイン登録の手間を省き、気軽に利用できるようにするため
 近いうちに改善予定
+
+## 利用方法
+git clone https://github.com/k-hayack884/flower-diary.git  
+composer install  
+composer update  
+npm install  
+npm run dev  
+
+seederおよびfactoryがありますので、ダミーデータが必要な場合はコメントアウトを解除して、  
+php artisan migrate::refresh  --seed  
+を入力してください。   
+
+php artisan key:generate   
+と入力してキーを生成後、  
+php artisan serve  
+で簡易サーバーを立ち上げ、表示確認してください。
+<br>
+テストアカウント    
+email barianbooks@gmail.com  
+password shirokitate
+<br>
+
+画像を登録したい場合、AWSのs3を利用する必要があります。  
+AWSのs3でバケットを作成した後、envに  
+AWS_ACCESS_KEY_ID=AWSのアクセスキー  
+AWS_SECRET_ACCESS_KEY=AWSのシークレットアクセスキー  
+AWS_DEFAULT_REGION=AWSのリージョン  
+AWS_BUCKET=s3のバケット名  
+AWS_URL=https://s3-(リージョン).amazonaws.com/（バケット名）/  
+を追記してください
 ## ライセンス
 Copyright (c) [2023] [k-hayack884]
