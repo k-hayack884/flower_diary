@@ -339,7 +339,7 @@ export default {
                 this.plant = res.data;
                 this.getPlant = true
                 this.isLoading = false
-                window.location.href = '/plantUnit/';
+                window.location.href = 'https://flower-diary.herokuapp.com/plantUnit/';
             }).catch(error => {
                 console.log(error);
                 this.isLoading = false
