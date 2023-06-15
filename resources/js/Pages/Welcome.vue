@@ -340,7 +340,6 @@ export default {
                 this.getPlant = true
                 this.isLoading = false
                 window.location.href = '/plantUnit/';
-
             }).catch(error => {
                 console.log(error);
                 this.isLoading = false
